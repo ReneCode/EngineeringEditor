@@ -1,2 +1,0 @@
-# EngineeringEditor
-Created with CodeSandbox
