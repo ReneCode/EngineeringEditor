@@ -1,16 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import "./styles.css";
+import App from "./components/App";
 
-function App() {
+import "./styles.css";
+import "./split-pane.css";
+
+function Main() {
   return (
-    <div className="App">
-      <h1>Hello Engineering</h1>
-      <h3>Svg</h3>
+    <div className="Main">
+      <App />
     </div>
   );
 }
 
 const rootElement = document.getElementById("root");
-ReactDOM.render(<App />, rootElement);
+ReactDOM.render(<Main />, rootElement);
