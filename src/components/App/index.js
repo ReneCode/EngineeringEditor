@@ -15,10 +15,25 @@ const App = () => {
       <Header />
       <FullScreen>
         <Navigation />
-        <SplitPane split="vertical" defaultSize={100} minSize={0}>
-          <Workspace />
-          <Content />
-        </SplitPane>
+        <div
+          style={{
+            position: "fixed",
+            left: "calc(4rem + 1px)",
+            top: "3rem",
+            right: 0,
+            bottom: 0
+          }}
+        >
+          <SplitPane
+            split="vertical"
+            defaultSize={200}
+            minSize={0}
+            pane2Style={{ height: "100%" }}
+          >
+            <Workspace />
+            <Content />
+          </SplitPane>
+        </div>
       </FullScreen>
     </Container>
   );

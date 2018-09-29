@@ -1,9 +1,16 @@
 import React from "react";
 
-import { Container } from "./elements";
+import { ItemTitle, Container } from "./elements";
 
 const Workspace = () => {
-  return <Container>WorkSpace</Container>;
+  const component = <div>hallo</div>;
+
+  return (
+    <Container>
+      <ItemTitle>Headline</ItemTitle>
+      <div style={{ flex: 1, overflowY: "auto" }}>{component}</div>
+    </Container>
+  );
 };
 
 export default Workspace;
