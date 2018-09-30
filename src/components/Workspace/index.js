@@ -2,12 +2,14 @@ import React from "react";
 
 import { ItemTitle, Container } from "./elements";
 
+import Devices from "./Devices";
+
 const Workspace = () => {
-  const component = <div>hallo</div>;
+  const component = <Devices />;
 
   return (
     <Container>
-      <ItemTitle>Headline</ItemTitle>
+      <ItemTitle>Devices</ItemTitle>
       <div style={{ flex: 1, overflowY: "auto" }}>{component}</div>
     </Container>
   );

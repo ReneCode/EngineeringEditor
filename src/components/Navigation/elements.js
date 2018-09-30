@@ -7,8 +7,7 @@ export const Content = styled.div`
   flex: 0 0 4rem;
   height: 100%;
   align-items: center;
-  background-color: rgba(30, 30, 30, 0.6);
+  background-color: rgba(30, 30, 30, 0.9);
   color: #ddd;
 
-  border: 1px solid #red;
 `;
