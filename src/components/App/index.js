@@ -18,7 +18,7 @@ const App = () => {
         <div
           style={{
             position: "fixed",
-            left: "calc(4rem + 1px)",
+            left: "calc(4rem + 8px)",
             top: "3rem",
             right: 0,
             bottom: 0
