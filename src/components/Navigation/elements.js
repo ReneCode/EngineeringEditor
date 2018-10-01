@@ -22,5 +22,7 @@ export const IconContainer = styled.div`
   height: 64px;
   width: 64px;
   cursor: pointer;
+  background-color: rgba(30, 30, 30, 0.9);
+  color: #ddd;
 
 `;
