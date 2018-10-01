@@ -1,14 +1,26 @@
 import styled from "styled-components";
 
-export const Content = styled.div`
+export const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 4rem;
   flex: 0 0 4rem;
   height: 100%;
-  align-items: center;
-  background-color: rgba(30, 30, 30, 0.6);
-  color: #ddd;
 
-  border: 1px solid #red;
+  font-size: 1.5rem;
+  align-items: center;
+
+  color: ${props => props.theme.white}
+  background-color: ${props => props.theme.background}
+`;
+
+export const IconContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.3s ease all;
+  height: 64px;
+  width: 64px;
+  cursor: pointer;
+
 `;

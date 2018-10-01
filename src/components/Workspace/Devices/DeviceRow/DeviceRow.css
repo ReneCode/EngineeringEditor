@@ -1,0 +1,8 @@
+.device-row {
+  padding: 5px;
+}
+
+.device-row:hover {
+  background: #9aa;
+  cursor: pointer;
+}

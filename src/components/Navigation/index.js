@@ -1,11 +1,21 @@
 import React from "react";
 
-import { Content } from "./elements";
+import DeviceIcon from "./DeviceIcon";
+import RocketIcon from "./RocketIcon";
+import { Container, IconContainer } from "./elements";
+
 const Navigation = () => {
   return (
-    <Content>
+    <Container>
       <h4>Nav</h4>
-    </Content>
+      <IconContainer>
+        <RocketIcon />
+      </IconContainer>
+
+      <IconContainer>
+        <DeviceIcon />
+      </IconContainer>
+    </Container>
   );
 };
 
