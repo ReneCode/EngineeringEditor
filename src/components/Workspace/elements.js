@@ -20,7 +20,7 @@ export const ItemTitle = styled.div`
   font-size: 1rem;
   font-weight: 200;
 
-  color: #aee;
+  color: ${props => props.theme.yellow}
 
   margin: 1rem;
   margin-bottom: 0.5 rem;
