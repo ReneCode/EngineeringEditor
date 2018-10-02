@@ -1,7 +1,8 @@
 import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
-  currentWorkspaceId: undefined
+  currentWorkspaceId: undefined,
+  currentDeviceIndex: 3
 };
 
 const workspaceReducer = (state = initialState, action) => {

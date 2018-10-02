@@ -1,4 +1,7 @@
+import * as actionTypes from "../actions/actionTypes";
+
 const initialState = {
+  selectedDevice: undefined,
   devices: [
     {
       name: "K1",
@@ -12,14 +15,22 @@ const initialState = {
         { name: "NO" }
       ]
     },
-    {
-      name: "F2"
-    }
+    { name: "F1" },
+    { name: "F2" },
+    { name: "F3" },
+    { name: "F6" },
+    { name: "=A3+O3-F2" }
   ]
 };
 
 const projectReducer = (state = initialState, action) => {
   switch (action.type) {
+    case actionTypes.SET_SELECTED_DEVICE:
+      return {
+        ...state,
+        selectedDevice: action.payload
+      };
+
     default:
       return state;
   }

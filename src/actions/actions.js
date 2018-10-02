@@ -13,3 +13,10 @@ export const setWorkspaceId = id => {
     payload: id
   };
 };
+
+export const setSelectedDevice = device => {
+  return {
+    type: actionTypes.SET_SELECTED_DEVICE,
+    payload: device
+  };
+};
