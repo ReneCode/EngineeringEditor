@@ -12,6 +12,7 @@ class Devices extends Component {
   state = {
     filter: ""
   };
+
   selectDevice = device => {
     this.props.dispatch(actions.setSelectedDevice(device));
   };
