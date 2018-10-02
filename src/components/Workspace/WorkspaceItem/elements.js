@@ -5,5 +5,5 @@ export const ChildContainer = styled.div`
   margin: 0;
   padding: 0;
   height: 100%;
-  
+  color: ${props => props.theme.white}
 `;
