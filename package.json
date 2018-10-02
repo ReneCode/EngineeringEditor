@@ -1,8 +1,10 @@
 {
   "name": "engineeringeditor",
   "version": "1.0.0",
-  "description": "",
-  "keywords": [],
+  "description": null,
+  "keywords": [
+    "react"
+  ],
   "main": "src/index.js",
   "dependencies": {
     "classnames": "2.2.6",
