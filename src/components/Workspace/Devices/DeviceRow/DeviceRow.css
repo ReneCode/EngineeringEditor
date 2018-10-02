@@ -2,7 +2,11 @@
   padding: 5px;
 }
 
+.selected {
+  background-color: rgb(80, 133, 128);
+}
+
 .device-row:hover {
-  background: #9aa;
+  background: rgb(63, 100, 100);
   cursor: pointer;
 }
