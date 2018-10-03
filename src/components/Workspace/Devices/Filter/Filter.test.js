@@ -14,6 +14,7 @@ it("calls onSubmit on return", () => {
   const input = wrapper.find("input");
   input.simulate("change", { target: { value: "abc" } });
   wrapper.find("form").simulate("submit");
+  // wrapper.find("input").simulate("keydown", { keyCode: 13, which: 13 });
 
   expect(changeMock).toHaveBeenCalledWith("abc");
   expect(submitMock).toHaveBeenCalledWith("abc");
