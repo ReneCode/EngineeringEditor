@@ -14,6 +14,10 @@ class Devices extends Component {
     filter: ""
   };
 
+  componentDidMount() {
+    this.props.dispatch(actions.loadDevices());
+  }
+
   selectDevice = device => {
     this.props.dispatch(actions.setSelectedDevice(device));
   };
@@ -26,7 +30,8 @@ class Devices extends Component {
 
   handleAddDevice = text => {
     console.log("add:", text);
-    this.props.dispatch(actions.addDevice(text));
+    const device = { name: text };
+    this.props.dispatch(actions.saveDevice(device));
     return true;
   };
 
@@ -38,6 +43,7 @@ class Devices extends Component {
           <AddTextRow onAdd={this.handleAddDevice} />
           {this.props.devices
             .filter(device => device.name.match(this.state.filter))
+            .sort((a, b) => (a.name < b.name ? -1 : 1))
             .map((device, index) => {
               const selected = device === this.props.selectedDevice;
               return (

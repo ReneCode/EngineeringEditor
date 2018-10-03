@@ -31,13 +31,19 @@ const projectReducer = (state = initialState, action) => {
         selectedDevice: action.payload
       };
 
+    case actionTypes.SET_DEVICES: {
+      return {
+        ...state,
+        devices: action.payload
+      };
+    }
     case actionTypes.ADD_DEVICE:
       if (!action.payload) {
         return state;
       }
       return {
         ...state,
-        devices: state.devices.concat({ name: action.payload })
+        devices: state.devices.concat(action.payload)
       };
     default:
       return state;
