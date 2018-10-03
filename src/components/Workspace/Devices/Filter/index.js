@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import Input, { RowContainer } from "./elements";
+import { Input, RowContainer } from "../../../common/elements";
 
 class Filter extends Component {
   state = {

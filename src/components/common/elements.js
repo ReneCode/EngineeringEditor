@@ -21,7 +21,7 @@ export const styles = css`
   }
 `;
 
-const Input = styled.input`
+export const Input = styled.input`
   ${styles};
 `;
 
@@ -34,5 +34,3 @@ export const RowContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
 `;
-
-export default Input;

@@ -1,4 +1,3 @@
-export const ADD_DEVICE = "ADD_DEVICE";
-
 export const SET_WORKSPACE_ID = "SET_WORKSPACE_ID";
 export const SET_SELECTED_DEVICE = "SET_SELECTED_DEVICE";
+export const ADD_DEVICE = "ADD_DEVICE";

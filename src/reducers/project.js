@@ -31,6 +31,14 @@ const projectReducer = (state = initialState, action) => {
         selectedDevice: action.payload
       };
 
+    case actionTypes.ADD_DEVICE:
+      if (!action.payload) {
+        return state;
+      }
+      return {
+        ...state,
+        devices: state.devices.concat({ name: action.payload })
+      };
     default:
       return state;
   }

@@ -6,6 +6,7 @@ import * as actions from "../../../actions/actions";
 import { Container, RowContainer } from "./elements";
 import DeviceRow from "./DeviceRow";
 import Filter from "./Filter";
+import AddTextRow from "./AddTextRow";
 import WorkspaceItem from "../WorkspaceItem";
 
 class Devices extends Component {
@@ -23,11 +24,18 @@ class Devices extends Component {
     });
   };
 
+  handleAddDevice = text => {
+    console.log("add:", text);
+    this.props.dispatch(actions.addDevice(text));
+    return true;
+  };
+
   render() {
     return (
       <WorkspaceItem>
         <Container>
-          <Filter onSubmit={this.handleFilterSubmit} />
+          {/* <Filter onSubmit={this.handleFilterSubmit} /> */}
+          <AddTextRow onAdd={this.handleAddDevice} />
           {this.props.devices
             .filter(device => device.name.match(this.state.filter))
             .map((device, index) => {
