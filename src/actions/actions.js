@@ -26,19 +26,19 @@ const addDevice = name => {
 };
 
 export const saveDevice = device => {
-  return dispatch => {
-    fetch(deviceUrl, {
-      method: "POST",
-      body: JSON.stringify(device),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-      .then(response => response.json())
-      .then(json => {
-        console.log(json);
-        dispatch(addDevice(json));
+  return async dispatch => {
+    try {
+      const response = await fetch(deviceUrl, {
+        method: "POST",
+        body: JSON.stringify(device),
+        headers: {
+          "Content-Type": "application/json"
+        }
       });
+      const json = await response.json();
+      console.log(json);
+      dispatch(addDevice(json));
+    } catch (err) {}
   };
 };
 
@@ -51,11 +51,11 @@ const setDevices = devices => {
 };
 
 export const loadDevices = () => {
-  return (dispatch, getState) => {
-    fetch(deviceUrl)
-      .then(response => response.json())
-      .then(json => {
-        dispatch(setDevices(json));
-      });
+  return async dispatch => {
+    try {
+      const response = await fetch(deviceUrl);
+      const json = await response.json();
+      dispatch(setDevices(json));
+    } catch (err) {}
   };
 };
