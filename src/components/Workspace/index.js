@@ -9,7 +9,7 @@ const Workspace = () => {
 
   return (
     <Container>
-      <ItemTitle>Devices</ItemTitle>
+      <ItemTitle>Devices.</ItemTitle>
       <div style={{ flex: 1, overflowY: "auto" }}>{component}</div>
     </Container>
   );
