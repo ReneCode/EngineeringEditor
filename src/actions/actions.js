@@ -36,8 +36,8 @@ export const saveDevice = device => {
         }
       });
       const json = await response.json();
-      console.log(json);
-      dispatch(addDevice(json));
+      await dispatch(addDevice(json));
+      dispatch(setSelectedDevice(json));
     } catch (err) {}
   };
 };

@@ -29,7 +29,6 @@ class Devices extends Component {
   };
 
   handleAddDevice = text => {
-    console.log("add:", text);
     const device = { name: text };
     this.props.dispatch(actions.saveDevice(device));
     return true;
