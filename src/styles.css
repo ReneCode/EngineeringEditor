@@ -3,3 +3,16 @@
   padding: 0px;
   margin: 0px;
 }
+
+.button {
+  background: #333;
+  color: #eee;
+  margin-right: 10px;
+  padding: 8px;
+  border: 1px solid #777;
+  cursor: pointer;
+}
+
+.button:hover {
+  background: #666;
+}

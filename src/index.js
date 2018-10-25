@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 
 import { ThemeProvider } from "styled-components";
 import theme from "./theme";
-import App from "./components/App";
+import AppFrame from "./components/AppFrame";
 
 import store from "./store";
 
@@ -16,7 +16,7 @@ function Main() {
     <ThemeProvider theme={theme}>
       <Provider store={store}>
         <div className="Main">
-          <App />
+          <AppFrame />
         </div>
       </Provider>
     </ThemeProvider>

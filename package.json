@@ -15,6 +15,7 @@
     "react-icon-base": "2.1.2",
     "react-redux": "5.0.7",
     "react-router": "4.3.1",
+    "react-router-dom": "^4.3.1",
     "react-scripts": "2.0.3",
     "react-split-pane": "0.1.84",
     "react-test-renderer": "^16.5.2",
