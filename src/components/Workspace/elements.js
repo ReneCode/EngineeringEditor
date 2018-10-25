@@ -10,7 +10,7 @@ export const Container = styled.div`
   overflow-y: overlay;
   overflow-x: auto;
 
-  margin-top: 0.5rem;
+  margin-top: 1.5rem;
 
   background-color: rgba(30, 30, 30, 0.87);
   color: #ccc;

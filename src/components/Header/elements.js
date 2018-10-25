@@ -1,11 +1,5 @@
 import styled from "styled-components";
 
-export const Caontainer = styled.div`
-  height: 3rem;
-  background-color: rgba(0, 0, 0, 0.9);
-  color: #888;
-  border-bottom: 1px sold #252;
-`;
 export const Container = styled.div`
   display: flex;
   position: relative;

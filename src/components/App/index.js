@@ -26,7 +26,7 @@ const App = () => {
         >
           <SplitPane
             split="vertical"
-            defaultSize={200}
+            defaultSize={250}
             minSize={0}
             pane2Style={{ height: "100%" }}
           >
