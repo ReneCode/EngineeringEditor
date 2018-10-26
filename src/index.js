@@ -15,9 +15,7 @@ function Main() {
   return (
     <ThemeProvider theme={theme}>
       <Provider store={store}>
-        <div className="Main">
-          <AppFrame />
-        </div>
+        <AppFrame className="Main" />
       </Provider>
     </ThemeProvider>
   );

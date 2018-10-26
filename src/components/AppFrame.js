@@ -1,19 +1,18 @@
 import React from "react";
 
 import { BrowserRouter as Router } from "react-router-dom";
-import Topbar from "../Topbar";
+import Topbar from "./Topbar";
 import Routing from "./Routing";
-import "./AppFrame.css";
 
-const App = () => {
+const AppFrame = () => {
   return (
     <Router>
-      <div>
+      <React.Fragment>
         <Topbar />
         <Routing />
-      </div>
+      </React.Fragment>
     </Router>
   );
 };
 
-export default App;
+export default AppFrame;

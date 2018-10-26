@@ -1,12 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./Topbar.css";
 
 const Topbar = props => {
   const userName = "Ann Smith";
 
   return (
-    <nav className="menu border-bottom" id="Topbar">
+    <nav className="menu border-bottom">
       <ul className="menu-left">
         <li className="text">
           <Link to="/" className="link">
