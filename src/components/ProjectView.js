@@ -42,7 +42,10 @@ class ProjectView extends Component {
           active={this.state.activeWorkspace}
           onClick={this.clickSidebar}
         />
-        <Workspace workspace={this.state.activeWorkspace} />
+        <Workspace
+          workspace={this.state.activeWorkspace}
+          projectId={projectId}
+        />
         <GraphicView ref={ref => (this.graphicView = ref)} />
       </React.Fragment>
     );

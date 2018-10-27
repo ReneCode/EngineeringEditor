@@ -20,7 +20,7 @@ class ProjectOverview extends Component {
     } catch (ex) {}
   }
 
-  onClickNewProject = () => {
+  onClickCreateProject = () => {
     this.setState({
       showNewProjectModal: true,
     });
@@ -63,12 +63,12 @@ class ProjectOverview extends Component {
   render() {
     return (
       <div>
-        <button className="button" onClick={this.onClickNewProject}>
-          New Project
-        </button>
+        <div className="button" onClick={this.onClickCreateProject}>
+          Create Project
+        </div>
         <div className="projectlist">
           {this.state.projects.map(p => {
-            return <ProjectCard project={p} />;
+            return <ProjectCard key={p.id} project={p} />;
           })}
         </div>
         <NewProjectModal

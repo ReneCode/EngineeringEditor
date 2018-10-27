@@ -7,7 +7,9 @@ const Workspace = props => {
   let component = null;
   switch (props.workspace) {
     case "pages":
-      component = <PageNavigator click={props.clickPage} />;
+      component = (
+        <PageNavigator {...props} click={props.clickPage} />
+      );
       break;
 
     case null:
@@ -28,6 +30,8 @@ const Workspace = props => {
   );
 };
 
-Workspace.propTypes = {};
+Workspace.propTypes = {
+  workspace: PropTypes.string,
+};
 
 export default Workspace;

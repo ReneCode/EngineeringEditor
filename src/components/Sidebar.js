@@ -28,7 +28,7 @@ const Sidebar = props => {
 };
 
 Sidebar.propTypes = {
-  active: PropTypes.string.isRequired,
+  active: PropTypes.string,
   onClick: PropTypes.func.isRequired,
 };
 
