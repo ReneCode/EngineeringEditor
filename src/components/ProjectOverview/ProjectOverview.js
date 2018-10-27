@@ -1,27 +1,69 @@
 import React, { Component } from "react";
 import ProjectCard from "./ProjectCard";
+import getUrl from "../common/getUrl";
+import NewProjectModal from "./NewProjectModal";
 
 class ProjectOverview extends Component {
   state = {
     projects: [],
+    showNewProjectModal: false,
   };
 
-  newProject = () => {
-    const id = Math.floor(Math.random() * 100);
+  async componentDidMount() {
+    const url = getUrl("projects");
+    try {
+      const res = await fetch(url);
+      const json = await res.json();
+      this.setState({
+        projects: json,
+      });
+    } catch (ex) {}
+  }
+
+  onClickNewProject = () => {
+    this.setState({
+      showNewProjectModal: true,
+    });
+  };
+
+  onCloseModal = async name => {
+    this.setState({
+      showNewProjectModal: false,
+    });
+
+    if (!name) {
+      return;
+    }
 
     const project = {
-      name: "Project-" + id,
-      id,
+      name,
     };
+
+    const newProject = await this.saveProject(project);
     this.setState(state => ({
-      projects: state.projects.concat(project),
+      projects: state.projects.concat(newProject),
     }));
   };
+
+  async saveProject(project) {
+    const url = getUrl("projects");
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(project),
+      });
+      const json = await res.json();
+      return json;
+    } catch (ex) {}
+  }
 
   render() {
     return (
       <div>
-        <button className="button" onClick={this.newProject}>
+        <button className="button" onClick={this.onClickNewProject}>
           New Project
         </button>
         <div className="projectlist">
@@ -29,6 +71,10 @@ class ProjectOverview extends Component {
             return <ProjectCard project={p} />;
           })}
         </div>
+        <NewProjectModal
+          show={this.state.showNewProjectModal}
+          onClose={this.onCloseModal}
+        />
       </div>
     );
   }

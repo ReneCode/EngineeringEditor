@@ -1,5 +1,7 @@
 # EngineeringEditor
 
-Created with CodeSandbox
+started on CodeSandbox
 
 Layout inspired by CodeSandbox ;-)
+
+https://github.com/typicode/json-server

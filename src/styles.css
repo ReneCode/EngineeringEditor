@@ -105,3 +105,16 @@ nav.menu .text {
   flex-grow: 10;
   background-color: #cde;
 }
+
+.Modal {
+  display: flex;
+  flex-direction: column;
+  /* background-color: #333;
+  color: #ddd; */
+  padding: 1rem;
+}
+
+.ModalTitle {
+  text-align: center;
+  margin-bottom: 10px;
+}

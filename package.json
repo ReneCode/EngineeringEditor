@@ -13,6 +13,7 @@
     "react": "16.5.2",
     "react-dom": "16.5.2",
     "react-icon-base": "2.1.2",
+    "react-modal": "^3.6.1",
     "react-redux": "5.0.7",
     "react-router": "4.3.1",
     "react-router-dom": "^4.3.1",
@@ -23,12 +24,15 @@
     "redux-thunk": "^2.3.0",
     "styled-components": "3.4.9"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "json-server": "^0.14.0"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "server": "json-server --watch db.json --port 3001"
   },
   "browserslist": [
     ">0.2%",

@@ -15,13 +15,13 @@ const Topbar = props => {
       </ul>
       <ul className="menu-right">
         <li className="text">{userName}</li>
-        <li className="button" onClick={props.signin}>
+        {/* <li className="button" onClick={props.signin}>
           Signin
         </li>
 
         <li className="button" onClick={props.signout}>
           Signout
-        </li>
+        </li> */}
       </ul>
     </nav>
   );
