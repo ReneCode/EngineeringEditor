@@ -94,9 +94,9 @@ nav.menu .text {
   flex-direction: row;
 }
 
-.Navigator {
+.Workspace {
   flex-grow: 0;
-  width: 250px;
+  width: 350px;
   background-color: #222;
   color: #ddd;
 }

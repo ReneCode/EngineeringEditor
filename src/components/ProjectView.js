@@ -2,16 +2,27 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 
 import Sidebar from "./Sidebar";
-import Navigator from "./Navigator";
+import Workspace from "./Workspace/Workspace";
 import GraphicView from "./GraphicView";
 
-class MainView extends Component {
+class ProjectView extends Component {
   state = {
-    activeWorkspace: "",
+    activeWorkspace: "pages",
   };
 
   clickSidebar = name => {
-    this.setState({ activeWorkspace: name });
+    let workspace = name;
+    if (name === this.state.activeWorkspace) {
+      workspace = null;
+    }
+    const resizeGraphicView =
+      !workspace || !this.state.activeWorkspace;
+
+    this.setState({ activeWorkspace: workspace }, () => {
+      if (resizeGraphicView) {
+        this.graphicView.onResize();
+      }
+    });
   };
 
   render() {
@@ -31,11 +42,11 @@ class MainView extends Component {
           active={this.state.activeWorkspace}
           onClick={this.clickSidebar}
         />
-        <Navigator />
-        <GraphicView />
+        <Workspace workspace={this.state.activeWorkspace} />
+        <GraphicView ref={ref => (this.graphicView = ref)} />
       </React.Fragment>
     );
   }
 }
 
-export default withRouter(MainView);
+export default withRouter(ProjectView);
