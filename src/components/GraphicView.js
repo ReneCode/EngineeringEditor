@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 
 import DrawCanvas from "./DrawCanvas";
 
-import ItemLine from "../model/ItemLine";
 import * as actions from "../actions/actions";
 
 class GraphicView extends Component {
@@ -46,19 +45,15 @@ class GraphicView extends Component {
     );
   };
 
-  onMouseDown = ev => {
+  onMouseUp = ev => {
     const pt = this.getCursor(ev);
-
-    const line = new ItemLine(
-      pt.x - 50,
-      pt.y - 100,
-      pt.x + 50,
-      pt.y + 100,
-    );
-    this.props.dispatch(actions.addGraphicItem(line));
+    this.props.dispatch(actions.mouseUp(pt.x, pt.y));
   };
 
-  onMouseUp = ev => {};
+  onMouseDown = ev => {
+    const pt = this.getCursor(ev);
+    this.props.dispatch(actions.mouseDown(pt.x, pt.y));
+  };
 
   onMouseMove = ev => {
     const pt = this.getCursor(ev);

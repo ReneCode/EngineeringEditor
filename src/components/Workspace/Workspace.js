@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import PageNavigator from "./PageNavigator/PageNavigator";
+import DrawingWorkspace from "./DrawingWorkspace";
 
 const Workspace = props => {
   let component = null;
@@ -10,6 +11,10 @@ const Workspace = props => {
       component = (
         <PageNavigator {...props} click={props.clickPage} />
       );
+      break;
+
+    case "drawing":
+      component = <DrawingWorkspace {...props} />;
       break;
 
     case null:

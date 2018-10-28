@@ -1,15 +1,21 @@
 import * as actionTypes from "./actionTypes";
 
-export const mouseDown = event => {
+export const mouseDown = (x, y) => {
   return {
     type: actionTypes.MOUSE_DOWN,
-    event,
+    payload: {
+      x,
+      y,
+    },
   };
 };
-export const mouseUp = event => {
+export const mouseUp = (x, y) => {
   return {
     type: actionTypes.MOUSE_UP,
-    event,
+    payload: {
+      x,
+      y,
+    },
   };
 };
 

@@ -10,12 +10,14 @@ class DrawCanvas extends Component {
 
     this.context.clearRect(0, 0, canvas.width, canvas.height);
 
+    // items
     this.props.graphic.items.forEach(item => {
       this.context.beginPath();
       this.drawItem(this.context, item);
       this.context.stroke();
     });
 
+    // dynamic items
     const translate = new Point(
       this.props.graphic.cursor.x,
       this.props.graphic.cursor.y,

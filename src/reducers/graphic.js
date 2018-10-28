@@ -7,7 +7,7 @@ const initialState = {
     new ItemLine(20, 40, 200, 150),
     new ItemCircle(120, 140, 30),
   ],
-  dynamicItems: [new ItemCircle(0, 0, 80)],
+  dynamicItems: [],
   cursor: {
     x: 0,
     y: 0,
@@ -34,6 +34,12 @@ const graphicReducer = (state = initialState, action) => {
           width: action.payload.width,
           height: action.payload.height,
         },
+      };
+
+    case actionTypes.ADD_DYNAMIC_ITEM:
+      return {
+        ...state,
+        dynamicItems: state.dynamicItems.concat(action.payload),
       };
 
     case actionTypes.MOUSE_MOVE:

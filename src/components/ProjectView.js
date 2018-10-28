@@ -7,7 +7,7 @@ import GraphicView from "./GraphicView";
 
 class ProjectView extends Component {
   state = {
-    activeWorkspace: "pages",
+    activeWorkspace: "drawing",
   };
 
   clickSidebar = name => {
@@ -35,6 +35,7 @@ class ProjectView extends Component {
       { name: "pages", text: "Pages" },
       { name: "devices", text: "Devices" },
       { name: "parts", text: "Parts" },
+      { name: "drawing", text: "Drawing" },
     ];
 
     return (

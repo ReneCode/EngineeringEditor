@@ -9,6 +9,15 @@ class ItemLine extends ItemBase {
     this.x2 = x2 || 0;
     this.y2 = y2 || 0;
   }
+
+  translate(pt) {
+    return new ItemLine(
+      this.x1 + pt.x,
+      this.x1 + pt.y,
+      this.x2 + pt.x,
+      this.x2 + pt.y,
+    );
+  }
 }
 
 export default ItemLine;

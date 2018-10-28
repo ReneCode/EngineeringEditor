@@ -154,3 +154,8 @@ nav.menu .text {
   background-color: #eaa;
   z-index: 10;
 }
+
+.drawingworkspace {
+  display: flex;
+  flex-direction: column;
+}
