@@ -1,16 +1,16 @@
 import ItemBase from "./ItemBase";
 import ItemTypes from "./ItemTypes";
+import Point from "../common/Point";
 
 class ItemCircle extends ItemBase {
-  constructor(x, y, radius) {
+  constructor(pt, radius) {
     super(ItemTypes.circle);
-    this.x = x || 0;
-    this.y = y || 0;
+    this.pt = pt || new Point(0, 0);
     this.radius = radius || 0;
   }
 
   translate(pt) {
-    return new ItemCircle(this.x + pt.x, this.y + pt.y, this.radius);
+    return new ItemCircle(this.p + pt, this.radius);
   }
 }
 

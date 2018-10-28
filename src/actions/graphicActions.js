@@ -23,8 +23,5 @@ export const removeDynamicItem = item => {
 };
 
 export const createLine = () => {
-  return (dispatch, getState) => {
-    const line = new ItemLine(80, 90, 20, 20);
-    dispatch(addDynamicItem(line));
-  };
+  return { type: actionTypes.CREATE_LINE };
 };

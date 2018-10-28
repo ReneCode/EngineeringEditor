@@ -18,14 +18,9 @@ class DrawCanvas extends Component {
     });
 
     // dynamic items
-    const translate = new Point(
-      this.props.graphic.cursor.x,
-      this.props.graphic.cursor.y,
-    );
     this.props.graphic.dynamicItems.forEach(item => {
       this.context.beginPath();
-      const newItem = item.translate(translate);
-      this.drawItem(this.context, newItem);
+      this.drawItem(this.context, item);
       this.context.stroke();
     });
   };
@@ -34,12 +29,18 @@ class DrawCanvas extends Component {
     switch (item.type) {
       case ItemTypes.line:
         context.lineWidth = 1;
-        context.moveTo(item.x1, item.y1);
-        context.lineTo(item.x2, item.y2);
+        context.moveTo(item.p1.x, item.p1.y);
+        context.lineTo(item.p2.x, item.p2.y);
         break;
 
       case ItemTypes.circle: {
-        context.arc(item.x, item.y, item.radius, 0, 2 * Math.PI);
+        context.arc(
+          item.pt.x,
+          item.pt.y,
+          item.radius,
+          0,
+          2 * Math.PI,
+        );
         break;
       }
     }

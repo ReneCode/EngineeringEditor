@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import DrawCanvas from "./DrawCanvas";
 
 import * as actions from "../actions/actions";
+import Point from "../common/Point";
 
 class GraphicView extends Component {
   constructor(props) {
@@ -47,22 +48,22 @@ class GraphicView extends Component {
 
   onMouseUp = ev => {
     const pt = this.getCursor(ev);
-    this.props.dispatch(actions.mouseUp(pt.x, pt.y));
+    this.props.dispatch(actions.mouseUp(pt));
   };
 
   onMouseDown = ev => {
     const pt = this.getCursor(ev);
-    this.props.dispatch(actions.mouseDown(pt.x, pt.y));
+    this.props.dispatch(actions.mouseDown(pt));
   };
 
   onMouseMove = ev => {
     const pt = this.getCursor(ev);
-    this.props.dispatch(actions.mouseMove(pt.x, pt.y));
+    this.props.dispatch(actions.mouseMove(pt));
   };
 
   getCursor(ev) {
     const { top, left } = this.canvas.getBoundingClientRect();
-    return { x: ev.clientX - left, y: ev.clientY - top };
+    return new Point(ev.clientX - left, ev.clientY - top);
   }
 
   redraw = () => {

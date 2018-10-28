@@ -1,11 +1,12 @@
 import * as actionTypes from "../actions/actionTypes";
 import ItemLine from "../model/ItemLine";
 import ItemCircle from "../model/ItemCircle";
+import Point from "../common/Point";
 
 const initialState = {
   items: [
-    new ItemLine(20, 40, 200, 150),
-    new ItemCircle(120, 140, 30),
+    new ItemLine(new Point(20, 40), new Point(200, 150)),
+    new ItemCircle(new Point(120, 140), 30),
   ],
   dynamicItems: [],
   cursor: {
@@ -42,13 +43,18 @@ const graphicReducer = (state = initialState, action) => {
         dynamicItems: state.dynamicItems.concat(action.payload),
       };
 
+    case actionTypes.REMOVE_DYNAMIC_ITEM:
+      return {
+        ...state,
+        dynamicItems: state.dynamicItems.filter(
+          i => i != action.payload,
+        ),
+      };
+
     case actionTypes.MOUSE_MOVE:
       return {
         ...state,
-        cursor: {
-          x: action.payload.x,
-          y: action.payload.y,
-        },
+        cursor: action.payload,
       };
 
     default:
