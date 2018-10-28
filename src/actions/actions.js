@@ -1,18 +1,20 @@
 import * as actionTypes from "./actionTypes";
+export * from "./canvasActions.js";
+export * from "./graphicActions.js";
 
 const deviceUrl = "http://riffer.eu/riffer/api/devices";
 
 export const setWorkspaceId = id => {
   return {
     type: actionTypes.SET_WORKSPACE_ID,
-    payload: id
+    payload: id,
   };
 };
 
 export const setSelectedDevice = device => {
   return {
     type: actionTypes.SET_SELECTED_DEVICE,
-    payload: device
+    payload: device,
   };
 };
 
@@ -21,7 +23,7 @@ export const setSelectedDevice = device => {
 const addDevice = name => {
   return {
     type: actionTypes.ADD_DEVICE,
-    payload: name
+    payload: name,
   };
 };
 
@@ -32,8 +34,8 @@ export const saveDevice = device => {
         method: "POST",
         body: JSON.stringify(device),
         headers: {
-          "Content-Type": "application/json"
-        }
+          "Content-Type": "application/json",
+        },
       });
       const json = await response.json();
       await dispatch(addDevice(json));
@@ -46,7 +48,7 @@ export const saveDevice = device => {
 const setDevices = devices => {
   return {
     type: actionTypes.SET_DEVICES,
-    payload: devices
+    payload: devices,
   };
 };
 

@@ -76,7 +76,6 @@ class PageNavigator extends Component {
           Create Page
         </div>
         <PageList className="pagelist" pages={this.state.pages} />
-        <div className="properties">Properties</div>
         <PageModal
           show={this.state.showNewPageModal}
           onClose={this.onCloseModal}

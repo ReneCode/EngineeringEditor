@@ -20,7 +20,9 @@ class ProjectView extends Component {
 
     this.setState({ activeWorkspace: workspace }, () => {
       if (resizeGraphicView) {
-        this.graphicView.onResize();
+        // https://itnext.io/advanced-react-redux-techniques-how-to-use-refs-on-connected-components-e27b55c06e34
+        // graphicView is wrapped from redux connect()
+        this.graphicView.getWrappedInstance().onResize();
       }
     });
   };
