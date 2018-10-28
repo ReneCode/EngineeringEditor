@@ -8,9 +8,7 @@ const Workspace = props => {
   let component = null;
   switch (props.workspace) {
     case "pages":
-      component = (
-        <PageNavigator {...props} click={props.clickPage} />
-      );
+      component = <PageNavigator {...props} />;
       break;
 
     case "drawing":

@@ -1,4 +1,4 @@
-import Matrix2d from "./matrix-2d";
+import Matrix2d from "./Matrix-2d";
 
 export default class Point {
   constructor(x = 0, y = 0, z = 0) {

@@ -1,13 +1,7 @@
 import * as actionTypes from "../actions/actionTypes";
-import ItemLine from "../model/ItemLine";
-import ItemCircle from "../model/ItemCircle";
-import Point from "../common/Point";
 
 const initialState = {
-  items: [
-    new ItemLine(new Point(20, 40), new Point(200, 150)),
-    new ItemCircle(new Point(120, 140), 30),
-  ],
+  items: [],
   dynamicItems: [],
   cursor: {
     x: 0,
@@ -21,6 +15,12 @@ const initialState = {
 
 const graphicReducer = (state = initialState, action) => {
   switch (action.type) {
+    case actionTypes.SET_GRAPHIC_ITEMS:
+      return {
+        ...state,
+        items: action.payload,
+      };
+
     case actionTypes.ADD_GRAPHIC_ITEM:
       return {
         ...state,

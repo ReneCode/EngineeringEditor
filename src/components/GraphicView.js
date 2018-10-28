@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 
 import DrawCanvas from "./DrawCanvas";
 
-import * as actions from "../actions/actions";
+import * as actions from "../actions";
 import Point from "../common/Point";
 
 class GraphicView extends Component {
@@ -101,6 +101,7 @@ GraphicView.propTypes = {};
 const mapStateToProps = state => {
   return {
     graphic: state.graphic,
+    page: state.project.page,
   };
 };
 

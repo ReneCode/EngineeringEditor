@@ -1,5 +1,8 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+
+import * as actions from "../actions";
 
 import Sidebar from "./Sidebar";
 import Workspace from "./Workspace/Workspace";
@@ -9,6 +12,12 @@ class ProjectView extends Component {
   state = {
     activeWorkspace: "drawing",
   };
+
+  componentDidMount() {
+    const { match } = this.props;
+    const projectId = match.params.id;
+    this.props.dispatch(actions.setProjectId(projectId));
+  }
 
   clickSidebar = name => {
     let workspace = name;
@@ -28,9 +37,6 @@ class ProjectView extends Component {
   };
 
   render() {
-    const { match } = this.props;
-    const projectId = match.params.id;
-
     const sidebarButtons = [
       { name: "pages", text: "Pages" },
       { name: "devices", text: "Devices" },
@@ -45,14 +51,11 @@ class ProjectView extends Component {
           active={this.state.activeWorkspace}
           onClick={this.clickSidebar}
         />
-        <Workspace
-          workspace={this.state.activeWorkspace}
-          projectId={projectId}
-        />
+        <Workspace workspace={this.state.activeWorkspace} />
         <GraphicView ref={ref => (this.graphicView = ref)} />
       </React.Fragment>
     );
   }
 }
 
-export default withRouter(ProjectView);
+export default connect()(withRouter(ProjectView));

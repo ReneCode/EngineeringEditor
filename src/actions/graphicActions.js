@@ -1,5 +1,11 @@
 import * as actionTypes from "./actionTypes";
-import ItemLine from "../model/ItemLine";
+
+export const setGraphicItems = items => {
+  return {
+    type: actionTypes.SET_GRAPHIC_ITEMS,
+    payload: items,
+  };
+};
 
 export const addGraphicItem = item => {
   return {

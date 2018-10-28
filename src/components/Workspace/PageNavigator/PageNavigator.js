@@ -1,10 +1,13 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
+
+import * as actions from "../../../actions";
 
 import PageList from "./PageList";
 import PageModal from "./PageModal";
 
-import getUrl from "../../common/getUrl";
+import getUrl from "../../../common/getUrl";
 
 class PageNavigator extends Component {
   constructor(props) {
@@ -69,13 +72,22 @@ class PageNavigator extends Component {
     } catch (ex) {}
   }
 
+  onClickPage = page => {
+    this.props.dispatch(actions.setPage(page));
+    this.props.dispatch(actions.loadGraphic(page.id));
+  };
+
   render() {
     return (
       <div className="pagenavigator">
         <div className="button" onClick={this.onClickCreatePage}>
           Create Page
         </div>
-        <PageList className="pagelist" pages={this.state.pages} />
+        <PageList
+          className="pagelist"
+          pages={this.state.pages}
+          onClickPage={this.onClickPage}
+        />
         <PageModal
           show={this.state.showNewPageModal}
           onClose={this.onCloseModal}
@@ -89,4 +101,10 @@ PageNavigator.propTypes = {
   projectId: PropTypes.string.isRequired,
 };
 
-export default PageNavigator;
+const mapStateToProps = state => {
+  return {
+    projectId: state.project.projectId,
+  };
+};
+
+export default connect(mapStateToProps)(PageNavigator);

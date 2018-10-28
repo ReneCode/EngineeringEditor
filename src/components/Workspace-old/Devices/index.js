@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import * as actions from "../../../actions/actions";
+import * as actions from "../../../actions";
 
 import { Container, RowContainer } from "./elements";
 import DeviceRow from "./DeviceRow";
@@ -11,7 +11,7 @@ import WorkspaceItem from "../WorkspaceItem";
 
 class Devices extends Component {
   state = {
-    filter: ""
+    filter: "",
   };
 
   componentDidMount() {
@@ -24,7 +24,7 @@ class Devices extends Component {
 
   handleFilterSubmit = filter => {
     this.setState({
-      filter
+      filter,
     });
   };
 
@@ -63,7 +63,7 @@ class Devices extends Component {
 const mapStateToProps = state => {
   return {
     devices: state.project.devices,
-    selectedDevice: state.project.selectedDevice
+    selectedDevice: state.project.selectedDevice,
   };
 };
 

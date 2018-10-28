@@ -3,7 +3,7 @@ import { select, put, cancel, cancelled } from "redux-saga/effects";
 import { getPointSaga } from "./mouseSaga";
 
 import * as actionTypes from "../actions/actionTypes";
-import * as actions from "../actions/actions";
+import * as actions from "../actions";
 
 import ItemLine from "../model/ItemLine";
 
@@ -15,8 +15,7 @@ function* createLineSaga() {
       return;
     }
     const startPoint = result.point;
-    console.log(result);
-    line = new ItemLine(startPoint, startPoint);
+    line = new ItemLine(null, startPoint, startPoint);
     yield put(actions.addDynamicItem(line));
     const run = true;
     while (run) {
@@ -29,11 +28,11 @@ function* createLineSaga() {
       }
       const secondPoint = result.point;
       yield put(actions.removeDynamicItem(line));
-      line = new ItemLine(startPoint, secondPoint);
+      line = new ItemLine(null, startPoint, secondPoint);
       if (result.type === actionTypes.MOUSE_MOVE) {
         yield put(actions.addDynamicItem(line));
       } else {
-        yield put(actions.addGraphicItem(line));
+        yield put(actions.saveGraphicItem(line));
         yield put(actions.createLine());
       }
     }

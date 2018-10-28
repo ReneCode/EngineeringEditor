@@ -1,5 +1,6 @@
 class BaseItem {
-  constructor(type) {
+  constructor(pageId, type) {
+    this.pageId = pageId;
     this.type = type;
     this.items = [];
   }

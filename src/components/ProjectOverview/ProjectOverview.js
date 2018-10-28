@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ProjectCard from "./ProjectCard";
-import getUrl from "../common/getUrl";
+import getUrl from "../../common/getUrl";
 import NewProjectModal from "./NewProjectModal";
 
 class ProjectOverview extends Component {
