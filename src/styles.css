@@ -18,7 +18,7 @@ body {
 }
 
 nav.menu {
-  background-color: #222;
+  background-color: #444;
   display: flex;
   justify-content: space-between;
   padding: 5px;
@@ -148,4 +148,9 @@ nav.menu .text {
 .pagelist-item:hover {
   background-color: #666;
   cursor: pointer;
+}
+
+.showtop {
+  background-color: #eaa;
+  z-index: 10;
 }

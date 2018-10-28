@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { LineItem } from "../model/Items";
+import DrawCanvas from "./DrawCanvas";
+
+import ItemLine from "../model/ItemLine";
 import * as actions from "../actions/actions";
 
 class GraphicView extends Component {
@@ -47,7 +49,7 @@ class GraphicView extends Component {
   onMouseDown = ev => {
     const pt = this.getCursor(ev);
 
-    const line = new LineItem(
+    const line = new ItemLine(
       pt.x - 50,
       pt.y - 100,
       pt.x + 50,
@@ -60,7 +62,7 @@ class GraphicView extends Component {
 
   onMouseMove = ev => {
     const pt = this.getCursor(ev);
-    console.log(pt);
+    this.props.dispatch(actions.mouseMove(pt.x, pt.y));
   };
 
   getCursor(ev) {
@@ -69,38 +71,17 @@ class GraphicView extends Component {
   }
 
   redraw = () => {
-    this.context = this.canvas.getContext("2d");
-
-    this.props.graphic.items.forEach(i => {
-      this.context.beginPath();
-
-      this.context.lineWidth = 1;
-      this.context.moveTo(i.x1, i.y1);
-      this.context.lineTo(i.x2, i.y2);
-
-      this.context.stroke();
-    });
-
-    this.context.beginPath();
-
-    this.context.lineWidth = 1;
-    this.context.moveTo(0, 0);
-    this.context.lineTo(this.state.width, this.state.height);
-    /*
-    this.context.moveTo(0, 0);
-
-    this.context.moveTo(this.state.width / 2, 0);
-    this.context.lineTo(this.state.width / 2, this.state.height);
-
-    this.context.moveTo(0, this.state.height / 2);
-    this.context.lineTo(this.state.width, this.state.height / 2);
-*/
-    this.context.stroke();
+    this.drawCanvas.draw();
   };
 
   render() {
     return (
       <div ref={div => (this.frame = div)} className="GraphicView">
+        {/* <div className="showtop">
+          x:
+          {this.props.graphic.cursor.x} y:
+          {this.props.graphic.cursor.y}
+        </div> */}
         <canvas
           ref={canvas => (this.canvas = canvas)}
           width={this.state.width}
@@ -108,6 +89,11 @@ class GraphicView extends Component {
           onMouseDown={this.onMouseDown}
           onMouseUp={this.onMouseUp}
           onMouseMove={this.onMouseMove}
+        />
+        <DrawCanvas
+          ref={ref => (this.drawCanvas = ref)}
+          getCanvas={() => this.canvas}
+          graphic={this.props.graphic}
         />
       </div>
     );
