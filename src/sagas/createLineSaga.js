@@ -1,4 +1,4 @@
-import { select, put, cancel, cancelled } from "redux-saga/effects";
+import { put, cancelled } from "redux-saga/effects";
 
 import { getPointSaga } from "./mouseSaga";
 
@@ -12,7 +12,6 @@ function* createLineSaga() {
   let line;
   try {
     const result = yield getPointSaga(actionTypes.MOUSE_DOWN);
-    console.log("result:", result);
     if (!result) {
       return;
     }

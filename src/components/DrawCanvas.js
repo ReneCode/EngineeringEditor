@@ -26,17 +26,19 @@ class DrawCanvas extends Component {
   };
 
   drawItem(context, item) {
+    const ch = this.props.getCanvas().height;
+
     switch (item.type) {
       case ItemTypes.line:
         context.lineWidth = 1;
-        context.moveTo(item.p1.x, item.p1.y);
-        context.lineTo(item.p2.x, item.p2.y);
+        context.moveTo(item.p1.x, ch - item.p1.y);
+        context.lineTo(item.p2.x, ch - item.p2.y);
         break;
 
       case ItemTypes.circle: {
         context.arc(
           item.pt.x,
-          item.pt.y,
+          ch - item.pt.y,
           item.radius,
           0,
           2 * Math.PI,

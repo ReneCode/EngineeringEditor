@@ -110,6 +110,7 @@ nav.menu .text {
 .GraphicView {
   flex-grow: 10;
   background-color: #ccc;
+  margin: 20px;
 }
 
 .Modal {

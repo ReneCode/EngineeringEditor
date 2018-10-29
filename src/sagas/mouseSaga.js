@@ -1,4 +1,5 @@
 import { take, select } from "redux-saga/effects";
+import Point from "../common/Point";
 /*
 import Point from "../models/Point";
 
@@ -50,10 +51,16 @@ function* getPointSaga(waitingForTypes) {
     waitingForTypes = [waitingForTypes];
   }
   const { type, payload } = yield take(waitingForTypes);
+  const canvas = yield select(state => state.graphic.canvas);
+
+  // bottom-left is 0,0
+  const point = new Point(payload.x, canvas.height - payload.y);
+  console.log(point);
   return {
     type,
-    point: payload,
+    point,
   };
+
   /*
   const screenPoint = getScreenPointFromEvent(event);
   const svgPoint = yield getSvgPointFromEvent(event);

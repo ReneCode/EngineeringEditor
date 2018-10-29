@@ -11,8 +11,7 @@ import { IA_CREATE_CIRCLE } from "../actions/interactionTypes";
 function* createCircleSaga() {
   let circle;
   try {
-    const result = yield getPointSaga(actionTypes.MOUSE_DOWN);
-    console.log("result:", result);
+    const result = yield call(getPointSaga, actionTypes.MOUSE_DOWN);
     if (!result) {
       return;
     }
