@@ -1,4 +1,4 @@
-import { select, put, cancel, cancelled } from "redux-saga/effects";
+import { select, put } from "redux-saga/effects";
 
 import getUrl from "../common/getUrl";
 import * as actions from "../actions";
@@ -26,14 +26,13 @@ function* saveGraphicItemSaga(action) {
     };
 
     const url = getUrl("graphics");
-    const result = yield fetch(url, {
+    yield fetch(url, {
       method: "POST",
       body: JSON.stringify(saveItem),
       headers: {
         "Content-Type": "application/json",
       },
     });
-    const json = yield result.json();
   } catch (err) {}
 }
 

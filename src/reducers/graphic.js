@@ -47,7 +47,7 @@ const graphicReducer = (state = initialState, action) => {
       return {
         ...state,
         dynamicItems: state.dynamicItems.filter(
-          i => i != action.payload,
+          i => i !== action.payload,
         ),
       };
 

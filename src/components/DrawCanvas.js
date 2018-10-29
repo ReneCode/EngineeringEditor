@@ -1,7 +1,6 @@
 import { Component } from "react";
 
 import ItemTypes from "../model/ItemTypes";
-import Point from "../common/Point";
 
 class DrawCanvas extends Component {
   draw = () => {
@@ -35,7 +34,7 @@ class DrawCanvas extends Component {
         context.lineTo(item.p2.x, ch - item.p2.y);
         break;
 
-      case ItemTypes.circle: {
+      case ItemTypes.circle:
         context.arc(
           item.pt.x,
           ch - item.pt.y,
@@ -44,7 +43,9 @@ class DrawCanvas extends Component {
           2 * Math.PI,
         );
         break;
-      }
+
+      default:
+        throw new Error(`bad item type: ${item.typep}`);
     }
   }
 

@@ -55,7 +55,6 @@ function* getPointSaga(waitingForTypes) {
 
   // bottom-left is 0,0
   const point = new Point(payload.x, canvas.height - payload.y);
-  console.log(point);
   return {
     type,
     point,

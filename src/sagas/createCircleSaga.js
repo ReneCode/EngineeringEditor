@@ -1,4 +1,4 @@
-import { select, put, call, cancelled } from "redux-saga/effects";
+import { put, call, cancelled } from "redux-saga/effects";
 
 import { getPointSaga } from "./mouseSaga";
 
@@ -18,7 +18,7 @@ function* createCircleSaga() {
     const middlePoint = result.point;
     circle = new ItemCircle(null, middlePoint, 0);
     yield put(actions.addDynamicItem(circle));
-    const run = true;
+    let run = true;
     while (run) {
       const result = yield getPointSaga([
         actionTypes.MOUSE_MOVE,

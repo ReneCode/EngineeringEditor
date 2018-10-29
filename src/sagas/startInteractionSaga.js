@@ -19,7 +19,7 @@ function* startInteractionSaga(action) {
       break;
 
     default:
-      throw new Error("bad interaction:", iaType);
+      throw new Error(`bad interaction: ${iaType}`);
   }
 }
 

@@ -18,7 +18,7 @@ function* createLineSaga() {
     const startPoint = result.point;
     line = new ItemLine(null, startPoint, startPoint);
     yield put(actions.addDynamicItem(line));
-    const run = true;
+    let run = true;
     while (run) {
       const result = yield getPointSaga([
         actionTypes.MOUSE_MOVE,
