@@ -19,7 +19,13 @@ class ProjectView extends Component {
     this.props.dispatch(actions.setProjectId(projectId));
   }
 
-  clickSidebar = name => {
+  clickSidebar = sidebarButton => {
+    if (sidebarButton.workspace) {
+      this.switchWorkspace(sidebarButton.name);
+    }
+  };
+
+  switchWorkspace = name => {
     let workspace = name;
     if (name === this.state.activeWorkspace) {
       workspace = null;
@@ -38,10 +44,11 @@ class ProjectView extends Component {
 
   render() {
     const sidebarButtons = [
-      { name: "pages", text: "Pages" },
-      { name: "devices", text: "Devices" },
-      { name: "parts", text: "Parts" },
-      { name: "drawing", text: "Drawing" },
+      { name: "pages", text: "Pages", workspace: true },
+      { name: "devices", text: "Devices", workspace: true },
+      { name: "parts", text: "Parts", workspace: true },
+      { name: "drawing", text: "Drawing", workspace: true },
+      { name: "settings", text: "Settings" },
     ];
 
     return (

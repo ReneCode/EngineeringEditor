@@ -10,6 +10,8 @@ const initialState = {
   canvas: {
     width: 0,
     height: 0,
+    gridX: 20,
+    gridY: 20,
   },
 };
 

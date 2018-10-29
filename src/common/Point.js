@@ -1,4 +1,5 @@
 import Matrix2d from "./Matrix-2d";
+import { snap } from "./snap";
 
 export default class Point {
   constructor(x = 0, y = 0, z = 0) {
@@ -55,6 +56,10 @@ export default class Point {
 
   abs() {
     return new Point(Math.abs(this.x), Math.abs(this.y));
+  }
+
+  snap(stepX, stepY) {
+    return new Point(snap(this.x, stepX), snap(this.y, stepY));
   }
 
   rotate(angle) {

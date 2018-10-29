@@ -12,7 +12,7 @@ const Sidebar = props => {
             key={b.name}
             active={props.active === b.name}
             text={b.text}
-            onClick={() => props.onClick(b.name)}
+            onClick={() => props.onClick(b)}
           />
         );
       })}
