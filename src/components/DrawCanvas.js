@@ -28,6 +28,7 @@ class DrawCanvas extends Component {
   };
 
   drawGrid(context, canvas) {
+    // https://hacks.mozilla.org/2009/06/pushing-pixels-with-canvas/
     const gridX = 20;
     const gridY = 20;
     let canvasData = context.createImageData(
@@ -48,9 +49,7 @@ class DrawCanvas extends Component {
         canvasData.data[idx + 3] = a;
       }
     }
-    console.log("grid");
     context.putImageData(canvasData, 0, 0);
-    // context.drawImage(canvasData, 0, 0);
   }
 
   drawItem(context, item) {
