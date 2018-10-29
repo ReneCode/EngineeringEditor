@@ -6,11 +6,13 @@ import * as actionTypes from "../actions/actionTypes";
 import * as actions from "../actions";
 
 import ItemLine from "../model/ItemLine";
+import { IA_CREATE_LINE } from "../actions/interactionTypes";
 
 function* createLineSaga() {
   let line;
   try {
     const result = yield getPointSaga(actionTypes.MOUSE_DOWN);
+    console.log("result:", result);
     if (!result) {
       return;
     }
@@ -24,16 +26,17 @@ function* createLineSaga() {
         actionTypes.MOUSE_UP,
       ]);
       if (!result) {
-        return;
-      }
-      const secondPoint = result.point;
-      yield put(actions.removeDynamicItem(line));
-      line = new ItemLine(null, startPoint, secondPoint);
-      if (result.type === actionTypes.MOUSE_MOVE) {
-        yield put(actions.addDynamicItem(line));
+        run = false;
       } else {
-        yield put(actions.saveGraphicItem(line));
-        yield put(actions.createLine());
+        const secondPoint = result.point;
+        yield put(actions.removeDynamicItem(line));
+        line = new ItemLine(null, startPoint, secondPoint);
+        if (result.type === actionTypes.MOUSE_MOVE) {
+          yield put(actions.addDynamicItem(line));
+        } else {
+          yield put(actions.saveGraphicItem(line));
+          yield put(actions.startInteraction(IA_CREATE_LINE));
+        }
       }
     }
   } catch (ex) {

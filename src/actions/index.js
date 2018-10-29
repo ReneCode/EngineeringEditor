@@ -5,6 +5,13 @@ export * from "./mouseActions.js";
 export * from "./projectActions";
 export * from "./apiActions";
 
+export const startInteraction = iaType => {
+  return {
+    type: actionTypes.START_INTERACTION,
+    payload: iaType,
+  };
+};
+
 const deviceUrl = "http://riffer.eu/riffer/api/devices";
 
 export const setWorkspaceId = id => {

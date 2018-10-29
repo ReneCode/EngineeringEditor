@@ -1,0 +1,2 @@
+export const IA_CREATE_LINE = "IA_CREATE_LINE";
+export const IA_CREATE_CIRCLE = "IA_CREATE_CIRCLE";

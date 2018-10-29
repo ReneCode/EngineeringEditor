@@ -27,7 +27,3 @@ export const removeDynamicItem = item => {
     payload: item,
   };
 };
-
-export const createLine = () => {
-  return { type: actionTypes.CREATE_LINE };
-};

@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import * as actions from "../../actions";
+import {
+  IA_CREATE_CIRCLE,
+  IA_CREATE_LINE,
+} from "../../actions/interactionTypes";
 
 class DrawingWorkspace extends Component {
   constructor(props) {
@@ -10,7 +14,11 @@ class DrawingWorkspace extends Component {
   }
 
   onLine = () => {
-    this.props.dispatch(actions.createLine());
+    this.props.dispatch(actions.startInteraction(IA_CREATE_LINE));
+  };
+
+  onCircle = () => {
+    this.props.dispatch(actions.startInteraction(IA_CREATE_CIRCLE));
   };
 
   render() {
@@ -19,7 +27,9 @@ class DrawingWorkspace extends Component {
         <button className="button" onClick={this.onLine}>
           Line
         </button>
-        <button className="button">Circle</button>
+        <button className="button" onClick={this.onCircle}>
+          Circle
+        </button>
       </div>
     );
   }
