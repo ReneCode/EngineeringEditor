@@ -10,7 +10,7 @@ class DrawCanvas extends Component {
     context.clearRect(0, 0, canvas.width, canvas.height);
 
     // grid
-    this.drawGrid(context, canvas);
+    // this.drawGrid(context, canvas);
 
     // items
     this.props.graphic.items.forEach(item => {
@@ -68,6 +68,16 @@ class DrawCanvas extends Component {
         const pt = transform.wcToCanvas(item.pt);
         const r = transform.wcLengthToCanvas(item.radius);
         context.arc(pt.x, pt.y, r, 0, 2 * Math.PI);
+        break;
+
+      case ItemTypes.rect:
+        {
+          const p1 = transform.wcToCanvas(item.p1);
+          const p2 = transform.wcToCanvas(item.p2);
+          // x, y, width, height
+          context.rect(p1.x, p1.y, p2.x - p1.x, p2.y - p1.y);
+          context.stroke();
+        }
         break;
 
       default:

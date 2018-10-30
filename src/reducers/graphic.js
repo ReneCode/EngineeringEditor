@@ -1,7 +1,9 @@
 import * as actionTypes from "../actions/actionTypes";
+import ItemLine from "../model/ItemLine";
+import Point from "../common/Point";
 
 const initialState = {
-  items: [],
+  items: [new ItemLine(null, new Point(0, 0), new Point(250, 200))],
   dynamicItems: [],
   cursor: {
     x: 0,
@@ -15,8 +17,8 @@ const initialState = {
   },
   transform: {},
   canvas: {
-    width: 0,
-    height: 0,
+    width: 100,
+    height: 100,
     gridX: 20,
     gridY: 20,
   },
@@ -41,6 +43,18 @@ const graphicReducer = (state = initialState, action) => {
         ...state,
         canvas: {
           ...state.canvas,
+          width: action.payload.width,
+          height: action.payload.height,
+        },
+      };
+
+    case actionTypes.SET_VIEWPORT:
+      return {
+        ...state,
+        viewport: {
+          ...state.viewport,
+          x: action.payload.x,
+          y: action.payload.y,
           width: action.payload.width,
           height: action.payload.height,
         },

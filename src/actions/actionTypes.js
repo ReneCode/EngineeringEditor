@@ -10,6 +10,7 @@ export const MOUSE_UP = "MOUSE_UP";
 export const MOUSE_MOVE = "MOUSE_MOVE";
 
 export const SET_CANVAS_SIZE = "SET_CANVAS_SIZE";
+export const SET_VIEWPORT = "SET_VIEWPORT";
 export const SET_CURSOR_POSITION = "SET_CURSOR_POSITION";
 
 export const ADD_DYNAMIC_ITEM = "ADD_DYNAMIC_ITEM";
@@ -24,3 +25,5 @@ export const SET_PAGE = "SET_PAGE";
 
 export const LOAD_GRAPHIC = "LOAD_GRAPHIC";
 export const SAVE_GRAPHIC_ITEM = "SAVE_GRAPHIC_ITEM";
+
+export const ZOOM_WINDOW = "ZOOM_WINDOW";

@@ -21,6 +21,9 @@ class DrawingWorkspace extends Component {
     this.props.dispatch(actions.startInteraction(IA_CREATE_CIRCLE));
   };
 
+  onZoomWindow = () => {
+    this.props.dispatch(actions.zoomWindow());
+  };
   render() {
     return (
       <div className="drawingworkspace">
@@ -29,6 +32,9 @@ class DrawingWorkspace extends Component {
         </button>
         <button className="button" onClick={this.onCircle}>
           Circle
+        </button>
+        <button className="button" onClick={this.onZoomWindow}>
+          Zoom window
         </button>
       </div>
     );
