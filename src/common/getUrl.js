@@ -1,5 +1,5 @@
 function getUrl(name, ...args) {
-  const SERVER = "http://localhost:3001";
+  const SERVER = process.env.REACT_APP_API_SERVER;
   const urls = {
     root: SERVER,
     projects: `${SERVER}/projects`,

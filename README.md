@@ -14,3 +14,11 @@ https://github.com/typicode/json-server
 const result = yield call(getPointSaga, actionTypes.MOUSE_DOWN);
 
 const result = yield (getPointSaga(actionTypes.MOUSE_DOWN));
+
+### environment in react
+
+use .env
+
+start environment varialbe with `REACT_APP_`
+
+https://medium.com/@tacomanator/environments-with-create-react-app-7b645312c09d
