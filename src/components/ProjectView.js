@@ -15,8 +15,12 @@ class ProjectView extends Component {
 
   componentDidMount() {
     const { match } = this.props;
-    const projectId = match.params.id;
+    const { projectId, pageId } = match.params;
+
     this.props.dispatch(actions.setProjectId(projectId));
+    if (pageId) {
+      this.props.dispatch(actions.loadPages(projectId, pageId));
+    }
   }
 
   clickSidebar = sidebarButton => {

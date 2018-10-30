@@ -37,6 +37,11 @@ const graphicReducer = (state = initialState, action) => {
         ...state,
         items: state.items.concat(action.payload),
       };
+    case actionTypes.REMOVE_GRAPHIC_ITEM:
+      return {
+        ...state,
+        items: state.filter(i => i !== action.payload),
+      };
 
     case actionTypes.SET_CANVAS_SIZE:
       return {

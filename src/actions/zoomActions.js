@@ -5,3 +5,9 @@ export const zoomWindow = () => {
     type: actionTypes.ZOOM_WINDOW,
   };
 };
+
+export const zoomFull = () => {
+  return {
+    type: actionTypes.ZOOM_FULL,
+  };
+};

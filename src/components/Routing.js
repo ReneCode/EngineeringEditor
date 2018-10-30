@@ -9,7 +9,12 @@ const Routing = () => {
     <div className="Routing">
       <Route exact path="/" component={Home} />
       <Route exact path="/project" component={ProjectOverview} />
-      <Route exact path="/p/:id" component={ProjectView} />
+      <Route exact path="/p/:projectId" component={ProjectView} />
+      <Route
+        exact
+        path="/p/:projectId/s/:sheetId"
+        component={ProjectView}
+      />
     </div>
   );
 };

@@ -7,6 +7,7 @@ import * as actions from "../actions";
 import ItemRect from "../model/ItemRect";
 
 import TransformCoordinate from "../common/transformCoordinate";
+import Point from "../common/point";
 
 function* setViewport(p1, p2) {
   const x1 = Math.min(p1.x, p2.x);
@@ -24,7 +25,6 @@ function* setViewport(p1, p2) {
   const canvas = yield select(state => state.graphic.canvas);
   const tc = new TransformCoordinate(viewport, canvas);
   const correctedViewport = tc.viewport;
-  console.log(viewport, correctedViewport);
   yield put(
     actions.setViewport(
       correctedViewport.x,
@@ -80,4 +80,19 @@ function* zoomWindowSaga() {
   }
 }
 
-export { zoomWindowSaga };
+function* zoomFullSaga() {
+  // calc full viewport
+
+  const items = yield select(state => state.graphic.items);
+
+  const viewport = {
+    x: -500,
+    y: -500,
+    width: 1000,
+    height: 1000,
+  };
+
+  yield setViewport(new Point(-500, -500), new Point(500, 500));
+}
+
+export { zoomWindowSaga, zoomFullSaga };

@@ -36,6 +36,13 @@ export const addGraphicItem = item => {
   };
 };
 
+export const removeGraphicItem = item => {
+  return {
+    type: actionTypes.REMOVE_GRAPHIC_ITEM,
+    payload: item,
+  };
+};
+
 export const addDynamicItem = item => {
   return {
     type: actionTypes.ADD_DYNAMIC_ITEM,

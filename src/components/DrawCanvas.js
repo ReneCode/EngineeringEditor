@@ -79,7 +79,7 @@ class DrawCanvas extends Component {
         break;
 
       default:
-        throw new Error(`bad item type: ${item.typep}`);
+        throw new Error(`bad item type: ${item.type}`);
     }
   }
 

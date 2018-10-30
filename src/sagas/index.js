@@ -4,9 +4,11 @@ import * as actionTypes from "../actions/actionTypes";
 import {
   loadGraphicSaga,
   saveGraphicItemSaga,
+  loadPagesSaga,
+  createPageSaga,
 } from "../sagas/apiSaga";
 import { startInteractionSaga } from "./startInteractionSaga";
-import { zoomWindowSaga } from "./zoomSaga";
+import { zoomWindowSaga, zoomFullSaga } from "./zoomSaga";
 
 function* rootSagas() {
   yield all([
@@ -14,6 +16,9 @@ function* rootSagas() {
     takeLatest(actionTypes.LOAD_GRAPHIC, loadGraphicSaga),
     takeLatest(actionTypes.SAVE_GRAPHIC_ITEM, saveGraphicItemSaga),
     takeLatest(actionTypes.ZOOM_WINDOW, zoomWindowSaga),
+    takeLatest(actionTypes.ZOOM_FULL, zoomFullSaga),
+    takeLatest(actionTypes.LOAD_PAGES, loadPagesSaga),
+    takeLatest(actionTypes.CREATE_PAGE, createPageSaga),
   ]);
 }
 

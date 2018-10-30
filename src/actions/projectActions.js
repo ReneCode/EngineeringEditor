@@ -7,9 +7,40 @@ export const setProjectId = id => {
   };
 };
 
-export const setPage = page => {
+export const loadPages = projectId => {
   return {
-    type: actionTypes.SET_PAGE,
+    type: actionTypes.LOAD_PAGES,
+    payload: projectId,
+  };
+};
+
+export const createPage = (projectId, page) => {
+  return {
+    type: actionTypes.CREATE_PAGE,
+    payload: {
+      projectId,
+      page,
+    },
+  };
+};
+
+export const addPage = page => {
+  return {
+    type: actionTypes.ADD_PAGE,
     payload: page,
+  };
+};
+
+export const setPages = pages => {
+  return {
+    type: actionTypes.SET_PAGES,
+    payload: pages,
+  };
+};
+
+export const setPageId = pageId => {
+  return {
+    type: actionTypes.SET_PAGE_ID,
+    payload: pageId,
   };
 };
