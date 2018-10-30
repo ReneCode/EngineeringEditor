@@ -9,7 +9,9 @@ it("renders without crashing", () => {
 it("calls onSubmit on return", () => {
   const submitMock = jest.fn();
   const changeMock = jest.fn();
-  const wrapper = mount(<Filter onSubmit={submitMock} onChange={changeMock} />);
+  const wrapper = mount(
+    <Filter onSubmit={submitMock} onChange={changeMock} />,
+  );
 
   const input = wrapper.find("input");
   input.simulate("change", { target: { value: "abc" } });
@@ -23,7 +25,9 @@ it("calls onSubmit on return", () => {
 it("calls onSubmit on clear input", () => {
   const submitMock = jest.fn();
   const changeMock = jest.fn();
-  const wrapper = mount(<Filter onSubmit={submitMock} onChange={changeMock} />);
+  const wrapper = mount(
+    <Filter onSubmit={submitMock} onChange={changeMock} />,
+  );
 
   const input = wrapper.find("input");
   input.simulate("change", { target: { value: "abc" } });
