@@ -83,14 +83,14 @@ function* zoomWindowSaga() {
 function* zoomFullSaga() {
   // calc full viewport
 
-  const items = yield select(state => state.graphic.items);
+  // const items = yield select(state => state.graphic.items);
 
-  const viewport = {
-    x: -500,
-    y: -500,
-    width: 1000,
-    height: 1000,
-  };
+  // const viewport = {
+  //   x: -500,
+  //   y: -500,
+  //   width: 1000,
+  //   height: 1000,
+  // };
 
   yield setViewport(new Point(-500, -500), new Point(500, 500));
 }
