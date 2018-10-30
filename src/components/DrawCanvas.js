@@ -53,8 +53,6 @@ class DrawCanvas extends Component {
   }
 
   drawItem(context, transform, item) {
-    const ch = this.props.getCanvas().height;
-
     switch (item.type) {
       case ItemTypes.line:
         context.lineWidth = 1;

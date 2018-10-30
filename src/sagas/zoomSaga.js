@@ -1,4 +1,4 @@
-import { put, call, select, cancelled } from "redux-saga/effects";
+import { put, select, cancelled } from "redux-saga/effects";
 
 import { getPointSaga } from "./mouseSaga";
 
