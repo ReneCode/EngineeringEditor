@@ -1,6 +1,6 @@
 import ItemBase from "./ItemBase";
 import ItemTypes from "./ItemTypes";
-import Point from "../common/Point";
+import Point from "../common/point";
 
 class ItemLine extends ItemBase {
   constructor(pageId, p1, p2) {

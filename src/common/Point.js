@@ -1,4 +1,4 @@
-import Matrix2d from "./Matrix-2d";
+import Matrix2d from "./matrix-2d";
 import { snap } from "./snap";
 
 export default class Point {

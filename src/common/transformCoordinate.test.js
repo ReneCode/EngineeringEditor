@@ -1,5 +1,5 @@
 import TransformCoordinate from "./transformCoordinate";
-import Point from "./Point";
+import Point from "./point";
 
 describe("transformCoordinate", () => {
   describe("vieport has to be strechted", () => {

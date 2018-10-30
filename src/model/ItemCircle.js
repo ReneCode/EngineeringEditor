@@ -1,6 +1,6 @@
 import ItemBase from "./ItemBase";
 import ItemTypes from "./ItemTypes";
-import Point from "../common/Point";
+import Point from "../common/point";
 
 class ItemCircle extends ItemBase {
   constructor(pageId, pt, radius) {

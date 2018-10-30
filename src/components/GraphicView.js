@@ -6,7 +6,7 @@ import TransformCoordinate from "../common/transformCoordinate";
 import DrawCanvas from "./DrawCanvas";
 
 import * as actions from "../actions";
-import Point from "../common/Point";
+import Point from "../common/point";
 
 class GraphicView extends Component {
   constructor(props) {

@@ -1,6 +1,6 @@
 import * as actionTypes from "../actions/actionTypes";
 import ItemLine from "../model/ItemLine";
-import Point from "../common/Point";
+import Point from "../common/point";
 
 const initialState = {
   items: [new ItemLine(null, new Point(0, 0), new Point(250, 200))],

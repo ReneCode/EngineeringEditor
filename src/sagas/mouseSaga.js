@@ -1,5 +1,5 @@
 import { take, select } from "redux-saga/effects";
-import Point from "../common/Point";
+import Point from "../common/point";
 
 import TransformCoordinate from "../common/transformCoordinate";
 
