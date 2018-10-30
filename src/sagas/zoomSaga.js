@@ -38,7 +38,13 @@ function* setViewport(p1, p2) {
 function* zoomWindowSaga() {
   let rect;
   try {
-    const result = yield call(getPointSaga, actionTypes.MOUSE_DOWN);
+    const getPointSagaOptions = {
+      useGrid: false,
+    };
+    const result = yield getPointSaga(
+      actionTypes.MOUSE_DOWN,
+      getPointSagaOptions,
+    );
     if (!result) {
       return;
     }
@@ -47,10 +53,10 @@ function* zoomWindowSaga() {
     yield put(actions.addDynamicItem(rect));
     let run = true;
     while (run) {
-      const result = yield getPointSaga([
-        actionTypes.MOUSE_MOVE,
-        actionTypes.MOUSE_UP,
-      ]);
+      const result = yield getPointSaga(
+        [actionTypes.MOUSE_MOVE, actionTypes.MOUSE_UP],
+        getPointSagaOptions,
+      );
       if (!result) {
         run = false;
       } else {

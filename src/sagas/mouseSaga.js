@@ -3,7 +3,12 @@ import Point from "../common/Point";
 
 import TransformCoordinate from "../common/transformCoordinate";
 
-function* getPointSaga(waitingForTypes) {
+function* getPointSaga(waitingForTypes, options) {
+  let useGrid = true;
+  if (options && options.useGrid === false) {
+    useGrid = false;
+  }
+
   if (!Array.isArray(waitingForTypes)) {
     waitingForTypes = [waitingForTypes];
   }
@@ -13,11 +18,13 @@ function* getPointSaga(waitingForTypes) {
 
   const transform = new TransformCoordinate(viewport, canvas);
 
-  const point = transform
-    .canvasToWc(payload)
-    .snap(canvas.gridX, canvas.gridY);
   // transform canvas point to world-coordinate point
-  // snap to grid
+  let point = transform.canvasToWc(payload);
+
+  if (useGrid) {
+    // snap to grid
+    point = point.snap(canvas.gridX, canvas.gridY);
+  }
 
   return {
     type,
