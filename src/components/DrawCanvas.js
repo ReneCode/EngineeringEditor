@@ -3,7 +3,7 @@ import { Component } from "react";
 import ItemTypes from "../model/ItemTypes";
 
 class DrawCanvas extends Component {
-  draw = () => {
+  draw = transform => {
     const canvas = this.props.getCanvas();
     const context = canvas.getContext("2d");
 
@@ -15,14 +15,14 @@ class DrawCanvas extends Component {
     // items
     this.props.graphic.items.forEach(item => {
       context.beginPath();
-      this.drawItem(context, item);
+      this.drawItem(context, transform, item);
       context.stroke();
     });
 
     // dynamic items
     this.props.graphic.dynamicItems.forEach(item => {
       context.beginPath();
-      this.drawItem(context, item);
+      this.drawItem(context, transform, item);
       context.stroke();
     });
   };
@@ -52,24 +52,22 @@ class DrawCanvas extends Component {
     context.putImageData(canvasData, 0, 0);
   }
 
-  drawItem(context, item) {
+  drawItem(context, transform, item) {
     const ch = this.props.getCanvas().height;
 
     switch (item.type) {
       case ItemTypes.line:
         context.lineWidth = 1;
-        context.moveTo(item.p1.x, ch - item.p1.y);
-        context.lineTo(item.p2.x, ch - item.p2.y);
+        const p1 = transform.wcToCanvas(item.p1);
+        context.moveTo(p1.x, p1.y);
+        const p2 = transform.wcToCanvas(item.p2);
+        context.lineTo(p2.x, p2.y);
         break;
 
       case ItemTypes.circle:
-        context.arc(
-          item.pt.x,
-          ch - item.pt.y,
-          item.radius,
-          0,
-          2 * Math.PI,
-        );
+        const pt = transform.wcToCanvas(item.pt);
+        const r = transform.wcLengthToCanvas(item.radius);
+        context.arc(pt.x, pt.y, r, 0, 2 * Math.PI);
         break;
 
       default:

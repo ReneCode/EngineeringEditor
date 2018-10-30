@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
+import TransformCoordinate from "../common/transformCoordinate";
+
 import DrawCanvas from "./DrawCanvas";
 
 import * as actions from "../actions";
@@ -44,6 +46,12 @@ class GraphicView extends Component {
     this.props.dispatch(
       actions.setCanvasSize(rect.width, rect.height),
     );
+
+    // const canvas = {
+    //   width: rect.width,
+    //   height: rect.height,
+    // };
+    // this.transform.init(this.props.graphic.viewport, canvas);
   };
 
   onMouseUp = ev => {
@@ -67,7 +75,11 @@ class GraphicView extends Component {
   }
 
   redraw = () => {
-    this.drawCanvas.draw();
+    const transform = new TransformCoordinate(
+      this.props.graphic.viewport,
+      this.props.graphic.canvas,
+    );
+    this.drawCanvas.draw(transform);
   };
 
   render() {

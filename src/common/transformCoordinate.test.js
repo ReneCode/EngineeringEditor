@@ -41,6 +41,14 @@ describe("transformCoordinate", () => {
       const pt = new Point(250, 0);
       expect(tc.canvasToWc(pt)).toEqual(new Point(110, 230));
     });
+
+    it("wcLengthToCanvas", () => {
+      expect(tc.wcLengthToCanvas(30)).toBe(300);
+    });
+
+    it("canvasLengthToWc", () => {
+      expect(tc.canvasLengthToWc(300)).toBe(30);
+    });
   });
 
   it("adapt viewport -  stretch viewport Y", () => {

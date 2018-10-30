@@ -2,6 +2,13 @@ import Point from "./Point";
 
 class TransformCoordinate {
   constructor(viewport, canvas) {
+    if (!viewport) {
+      throw new Error("viewport missing");
+    }
+
+    if (!canvas) {
+      throw new Error("canvas missing");
+    }
     //  adapt viewport to get vieport and canvas fit together
     const ratioX = canvas.width / viewport.width;
     const ratioY = canvas.height / viewport.height;
@@ -29,6 +36,14 @@ class TransformCoordinate {
     const y =
       this.canvas.height - (pt.y - this.viewport.y) * this.scale;
     return new Point(x, y);
+  }
+
+  wcLengthToCanvas(len) {
+    return len * this.scale;
+  }
+
+  canvasLengthToWc(len) {
+    return len / this.scale;
   }
 
   canvasToWc(pt) {
