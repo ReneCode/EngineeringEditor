@@ -1,4 +1,4 @@
-import { select, put } from "redux-saga/effects";
+import { select, call, put } from "redux-saga/effects";
 
 import getUrl from "../common/getUrl";
 import * as actions from "../actions";
@@ -29,7 +29,7 @@ function* saveGraphicItemSaga(action) {
     };
 
     const url = getUrl("graphics");
-    const result = yield fetch(url, {
+    const result = yield call(fetch, url, {
       method: "POST",
       body: JSON.stringify(saveItem),
       headers: {
@@ -48,7 +48,7 @@ function* loadPagesSaga(action) {
   try {
     const projectId = action.payload;
     const url = `${getUrl("pages")}?projectId=${projectId}`;
-    const result = yield fetch(url);
+    const result = yield call(fetch, url);
     const json = yield result.json();
     yield put(actions.setPages(json));
   } catch (err) {}
@@ -60,7 +60,7 @@ function* createPageSaga(action) {
     // TODO should do the backend on POST /pages/<projectId>
     page.projectId = projectId;
     const url = getUrl("pages");
-    const res = yield fetch(url, {
+    const res = yield call(fetch, url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

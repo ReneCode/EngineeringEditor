@@ -1,6 +1,7 @@
 language: node_js
-node_js:
-  - "8.11.4"
+node_js: stable
+dist: trusty
+sudo: required
 
 install:
   - yarn install
@@ -10,6 +11,10 @@ script:
   - yarn test
   - yarn build
 
+before_deploy:
+  - cd build
+
 deploy:
   provider: azure_web_apps
+  skip_cleanup: true
   verbose: true
