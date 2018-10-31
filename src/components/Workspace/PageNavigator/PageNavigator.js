@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import * as actions from "../../../actions";
@@ -29,23 +30,24 @@ class PageNavigator extends Component {
     this.setState({
       showNewPageModal: false,
     });
-
     if (!name) {
       return;
     }
-
     const page = {
       projectId: this.props.projectId,
       name,
     };
-
     this.props.dispatch(
-      actions.createPage(this.props.projectId, page),
+      actions.createPage(this.props.projectId, page, newPage => {
+        // if page is created then open it
+        this.onClickPage(newPage);
+      }),
     );
   };
 
   onClickPage = page => {
-    this.props.dispatch(actions.setPageId(page.id));
+    const url = `/p/${this.props.projectId}/s/${page.id}`;
+    this.props.history.push(url);
   };
 
   render() {
@@ -81,4 +83,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(PageNavigator);
+export default connect(mapStateToProps)(withRouter(PageNavigator));

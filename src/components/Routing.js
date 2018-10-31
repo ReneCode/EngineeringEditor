@@ -12,7 +12,7 @@ const Routing = () => {
       <Route exact path="/p/:projectId" component={ProjectView} />
       <Route
         exact
-        path="/p/:projectId/s/:sheetId"
+        path="/p/:projectId/s/:pageId"
         component={ProjectView}
       />
     </div>

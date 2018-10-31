@@ -14,14 +14,22 @@ class ProjectView extends Component {
   };
 
   componentDidMount() {
+    this.useRoutingParams();
+  }
+
+  componentDidUpdate() {
+    this.useRoutingParams();
+  }
+
+  useRoutingParams = () => {
     const { match } = this.props;
     const { projectId, pageId } = match.params;
 
     this.props.dispatch(actions.setProjectId(projectId));
     if (pageId) {
-      this.props.dispatch(actions.loadPages(projectId, pageId));
+      this.props.dispatch(actions.setPageId(pageId));
     }
-  }
+  };
 
   clickSidebar = sidebarButton => {
     if (sidebarButton.workspace) {

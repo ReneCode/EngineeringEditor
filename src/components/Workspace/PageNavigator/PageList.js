@@ -11,7 +11,7 @@ const PageList = props => {
           key={p.id}
           onClick={() => props.onClickPage(p)}
           page={p}
-          active={props.activePageId === p.id}
+          active={"" + props.activePageId === "" + p.id}
         />
       ))}
     </div>
@@ -19,7 +19,7 @@ const PageList = props => {
 };
 
 PageList.propTypes = {
-  activePageId: PropTypes.number,
+  activePageId: PropTypes.string,
   pages: PropTypes.array.isRequired,
   onClickPage: PropTypes.func.isRequired,
 };

@@ -57,7 +57,7 @@ function* loadPagesSaga(action) {
 
 function* createPageSaga(action) {
   try {
-    const { projectId, page } = action.payload;
+    const { projectId, page, callback } = action.payload;
     // TODO should do the backend on POST /pages/<projectId>
     page.projectId = projectId;
     const url = getUrl("pages");
@@ -72,7 +72,9 @@ function* createPageSaga(action) {
 
     // update store
     yield put(actions.addPage(newPage));
-    yield put(actions.setPageId(newPage.id));
+    if (callback) {
+      callback(newPage);
+    }
   } catch (err) {}
 }
 

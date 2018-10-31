@@ -14,12 +14,13 @@ export const loadPages = projectId => {
   };
 };
 
-export const createPage = (projectId, page) => {
+export const createPage = (projectId, page, callback) => {
   return {
     type: actionTypes.CREATE_PAGE,
     payload: {
       projectId,
       page,
+      callback,
     },
   };
 };
