@@ -1,7 +1,5 @@
 import { Component } from "react";
 
-import ItemTypes from "../model/ItemTypes";
-
 class DrawCanvas extends Component {
   draw = transform => {
     const canvas = this.props.getCanvas();
@@ -54,7 +52,7 @@ class DrawCanvas extends Component {
 
   drawItem(context, transform, item) {
     switch (item.type) {
-      case ItemTypes.line:
+      case "line":
         context.lineWidth = 1;
         const p1 = transform.wcToCanvas(item.p1);
         context.moveTo(p1.x, p1.y);
@@ -62,13 +60,13 @@ class DrawCanvas extends Component {
         context.lineTo(p2.x, p2.y);
         break;
 
-      case ItemTypes.circle:
+      case "circle":
         const pt = transform.wcToCanvas(item.pt);
         const r = transform.wcLengthToCanvas(item.radius);
         context.arc(pt.x, pt.y, r, 0, 2 * Math.PI);
         break;
 
-      case ItemTypes.rect:
+      case "rect":
         {
           const p1 = transform.wcToCanvas(item.p1);
           const p2 = transform.wcToCanvas(item.p2);

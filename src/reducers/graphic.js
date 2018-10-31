@@ -1,7 +1,15 @@
 import * as actionTypes from "../actions/actionTypes";
 import ItemLine from "../model/ItemLine";
 import Point from "../common/point";
+// import ItemBase from "../model/ItemBase";
 
+// interface IState {
+//   item: ItemBase[],
+//   dynamicItems: ItemBase[],
+//   cursor:  object,
+//   viewport: object,
+//   canvas: object
+// }
 const initialState = {
   items: [new ItemLine(null, new Point(0, 0), new Point(250, 200))],
   dynamicItems: [],
@@ -15,7 +23,6 @@ const initialState = {
     width: 1000,
     height: 1000,
   },
-  transform: {},
   canvas: {
     width: 100,
     height: 100,
