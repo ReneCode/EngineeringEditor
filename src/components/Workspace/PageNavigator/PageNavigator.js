@@ -58,6 +58,7 @@ class PageNavigator extends Component {
         <PageList
           className="pagelist"
           pages={this.props.pages}
+          activePageId={this.props.pageId}
           onClickPage={this.onClickPage}
         />
         <PageModal
@@ -76,6 +77,7 @@ PageNavigator.propTypes = {
 const mapStateToProps = state => {
   return {
     projectId: state.project.projectId,
+    pageId: state.project.pageId,
     pages: state.project.pages,
   };
 };

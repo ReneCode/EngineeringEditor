@@ -22,3 +22,7 @@ use .env
 start environment varialbe with `REACT_APP_`
 
 https://medium.com/@tacomanator/environments-with-create-react-app-7b645312c09d
+
+### deploy with travis / azure
+
+http://sviridovserg.com/2017/05/16/cd-with-travis-and-azure/
