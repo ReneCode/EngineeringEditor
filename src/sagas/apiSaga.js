@@ -3,7 +3,8 @@ import { select, call, put } from "redux-saga/effects";
 import getUrl from "../common/getUrl";
 import * as actions from "../actions";
 
-function* loadGraphicSaga(action) {
+function* setPageIdSaga(action) {
+  // load the graphic of the active page
   const pageId = action.payload;
   const url = getUrl("graphics") + `?pageId=${pageId}`;
   const result = yield fetch(url);
@@ -76,7 +77,7 @@ function* createPageSaga(action) {
 }
 
 export {
-  loadGraphicSaga,
+  setPageIdSaga,
   saveGraphicItemSaga,
   loadPagesSaga,
   createPageSaga,

@@ -1,5 +1,12 @@
 import * as actionTypes from "./actionTypes";
 
+export const saveGraphicItem = item => {
+  return {
+    type: actionTypes.SAVE_GRAPHIC_ITEM,
+    payload: item,
+  };
+};
+
 export const setCanvasSize = (width, height) => {
   return {
     type: actionTypes.SET_CANVAS_SIZE,

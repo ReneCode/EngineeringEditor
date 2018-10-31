@@ -24,7 +24,7 @@ export const LOAD_PAGES = "LOAD_PAGES";
 // high-level
 export const CREATE_PAGE = "CREATE_PAGE";
 
-export const LOAD_GRAPHIC = "LOAD_GRAPHIC";
+// export const LOAD_GRAPHIC = "LOAD_GRAPHIC";
 export const SAVE_GRAPHIC_ITEM = "SAVE_GRAPHIC_ITEM";
 
 export const ZOOM_WINDOW = "ZOOM_WINDOW";

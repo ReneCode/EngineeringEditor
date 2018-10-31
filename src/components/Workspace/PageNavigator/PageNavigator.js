@@ -46,7 +46,6 @@ class PageNavigator extends Component {
 
   onClickPage = page => {
     this.props.dispatch(actions.setPageId(page.id));
-    this.props.dispatch(actions.loadGraphic(page.id));
   };
 
   render() {
