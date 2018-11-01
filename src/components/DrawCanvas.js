@@ -53,6 +53,7 @@ class DrawCanvas extends Component {
   drawItem(context, transform, item) {
     switch (item.type) {
       case "line":
+        // todo        // item.draw(context, transform)
         context.lineWidth = 1;
         const p1 = transform.wcToCanvas(item.p1);
         context.moveTo(p1.x, p1.y);
@@ -77,7 +78,8 @@ class DrawCanvas extends Component {
         break;
 
       default:
-        throw new Error(`bad item type: ${item.type}`);
+        console.log("bad item type:", item.type);
+      // throw new Error(`bad item type: ${item.type}`);
     }
   }
 

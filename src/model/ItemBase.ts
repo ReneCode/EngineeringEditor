@@ -1,9 +1,9 @@
 // import ItemTypes from "./ItemTypes";
 import Point from "../common/point";
 
-type ItemTypes = "line" | "circle" | "rect";
+type ItemTypes = "list" | "line" | "circle" | "rect";
 
-class BaseItem {
+class ItemBase {
   pageId: string;
   type: ItemTypes;
 
@@ -12,9 +12,13 @@ class BaseItem {
     this.type = type;
   }
 
-  translate(pt: Point): BaseItem {
+  toJSON(): object {
+    return (<any>Object).assign({}, this);
+  }
+
+  translate(pt: Point): ItemBase {
     return this;
   }
 }
 
-export default BaseItem;
+export default ItemBase;

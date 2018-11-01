@@ -2,6 +2,7 @@ import { select, call, put } from "redux-saga/effects";
 
 import getUrl from "../common/getUrl";
 import * as actions from "../actions";
+import ItemList from "../model/ItemList";
 
 function* setPageIdSaga(action) {
   // load the graphic of the active page
@@ -9,7 +10,12 @@ function* setPageIdSaga(action) {
   const url = getUrl("graphics") + `?pageId=${pageId}`;
   const result = yield fetch(url);
   const json = yield result.json();
-  yield put(actions.setGraphicItems(json));
+  const jsonList = {
+    type: "list",
+    items: json,
+  };
+  const itemList = ItemList.fromJSON(jsonList);
+  yield put(actions.setGraphicItems(itemList.items));
   yield put(actions.zoomFull());
 }
 

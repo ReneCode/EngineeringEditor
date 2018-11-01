@@ -87,4 +87,17 @@ describe("Point", () => {
     const p2 = new Point(4, 2);
     expect(p1.abs()).toEqual(p2);
   });
+
+  it("create json from Point", () => {
+    const p = new Point(4, 5);
+    const json = p.toJSON();
+    expect(json).toEqual({ x: 4, y: 5 });
+  });
+
+  it("create Point from json", () => {
+    const json = { x: 6, y: 8 };
+    const p = Point.fromJSON(json);
+    expect(p).toEqual(new Point(6, 8));
+    expect(p instanceof Point).toBe(true);
+  });
 });
