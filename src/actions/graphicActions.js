@@ -63,3 +63,9 @@ export const removeDynamicItem = item => {
     payload: item,
   };
 };
+
+export const clearDynamicItems = () => {
+  return {
+    type: actionTypes.CLEAR_DYNAMIC_ITEMS,
+  };
+};

@@ -1,4 +1,5 @@
 import { Component } from "react";
+import ItemLine from "../model/ItemLine";
 
 class DrawCanvas extends Component {
   draw = transform => {
@@ -13,14 +14,14 @@ class DrawCanvas extends Component {
     // items
     this.props.graphic.items.forEach(item => {
       context.beginPath();
-      this.drawItem(context, transform, item);
+      item.draw(context, transform);
       context.stroke();
     });
 
     // dynamic items
     this.props.graphic.dynamicItems.forEach(item => {
       context.beginPath();
-      this.drawItem(context, transform, item);
+      item.draw(context, transform);
       context.stroke();
     });
   };
@@ -48,39 +49,6 @@ class DrawCanvas extends Component {
       }
     }
     context.putImageData(canvasData, 0, 0);
-  }
-
-  drawItem(context, transform, item) {
-    switch (item.type) {
-      case "line":
-        // todo        // item.draw(context, transform)
-        context.lineWidth = 1;
-        const p1 = transform.wcToCanvas(item.p1);
-        context.moveTo(p1.x, p1.y);
-        const p2 = transform.wcToCanvas(item.p2);
-        context.lineTo(p2.x, p2.y);
-        break;
-
-      case "circle":
-        const pt = transform.wcToCanvas(item.pt);
-        const r = transform.wcLengthToCanvas(item.radius);
-        context.arc(pt.x, pt.y, r, 0, 2 * Math.PI);
-        break;
-
-      case "rect":
-        {
-          const p1 = transform.wcToCanvas(item.p1);
-          const p2 = transform.wcToCanvas(item.p2);
-          // x, y, width, height
-          context.rect(p1.x, p1.y, p2.x - p1.x, p2.y - p1.y);
-          context.stroke();
-        }
-        break;
-
-      default:
-        console.log("bad item type:", item.type);
-      // throw new Error(`bad item type: ${item.type}`);
-    }
   }
 
   render() {

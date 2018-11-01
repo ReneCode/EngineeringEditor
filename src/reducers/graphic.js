@@ -72,6 +72,12 @@ const graphicReducer = (state = initialState, action) => {
         },
       };
 
+    case actionTypes.CLEAR_DYNAMIC_ITEMS:
+      return {
+        ...state,
+        dynamicItems: [],
+      };
+
     case actionTypes.ADD_DYNAMIC_ITEM:
       return {
         ...state,

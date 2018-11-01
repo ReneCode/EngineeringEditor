@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 
 import * as actions from "../../actions";
 import {
+  IA_SELECT,
   IA_CREATE_CIRCLE,
   IA_CREATE_LINE,
   IA_ZOOM_WINDOW,
@@ -13,6 +14,10 @@ class DrawingWorkspace extends Component {
     super(props);
     this.state = {};
   }
+
+  onSelect = () => {
+    this.props.dispatch(actions.startInteraction(IA_SELECT));
+  };
 
   onLine = () => {
     this.props.dispatch(actions.startInteraction(IA_CREATE_LINE));
@@ -28,6 +33,9 @@ class DrawingWorkspace extends Component {
   render() {
     return (
       <div className="drawingworkspace">
+        <button className="button" onClick={this.onSelect}>
+          Select
+        </button>
         <button className="button" onClick={this.onLine}>
           Line
         </button>

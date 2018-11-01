@@ -4,6 +4,7 @@ import { createLineSaga } from "../sagas/createLineSaga";
 import { createCircleSaga } from "../sagas/createCircleSaga";
 import * as IaTypes from "../actions/interactionTypes";
 import { zoomWindowSaga } from "./zoomSaga";
+import { selectSaga } from "./selectSaga";
 
 function* startInteractionSaga(action) {
   const iaType = action.payload;
@@ -18,6 +19,9 @@ function* startInteractionSaga(action) {
 
     case IaTypes.IA_ZOOM_WINDOW:
       yield call(zoomWindowSaga);
+      break;
+    case IaTypes.IA_SELECT:
+      yield call(selectSaga);
       break;
 
     default:

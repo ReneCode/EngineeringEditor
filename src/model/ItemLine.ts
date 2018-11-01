@@ -1,6 +1,7 @@
 import ItemBase from "./ItemBase";
 import Point from "../common/point";
 import TransformCoordinate from "../common/transformCoordinate";
+import Line from "../common/line";
 
 class ItemLine extends ItemBase {
   p1: Point;
@@ -30,20 +31,28 @@ class ItemLine extends ItemBase {
     });
   }
 
+  nearPoint(pt: Point, radius: number): boolean {
+    const line = new Line(this.p1, this.p2);
+    return line.nearPoint(pt, radius);
+  }
+
+  draw(
+    context: CanvasRenderingContext2D,
+    transform: TransformCoordinate,
+  ): void {
+    context.lineWidth = 1;
+    const p1 = transform.wcToCanvas(this.p1);
+    context.moveTo(p1.x, p1.y);
+    const p2 = transform.wcToCanvas(this.p2);
+    context.lineTo(p2.x, p2.y);
+  }
+
   translate(pt: Point) {
     return new ItemLine(
       this.pageId,
       this.p1.add(pt),
       this.p2.add(pt),
     );
-  }
-
-  draw(context: any, transform: TransformCoordinate) {
-    context.lineWidth = 1;
-    const p1 = transform.wcToCanvas(this.p1);
-    context.moveTo(p1.x, p1.y);
-    const p2 = transform.wcToCanvas(this.p2);
-    context.lineTo(p2.x, p2.y);
   }
 }
 

@@ -1,5 +1,6 @@
 import ItemBase from "./ItemBase";
 import Point from "../common/point";
+import TransformCoordinate from "../common/transformCoordinate";
 
 class ItemCircle extends ItemBase {
   pt: Point;
@@ -26,6 +27,15 @@ class ItemCircle extends ItemBase {
     return (<any>Object).assign(line, json, {
       pt: Point.fromJSON(json.pt),
     });
+  }
+
+  draw(
+    context: CanvasRenderingContext2D,
+    transform: TransformCoordinate,
+  ): void {
+    const pt = transform.wcToCanvas(this.pt);
+    const r = transform.wcLengthToCanvas(this.radius);
+    context.arc(pt.x, pt.y, r, 0, 2 * Math.PI);
   }
 
   translate(pt: Point): ItemCircle {
