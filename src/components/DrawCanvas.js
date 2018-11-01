@@ -1,5 +1,4 @@
 import { Component } from "react";
-import ItemLine from "../model/ItemLine";
 
 class DrawCanvas extends Component {
   draw = transform => {
@@ -11,18 +10,21 @@ class DrawCanvas extends Component {
     // grid
     // this.drawGrid(context, canvas);
 
+    const items = this.props.graphic.items;
+    const dynamicItems = this.props.graphic.dynamicItems;
     // items
-    this.props.graphic.items.forEach(item => {
-      context.beginPath();
-      item.draw(context, transform);
-      context.stroke();
+    items.forEach(item => {
+      if (!dynamicItems.includes(item)) {
+        item.draw(context, transform);
+      }
     });
 
     // dynamic items
-    this.props.graphic.dynamicItems.forEach(item => {
-      context.beginPath();
-      item.draw(context, transform);
-      context.stroke();
+    dynamicItems.forEach(item => {
+      context.save();
+      context.setLineDash([10, 10]);
+      item.draw(context, transform, { selected: true });
+      context.restore();
     });
   };
 

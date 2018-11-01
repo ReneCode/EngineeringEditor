@@ -15,6 +15,7 @@ class ItemRect extends ItemBase {
     context: CanvasRenderingContext2D,
     transform: TransformCoordinate,
   ): void {
+    context.beginPath();
     const p1 = transform.wcToCanvas(this.p1);
     const p2 = transform.wcToCanvas(this.p2);
     // x, y, width, height

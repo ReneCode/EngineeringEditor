@@ -40,11 +40,13 @@ class ItemLine extends ItemBase {
     context: CanvasRenderingContext2D,
     transform: TransformCoordinate,
   ): void {
+    context.beginPath();
     context.lineWidth = 1;
     const p1 = transform.wcToCanvas(this.p1);
     context.moveTo(p1.x, p1.y);
     const p2 = transform.wcToCanvas(this.p2);
     context.lineTo(p2.x, p2.y);
+    context.stroke();
   }
 
   translate(pt: Point) {

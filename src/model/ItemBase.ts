@@ -31,4 +31,10 @@ class ItemBase {
   }
 }
 
+/*
+  canvas  Text  color is set by context.fillStyle
+
+                bounding-box .width   context.measureText(str)
+*/
+
 export default ItemBase;

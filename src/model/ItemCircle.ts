@@ -1,6 +1,7 @@
 import ItemBase from "./ItemBase";
 import Point from "../common/point";
 import TransformCoordinate from "../common/transformCoordinate";
+import Arc from "../common/arc";
 
 class ItemCircle extends ItemBase {
   pt: Point;
@@ -33,9 +34,16 @@ class ItemCircle extends ItemBase {
     context: CanvasRenderingContext2D,
     transform: TransformCoordinate,
   ): void {
+    context.beginPath();
     const pt = transform.wcToCanvas(this.pt);
     const r = transform.wcLengthToCanvas(this.radius);
     context.arc(pt.x, pt.y, r, 0, 2 * Math.PI);
+    context.stroke();
+  }
+
+  nearPoint(pt: Point, radius: number): boolean {
+    const arc = new Arc(this.pt, this.radius);
+    return arc.nearPoint(pt, radius);
   }
 
   translate(pt: Point): ItemCircle {
