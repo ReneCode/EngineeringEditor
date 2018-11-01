@@ -2,20 +2,22 @@ import { call } from "redux-saga/effects";
 
 import { createLineSaga } from "../sagas/createLineSaga";
 import { createCircleSaga } from "../sagas/createCircleSaga";
-import {
-  IA_CREATE_CIRCLE,
-  IA_CREATE_LINE,
-} from "../actions/interactionTypes";
+import * as IaTypes from "../actions/interactionTypes";
+import { zoomWindowSaga } from "./zoomSaga";
 
 function* startInteractionSaga(action) {
   const iaType = action.payload;
   switch (iaType) {
-    case IA_CREATE_CIRCLE:
+    case IaTypes.IA_CREATE_CIRCLE:
       yield call(createCircleSaga);
       break;
 
-    case IA_CREATE_LINE:
+    case IaTypes.IA_CREATE_LINE:
       yield call(createLineSaga);
+      break;
+
+    case IaTypes.IA_ZOOM_WINDOW:
+      yield call(zoomWindowSaga);
       break;
 
     default:

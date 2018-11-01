@@ -5,6 +5,7 @@ import * as actions from "../../actions";
 import {
   IA_CREATE_CIRCLE,
   IA_CREATE_LINE,
+  IA_ZOOM_WINDOW,
 } from "../../actions/interactionTypes";
 
 class DrawingWorkspace extends Component {
@@ -22,7 +23,7 @@ class DrawingWorkspace extends Component {
   };
 
   onZoomWindow = () => {
-    this.props.dispatch(actions.zoomWindow());
+    this.props.dispatch(actions.startInteraction(IA_ZOOM_WINDOW));
   };
   render() {
     return (
