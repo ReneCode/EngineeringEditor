@@ -61,6 +61,20 @@ const removeGraphicItem = (state, action) => {
     items,
   };
 };
+
+const addDynamicItem = (state, action) => {
+  let newItems = action.payload;
+  if (!Array.isArray(newItems)) {
+    newItems = [newItems];
+  }
+  // remote items, that are allready in state.dynamicItems
+  newItems = newItems.filter(i => !state.dynamicItems.includes(i));
+  return {
+    ...state,
+    dynamicItems: state.dynamicItems.concat(newItems),
+  };
+};
+
 const graphicReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.SET_GRAPHIC_ITEMS:
@@ -109,10 +123,7 @@ const graphicReducer = (state = initialState, action) => {
       };
 
     case actionTypes.ADD_DYNAMIC_ITEM:
-      return {
-        ...state,
-        dynamicItems: state.dynamicItems.concat(action.payload),
-      };
+      return addDynamicItem(state, action);
 
     case actionTypes.REMOVE_DYNAMIC_ITEM:
       return removeDynamicItems(state, action);
