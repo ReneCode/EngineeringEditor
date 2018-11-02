@@ -1,38 +1,12 @@
-import { put, select, cancelled } from "redux-saga/effects";
+import { put, call, cancelled } from "redux-saga/effects";
 
-import { getPointSaga } from "./mouseSaga";
-
-import * as actionTypes from "../actions/actionTypes";
 import * as actions from "../actions";
-import ItemBase from "../model/ItemBase";
-
+import { pickItemsSaga } from "./pickItemsSaga";
 import { IA_SELECT } from "../actions/interactionTypes";
-import TransformCoordinate from "../common/transformCoordinate";
 
 function* selectSaga() {
   try {
-    const getPointSagaOptions = {
-      useGrid: false,
-    };
-    yield put(actions.setCursorMode("select"));
-    const result = yield getPointSaga(
-      actionTypes.MOUSE_DOWN,
-      getPointSagaOptions,
-    );
-    if (!result) {
-      return;
-    }
-    const point = result.point;
-    const graphic = yield select((state: any) => state.graphic);
-    const { canvas, viewport, items, cursor } = graphic;
-    const transform = new TransformCoordinate(viewport, canvas);
-    const pickRadius = transform.canvasLengthToWc(
-      cursor.radiusScreen,
-    );
-
-    const selectedItems = items.filter((item: ItemBase) => {
-      return item.nearPoint(point, pickRadius);
-    });
+    const selectedItems = yield call(pickItemsSaga, "select");
     if (selectedItems.length === 0) {
       yield put(actions.clearDynamicItems());
     } else {
@@ -40,8 +14,6 @@ function* selectSaga() {
     }
 
     yield put(actions.startInteraction(IA_SELECT));
-
-    // yield put(actions.addDynamicItem(rect));
   } catch (ex) {
   } finally {
     if (yield cancelled()) {

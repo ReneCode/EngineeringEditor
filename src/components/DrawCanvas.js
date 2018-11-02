@@ -53,6 +53,7 @@ class DrawCanvas extends Component {
         context.fillStyle = "rgba(185,0,0,0.2)";
         context.arc(pt.x, pt.y, r, 0, 2 * Math.PI);
         break;
+      default:
     }
     context.moveTo(pt.x - r * 3, pt.y);
     context.lineTo(pt.x + r * 3, pt.y);
