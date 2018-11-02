@@ -160,3 +160,6 @@ nav.menu .text {
   display: flex;
   flex-direction: column;
 }
+.canvas {
+  cursor: none;
+}

@@ -6,6 +6,7 @@ import * as actionTypes from "../actions/actionTypes";
 import * as actions from "../actions";
 import ItemBase from "../model/ItemBase";
 import { IA_SELECT } from "../actions/interactionTypes";
+import TransformCoordinate from "../common/transformCoordinate";
 
 function* selectSaga() {
   try {
@@ -20,9 +21,12 @@ function* selectSaga() {
       return;
     }
     const point = result.point;
-    const pickRadius = 10;
-
-    const items = yield select((state: any) => state.graphic.items);
+    const graphic = yield select((state: any) => state.graphic);
+    const { canvas, viewport, items, cursor } = graphic;
+    const transform = new TransformCoordinate(viewport, canvas);
+    const pickRadius = transform.canvasLengthToWc(
+      cursor.radiusScreen,
+    );
 
     const selectedItems = items.filter((item: ItemBase) => {
       return item.nearPoint(point, pickRadius);

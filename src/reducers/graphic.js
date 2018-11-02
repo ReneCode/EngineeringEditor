@@ -15,8 +15,8 @@ const initialState = {
   items: [new ItemLine(null, new Point(0, 0), new Point(250, 200))],
   dynamicItems: [],
   cursor: {
-    x: 0,
-    y: 0,
+    pt: new Point(0, 0),
+    radiusScreen: 20,
   },
   viewport: {
     x: -500,
@@ -99,7 +99,10 @@ const graphicReducer = (state = initialState, action) => {
     case actionTypes.MOUSE_MOVE:
       return {
         ...state,
-        cursor: action.payload,
+        cursor: {
+          ...state.cursor,
+          pt: action.payload,
+        },
       };
 
     default:

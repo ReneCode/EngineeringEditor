@@ -24,10 +24,36 @@ class DrawCanvas extends Component {
       context.restore();
     });
 
-    this.drawCursor(context, canvas);
+    this.drawCursor(context, transform);
   };
 
-  drawCursor(context, canvas) {}
+  snapGrid(pt) {
+    return pt;
+    const useGrid = true;
+    if (useGrid) {
+      // snap to grid
+      // return pt.snap(canvas.gridX, canvas.gridY);
+    }
+  }
+
+  drawCursor(context, transform) {
+    const pt = this.snapGrid(this.props.graphic.cursor.pt);
+
+    const r = this.props.graphic.cursor.radiusScreen;
+
+    context.save();
+    context.beginPath();
+    context.strokeStyle = "rgba(0,0,0,0.3)";
+    context.fillStyle = "rgba(68,68,85,0.2)";
+    context.arc(pt.x, pt.y, r, 0, 2 * Math.PI);
+    context.moveTo(pt.x - r * 3, pt.y);
+    context.lineTo(pt.x + r * 3, pt.y);
+    context.moveTo(pt.x, pt.y - r * 3);
+    context.lineTo(pt.x, pt.y + r * 3);
+    context.fill();
+    context.stroke();
+    context.restore();
+  }
 
   render() {
     return null;

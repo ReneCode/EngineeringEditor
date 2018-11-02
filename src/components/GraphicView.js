@@ -85,6 +85,7 @@ class GraphicView extends Component {
           {this.props.graphic.cursor.y}
         </div> */}
         <canvas
+          className="canvas"
           ref={canvas => (this.canvas = canvas)}
           width={this.state.width}
           height={this.state.height}
