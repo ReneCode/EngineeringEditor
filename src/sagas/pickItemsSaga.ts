@@ -1,0 +1,45 @@
+import { put, select, cancelled } from "redux-saga/effects";
+
+import { getPointSaga } from "./mouseSaga";
+
+import * as actionTypes from "../actions/actionTypes";
+import * as actions from "../actions";
+import ItemBase from "../model/ItemBase";
+
+import TransformCoordinate from "../common/transformCoordinate";
+
+function* pickItemsSaga(cursorMode = "select") {
+  try {
+    const getPointSagaOptions = {
+      useGrid: false,
+    };
+    yield put(actions.setCursorMode(cursorMode));
+    const result = yield getPointSaga(
+      actionTypes.MOUSE_DOWN,
+      getPointSagaOptions,
+    );
+    if (!result) {
+      return;
+    }
+    const point = result.point;
+    const graphic = yield select((state: any) => state.graphic);
+    const { canvas, viewport, items, cursor } = graphic;
+    const transform = new TransformCoordinate(viewport, canvas);
+    const pickRadius = transform.canvasLengthToWc(
+      cursor.radiusScreen,
+    );
+
+    const selectedItems = items.filter((item: ItemBase) => {
+      return item.nearPoint(point, pickRadius);
+    });
+    yield put(actions.setCursorMode());
+    return selectedItems;
+  } catch (ex) {
+  } finally {
+    if (yield cancelled()) {
+      yield put(actions.setCursorMode());
+    }
+  }
+}
+
+export { pickItemsSaga };

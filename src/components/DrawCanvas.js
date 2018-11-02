@@ -44,9 +44,15 @@ class DrawCanvas extends Component {
     context.save();
     context.beginPath();
     context.strokeStyle = "rgba(0,0,0,0.3)";
-    if (cursor.mode === "select") {
-      context.fillStyle = "rgba(68,68,85,0.2)";
-      context.arc(pt.x, pt.y, r, 0, 2 * Math.PI);
+    switch (cursor.mode) {
+      case "select":
+        context.fillStyle = "rgba(68,68,85,0.2)";
+        context.arc(pt.x, pt.y, r, 0, 2 * Math.PI);
+        break;
+      case "delete":
+        context.fillStyle = "rgba(185,0,0,0.2)";
+        context.arc(pt.x, pt.y, r, 0, 2 * Math.PI);
+        break;
     }
     context.moveTo(pt.x - r * 3, pt.y);
     context.lineTo(pt.x + r * 3, pt.y);
