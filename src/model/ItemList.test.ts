@@ -18,22 +18,26 @@ describe("ItemList", () => {
     list.items.push(new ItemCircle("abc", new Point(3, 4), 22));
 
     json = {
+      id: 0,
       pageId: "pageId",
       type: "list",
       items: [
         {
+          id: 0,
           type: "line",
           pageId: "abc",
           p1: { x: 4, y: 5 },
           p2: { x: 7, y: 8 },
         },
         {
+          id: 0,
           type: "line",
           pageId: "xyz",
           p1: { x: 1, y: 2 },
           p2: { x: 3, y: 4 },
         },
         {
+          id: 0,
           type: "circle",
           pageId: "abc",
           pt: { x: 3, y: 4 },

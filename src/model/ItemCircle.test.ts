@@ -10,6 +10,7 @@ describe("ItemCircle", () => {
     const pt = new Point(7, 8);
     circle = new ItemCircle("abc", pt, 14);
     json = {
+      id: 0,
       type: "circle",
       pageId: "abc",
       pt: { x: 7, y: 8 },
@@ -18,8 +19,8 @@ describe("ItemCircle", () => {
   });
 
   it("create json from ItemCircle", () => {
-    const json = circle.toJSON();
-    expect(json).toEqual(json);
+    const gotJson = circle.toJSON();
+    expect(gotJson).toEqual(json);
   });
 
   it("create ItemCircle from json", () => {

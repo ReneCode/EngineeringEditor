@@ -2,30 +2,31 @@ import ItemLine from "./ItemLine";
 import Point from "../common/point";
 
 describe("ItemLine", () => {
-  it("create json from ItemLine", () => {
+  let line: ItemLine;
+  let json: any;
+
+  beforeEach(() => {
     const p1 = new Point(4, 5);
     const p2 = new Point(7, 8);
-    const line = new ItemLine("abc", p1, p2);
-    const json = line.toJSON();
-    expect(json).toEqual({
-      type: "line",
-      pageId: "abc",
-      p1: { x: 4, y: 5 },
-      p2: { x: 7, y: 8 },
-    });
-  });
+    line = new ItemLine("abc", p1, p2);
 
-  it("create Line from json", () => {
-    const json = {
+    json = {
+      id: 0,
       type: "line",
       pageId: "abc",
       p1: { x: 4, y: 5 },
       p2: { x: 7, y: 8 },
     };
-    const line = ItemLine.fromJSON(json);
-    expect(line).toEqual(
-      new ItemLine("abc", new Point(4, 5), new Point(7, 8)),
-    );
-    expect(line instanceof ItemLine).toBe(true);
+  });
+
+  it("create json from ItemLine", () => {
+    const gotJson = line.toJSON();
+    expect(gotJson).toEqual(json);
+  });
+
+  it("create Line from json", () => {
+    const newLine = ItemLine.fromJSON(json);
+    expect(newLine).toEqual(line);
+    expect(newLine instanceof ItemLine).toBe(true);
   });
 });
