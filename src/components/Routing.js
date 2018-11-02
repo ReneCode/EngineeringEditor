@@ -6,7 +6,12 @@ import ProjectView from "./ProjectView";
 
 const Routing = () => {
   return (
-    <div className="Routing">
+    <div
+      className="Routing"
+      onContextMenu={ev => {
+        ev.stopPropagation();
+        ev.preventDefault();
+      }}>
       <Route exact path="/" component={Home} />
       <Route exact path="/project" component={ProjectOverview} />
       <Route exact path="/p/:projectId" component={ProjectView} />

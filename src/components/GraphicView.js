@@ -21,6 +21,7 @@ class GraphicView extends Component {
   componentDidMount() {
     window.addEventListener("resize", this.onResize);
     this.onResize();
+    this.redraw();
   }
 
   componentWillUnmount() {
@@ -54,13 +55,20 @@ class GraphicView extends Component {
   };
 
   onMouseDown = ev => {
-    const pt = this.getCursor(ev);
-    this.props.dispatch(actions.mouseDown(pt));
+    if (ev.button === 0) {
+      // left button
+      const pt = this.getCursor(ev);
+      this.props.dispatch(actions.mouseDown(pt));
+    }
   };
 
   onMouseMove = ev => {
     const pt = this.getCursor(ev);
     this.props.dispatch(actions.mouseMove(pt));
+  };
+
+  onContextMenu = ev => {
+    console.log("context:", ev);
   };
 
   getCursor(ev) {
@@ -92,6 +100,7 @@ class GraphicView extends Component {
           onMouseDown={this.onMouseDown}
           onMouseUp={this.onMouseUp}
           onMouseMove={this.onMouseMove}
+          onContextMenu={this.onContextMenu}
         />
         <DrawCanvas
           ref={ref => (this.drawCanvas = ref)}

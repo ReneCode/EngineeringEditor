@@ -19,7 +19,7 @@ class DrawCanvas extends Component {
     // dynamic items
     dynamicItems.forEach(item => {
       context.save();
-      context.setLineDash([10, 10]);
+      context.setLineDash([5, 5]);
       item.draw(context, transform, { selected: true });
       context.restore();
     });
