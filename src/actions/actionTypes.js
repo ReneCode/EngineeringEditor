@@ -1,6 +1,7 @@
 export const MOUSE_DOWN = "MOUSE_DOWN";
 export const MOUSE_UP = "MOUSE_UP";
 export const MOUSE_MOVE = "MOUSE_MOVE";
+export const SET_CURSOR_MODE = "SET_CURSOR_MODE";
 
 export const SET_CANVAS_SIZE = "SET_CANVAS_SIZE";
 export const SET_VIEWPORT = "SET_VIEWPORT";

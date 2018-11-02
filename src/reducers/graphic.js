@@ -17,6 +17,7 @@ const initialState = {
   cursor: {
     pt: new Point(0, 0),
     radiusScreen: 20,
+    mode: "",
   },
   viewport: {
     x: -500,
@@ -102,6 +103,14 @@ const graphicReducer = (state = initialState, action) => {
         cursor: {
           ...state.cursor,
           pt: action.payload,
+        },
+      };
+    case actionTypes.SET_CURSOR_MODE:
+      return {
+        ...state,
+        cursor: {
+          ...state.cursor,
+          mode: action.payload,
         },
       };
 

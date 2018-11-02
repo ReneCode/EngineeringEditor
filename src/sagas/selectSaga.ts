@@ -1,10 +1,11 @@
-import { put, select } from "redux-saga/effects";
+import { put, select, cancelled } from "redux-saga/effects";
 
 import { getPointSaga } from "./mouseSaga";
 
 import * as actionTypes from "../actions/actionTypes";
 import * as actions from "../actions";
 import ItemBase from "../model/ItemBase";
+
 import { IA_SELECT } from "../actions/interactionTypes";
 import TransformCoordinate from "../common/transformCoordinate";
 
@@ -13,6 +14,7 @@ function* selectSaga() {
     const getPointSagaOptions = {
       useGrid: false,
     };
+    yield put(actions.setCursorMode("select"));
     const result = yield getPointSaga(
       actionTypes.MOUSE_DOWN,
       getPointSagaOptions,
@@ -36,10 +38,16 @@ function* selectSaga() {
     } else {
       yield put(actions.addDynamicItem(selectedItems));
     }
+
     yield put(actions.startInteraction(IA_SELECT));
 
     // yield put(actions.addDynamicItem(rect));
-  } catch (ex) {}
+  } catch (ex) {
+  } finally {
+    if (yield cancelled()) {
+      yield put(actions.setCursorMode());
+    }
+  }
 }
 
 export { selectSaga };

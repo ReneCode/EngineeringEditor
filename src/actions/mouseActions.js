@@ -19,3 +19,10 @@ export const mouseMove = pt => {
     payload: pt,
   };
 };
+
+export const setCursorMode = mode => {
+  return {
+    type: actionTypes.SET_CURSOR_MODE,
+    payload: mode,
+  };
+};

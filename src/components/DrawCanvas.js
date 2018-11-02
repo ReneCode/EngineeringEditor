@@ -37,15 +37,17 @@ class DrawCanvas extends Component {
   }
 
   drawCursor(context, transform) {
-    const pt = this.snapGrid(this.props.graphic.cursor.pt);
-
-    const r = this.props.graphic.cursor.radiusScreen;
+    const cursor = this.props.graphic.cursor;
+    const pt = this.snapGrid(cursor.pt);
+    const r = cursor.radiusScreen;
 
     context.save();
     context.beginPath();
     context.strokeStyle = "rgba(0,0,0,0.3)";
-    context.fillStyle = "rgba(68,68,85,0.2)";
-    context.arc(pt.x, pt.y, r, 0, 2 * Math.PI);
+    if (cursor.mode === "select") {
+      context.fillStyle = "rgba(68,68,85,0.2)";
+      context.arc(pt.x, pt.y, r, 0, 2 * Math.PI);
+    }
     context.moveTo(pt.x - r * 3, pt.y);
     context.lineTo(pt.x + r * 3, pt.y);
     context.moveTo(pt.x, pt.y - r * 3);
