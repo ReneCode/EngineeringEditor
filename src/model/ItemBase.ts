@@ -4,12 +4,14 @@ import TransformCoordinate from "../common/transformCoordinate";
 type ItemTypes = "list" | "line" | "circle" | "rect";
 
 class ItemBase {
+  id: number;
   pageId: string;
   type: ItemTypes;
 
   constructor(pageId: string, type: ItemTypes) {
     this.pageId = pageId;
     this.type = type;
+    this.id = 0;
   }
 
   toJSON(): object {

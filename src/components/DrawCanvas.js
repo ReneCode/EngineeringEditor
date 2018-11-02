@@ -29,11 +29,11 @@ class DrawCanvas extends Component {
 
   snapGrid(pt) {
     return pt;
-    const useGrid = true;
-    if (useGrid) {
-      // snap to grid
-      // return pt.snap(canvas.gridX, canvas.gridY);
-    }
+    // const useGrid = true;
+    // if (useGrid) {
+    // snap to grid
+    // return pt.snap(canvas.gridX, canvas.gridY);
+    // }
   }
 
   drawCursor(context, transform) {

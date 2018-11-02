@@ -5,6 +5,7 @@ import { createCircleSaga } from "../sagas/createCircleSaga";
 import * as IaTypes from "../actions/interactionTypes";
 import { zoomWindowSaga } from "./zoomSaga";
 import { selectSaga } from "./selectSaga";
+import { deleteItemSaga } from "./deleteItemSaga";
 
 function* startInteractionSaga(action) {
   const iaType = action.payload;
@@ -22,6 +23,10 @@ function* startInteractionSaga(action) {
       break;
     case IaTypes.IA_SELECT:
       yield call(selectSaga);
+      break;
+
+    case IaTypes.IA_DELETE_ITEM:
+      yield call(deleteItemSaga);
       break;
 
     default:

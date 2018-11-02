@@ -7,6 +7,7 @@ import {
   IA_CREATE_CIRCLE,
   IA_CREATE_LINE,
   IA_ZOOM_WINDOW,
+  IA_DELETE_ITEM,
 } from "../../actions/interactionTypes";
 
 class DrawingWorkspace extends Component {
@@ -17,6 +18,10 @@ class DrawingWorkspace extends Component {
 
   onSelect = () => {
     this.props.dispatch(actions.startInteraction(IA_SELECT));
+  };
+
+  onDelete = () => {
+    this.props.dispatch(actions.startInteraction(IA_DELETE_ITEM));
   };
 
   onLine = () => {
@@ -36,6 +41,10 @@ class DrawingWorkspace extends Component {
         <button className="button" onClick={this.onSelect}>
           Select
         </button>
+        <button className="button" onClick={this.onDelete}>
+          Delete Item
+        </button>
+
         <button className="button" onClick={this.onLine}>
           Line
         </button>

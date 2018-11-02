@@ -2,7 +2,6 @@ import * as actionTypes from "../actions/actionTypes";
 import ItemLine from "../model/ItemLine";
 import Point from "../common/point";
 import ItemBase from "../model/ItemBase";
-// import ItemBase from "../model/ItemBase";
 
 // interface IState {
 //   item: ItemBase[],
@@ -33,6 +32,35 @@ const initialState = {
   },
 };
 
+const removeDynamicItems = (state, action) => {
+  let dynamicItems;
+  if (Array.isArray(action.payload)) {
+    dynamicItems = state.dynamicItems.filter(
+      i => !action.payload.includes(i),
+    );
+  } else {
+    dynamicItems = state.dynamicItems.filter(
+      i => i !== action.payload,
+    );
+  }
+  return {
+    ...state,
+    dynamicItems,
+  };
+};
+
+const removeGraphicItem = (state, action) => {
+  let items;
+  if (Array.isArray(action.payload)) {
+    items = state.items.filter(i => !action.payload.includes(i));
+  } else {
+    items = state.items.filter(i => i !== action.payload);
+  }
+  return {
+    ...state,
+    items,
+  };
+};
 const graphicReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.SET_GRAPHIC_ITEMS:
@@ -50,10 +78,7 @@ const graphicReducer = (state = initialState, action) => {
         items: state.items.concat(action.payload),
       };
     case actionTypes.REMOVE_GRAPHIC_ITEM:
-      return {
-        ...state,
-        items: state.items.filter(i => i !== action.payload),
-      };
+      return removeGraphicItem(state, action);
 
     case actionTypes.SET_CANVAS_SIZE:
       return {
@@ -90,12 +115,7 @@ const graphicReducer = (state = initialState, action) => {
       };
 
     case actionTypes.REMOVE_DYNAMIC_ITEM:
-      return {
-        ...state,
-        dynamicItems: state.dynamicItems.filter(
-          i => i !== action.payload,
-        ),
-      };
+      return removeDynamicItems(state, action);
 
     case actionTypes.MOUSE_MOVE:
       return {
