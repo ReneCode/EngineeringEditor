@@ -1,6 +1,7 @@
 import * as actionTypes from "../actions/actionTypes";
 import ItemLine from "../model/ItemLine";
 import Point from "../common/point";
+import ItemBase from "../model/ItemBase";
 // import ItemBase from "../model/ItemBase";
 
 // interface IState {
@@ -40,6 +41,9 @@ const graphicReducer = (state = initialState, action) => {
       };
 
     case actionTypes.ADD_GRAPHIC_ITEM:
+      if (!action.payload instanceof ItemBase) {
+        throw new Error("bad item:" + action.payload);
+      }
       return {
         ...state,
         items: state.items.concat(action.payload),

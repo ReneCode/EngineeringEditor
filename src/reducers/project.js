@@ -3,6 +3,26 @@ import * as actionTypes from "../actions/actionTypes";
 const initialState = {
   projectId: undefined,
   pageId: undefined,
+
+  layers: [
+    {
+      name: "draw",
+      color: "#111",
+    },
+    {
+      name: "cursor",
+      color: "#3ee",
+    },
+    {
+      name: "dynamic",
+      color: "#5f5",
+    },
+    {
+      name: "select",
+      color: "#22e",
+      lineDash: [10, 10],
+    },
+  ],
   pages: [],
 };
 

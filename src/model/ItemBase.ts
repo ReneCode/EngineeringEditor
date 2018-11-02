@@ -1,4 +1,3 @@
-// import ItemTypes from "./ItemTypes";
 import Point from "../common/point";
 import TransformCoordinate from "../common/transformCoordinate";
 

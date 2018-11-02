@@ -31,8 +31,8 @@ function* selectSaga() {
       yield put(actions.clearDynamicItems());
     } else {
       yield put(actions.addDynamicItem(selectedItems));
-      yield put(actions.startInteraction(IA_SELECT));
     }
+    yield put(actions.startInteraction(IA_SELECT));
 
     // yield put(actions.addDynamicItem(rect));
   } catch (ex) {}

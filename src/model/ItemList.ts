@@ -1,6 +1,5 @@
 import ItemBase from "./ItemBase";
-import ItemLine from "./ItemLine";
-import ItemCircle from "./ItemCircle";
+import ItemFactory from "./ItemFactory";
 
 class ItemList extends ItemBase {
   items: Array<ItemBase> = [];
@@ -24,16 +23,8 @@ class ItemList extends ItemBase {
     }
     const line = Object.create(ItemList.prototype);
     return (<any>Object).assign(line, json, {
-      items: json.items.map((i: any) => {
-        switch (i.type) {
-          case "line":
-            return ItemLine.fromJSON(i);
-          case "circle":
-            return ItemCircle.fromJSON(i);
-          default:
-            console.log("bad item type:", i.type);
-          // throw new Error("bad item type:" + i.type);
-        }
+      items: json.items.map((item: any) => {
+        return ItemFactory.fromJson(item);
       }),
     });
   }

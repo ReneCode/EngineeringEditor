@@ -2,10 +2,14 @@ import { take, select } from "redux-saga/effects";
 
 import TransformCoordinate from "../common/transformCoordinate";
 
+function* mouseMoveSaga(action) {}
+
 function* getPointSaga(waitingForTypes, options) {
   let useGrid = true;
-  if (options && options.useGrid === false) {
-    useGrid = false;
+  if (options) {
+    if (options.useGrid === false) {
+      useGrid = false;
+    }
   }
 
   if (!Array.isArray(waitingForTypes)) {
@@ -31,4 +35,4 @@ function* getPointSaga(waitingForTypes, options) {
   };
 }
 
-export { getPointSaga };
+export { mouseMoveSaga, getPointSaga };

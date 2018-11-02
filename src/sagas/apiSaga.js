@@ -3,6 +3,7 @@ import { select, call, put } from "redux-saga/effects";
 import getUrl from "../common/getUrl";
 import * as actions from "../actions";
 import ItemList from "../model/ItemList";
+import ItemFactory from "../model/ItemFactory";
 
 function* setPageIdSaga(action) {
   // load the graphic of the active page
@@ -43,7 +44,8 @@ function* saveGraphicItemSaga(action) {
         "Content-Type": "application/json",
       },
     });
-    const newItem = yield result.json();
+    const json = yield result.json();
+    const newItem = ItemFactory.fromJson(json);
     // remote tmp-item
     yield put(actions.removeGraphicItem(item));
     // newItem has .id

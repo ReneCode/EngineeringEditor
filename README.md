@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/ReneCode/EngineeringEditor.svg?branch=master)](https://travis-ci.org/ReneCode/EngineeringEditor)
+
 # EngineeringEditor
 
 started on CodeSandbox

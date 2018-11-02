@@ -46,12 +46,6 @@ class GraphicView extends Component {
     this.props.dispatch(
       actions.setCanvasSize(rect.width, rect.height),
     );
-
-    // const canvas = {
-    //   width: rect.width,
-    //   height: rect.height,
-    // };
-    // this.transform.init(this.props.graphic.viewport, canvas);
   };
 
   onMouseUp = ev => {
