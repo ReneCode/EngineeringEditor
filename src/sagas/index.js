@@ -9,7 +9,6 @@ import {
 } from "../sagas/apiSaga";
 import { startInteractionSaga } from "./startInteractionSaga";
 import { zoomWindowSaga, zoomFullSaga } from "./zoomSaga";
-import { mouseMoveSaga } from "./mouseSaga";
 
 function* rootSagas() {
   yield all([
@@ -20,7 +19,6 @@ function* rootSagas() {
     takeLatest(actionTypes.LOAD_PAGES, loadPagesSaga),
     takeLatest(actionTypes.CREATE_PAGE, createPageSaga),
     takeLatest(actionTypes.SET_PAGE_ID, setPageIdSaga),
-    takeLatest(actionTypes.MOUSE_MOVE, mouseMoveSaga),
   ]);
 }
 

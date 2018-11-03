@@ -1,4 +1,13 @@
-import { put, select, cancelled } from "redux-saga/effects";
+import {
+  put,
+  call,
+  select,
+  cancelled,
+  PutEffect,
+  CallEffect,
+  SelectEffect,
+  Effect,
+} from "redux-saga/effects";
 
 import { getPointSaga } from "./mouseSaga";
 
@@ -7,21 +16,30 @@ import * as actions from "../actions";
 import ItemBase from "../model/ItemBase";
 
 import TransformCoordinate from "../common/transformCoordinate";
+import Point from "../common/point";
 
-function* pickItemsSaga(cursorMode = "select") {
+interface pickItemsSagaResult {
+  point: Point;
+  items: Array<ItemBase>;
+}
+
+function* pickItemsSaga(
+  cursorMode = "select",
+): IterableIterator<pickItemsSagaResult> | IterableIterator<Effect> {
   try {
     const getPointSagaOptions = {
       useGrid: false,
     };
     yield put(actions.setCursorMode(cursorMode));
-    const result = yield getPointSaga(
+    const result = yield call(
+      getPointSaga,
       actionTypes.MOUSE_DOWN,
       getPointSagaOptions,
     );
     if (!result) {
-      return;
+      return null;
     }
-    const point = result.point;
+    const point: Point = result.point;
     const graphic = yield select((state: any) => state.graphic);
     const { canvas, viewport, items, cursor } = graphic;
     const transform = new TransformCoordinate(viewport, canvas);
@@ -29,11 +47,16 @@ function* pickItemsSaga(cursorMode = "select") {
       cursor.radiusScreen,
     );
 
-    const selectedItems = items.filter((item: ItemBase) => {
-      return item.nearPoint(point, pickRadius);
-    });
+    const selectedItems: Array<ItemBase> = items.filter(
+      (item: ItemBase) => {
+        return item.nearPoint(point, pickRadius);
+      },
+    );
     yield put(actions.setCursorMode());
-    return selectedItems;
+    return {
+      point: point,
+      items: selectedItems,
+    };
   } catch (ex) {
   } finally {
     if (yield cancelled()) {

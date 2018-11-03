@@ -1,5 +1,6 @@
 import Point from "../common/point";
 import TransformCoordinate from "../common/transformCoordinate";
+import deepClone from "../common/deepClone";
 
 type ItemTypes = "list" | "line" | "circle" | "rect";
 
@@ -12,6 +13,10 @@ class ItemBase {
     this.pageId = pageId;
     this.type = type;
     this.id = 0;
+  }
+
+  clone(): ItemBase {
+    return deepClone(this);
   }
 
   toJSON(): object {

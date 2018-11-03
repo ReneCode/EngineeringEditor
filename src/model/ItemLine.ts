@@ -2,6 +2,7 @@ import ItemBase from "./ItemBase";
 import Point from "../common/point";
 import TransformCoordinate from "../common/transformCoordinate";
 import Line from "../common/line";
+import deepClone from "../common/deepClone";
 
 class ItemLine extends ItemBase {
   p1: Point;
@@ -50,11 +51,10 @@ class ItemLine extends ItemBase {
   }
 
   translate(pt: Point) {
-    return new ItemLine(
-      this.pageId,
-      this.p1.add(pt),
-      this.p2.add(pt),
-    );
+    const line = deepClone(this);
+    line.p1 = line.p1.add(pt);
+    line.p2 = line.p2.add(pt);
+    return line;
   }
 }
 

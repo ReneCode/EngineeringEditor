@@ -2,6 +2,7 @@ import ItemBase from "./ItemBase";
 import Point from "../common/point";
 import TransformCoordinate from "../common/transformCoordinate";
 import Arc from "../common/arc";
+import deepClone from "../common/deepClone";
 
 class ItemCircle extends ItemBase {
   pt: Point;
@@ -47,7 +48,9 @@ class ItemCircle extends ItemBase {
   }
 
   translate(pt: Point): ItemCircle {
-    return new ItemCircle(this.pageId, this.pt.add(pt), this.radius);
+    const circle = deepClone(this);
+    circle.pt = circle.pt.add(pt);
+    return circle;
   }
 }
 

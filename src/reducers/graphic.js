@@ -67,11 +67,30 @@ const addDynamicItem = (state, action) => {
   if (!Array.isArray(newItems)) {
     newItems = [newItems];
   }
-  // remote items, that are allready in state.dynamicItems
+  // remove items, that are allready in state.dynamicItems
   newItems = newItems.filter(i => !state.dynamicItems.includes(i));
   return {
     ...state,
     dynamicItems: state.dynamicItems.concat(newItems),
+  };
+};
+
+const changeGraphicItem = (state, action) => {
+  let newItems = action.payload;
+  if (!Array.isArray(newItems)) {
+    newItems = [newItems];
+  }
+  return {
+    ...state,
+    items: state.items.map(currentItem => {
+      // debugger;
+      const newItem = newItems.find(i => i.id == currentItem.id);
+      if (newItem) {
+        return newItem;
+      } else {
+        return currentItem;
+      }
+    }),
   };
 };
 
@@ -93,6 +112,9 @@ const graphicReducer = (state = initialState, action) => {
       };
     case actionTypes.REMOVE_GRAPHIC_ITEM:
       return removeGraphicItem(state, action);
+
+    case actionTypes.CHANGE_GRAPHIC_ITEM:
+      return changeGraphicItem(state, action);
 
     case actionTypes.SET_CANVAS_SIZE:
       return {

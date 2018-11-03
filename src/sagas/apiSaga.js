@@ -1,4 +1,4 @@
-import { select, call, put } from "redux-saga/effects";
+import { select, call, put, all } from "redux-saga/effects";
 
 import getUrl from "../common/getUrl";
 import * as actions from "../actions";
@@ -86,7 +86,23 @@ function* createPageSaga(action) {
   } catch (err) {}
 }
 
+function* apiChangeGraphicItem(items) {
+  const baseUrl = getUrl("graphics");
+  const calls = items.map(item => {
+    const url = `${baseUrl}/${item.id}`;
+    return call(fetch, url, {
+      method: "PUT",
+      body: JSON.stringify(item),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  });
+  yield all(calls);
+}
+
 export {
+  apiChangeGraphicItem,
   setPageIdSaga,
   saveGraphicItemSaga,
   loadPagesSaga,

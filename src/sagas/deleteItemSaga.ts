@@ -21,7 +21,8 @@ function* deleteItemSaga() {
       (state: any) => state.graphic.dynamicItems,
     );
     if (dynamicItems.length === 0) {
-      itemsToDelete = yield call(pickItemsSaga, "delete");
+      const { items } = yield call(pickItemsSaga, "delete");
+      itemsToDelete = items;
     } else {
       itemsToDelete = dynamicItems;
     }

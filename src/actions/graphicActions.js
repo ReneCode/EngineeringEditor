@@ -7,6 +7,13 @@ export const saveGraphicItem = item => {
   };
 };
 
+export const deleteGraphicItem = item => {
+  return {
+    type: actionTypes.DELETE_GRAPHIC_ITEM,
+    payload: item,
+  };
+};
+
 export const setCanvasSize = (width, height) => {
   return {
     type: actionTypes.SET_CANVAS_SIZE,
@@ -46,6 +53,14 @@ export const addGraphicItem = item => {
 export const removeGraphicItem = item => {
   return {
     type: actionTypes.REMOVE_GRAPHIC_ITEM,
+    payload: item,
+  };
+};
+
+// identify item to exchange by .id
+export const changeGraphicItem = item => {
+  return {
+    type: actionTypes.CHANGE_GRAPHIC_ITEM,
     payload: item,
   };
 };
