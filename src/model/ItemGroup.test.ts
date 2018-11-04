@@ -1,26 +1,27 @@
 import ItemLine from "./ItemLine";
 import ItemCircle from "./ItemCircle";
-import ItemList from "./ItemList";
+import ItemGroup from "./ItemGroup";
 import Point from "../common/point";
+import ItemFactory from "./ItemFactory";
 
-describe("ItemList", () => {
-  let list: ItemList;
+describe("ItemGroup", () => {
+  let group: ItemGroup;
   let json: object;
 
   beforeEach(() => {
-    list = new ItemList("pageId");
-    list.items.push(
+    group = new ItemGroup("pageId");
+    group.items.push(
       new ItemLine("abc", new Point(4, 5), new Point(7, 8)),
     );
-    list.items.push(
+    group.items.push(
       new ItemLine("xyz", new Point(1, 2), new Point(3, 4)),
     );
-    list.items.push(new ItemCircle("abc", new Point(3, 4), 22));
+    group.items.push(new ItemCircle("abc", new Point(3, 4), 22));
 
     json = {
       id: 0,
       pageId: "pageId",
-      type: "list",
+      type: "group",
       items: [
         {
           id: 0,
@@ -47,14 +48,14 @@ describe("ItemList", () => {
     };
   });
 
-  it("create json from ItemList", () => {
-    const json = list.toJSON();
+  it("create json from ItemGroup", () => {
+    const json = group.toJSON();
     expect(json).toEqual(json);
   });
 
-  it("create ItemList from json", () => {
-    const newList = ItemList.fromJSON(json);
-    expect(newList).toEqual(list);
-    expect(newList instanceof ItemList).toBe(true);
+  it("create ItemGroup from json", () => {
+    const newGroup = ItemFactory.fromJSON(json);
+    expect(newGroup).toEqual(group);
+    expect(newGroup instanceof ItemGroup).toBe(true);
   });
 });

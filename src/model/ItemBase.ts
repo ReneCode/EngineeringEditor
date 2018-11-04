@@ -2,7 +2,7 @@ import Point from "../common/point";
 import TransformCoordinate from "../common/transformCoordinate";
 import deepClone from "../common/deepClone";
 
-type ItemTypes = "list" | "line" | "circle" | "rect";
+type ItemTypes = "group" | "line" | "circle" | "rect";
 
 class ItemBase {
   id: number;
