@@ -2,6 +2,7 @@ import ItemBase from "./ItemBase";
 import ItemFactory from "./ItemFactory";
 import TransformCoordinate from "../common/transformCoordinate";
 import Point from "../common/point";
+import deepClone from "../common/deepClone";
 
 class ItemGroup extends ItemBase {
   items: Array<ItemBase> = [];
@@ -40,11 +41,17 @@ class ItemGroup extends ItemBase {
   }
 
   nearPoint(pt: Point, radius: number): boolean {
-    return false;
-    // const item = this.items.find((item: ItemBase) =>
-    //   item.nearPoint(pt, radius),
-    // );
-    // return item !== null;
+    return this.items.some((item: ItemBase) =>
+      item.nearPoint(pt, radius),
+    );
+  }
+
+  translate(pt: Point): ItemBase {
+    const group = deepClone(this);
+    group.items = group.items.map((item: ItemBase) =>
+      item.translate(pt),
+    );
+    return group;
   }
 }
 

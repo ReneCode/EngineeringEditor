@@ -3,8 +3,6 @@ import ItemLine from "./ItemLine";
 import ItemCircle from "./ItemCircle";
 import ItemGroup from "./ItemGroup";
 
-type ItemTypes = "list" | "line" | "circle" | "rect";
-
 class ItemFactory {
   static fromJSON(json: any): ItemBase | Array<ItemBase> {
     if (Array.isArray(json)) {

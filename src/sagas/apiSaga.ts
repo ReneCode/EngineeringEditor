@@ -45,11 +45,21 @@ function* apiSaveGraphicItemSaga(item: ItemBase) {
     const json = yield result.json();
     const newItem = ItemFactory.fromJSON(json);
     return newItem;
-    // // remote tmp-item
-    // yield put(actions.removeGraphicItem(item));
-    // // newItem has .id
-    // yield put(actions.addGraphicItem(newItem));
   } catch (err) {}
+}
+
+function* apiDeleteGraphicItemSaga(items: ItemBase[]) {
+  if (!Array.isArray(items)) {
+    items = [items];
+  }
+  const baseUrl = getUrl("graphics");
+  const calls = items.map((item: ItemBase) => {
+    const url = `${baseUrl}/${item.id}`;
+    return call(fetch, url, {
+      method: "DELETE",
+    });
+  });
+  yield all(calls);
 }
 
 function* loadPagesSaga(action: any) {
@@ -110,4 +120,5 @@ export {
   apiSaveGraphicItemSaga,
   loadPagesSaga,
   createPageSaga,
+  apiDeleteGraphicItemSaga,
 };

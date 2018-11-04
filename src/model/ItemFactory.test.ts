@@ -1,7 +1,4 @@
 import ItemLine from "./ItemLine";
-import ItemCircle from "./ItemCircle";
-import ItemGroup from "./ItemGroup";
-import Point from "../common/point";
 import ItemFactory from "./ItemFactory";
 import ItemBase from "./ItemBase";
 
@@ -38,7 +35,7 @@ describe("ItemFactory", () => {
       },
     ];
 
-    const items: ItemBase[] = ItemFactory.fromJSON(json);
+    const items = ItemFactory.fromJSON(json);
     expect(Array.isArray(items)).toBeTruthy();
     expect(items[0] instanceof ItemLine).toBe(true);
   });
