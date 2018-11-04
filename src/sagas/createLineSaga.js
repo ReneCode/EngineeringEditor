@@ -33,8 +33,12 @@ function* createLineSaga() {
         if (result.type === actionTypes.MOUSE_MOVE) {
           yield put(actions.addDynamicItem(line));
         } else {
-          yield put(actions.saveGraphicItem(line));
-          yield put(actions.startInteraction(IA_CREATE_LINE));
+          if (!secondPoint.equal(startPoint)) {
+            yield put(actions.saveGraphicItem(line));
+            yield put(actions.startInteraction(IA_CREATE_LINE));
+          } else {
+            run = false;
+          }
         }
       }
     }

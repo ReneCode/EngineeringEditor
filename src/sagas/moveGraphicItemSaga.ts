@@ -22,13 +22,19 @@ function* moveGraphicItemSaga(p1: Point | null = null) {
     }
     const originalItems = deepClone(dynamicItems);
     if (p1 === null) {
-      const result = yield call(getPointSaga, MOUSE_DOWN);
+      const result = yield call(getPointSaga, MOUSE_DOWN, {
+        useGrid: false,
+      });
       p1 = result.point;
     }
 
     let run = true;
     while (run) {
-      const result = yield call(getPointSaga, [MOUSE_MOVE, MOUSE_UP]);
+      const result = yield call(
+        getPointSaga,
+        [MOUSE_MOVE, MOUSE_UP],
+        { useGrid: false },
+      );
       let p2 = result.point;
       const delta = p2.sub(p1);
       const movedItems = originalItems.map((item: ItemBase) =>

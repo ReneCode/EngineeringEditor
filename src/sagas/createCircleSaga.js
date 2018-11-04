@@ -34,8 +34,12 @@ function* createCircleSaga() {
         if (result.type === actionTypes.MOUSE_MOVE) {
           yield put(actions.addDynamicItem(circle));
         } else {
-          yield put(actions.saveGraphicItem(circle));
-          yield put(actions.startInteraction(IA_CREATE_CIRCLE));
+          if (radius > 0) {
+            yield put(actions.saveGraphicItem(circle));
+            yield put(actions.startInteraction(IA_CREATE_CIRCLE));
+          } else {
+            run = false;
+          }
         }
       }
     }
