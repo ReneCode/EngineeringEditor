@@ -1,4 +1,4 @@
-import { put, cancelled } from "redux-saga/effects";
+import { put, call, cancelled } from "redux-saga/effects";
 
 import { getPointSaga } from "./mouseSaga";
 
@@ -16,7 +16,7 @@ function* createLineSaga() {
       return;
     }
     const startPoint = result.point;
-    line = new ItemLine(null, startPoint, startPoint);
+    line = new ItemLine("", startPoint, startPoint);
     yield put(actions.addSelectedItem(line));
     let run = true;
     while (run) {
@@ -29,10 +29,12 @@ function* createLineSaga() {
       } else {
         const secondPoint = result.point;
         yield put(actions.removeSelectedItem(line));
-        line = new ItemLine(null, startPoint, secondPoint);
+        line = new ItemLine("", startPoint, secondPoint);
         if (result.type === actionTypes.MOUSE_MOVE) {
+          // rubberband
           yield put(actions.addSelectedItem(line));
         } else {
+          // finish line
           if (!secondPoint.equal(startPoint)) {
             yield put(actions.saveGraphicItem(line));
             yield put(actions.startInteraction(IA_CREATE_LINE));

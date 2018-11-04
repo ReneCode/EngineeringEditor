@@ -3,8 +3,10 @@ import { select, call, put, all } from "redux-saga/effects";
 import getUrl from "../common/getUrl";
 import * as actions from "../actions";
 import ItemFactory from "../model/ItemFactory";
+import ItemBase from "../model/ItemBase";
+import { debug } from "util";
 
-function* setPageIdSaga(action) {
+function* setPageIdSaga(action: any) {
   // load the graphic of the active page
   const pageId = action.payload;
   const url = getUrl("graphics") + `?pageId=${pageId}`;
@@ -15,16 +17,17 @@ function* setPageIdSaga(action) {
   yield put(actions.zoomFull());
 }
 
-function* saveGraphicItemSaga(action) {
+function* apiSaveGraphicItemSaga(item: ItemBase) {
   try {
-    const item = action.payload;
-
-    // add store
-    yield put(actions.addGraphicItem(item));
+    if (!(item instanceof ItemBase)) {
+      throw new Error("bad item:" + item);
+    }
 
     // save to database
-    const projectId = yield select(state => state.project.projectId);
-    const pageId = yield select(state => state.project.pageId);
+    const projectId = yield select(
+      (state: any) => state.project.projectId,
+    );
+    const pageId = yield select((state: any) => state.project.pageId);
     const saveItem = {
       ...item,
       pageId,
@@ -40,15 +43,16 @@ function* saveGraphicItemSaga(action) {
       },
     });
     const json = yield result.json();
-    const newItem = ItemFactory.fromJson(json);
-    // remote tmp-item
-    yield put(actions.removeGraphicItem(item));
-    // newItem has .id
-    yield put(actions.addGraphicItem(newItem));
+    const newItem = ItemFactory.fromJSON(json);
+    return newItem;
+    // // remote tmp-item
+    // yield put(actions.removeGraphicItem(item));
+    // // newItem has .id
+    // yield put(actions.addGraphicItem(newItem));
   } catch (err) {}
 }
 
-function* loadPagesSaga(action) {
+function* loadPagesSaga(action: any) {
   try {
     const projectId = action.payload;
     const url = `${getUrl("pages")}?projectId=${projectId}`;
@@ -58,7 +62,7 @@ function* loadPagesSaga(action) {
   } catch (err) {}
 }
 
-function* createPageSaga(action) {
+function* createPageSaga(action: any) {
   try {
     const { projectId, page, callback } = action.payload;
     // TODO should do the backend on POST /pages/<projectId>
@@ -81,13 +85,13 @@ function* createPageSaga(action) {
   } catch (err) {}
 }
 
-function* apiChangeGraphicItem(action) {
+function* apiChangeGraphicItem(action: any) {
   let items = action.payload;
   if (!Array.isArray(items)) {
     items = [items];
   }
   const baseUrl = getUrl("graphics");
-  const calls = items.map(item => {
+  const calls = items.map((item: ItemBase) => {
     const url = `${baseUrl}/${item.id}`;
     return call(fetch, url, {
       method: "PUT",
@@ -103,7 +107,7 @@ function* apiChangeGraphicItem(action) {
 export {
   apiChangeGraphicItem,
   setPageIdSaga,
-  saveGraphicItemSaga,
+  apiSaveGraphicItemSaga,
   loadPagesSaga,
   createPageSaga,
 };

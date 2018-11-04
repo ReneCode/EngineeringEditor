@@ -6,14 +6,16 @@ import ItemBase from "../model/ItemBase";
 interface IGraphicState {
   items: ItemBase[];
   selectedItems: ItemBase[];
+  tempItems: ItemBase[];
   cursor: object;
   viewport: object;
   canvas: object;
 }
 
 const initialState: IGraphicState = {
-  items: [new ItemLine("", new Point(0, 0), new Point(250, 200))],
+  items: [],
   selectedItems: [],
+  tempItems: [],
   cursor: {
     pt: new Point(0, 0),
     radiusScreen: 20,

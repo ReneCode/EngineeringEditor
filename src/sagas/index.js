@@ -2,7 +2,6 @@ import { all, takeLatest } from "redux-saga/effects";
 
 import * as actionTypes from "../actions/actionTypes";
 import {
-  saveGraphicItemSaga,
   loadPagesSaga,
   createPageSaga,
   setPageIdSaga,
@@ -10,6 +9,7 @@ import {
 } from "../sagas/apiSaga";
 import { startInteractionSaga } from "./startInteractionSaga";
 import { zoomWindowSaga, zoomFullSaga } from "./zoomSaga";
+import { saveGraphicItemSaga } from "./saveGraphicItemSaga";
 
 function* rootSagas() {
   yield all([

@@ -1,6 +1,7 @@
 import { put, call, cancelled } from "redux-saga/effects";
 
 import { getPointSaga } from "./mouseSaga";
+import { apiSaveGraphicItemSaga } from "../sagas/apiSaga";
 
 import * as actionTypes from "../actions/actionTypes";
 import * as actions from "../actions";
@@ -16,7 +17,7 @@ function* createCircleSaga() {
       return;
     }
     const middlePoint = result.point;
-    circle = new ItemCircle(null, middlePoint, 0);
+    circle = new ItemCircle("", middlePoint, 0);
     yield put(actions.addSelectedItem(circle));
     let run = true;
     while (run) {
@@ -30,7 +31,7 @@ function* createCircleSaga() {
         const secondPoint = result.point;
         const radius = secondPoint.sub(middlePoint).length();
         yield put(actions.removeSelectedItem(circle));
-        circle = new ItemCircle(null, middlePoint, radius);
+        circle = new ItemCircle("", middlePoint, radius);
         if (result.type === actionTypes.MOUSE_MOVE) {
           yield put(actions.addSelectedItem(circle));
         } else {
