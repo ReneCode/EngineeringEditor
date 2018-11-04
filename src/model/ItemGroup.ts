@@ -40,10 +40,11 @@ class ItemGroup extends ItemBase {
   }
 
   nearPoint(pt: Point, radius: number): boolean {
-    const item = this.items.find((item: ItemBase) =>
-      item.nearPoint(pt, radius),
-    );
-    return item !== null;
+    return false;
+    // const item = this.items.find((item: ItemBase) =>
+    //   item.nearPoint(pt, radius),
+    // );
+    // return item !== null;
   }
 }
 
