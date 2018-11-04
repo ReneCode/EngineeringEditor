@@ -28,3 +28,7 @@ https://medium.com/@tacomanator/environments-with-create-react-app-7b645312c09d
 ### deploy with travis / azure
 
 http://sviridovserg.com/2017/05/16/cd-with-travis-and-azure/
+
+### typescript
+
+https://github.com/Microsoft/TypeScript-React-Starter#typescript-react-starter

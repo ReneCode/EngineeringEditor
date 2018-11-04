@@ -9,6 +9,7 @@ import {
   IA_CREATE_LINE,
   IA_ZOOM_WINDOW,
   IA_DELETE_ITEM,
+  IA_CREATE_GROUP,
 } from "../../actions/interactionTypes";
 
 class DrawingWorkspace extends Component {
@@ -36,6 +37,10 @@ class DrawingWorkspace extends Component {
     this.props.dispatch(actions.startInteraction(IA_CREATE_CIRCLE));
   };
 
+  onGroup = () => {
+    this.props.dispatch(actions.startInteraction(IA_CREATE_GROUP));
+  };
+
   onZoomWindow = () => {
     this.props.dispatch(actions.startInteraction(IA_ZOOM_WINDOW));
   };
@@ -57,6 +62,9 @@ class DrawingWorkspace extends Component {
         </button>
         <button className="button" onClick={this.onCircle}>
           Circle
+        </button>
+        <button className="button" onClick={this.onGroup}>
+          Group
         </button>
         <button className="button" onClick={this.onZoomWindow}>
           Zoom window

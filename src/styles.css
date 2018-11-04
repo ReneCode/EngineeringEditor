@@ -157,7 +157,8 @@ nav.menu .text {
 
 .drawingworkspace {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 .canvas {
   cursor: none;

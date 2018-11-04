@@ -1,6 +1,7 @@
 import ItemBase from "./ItemBase";
 import ItemFactory from "./ItemFactory";
 import TransformCoordinate from "../common/transformCoordinate";
+import Point from "../common/point";
 
 class ItemGroup extends ItemBase {
   items: Array<ItemBase> = [];
@@ -36,6 +37,13 @@ class ItemGroup extends ItemBase {
     this.items.forEach((item: ItemBase) => {
       item.draw(context, transform);
     });
+  }
+
+  nearPoint(pt: Point, radius: number): boolean {
+    const item = this.items.find((item: ItemBase) =>
+      item.nearPoint(pt, radius),
+    );
+    return item !== null;
   }
 }
 
