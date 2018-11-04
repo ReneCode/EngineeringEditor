@@ -17,18 +17,18 @@ import { IA_DELETE_ITEM } from "../actions/interactionTypes";
 function* deleteItemSaga() {
   let itemsToDelete = [];
   try {
-    const dynamicItems = yield select(
-      (state: any) => state.graphic.dynamicItems,
+    const selectedItems = yield select(
+      (state: any) => state.graphic.selectedItems,
     );
-    if (dynamicItems.length === 0) {
+    if (selectedItems.length === 0) {
       const { items } = yield call(pickItemsSaga, "delete");
       itemsToDelete = items;
     } else {
-      itemsToDelete = dynamicItems;
+      itemsToDelete = selectedItems;
     }
 
     yield put(actions.removeGraphicItem(itemsToDelete));
-    yield put(actions.removeDynamicItem(itemsToDelete));
+    yield put(actions.removeSelectedItem(itemsToDelete));
 
     const baseUrl = getUrl("graphics");
     const calls = itemsToDelete.map((item: ItemBase) => {

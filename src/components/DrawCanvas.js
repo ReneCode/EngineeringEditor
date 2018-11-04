@@ -8,17 +8,17 @@ class DrawCanvas extends Component {
     context.clearRect(0, 0, canvas.width, canvas.height);
 
     const items = this.props.graphic.items;
-    const dynamicItems = this.props.graphic.dynamicItems;
+    const selectedItems = this.props.graphic.selectedItems;
 
-    // only draw such itmes that are NOT in the dynamic list
+    // only draw such itmes that are NOT in the selected list
     items.forEach(item => {
-      if (!dynamicItems.find(i => i.id === item.id)) {
+      if (!selectedItems.find(i => i.id === item.id)) {
         item.draw(context, transform);
       }
     });
 
-    // dynamic items
-    dynamicItems.forEach(item => {
+    // selected items
+    selectedItems.forEach(item => {
       context.save();
       context.setLineDash([5, 5]);
       item.draw(context, transform, { selected: true });

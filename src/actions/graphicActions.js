@@ -65,22 +65,22 @@ export const changeGraphicItem = item => {
   };
 };
 
-export const addDynamicItem = item => {
+export const addSelectedItem = item => {
   return {
-    type: actionTypes.ADD_DYNAMIC_ITEM,
+    type: actionTypes.ADD_SELECTED_ITEM,
     payload: item,
   };
 };
 
-export const removeDynamicItem = item => {
+export const removeSelectedItem = item => {
   return {
-    type: actionTypes.REMOVE_DYNAMIC_ITEM,
+    type: actionTypes.REMOVE_SELECTED_ITEM,
     payload: item,
   };
 };
 
-export const clearDynamicItems = () => {
+export const clearSelectedItem = () => {
   return {
-    type: actionTypes.CLEAR_DYNAMIC_ITEMS,
+    type: actionTypes.CLEAR_SELECTED_ITEM,
   };
 };

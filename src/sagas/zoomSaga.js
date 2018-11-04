@@ -50,7 +50,7 @@ function* zoomWindowSaga() {
     }
     const startPoint = result.point;
     rect = new ItemRect(null, startPoint, startPoint);
-    yield put(actions.addDynamicItem(rect));
+    yield put(actions.addSelectedItem(rect));
     let run = true;
     while (run) {
       const result = yield getPointSaga(
@@ -61,10 +61,10 @@ function* zoomWindowSaga() {
         run = false;
       } else {
         const secondPoint = result.point;
-        yield put(actions.removeDynamicItem(rect));
+        yield put(actions.removeSelectedItem(rect));
         rect = new ItemRect(null, startPoint, secondPoint);
         if (result.type === actionTypes.MOUSE_MOVE) {
-          yield put(actions.addDynamicItem(rect));
+          yield put(actions.addSelectedItem(rect));
         } else {
           // window finished
           run = false;
@@ -75,7 +75,7 @@ function* zoomWindowSaga() {
   } catch (ex) {
   } finally {
     if (yield cancelled()) {
-      yield put(actions.removeDynamicItem(rect));
+      yield put(actions.removeSelectedItem(rect));
     }
   }
 }

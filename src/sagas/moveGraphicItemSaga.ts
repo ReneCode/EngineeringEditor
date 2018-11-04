@@ -14,13 +14,13 @@ import Point from "../common/point";
 
 function* moveGraphicItemSaga(p1: Point | null = null) {
   try {
-    const dynamicItems = yield select(
-      (state: any) => state.graphic.dynamicItems,
+    const selectedItems = yield select(
+      (state: any) => state.graphic.selectedItems,
     );
-    if (dynamicItems.length === 0) {
+    if (selectedItems.length === 0) {
       return;
     }
-    const originalItems = deepClone(dynamicItems);
+    const originalItems = deepClone(selectedItems);
     if (p1 === null) {
       const result = yield call(getPointSaga, MOUSE_DOWN, {
         useGrid: false,
@@ -40,9 +40,9 @@ function* moveGraphicItemSaga(p1: Point | null = null) {
       const movedItems = originalItems.map((item: ItemBase) =>
         item.translate(delta),
       );
-      yield put(actions.clearDynamicItems());
+      yield put(actions.clearSelectedItem());
       if (result.type === MOUSE_MOVE) {
-        yield put(actions.addDynamicItem(movedItems));
+        yield put(actions.addSelectedItem(movedItems));
       } else {
         run = false;
         yield put(actions.changeGraphicItem(movedItems));

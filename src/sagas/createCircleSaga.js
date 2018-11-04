@@ -17,7 +17,7 @@ function* createCircleSaga() {
     }
     const middlePoint = result.point;
     circle = new ItemCircle(null, middlePoint, 0);
-    yield put(actions.addDynamicItem(circle));
+    yield put(actions.addSelectedItem(circle));
     let run = true;
     while (run) {
       const result = yield getPointSaga([
@@ -29,10 +29,10 @@ function* createCircleSaga() {
       } else {
         const secondPoint = result.point;
         const radius = secondPoint.sub(middlePoint).length();
-        yield put(actions.removeDynamicItem(circle));
+        yield put(actions.removeSelectedItem(circle));
         circle = new ItemCircle(null, middlePoint, radius);
         if (result.type === actionTypes.MOUSE_MOVE) {
-          yield put(actions.addDynamicItem(circle));
+          yield put(actions.addSelectedItem(circle));
         } else {
           if (radius > 0) {
             yield put(actions.saveGraphicItem(circle));
@@ -46,7 +46,7 @@ function* createCircleSaga() {
   } catch (ex) {
   } finally {
     if (yield cancelled()) {
-      yield put(actions.removeDynamicItem(circle));
+      yield put(actions.removeSelectedItem(circle));
     }
   }
 }

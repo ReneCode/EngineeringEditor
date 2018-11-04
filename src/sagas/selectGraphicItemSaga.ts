@@ -18,9 +18,9 @@ function* selectGraphicItemSaga() {
   try {
     const { items, point } = yield call(pickItemsSaga, "select");
     if (items.length === 0) {
-      yield put(actions.clearDynamicItems());
+      yield put(actions.clearSelectedItem());
     } else {
-      yield put(actions.addDynamicItem(items));
+      yield put(actions.addSelectedItem(items));
 
       // when mouse-up receives in the next 100 ms
       // then selectSaga is finished

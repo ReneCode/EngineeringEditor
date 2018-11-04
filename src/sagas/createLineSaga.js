@@ -17,7 +17,7 @@ function* createLineSaga() {
     }
     const startPoint = result.point;
     line = new ItemLine(null, startPoint, startPoint);
-    yield put(actions.addDynamicItem(line));
+    yield put(actions.addSelectedItem(line));
     let run = true;
     while (run) {
       const result = yield getPointSaga([
@@ -28,10 +28,10 @@ function* createLineSaga() {
         run = false;
       } else {
         const secondPoint = result.point;
-        yield put(actions.removeDynamicItem(line));
+        yield put(actions.removeSelectedItem(line));
         line = new ItemLine(null, startPoint, secondPoint);
         if (result.type === actionTypes.MOUSE_MOVE) {
-          yield put(actions.addDynamicItem(line));
+          yield put(actions.addSelectedItem(line));
         } else {
           if (!secondPoint.equal(startPoint)) {
             yield put(actions.saveGraphicItem(line));
@@ -45,7 +45,7 @@ function* createLineSaga() {
   } catch (ex) {
   } finally {
     if (yield cancelled()) {
-      yield put(actions.removeDynamicItem(line));
+      yield put(actions.removeSelectedItem(line));
     }
   }
 }

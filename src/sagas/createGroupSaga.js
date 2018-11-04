@@ -1,3 +1,0 @@
-function* createGroupSaga() {}
-
-export { createGroupSaga };

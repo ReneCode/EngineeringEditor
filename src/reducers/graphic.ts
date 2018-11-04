@@ -3,16 +3,17 @@ import ItemLine from "../model/ItemLine";
 import Point from "../common/point";
 import ItemBase from "../model/ItemBase";
 
-// interface IState {
-//   item: ItemBase[],
-//   dynamicItems: ItemBase[],
-//   cursor:  object,
-//   viewport: object,
-//   canvas: object
-// }
-const initialState = {
-  items: [new ItemLine(null, new Point(0, 0), new Point(250, 200))],
-  dynamicItems: [],
+interface IGraphicState {
+  items: ItemBase[];
+  selectedItems: ItemBase[];
+  cursor: object;
+  viewport: object;
+  canvas: object;
+}
+
+const initialState: IGraphicState = {
+  items: [new ItemLine("", new Point(0, 0), new Point(250, 200))],
+  selectedItems: [],
   cursor: {
     pt: new Point(0, 0),
     radiusScreen: 20,
@@ -32,24 +33,24 @@ const initialState = {
   },
 };
 
-const removeDynamicItems = (state, action) => {
-  let dynamicItems;
+const removeSelectedItems = (state: IGraphicState, action: any) => {
+  let selectedItems;
   if (Array.isArray(action.payload)) {
-    dynamicItems = state.dynamicItems.filter(
+    selectedItems = state.selectedItems.filter(
       i => !action.payload.includes(i),
     );
   } else {
-    dynamicItems = state.dynamicItems.filter(
+    selectedItems = state.selectedItems.filter(
       i => i !== action.payload,
     );
   }
   return {
     ...state,
-    dynamicItems,
+    selectedItems,
   };
 };
 
-const removeGraphicItem = (state, action) => {
+const removeGraphicItem = (state: IGraphicState, action: any) => {
   let items;
   if (Array.isArray(action.payload)) {
     items = state.items.filter(i => !action.payload.includes(i));
@@ -62,20 +63,22 @@ const removeGraphicItem = (state, action) => {
   };
 };
 
-const addDynamicItem = (state, action) => {
+const addSelectedItem = (state: IGraphicState, action: any) => {
   let newItems = action.payload;
   if (!Array.isArray(newItems)) {
     newItems = [newItems];
   }
-  // remove items, that are allready in state.dynamicItems
-  newItems = newItems.filter(i => !state.dynamicItems.includes(i));
+  // remove items, that are allready in state.selectedItems
+  newItems = newItems.filter(
+    (i: ItemBase) => state.selectedItems.indexOf(i) < 0,
+  );
   return {
     ...state,
-    dynamicItems: state.dynamicItems.concat(newItems),
+    selectedItems: state.selectedItems.concat(newItems),
   };
 };
 
-const changeGraphicItem = (state, action) => {
+const changeGraphicItem = (state: IGraphicState, action: any) => {
   let newItems = action.payload;
   if (!Array.isArray(newItems)) {
     newItems = [newItems];
@@ -84,7 +87,9 @@ const changeGraphicItem = (state, action) => {
     ...state,
     items: state.items.map(currentItem => {
       // debugger;
-      const newItem = newItems.find(i => i.id === currentItem.id);
+      const newItem = newItems.find(
+        (i: ItemBase) => i.id === currentItem.id,
+      );
       if (newItem) {
         return newItem;
       } else {
@@ -94,7 +99,7 @@ const changeGraphicItem = (state, action) => {
   };
 };
 
-const graphicReducer = (state = initialState, action) => {
+const graphicReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case actionTypes.SET_GRAPHIC_ITEMS:
       return {
@@ -103,9 +108,9 @@ const graphicReducer = (state = initialState, action) => {
       };
 
     case actionTypes.ADD_GRAPHIC_ITEM:
-      if (!action.payload instanceof ItemBase) {
-        throw new Error("bad item:" + action.payload);
-      }
+      // if (!action.payload instanceof ItemBase) {
+      //   throw new Error("bad item:" + action.payload);
+      // }
       return {
         ...state,
         items: state.items.concat(action.payload),
@@ -138,17 +143,17 @@ const graphicReducer = (state = initialState, action) => {
         },
       };
 
-    case actionTypes.CLEAR_DYNAMIC_ITEMS:
+    case actionTypes.CLEAR_SELECTED_ITEM:
       return {
         ...state,
-        dynamicItems: [],
+        selectedItems: [],
       };
 
-    case actionTypes.ADD_DYNAMIC_ITEM:
-      return addDynamicItem(state, action);
+    case actionTypes.ADD_SELECTED_ITEM:
+      return addSelectedItem(state, action);
 
-    case actionTypes.REMOVE_DYNAMIC_ITEM:
-      return removeDynamicItems(state, action);
+    case actionTypes.REMOVE_SELECTED_ITEM:
+      return removeSelectedItems(state, action);
 
     case actionTypes.MOUSE_MOVE:
       return {

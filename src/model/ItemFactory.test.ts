@@ -38,7 +38,7 @@ describe("ItemFactory", () => {
       },
     ];
 
-    const items: Array<ItemBase> = ItemFactory.fromJSON(json);
+    const items: ItemBase[] = ItemFactory.fromJSON(json);
     expect(Array.isArray(items)).toBeTruthy();
     expect(items[0] instanceof ItemLine).toBe(true);
   });
