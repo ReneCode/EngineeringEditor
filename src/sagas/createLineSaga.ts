@@ -17,7 +17,7 @@ function* createLineSaga() {
     }
     const startPoint = result.point;
     line = new ItemLine("", startPoint, startPoint);
-    yield put(actions.addSelectedItem(line));
+    yield put(actions.setTempItem(line));
     let run = true;
     while (run) {
       const result = yield getPointSaga([
@@ -28,13 +28,14 @@ function* createLineSaga() {
         run = false;
       } else {
         const secondPoint = result.point;
-        yield put(actions.removeSelectedItem(line));
         line = new ItemLine("", startPoint, secondPoint);
+        yield put(actions.setTempItem(line));
         if (result.type === actionTypes.MOUSE_MOVE) {
           // rubberband
-          yield put(actions.addSelectedItem(line));
         } else {
           // finish line
+          yield put(actions.setTempItem());
+
           if (!secondPoint.equal(startPoint)) {
             yield put(actions.saveGraphicItem(line));
             yield put(actions.startInteraction(IA_CREATE_LINE));

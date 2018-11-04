@@ -42,7 +42,6 @@ class ItemLine extends ItemBase {
     transform: TransformCoordinate,
   ): void {
     context.beginPath();
-    context.lineWidth = 4;
     const p1 = transform.wcToCanvas(this.p1);
     context.moveTo(p1.x, p1.y);
     const p2 = transform.wcToCanvas(this.p2);

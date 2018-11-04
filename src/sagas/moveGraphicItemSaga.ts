@@ -25,7 +25,7 @@ function* moveGraphicItemSaga(p1: Point | null = null) {
       const result = yield call(getPointSaga, MOUSE_DOWN, {
         useGrid: false,
       });
-      p1 = result.point;
+      p1 = <Point>result.point;
     }
 
     let run = true;
@@ -35,17 +35,21 @@ function* moveGraphicItemSaga(p1: Point | null = null) {
         [MOUSE_MOVE, MOUSE_UP],
         { useGrid: false },
       );
-      let p2 = result.point;
-      const delta = p2.sub(p1);
-      const movedItems = originalItems.map((item: ItemBase) =>
-        item.translate(delta),
-      );
-      yield put(actions.clearSelectedItem());
-      if (result.type === MOUSE_MOVE) {
-        yield put(actions.addSelectedItem(movedItems));
+      let p2: Point = result.point;
+      if (p2.equal(p1)) {
+        return;
       } else {
-        run = false;
-        yield put(actions.changeGraphicItem(movedItems));
+        const delta = p2.sub(p1);
+        const movedItems = originalItems.map((item: ItemBase) =>
+          item.translate(delta),
+        );
+        yield put(actions.clearSelectedItem());
+        if (result.type === MOUSE_MOVE) {
+          yield put(actions.addSelectedItem(movedItems));
+        } else {
+          run = false;
+          yield put(actions.changeGraphicItem(movedItems));
+        }
       }
     }
 

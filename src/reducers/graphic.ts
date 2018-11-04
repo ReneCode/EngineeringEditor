@@ -1,5 +1,4 @@
 import * as actionTypes from "../actions/actionTypes";
-import ItemLine from "../model/ItemLine";
 import Point from "../common/point";
 import ItemBase from "../model/ItemBase";
 
@@ -103,6 +102,12 @@ const changeGraphicItem = (state: IGraphicState, action: any) => {
 
 const graphicReducer = (state = initialState, action: any) => {
   switch (action.type) {
+    case actionTypes.SET_TEMP_ITEM:
+      return {
+        ...state,
+        tempItems: [].concat(action.payload ? action.payload : []),
+      };
+
     case actionTypes.SET_GRAPHIC_ITEMS:
       return {
         ...state,

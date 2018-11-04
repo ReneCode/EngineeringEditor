@@ -9,6 +9,7 @@ class DrawCanvas extends Component {
 
     const items = this.props.graphic.items;
     const selectedItems = this.props.graphic.selectedItems;
+    const tempItems = this.props.graphic.tempItems;
 
     // only draw such itmes that are NOT in the selected list
     items.forEach(item => {
@@ -24,6 +25,16 @@ class DrawCanvas extends Component {
       item.draw(context, transform, { selected: true });
       context.restore();
     });
+
+    // selected items
+    context.save();
+    context.strokeStyle = "rgba(0,0,0,0.8)";
+    context.fillStyle = "rgba(0,0,0,0.1)";
+    context.lineWidth = 1;
+    tempItems.forEach(item => {
+      item.draw(context, transform);
+    });
+    context.restore();
 
     this.drawCursor(context, transform);
   };
