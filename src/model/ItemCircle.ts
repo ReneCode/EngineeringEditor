@@ -36,9 +36,11 @@ class ItemCircle extends ItemBase {
     transform: TransformCoordinate,
   ): void {
     context.beginPath();
+    context.fillStyle = "rgba(50,100,50,0.9)";
     const pt = transform.wcToCanvas(this.pt);
     const r = transform.wcLengthToCanvas(this.radius);
     context.arc(pt.x, pt.y, r, 0, 2 * Math.PI);
+    context.fill();
     context.stroke();
   }
 
