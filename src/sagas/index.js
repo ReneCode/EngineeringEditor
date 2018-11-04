@@ -6,6 +6,7 @@ import {
   loadPagesSaga,
   createPageSaga,
   setPageIdSaga,
+  apiChangeGraphicItem,
 } from "../sagas/apiSaga";
 import { startInteractionSaga } from "./startInteractionSaga";
 import { zoomWindowSaga, zoomFullSaga } from "./zoomSaga";
@@ -19,6 +20,7 @@ function* rootSagas() {
     takeLatest(actionTypes.LOAD_PAGES, loadPagesSaga),
     takeLatest(actionTypes.CREATE_PAGE, createPageSaga),
     takeLatest(actionTypes.SET_PAGE_ID, setPageIdSaga),
+    takeLatest(actionTypes.CHANGE_GRAPHIC_ITEM, apiChangeGraphicItem),
   ]);
 }
 

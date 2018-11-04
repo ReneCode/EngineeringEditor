@@ -86,7 +86,11 @@ function* createPageSaga(action) {
   } catch (err) {}
 }
 
-function* apiChangeGraphicItem(items) {
+function* apiChangeGraphicItem(action) {
+  let items = action.payload;
+  if (!Array.isArray(items)) {
+    items = [items];
+  }
   const baseUrl = getUrl("graphics");
   const calls = items.map(item => {
     const url = `${baseUrl}/${item.id}`;

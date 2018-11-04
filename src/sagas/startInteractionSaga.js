@@ -4,8 +4,9 @@ import { createLineSaga } from "../sagas/createLineSaga";
 import { createCircleSaga } from "../sagas/createCircleSaga";
 import * as IaTypes from "../actions/interactionTypes";
 import { zoomWindowSaga } from "./zoomSaga";
-import { selectSaga } from "./selectSaga";
+import { selectGraphicItemSaga } from "./selectGraphicItemSaga";
 import { deleteItemSaga } from "./deleteItemSaga";
+import { moveGraphicItemSaga } from "./moveGraphicItemSaga";
 
 function* startInteractionSaga(action) {
   const iaType = action.payload;
@@ -21,8 +22,13 @@ function* startInteractionSaga(action) {
     case IaTypes.IA_ZOOM_WINDOW:
       yield call(zoomWindowSaga);
       break;
+
     case IaTypes.IA_SELECT:
-      yield call(selectSaga);
+      yield call(selectGraphicItemSaga);
+      break;
+
+    case IaTypes.IA_MOVE:
+      yield call(moveGraphicItemSaga);
       break;
 
     case IaTypes.IA_DELETE_ITEM:

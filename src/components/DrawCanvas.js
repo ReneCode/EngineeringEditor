@@ -9,9 +9,10 @@ class DrawCanvas extends Component {
 
     const items = this.props.graphic.items;
     const dynamicItems = this.props.graphic.dynamicItems;
-    // items
+
+    // only draw such itmes that are NOT in the dynamic list
     items.forEach(item => {
-      if (!dynamicItems.includes(item)) {
+      if (!dynamicItems.find(i => i.id === item.id)) {
         item.draw(context, transform);
       }
     });

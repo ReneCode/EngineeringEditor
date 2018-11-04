@@ -84,7 +84,7 @@ const changeGraphicItem = (state, action) => {
     ...state,
     items: state.items.map(currentItem => {
       // debugger;
-      const newItem = newItems.find(i => i.id == currentItem.id);
+      const newItem = newItems.find(i => i.id === currentItem.id);
       if (newItem) {
         return newItem;
       } else {

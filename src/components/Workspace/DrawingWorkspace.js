@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import * as actions from "../../actions";
 import {
   IA_SELECT,
+  IA_MOVE,
   IA_CREATE_CIRCLE,
   IA_CREATE_LINE,
   IA_ZOOM_WINDOW,
@@ -18,6 +19,9 @@ class DrawingWorkspace extends Component {
 
   onSelect = () => {
     this.props.dispatch(actions.startInteraction(IA_SELECT));
+  };
+  onMove = () => {
+    this.props.dispatch(actions.startInteraction(IA_MOVE));
   };
 
   onDelete = () => {
@@ -40,6 +44,9 @@ class DrawingWorkspace extends Component {
       <div className="drawingworkspace">
         <button className="button" onClick={this.onSelect}>
           Select
+        </button>
+        <button className="button" onClick={this.onMove}>
+          Move
         </button>
         <button className="button" onClick={this.onDelete}>
           Delete Item
