@@ -36,18 +36,18 @@ function* moveGraphicItemSaga(p1: Point | null = null) {
         { useGrid: false },
       );
       let p2: Point = result.point;
-      if (p2.equal(p1)) {
-        return;
+
+      const delta = p2.sub(p1);
+      const movedItems = originalItems.map((item: ItemBase) =>
+        item.translate(delta),
+      );
+      yield put(actions.clearSelectedItem());
+      if (result.type === MOUSE_MOVE) {
+        yield put(actions.addSelectedItem(movedItems));
       } else {
-        const delta = p2.sub(p1);
-        const movedItems = originalItems.map((item: ItemBase) =>
-          item.translate(delta),
-        );
-        yield put(actions.clearSelectedItem());
-        if (result.type === MOUSE_MOVE) {
-          yield put(actions.addSelectedItem(movedItems));
-        } else {
-          run = false;
+        run = false;
+        // only move if there is a move defined
+        if (!p2.equal(p1)) {
           yield put(actions.changeGraphicItem(movedItems));
         }
       }
