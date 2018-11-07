@@ -44,6 +44,7 @@ class DrawCanvas extends Component {
     // const useGrid = true;
     // if (useGrid) {
     // snap to grid
+    // const canvas = this.props.graphic.canvas;
     // return pt.snap(canvas.gridX, canvas.gridY);
     // }
   }

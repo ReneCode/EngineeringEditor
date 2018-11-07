@@ -15,7 +15,7 @@ class ItemLine extends ItemBase {
 
   // http://choly.ca/post/typescript-json/
   toJSON(): object {
-    return (<any>Object).assign({}, this, {
+    return (<any>Object).assign({}, super.toJSON(), {
       p1: this.p1.toJSON(),
       p2: this.p2.toJSON(),
     });

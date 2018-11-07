@@ -8,6 +8,13 @@ describe("Point", () => {
     expect(pt instanceof Point).toBeTruthy();
   });
 
+  it("should invert", () => {
+    const p1 = new Point(4, 6);
+    const pt = p1.invert();
+    expect(pt.x).toBe(-4);
+    expect(pt.y).toBe(-6);
+  });
+
   it("should add Point()", () => {
     const p1 = new Point(4, 6);
     const p2 = new Point(2, 3);

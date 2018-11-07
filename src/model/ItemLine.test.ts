@@ -1,5 +1,6 @@
 import ItemLine from "./ItemLine";
 import Point from "../common/point";
+import Line from "../common/line";
 
 describe("ItemLine", () => {
   let line: ItemLine;
@@ -19,6 +20,16 @@ describe("ItemLine", () => {
       p2: { x: 7, y: 8 },
     };
   });
+
+  // it("json without pageId and id", () => {
+  //   const l1 = new ItemLine("", line.p1, line.p2);
+  //   const gotJson = l1.toJSON();
+  //   expect(gotJson).toEqual({
+  //     type: "line",
+  //     p1: { x: 4, y: 5 },
+  //     p2: { x: 7, y: 8 },
+  //   });
+  // });
 
   it("create json from ItemLine", () => {
     const gotJson = line.toJSON();

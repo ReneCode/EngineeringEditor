@@ -7,6 +7,7 @@ import { selectGraphicItemSaga } from "./selectGraphicItemSaga";
 import { deleteItemSaga } from "./deleteItemSaga";
 import { moveGraphicItemSaga } from "./moveGraphicItemSaga";
 import { createGroupSaga } from "./createGroupSaga";
+import createSymbolSaga from "./createSymbolSaga";
 
 function* startInteractionSaga(action) {
   const iaType = action.payload;
@@ -18,6 +19,7 @@ function* startInteractionSaga(action) {
     IA_MOVE: moveGraphicItemSaga,
     IA_DELETE_ITEM: deleteItemSaga,
     IA_CREATE_GROUP: createGroupSaga,
+    IA_CREATE_SYMBOL: createSymbolSaga,
   };
 
   const saga = sagas[iaType];

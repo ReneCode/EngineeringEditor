@@ -4,33 +4,39 @@ import TransformCoordinate from "../common/transformCoordinate";
 import Point from "../common/point";
 import deepClone from "../common/deepClone";
 
-class ItemGroup extends ItemBase {
-  items: Array<ItemBase> = [];
+class ItemSymbol extends ItemBase {
+  name: string = "name";
+  insertPt: Point = new Point();
+  items: ItemBase[] = [];
 
-  constructor(pageId: string) {
-    super(pageId, "group");
+  constructor() {
+    super("", "symbol");
   }
 
   toJSON(): object {
     return (<any>Object).assign({}, super.toJSON(), {
-      items: this.items.map(i => {
+      items: this.items.map((i: ItemBase) => {
         return i.toJSON();
       }),
+      name: this.name,
+      insertPt: this.insertPt,
     });
   }
 
-  static fromJSON(json: any): ItemGroup {
-    if (json.type !== "group") {
+  static fromJSON(json: any): ItemSymbol {
+    if (json.type !== "symbol") {
       throw new Error("bad json type:" + json.type);
     }
-    const group = Object.create(ItemGroup.prototype);
+    const group = Object.create(ItemSymbol.prototype);
     return (<any>Object).assign(group, json, {
       items: json.items.map((item: any) => {
         return ItemFactory.fromJSON(item);
       }),
+      name: json.name,
+      insertPt: Point.fromJSON(json.insertPt),
     });
   }
-
+  /*
   draw(
     context: CanvasRenderingContext2D,
     transform: TransformCoordinate,
@@ -53,6 +59,7 @@ class ItemGroup extends ItemBase {
     );
     return group;
   }
+  */
 }
 
-export default ItemGroup;
+export default ItemSymbol;

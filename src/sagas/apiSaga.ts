@@ -5,6 +5,7 @@ import * as actions from "../actions";
 import ItemFactory from "../model/ItemFactory";
 import ItemBase from "../model/ItemBase";
 import { debug } from "util";
+import ItemSymbol from "../model/ItemSymbol";
 
 function* setPageIdSaga(action: any) {
   // load the graphic of the active page
@@ -15,6 +16,33 @@ function* setPageIdSaga(action: any) {
   const items = ItemFactory.fromJSON(json);
   yield put(actions.setGraphicItems(items));
   yield put(actions.zoomFull());
+}
+
+function* apiSaveSymbolItemSaga(symbol: ItemSymbol) {
+  try {
+    // save to database
+    const projectId = yield select(
+      (state: any) => state.project.projectId,
+    );
+    const saveItem = {
+      ...symbol,
+      projectId,
+    };
+
+    const url = getUrl("symbols");
+    const result = yield call(fetch, url, {
+      method: "POST",
+      body: JSON.stringify(saveItem),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const json = yield result.json();
+    const newSymbol = ItemFactory.fromJSON(json);
+    return newSymbol;
+  } catch (ex) {
+    console.log(ex);
+  }
 }
 
 function* apiSaveGraphicItemSaga(item: ItemBase) {
@@ -116,6 +144,7 @@ function* apiChangeGraphicItem(action: any) {
 
 export {
   apiChangeGraphicItem,
+  apiSaveSymbolItemSaga,
   setPageIdSaga,
   apiSaveGraphicItemSaga,
   loadPagesSaga,

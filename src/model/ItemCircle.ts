@@ -16,7 +16,7 @@ class ItemCircle extends ItemBase {
 
   // http://choly.ca/post/typescript-json/
   toJSON(): object {
-    return (<any>Object).assign({}, this, {
+    return (<any>Object).assign({}, super.toJSON(), {
       pt: this.pt.toJSON(),
     });
   }

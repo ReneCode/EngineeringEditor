@@ -24,6 +24,10 @@ export default class Point {
     return (<any>Object).assign(point, json);
   }
 
+  invert(): Point {
+    return new Point(-this.x, -this.y);
+  }
+
   length(): number {
     return Math.sqrt(this.x * this.x + this.y * this.y);
   }

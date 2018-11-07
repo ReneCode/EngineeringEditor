@@ -5,6 +5,7 @@ function getUrl(name, ...args) {
     projects: `${SERVER}/projects`,
     pages: `${SERVER}/pages`,
     graphics: `${SERVER}/graphics`,
+    symbols: `${SERVER}/symbols`,
   };
 
   let url = urls[name];

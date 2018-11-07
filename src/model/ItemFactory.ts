@@ -2,6 +2,7 @@ import ItemBase from "./ItemBase";
 import ItemLine from "./ItemLine";
 import ItemCircle from "./ItemCircle";
 import ItemGroup from "./ItemGroup";
+import ItemSymbol from "./ItemSymbol";
 
 class ItemFactory {
   static fromJSON(json: any): ItemBase | Array<ItemBase> {
@@ -17,6 +18,8 @@ class ItemFactory {
         return ItemCircle.fromJSON(json);
       case "group":
         return ItemGroup.fromJSON(json);
+      case "symbol":
+        return ItemSymbol.fromJSON(json);
       default:
         // console.log("bad item type:", json.type);
         throw new Error("bad item type:" + json.type);

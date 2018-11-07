@@ -1,8 +1,10 @@
 import * as actionTypes from "../actions/actionTypes";
 import Point from "../common/point";
 import ItemBase from "../model/ItemBase";
+import ItemSymbol from "../model/ItemSymbol";
 
 interface IGraphicState {
+  symbols: ItemSymbol[];
   items: ItemBase[];
   selectedItems: ItemBase[];
   tempItems: ItemBase[];
@@ -12,6 +14,7 @@ interface IGraphicState {
 }
 
 const initialState: IGraphicState = {
+  symbols: [],
   items: [],
   selectedItems: [],
   tempItems: [],
