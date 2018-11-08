@@ -1,4 +1,5 @@
 import Matrix2d from "./matrix-2d";
+import Point from "./point";
 
 describe("Matrix2d", () => {
   it("should construct Matrix()", () => {
@@ -20,7 +21,7 @@ describe("Matrix2d", () => {
 
   it("should transform point identity", () => {
     const m = Matrix2d.identity();
-    const pt = m.transformPoint(4, 5);
+    const pt = m.transform(4, 5);
     expect(pt.x).toBe(4);
     expect(pt.y).toBe(5);
   });
@@ -39,7 +40,7 @@ describe("Matrix2d", () => {
 
   it("should translate point", () => {
     const m = Matrix2d.translate(4, 5);
-    const pt = m.transformPoint(5, 6);
+    const pt = m.transform(5, 6);
     expect(pt.x).toBeCloseTo(9, 0.001);
     expect(pt.y).toBeCloseTo(11, 0.001);
   });
@@ -48,7 +49,7 @@ describe("Matrix2d", () => {
     const t1 = Matrix2d.translate(4, 5);
     const t2 = Matrix2d.translate(-1, -2);
     const m = t1.multiply(t2);
-    const pt = m.transformPoint(5, 6);
+    const pt = m.transform(5, 6);
     expect(pt.x).toBeCloseTo(8, 0.001);
     expect(pt.y).toBeCloseTo(9, 0.001);
   });
@@ -57,8 +58,28 @@ describe("Matrix2d", () => {
     const t1 = Matrix2d.translate(4, 5);
     const t2 = Matrix2d.rotate(Math.PI);
     const m = t1.multiply(t2);
-    const pt = m.transformPoint(5, 6);
+    const pt = m.transform(5, 6);
     expect(pt.x).toBeCloseTo(-9, 0.001);
     expect(pt.y).toBeCloseTo(-11, 0.001);
   });
+
+  it("invert canvas coord", () => {
+    const m = Matrix2d.identity()
+      .multiply(Matrix2d.scale(1, -1))
+      .multiply(Matrix2d.translate(0, 50))
+      .multiply(Matrix2d.scale(10, 10));
+
+    const p = m.transformPoint(new Point(20, 10));
+    expect(p.x).toBe(200);
+    expect(p.y).toBe(400);
+  });
+
+  // it("addTranslate", () => {
+  //   const matrix = Matrix2d.identity();
+  //   matrix.addTranslate(4, 5);
+  //   const point = new Point(10, 20);
+  //   const pt = matrix.transform(point);
+  //   expect(pt.x).toBeCloseTo(14);
+  //   expect(pt.x).toBeCloseTo(25);
+  // });
 });

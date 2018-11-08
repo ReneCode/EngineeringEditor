@@ -3,7 +3,7 @@ import Point from "./point";
 
 describe("transformCoordinate", () => {
   describe("vieport has to be strechted", () => {
-    let tc = undefined;
+    let tc: TransformCoordinate;
     beforeEach(() => {
       const viewport = {
         x: 100,

@@ -74,13 +74,11 @@ export default class Point {
 
   rotate(angle: number): Point {
     const mat = Matrix2d.rotate(angle);
-    const pt = mat.transformPoint(this.x, this.y);
-    return new Point(pt.x, pt.y);
+    return mat.transformPoint(this);
   }
 
   scale(sx: number, sy: number): Point {
     const mat = Matrix2d.scale(sx, sy);
-    const pt = mat.transformPoint(this.x, this.y);
-    return new Point(pt.x, pt.y);
+    return mat.transformPoint(this);
   }
 }

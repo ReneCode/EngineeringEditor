@@ -27,8 +27,7 @@ export default class Line {
       .multiply(Matrix2d.rotate(angle))
       .multiply(Matrix2d.translate(this.p1.x, this.p1.y));
 
-    const pt = matrix.transformPoint(this.p2.x, this.p2.y);
-    return new Line(this.p1, new Point(pt.x, pt.y));
+    return new Line(this.p1, matrix.transformPoint(this.p2));
   }
 
   nearPoint(point: Point, radius: number): boolean {
