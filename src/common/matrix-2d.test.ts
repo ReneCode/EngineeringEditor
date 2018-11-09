@@ -46,8 +46,8 @@ describe("Matrix2d", () => {
 
     m = m.inverse();
     const newPoint = m.transform(9, 11);
-    expect(newPoint.x).toEqual(5)    
-    expect(newPoint.y).toEqual(6)    
+    expect(newPoint.x).toEqual(5);
+    expect(newPoint.y).toEqual(6);
   });
 
   it("should translate twice point", () => {
@@ -82,7 +82,6 @@ describe("Matrix2d", () => {
     expect(newP.x).toBeCloseTo(20, 0.001);
     expect(newP.y).toBeCloseTo(10, 0.001);
   });
-
 
   // it("addTranslate", () => {
   //   const matrix = Matrix2d.identity();

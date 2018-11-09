@@ -55,11 +55,24 @@ describe("transformCoordinate", () => {
       expect(tc.canvasLengthToWc(300)).toBe(30);
     });
 
-    it ("addTranslate", () => {
+    it("addTranslate", () => {
       tc.addTranslate(20, 30);
       const pt = new Point(250, 0);
-      expect(tc.canvasToWc(pt)).toEqual(new Point(110+20, 230+30));
-    })
+      expect(tc.canvasToWc(pt)).toEqual(
+        new Point(110 + 20, 230 + 30),
+      );
+    });
+
+    it("addTranslate", () => {
+      tc.save();
+      tc.addTranslate(20, 30);
+      const pt = new Point(250, 0);
+      expect(tc.canvasToWc(pt)).toEqual(
+        new Point(110 + 20, 230 + 30),
+      );
+      tc.restore();
+      expect(tc.canvasToWc(pt)).toEqual(new Point(110, 230));
+    });
   });
 
   it("adapt viewport -  stretch viewport Y", () => {

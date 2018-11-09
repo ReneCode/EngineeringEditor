@@ -1,6 +1,5 @@
 import Point from "./point";
 import Matrix2d from "./matrix-2d";
-import { number } from "prop-types";
 
 interface IViewport {
   x: number;
@@ -20,7 +19,7 @@ class TransformCoordinate {
   inverseMatrix: Matrix2d | null = null;
   viewport: IViewport = { x: 0, y: 0, width: 100, height: 100 };
   canvas: ICanvas = { width: 100, height: 100 };
-  scale: number = 1;    // from canvas to viewport
+  scale: number = 1; // from canvas to viewport
 
   constructor(viewport: IViewport, canvas: ICanvas) {
     this.matrixStack = [];
@@ -35,7 +34,7 @@ class TransformCoordinate {
     }
 
     //  adapt viewport to get vieport and canvas fit together
-    const ratioX = viewport.width/canvas.width;
+    const ratioX = viewport.width / canvas.width;
     const ratioY = viewport.height / canvas.height;
     this.viewport = { ...viewport };
     this.canvas = { ...canvas };
@@ -84,16 +83,34 @@ class TransformCoordinate {
   }
 
   addTranslate(dx: number, dy: number) {
-    this.setMatrix(this.currentMatrix.multiply(Matrix2d.translate(dx, dy)));
+    this.setMatrix(
+      this.currentMatrix.multiply(Matrix2d.translate(dx, dy)),
+    );
   }
 
-  // private members
-  setMatrix(m:Matrix2d) {
+  save() {
+    this.matrixStack.push(this.currentMatrix);
+  }
+
+  restore() {
+    if (this.matrixStack.length > 0) {
+      const m: Matrix2d = <Matrix2d>this.matrixStack.pop();
+      this.setMatrix(m);
+    } else {
+      throw new Error("no matrix to restore");
+    }
+  }
+
+  // -------------------------------
+
+  private setMatrix(m: Matrix2d): void {
+    // new matrix makes the inverse matrix invalid (null)
     this.inverseMatrix = null;
     this.currentMatrix = m;
   }
 
-  getInverse() {
+  private getInverse(): Matrix2d {
+    // calculate inverse matrix only if needed
     if (!this.inverseMatrix) {
       this.inverseMatrix = this.currentMatrix.inverse();
     }
