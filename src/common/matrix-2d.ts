@@ -31,8 +31,6 @@ export default class Matrix2d {
     this.f = f;
   }
 
-  // set();
-
   static identity(): Matrix2d {
     return new Matrix2d(1, 0, 0, 1, 0, 0);
   }

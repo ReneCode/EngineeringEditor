@@ -36,15 +36,14 @@ function* moveGraphicItemSaga(p1: Point | null = null) {
         { useGrid: false },
       );
       let p2: Point = result.point;
-      
+
       if (result.type === MOUSE_UP && p2.equal(p1)) {
-        console.log("finish")
         return;
       }
 
       const delta = p2.sub(p1);
       const movedItems = originalItems.map((item: ItemBase) =>
-      item.translate(delta),
+        item.translate(delta),
       );
       yield put(actions.clearSelectedItem());
       if (result.type === MOUSE_MOVE) {

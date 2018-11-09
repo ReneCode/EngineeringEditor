@@ -1,5 +1,12 @@
 import * as actionTypes from "./actionTypes";
 
+export const addSymbol = symbol => {
+  return {
+    type: actionTypes.ADD_SYMBOL,
+    payload: symbol,
+  };
+};
+
 export const saveGraphicItem = item => {
   return {
     type: actionTypes.SAVE_GRAPHIC_ITEM,

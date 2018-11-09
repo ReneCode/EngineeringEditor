@@ -90,7 +90,6 @@ const changeGraphicItem = (state: IGraphicState, action: any) => {
   return {
     ...state,
     items: state.items.map(currentItem => {
-      // debugger;
       const newItem = newItems.find(
         (i: ItemBase) => i.id === currentItem.id,
       );
@@ -105,6 +104,12 @@ const changeGraphicItem = (state: IGraphicState, action: any) => {
 
 const graphicReducer = (state = initialState, action: any) => {
   switch (action.type) {
+    case actionTypes.ADD_SYMBOL:
+      return {
+        ...state,
+        symbols: state.symbols.concat(action.payload),
+      };
+
     case actionTypes.SET_TEMP_ITEM:
       return {
         ...state,

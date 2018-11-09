@@ -4,7 +4,6 @@ import getUrl from "../common/getUrl";
 import * as actions from "../actions";
 import ItemFactory from "../model/ItemFactory";
 import ItemBase from "../model/ItemBase";
-import { debug } from "util";
 import ItemSymbol from "../model/ItemSymbol";
 
 function* setPageIdSaga(action: any) {
@@ -28,7 +27,6 @@ function* apiSaveSymbolItemSaga(symbol: ItemSymbol) {
       ...symbol,
       projectId,
     };
-
     const url = getUrl("symbols");
     const result = yield call(fetch, url, {
       method: "POST",
@@ -56,16 +54,13 @@ function* apiSaveGraphicItemSaga(item: ItemBase) {
       (state: any) => state.project.projectId,
     );
     const pageId = yield select((state: any) => state.project.pageId);
-    const saveItem = {
-      ...item,
-      pageId,
-      projectId,
-    };
+    item.pageId = pageId;
+    item.projectId = projectId;
 
     const url = getUrl("graphics");
     const result = yield call(fetch, url, {
       method: "POST",
-      body: JSON.stringify(saveItem),
+      body: JSON.stringify(item.toJSON()),
       headers: {
         "Content-Type": "application/json",
       },
@@ -133,7 +128,7 @@ function* apiChangeGraphicItem(action: any) {
     const url = `${baseUrl}/${item.id}`;
     return call(fetch, url, {
       method: "PUT",
-      body: JSON.stringify(item),
+      body: JSON.stringify(item.toJSON()),
       headers: {
         "Content-Type": "application/json",
       },

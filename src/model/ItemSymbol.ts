@@ -45,13 +45,13 @@ class ItemSymbol extends ItemBase {
       item.draw(context, transform);
     });
   }
-  /*
+
   nearPoint(pt: Point, radius: number): boolean {
     return this.items.some((item: ItemBase) =>
       item.nearPoint(pt, radius),
     );
   }
-
+  /*
   translate(pt: Point): ItemBase {
     const group = deepClone(this);
     group.items = group.items.map((item: ItemBase) =>

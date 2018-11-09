@@ -13,9 +13,11 @@ type ItemTypes =
 class ItemBase {
   id: number;
   pageId: string;
+  projectId: string;
   type: ItemTypes;
 
   constructor(pageId: string, type: ItemTypes) {
+    this.projectId = "";
     this.pageId = pageId;
     this.type = type;
     this.id = 0;

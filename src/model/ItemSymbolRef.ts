@@ -14,8 +14,9 @@ class ItemSymbolRef extends ItemBase {
   }
 
   toJSON(): object {
-    return (<any>Object).assign({}, super.toJSON(), {
+    return (<any>Object).assign({}, this, {
       pt: this.pt.toJSON(),
+      symbol: undefined,
     });
   }
 
@@ -26,6 +27,7 @@ class ItemSymbolRef extends ItemBase {
     const group = Object.create(ItemSymbolRef.prototype);
     return (<any>Object).assign(group, json, {
       pt: Point.fromJSON(json.pt),
+      symbol: undefined,
     });
   }
 
@@ -34,7 +36,9 @@ class ItemSymbolRef extends ItemBase {
     transform: TransformCoordinate,
   ) {
     if (!this.symbol) {
-      throw new Error("symbol not set / " + this.symbolName);
+      // throw new Error("symbol not set / " + this.symbolName);
+      console.log(`symbol not found: ${this.symbolName}`);
+      return;
     }
     const symbol: ItemSymbol = <ItemSymbol>this.symbol;
     transform.save();
@@ -45,10 +49,12 @@ class ItemSymbolRef extends ItemBase {
 
   nearPoint(pt: Point, radius: number): boolean {
     if (!this.symbol) {
-      throw new Error("symbol not set / " + this.symbolName);
+      //      throw new Error("symbol not set / " + this.symbolName);
+      console.log(`symbol not found: ${this.symbolName}`);
+      return false;
     }
-    const symbol: ItemSymbol = <ItemSymbol>this.symbol;
-    return symbol.nearPoint(pt.add(this.pt), radius);
+
+    return this.symbol.nearPoint(pt.sub(this.pt), radius);
   }
 
   translate(pt: Point): ItemBase {
