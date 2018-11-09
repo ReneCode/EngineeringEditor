@@ -54,37 +54,47 @@ class TransformCoordinate {
       this.viewport.y -= (this.viewport.height - oldVpHeight) / 2;
     }
 
-    const m = Matrix2d.identity()
+    const mCanvasToWc = Matrix2d.identity()
       .multiply(Matrix2d.scale(1, -1))
       .multiply(Matrix2d.translate(0, this.canvas.height))
       .multiply(Matrix2d.scale(this.scale, this.scale))
       .multiply(Matrix2d.translate(this.viewport.x, this.viewport.y));
-    this.setMatrix(m);
+    this.setMatrix(mCanvasToWc.inverse());
   }
 
   wcToCanvas(pt: Point): Point {
-    return this.getInverse().transformPoint(pt);
+    return this.currentMatrix.transformPoint(pt);
   }
 
   wcLengthToCanvas(len: number): number {
-    return len / this.scale;
-  }
-
-  canvasLengthToWc(len: number): number {
     return len * this.scale;
   }
 
   canvasToWc(pt: Point): Point {
-    return this.currentMatrix.transformPoint(pt);
+    return this.getInverse().transformPoint(pt);
   }
 
-  toWc(pt: Point): Point {
-    return this.currentMatrix.transformPoint(pt);
+  canvasLengthToWc(len: number): number {
+    return len / this.scale;
   }
 
-  addTranslate(dx: number, dy: number) {
+  addTranslateWc(delta: Point) {
     this.setMatrix(
-      this.currentMatrix.multiply(Matrix2d.translate(dx, dy)),
+      Matrix2d.translate(delta.x, delta.y).multiply(
+        this.currentMatrix,
+      ),
+    );
+  }
+
+  addScale(scale: number) {
+    this.setMatrix(
+      this.currentMatrix.multiply(Matrix2d.scale(scale, scale)),
+    );
+  }
+
+  addRotate(angle: number) {
+    this.setMatrix(
+      this.currentMatrix.multiply(Matrix2d.rotate(angle)),
     );
   }
 
@@ -107,6 +117,7 @@ class TransformCoordinate {
     // new matrix makes the inverse matrix invalid (null)
     this.inverseMatrix = null;
     this.currentMatrix = m;
+    this.scale = m.a;
   }
 
   private getInverse(): Matrix2d {

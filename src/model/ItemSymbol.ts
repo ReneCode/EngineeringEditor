@@ -36,7 +36,7 @@ class ItemSymbol extends ItemBase {
       insertPt: Point.fromJSON(json.insertPt),
     });
   }
-  /*
+
   draw(
     context: CanvasRenderingContext2D,
     transform: TransformCoordinate,
@@ -45,7 +45,7 @@ class ItemSymbol extends ItemBase {
       item.draw(context, transform);
     });
   }
-
+  /*
   nearPoint(pt: Point, radius: number): boolean {
     return this.items.some((item: ItemBase) =>
       item.nearPoint(pt, radius),

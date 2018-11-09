@@ -1,11 +1,12 @@
 import ItemBase from "./ItemBase";
-import ItemFactory from "./ItemFactory";
 import TransformCoordinate from "../common/transformCoordinate";
 import Point from "../common/point";
 import deepClone from "../common/deepClone";
+import ItemSymbol from "./ItemSymbol";
 
 class ItemSymbolRef extends ItemBase {
   symbolName: string = "";
+  symbol: ItemSymbol | null = null;
   pt: Point = new Point();
 
   constructor(pageId: string) {
@@ -27,30 +28,36 @@ class ItemSymbolRef extends ItemBase {
       pt: Point.fromJSON(json.pt),
     });
   }
-  /*
+
   draw(
     context: CanvasRenderingContext2D,
     transform: TransformCoordinate,
   ) {
-    this.items.forEach((item: ItemBase) => {
-      item.draw(context, transform);
-    });
+    if (!this.symbol) {
+      throw new Error("symbol not set / " + this.symbolName);
+    }
+    const symbol: ItemSymbol = <ItemSymbol>this.symbol;
+    transform.save();
+    transform.addTranslateWc(this.pt);
+    symbol.draw(context, transform);
+    transform.restore();
   }
 
   nearPoint(pt: Point, radius: number): boolean {
-    return this.items.some((item: ItemBase) =>
-      item.nearPoint(pt, radius),
-    );
+    if (!this.symbol) {
+      throw new Error("symbol not set / " + this.symbolName);
+    }
+    const symbol: ItemSymbol = <ItemSymbol>this.symbol;
+    return symbol.nearPoint(pt.add(this.pt), radius);
   }
 
   translate(pt: Point): ItemBase {
-    const group = deepClone(this);
-    group.items = group.items.map((item: ItemBase) =>
-      item.translate(pt),
-    );
-    return group;
+    // do not use deepClone - because symbol has not to be cloned
+    const symbolRef = Object.create(ItemSymbolRef.prototype);
+    return (<any>Object).assign(symbolRef, this, {
+      pt: this.pt.add(pt),
+    });
   }
-  */
 }
 
 export default ItemSymbolRef;

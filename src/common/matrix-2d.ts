@@ -1,5 +1,7 @@
 import Point from "./point";
 
+// inspired from https://github.com/deoxxa/transformation-matrix-js/blob/master/src/matrix.js
+
 /*
   a c e
   b d f
