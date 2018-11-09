@@ -17,7 +17,7 @@ interface ICanvas {
 class TransformCoordinate {
   matrixStack: Matrix2d[] = [];
   currentMatrix: Matrix2d = Matrix2d.identity();
-  inverseMatrix: Matrix2d= Matrix2d.identity();
+  inverseMatrix: Matrix2d | null = null;
   viewport: IViewport = { x: 0, y: 0, width: 100, height: 100 };
   canvas: ICanvas = { width: 100, height: 100 };
   scale: number = 1;    // from canvas to viewport
@@ -55,21 +55,16 @@ class TransformCoordinate {
       this.viewport.y -= (this.viewport.height - oldVpHeight) / 2;
     }
 
-    this.currentMatrix = Matrix2d.identity()
+    const m = Matrix2d.identity()
       .multiply(Matrix2d.scale(1, -1))
       .multiply(Matrix2d.translate(0, this.canvas.height))
       .multiply(Matrix2d.scale(this.scale, this.scale))
       .multiply(Matrix2d.translate(this.viewport.x, this.viewport.y));
-
-    this.inverseMatrix= this.currentMatrix.inverse();
+    this.setMatrix(m);
   }
 
   wcToCanvas(pt: Point): Point {
-    // const x = (pt.x - this.viewport.x) * this.scale;
-    // const y =
-    //   this.canvas.height - (pt.y - this.viewport.y) * this.scale;
-    // return new Point(x, y);
-    return this.inverseMatrix.transformPoint(pt);
+    return this.getInverse().transformPoint(pt);
   }
 
   wcLengthToCanvas(len: number): number {
@@ -81,15 +76,28 @@ class TransformCoordinate {
   }
 
   canvasToWc(pt: Point): Point {
-    // const x = pt.x / this.scale + this.viewport.x;
-    // const y =
-    //   (this.canvas.height - pt.y) / this.scale + this.viewport.y;
-    // return new Point(x, y);
     return this.currentMatrix.transformPoint(pt);
   }
 
   toWc(pt: Point): Point {
     return this.currentMatrix.transformPoint(pt);
+  }
+
+  addTranslate(dx: number, dy: number) {
+    this.setMatrix(this.currentMatrix.multiply(Matrix2d.translate(dx, dy)));
+  }
+
+  // private members
+  setMatrix(m:Matrix2d) {
+    this.inverseMatrix = null;
+    this.currentMatrix = m;
+  }
+
+  getInverse() {
+    if (!this.inverseMatrix) {
+      this.inverseMatrix = this.currentMatrix.inverse();
+    }
+    return this.inverseMatrix;
   }
 }
 

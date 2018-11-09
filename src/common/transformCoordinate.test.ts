@@ -54,6 +54,12 @@ describe("transformCoordinate", () => {
     it("canvasLengthToWc", () => {
       expect(tc.canvasLengthToWc(300)).toBe(30);
     });
+
+    it ("addTranslate", () => {
+      tc.addTranslate(20, 30);
+      const pt = new Point(250, 0);
+      expect(tc.canvasToWc(pt)).toEqual(new Point(110+20, 230+30));
+    })
   });
 
   it("adapt viewport -  stretch viewport Y", () => {
