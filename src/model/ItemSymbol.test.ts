@@ -20,6 +20,7 @@ describe("ItemSymbol", () => {
 
     json = {
       id: 42,
+      projectId: "",
       pageId: "",
       type: "symbol",
       name: "sym-A",
@@ -27,6 +28,7 @@ describe("ItemSymbol", () => {
       items: [
         {
           id: 0,
+          projectId: "",
           pageId: "",
           type: "line",
           p1: { x: 2, y: 3 },
@@ -34,6 +36,7 @@ describe("ItemSymbol", () => {
         },
         {
           id: 0,
+          projectId: "",
           pageId: "",
           type: "circle",
           pt: { x: 10, y: 20 },

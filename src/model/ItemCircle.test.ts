@@ -1,6 +1,5 @@
 import ItemCircle from "./ItemCircle";
 import Point from "../common/point";
-import { any } from "prop-types";
 import ItemFactory from "./ItemFactory";
 
 describe("ItemCircle", () => {
@@ -14,6 +13,7 @@ describe("ItemCircle", () => {
     json = {
       id: 42,
       type: "circle",
+      projectId: "",
       pageId: "abc",
       pt: { x: 7, y: 8 },
       radius: 14,

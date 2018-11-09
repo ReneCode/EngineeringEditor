@@ -15,6 +15,7 @@ describe("ItemLine", () => {
     json = {
       id: 42,
       type: "line",
+      projectId: "",
       pageId: "abc",
       p1: { x: 4, y: 5 },
       p2: { x: 7, y: 8 },

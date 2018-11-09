@@ -20,12 +20,14 @@ describe("ItemGroup", () => {
 
     json = {
       id: 0,
+      projectId: "",
       pageId: "pageId",
       type: "group",
       items: [
         {
           id: 0,
           type: "line",
+          projectId: "",
           pageId: "abc",
           p1: { x: 4, y: 5 },
           p2: { x: 7, y: 8 },
@@ -33,6 +35,7 @@ describe("ItemGroup", () => {
         {
           id: 0,
           type: "line",
+          projectId: "",
           pageId: "xyz",
           p1: { x: 1, y: 2 },
           p2: { x: 3, y: 4 },
@@ -40,6 +43,7 @@ describe("ItemGroup", () => {
         {
           id: 0,
           type: "circle",
+          projectId: "",
           pageId: "abc",
           pt: { x: 3, y: 4 },
           radius: 22,
