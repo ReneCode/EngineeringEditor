@@ -38,11 +38,16 @@ describe("Matrix2d", () => {
     expect(m).toEqual(expectedMatrix);
   });
 
-  it("should translate point", () => {
-    const m = Matrix2d.translate(4, 5);
+  it("should translate point & inverse", () => {
+    let m = Matrix2d.translate(4, 5);
     const pt = m.transform(5, 6);
     expect(pt.x).toBeCloseTo(9, 0.001);
     expect(pt.y).toBeCloseTo(11, 0.001);
+
+    m = m.inverse();
+    const newPoint = m.transform(9, 11);
+    expect(newPoint.x).toEqual(5)    
+    expect(newPoint.y).toEqual(6)    
   });
 
   it("should translate twice point", () => {
@@ -63,8 +68,8 @@ describe("Matrix2d", () => {
     expect(pt.y).toBeCloseTo(-11, 0.001);
   });
 
-  it("invert canvas coord", () => {
-    const m = Matrix2d.identity()
+  it("invert canvas coord & inverse", () => {
+    let m = Matrix2d.identity()
       .multiply(Matrix2d.scale(1, -1))
       .multiply(Matrix2d.translate(0, 50))
       .multiply(Matrix2d.scale(10, 10));
@@ -72,7 +77,12 @@ describe("Matrix2d", () => {
     const p = m.transformPoint(new Point(20, 10));
     expect(p.x).toBe(200);
     expect(p.y).toBe(400);
+    m = m.inverse();
+    const newP = m.transformPoint(p);
+    expect(newP.x).toBeCloseTo(20, 0.001);
+    expect(newP.y).toBeCloseTo(10, 0.001);
   });
+
 
   // it("addTranslate", () => {
   //   const matrix = Matrix2d.identity();

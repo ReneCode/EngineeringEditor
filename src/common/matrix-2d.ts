@@ -61,6 +61,14 @@ export default class Matrix2d {
     );
   }
 
+  inverse() : Matrix2d {
+    const det = this.a * this.d - this.b * this.c;
+    return new Matrix2d(this.d / det, -this.b/det, -this.c / det, this.a/det, 
+      (this.c *this.f - this.d*this.e)/det,
+      -(this.a*this.f - this.b*this.e)/det)
+      
+  }
+
   transformPoint(pt: Point) {
     const { x, y } = this.transform(pt.x, pt.y);
     return new Point(x, y);
