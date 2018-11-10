@@ -1,5 +1,9 @@
 const post = async (cmd: object) => {
-  const url = "http://localhost:8080/graphql";
+  let SERVER = process.env.REACT_APP_GRAPHQL_SERVER;
+  if (!SERVER) {
+    SERVER = "http://localhost:8080";
+  }
+  const url = `${SERVER}/graphql`;
   const res = await fetch(url, {
     method: "POST",
     headers: {
