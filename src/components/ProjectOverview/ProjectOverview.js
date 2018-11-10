@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import ProjectCard from "./ProjectCard";
-import getUrl from "../../common/getUrl";
 import NewProjectModal from "./NewProjectModal";
 import { graphql } from "../../common/graphql-api";
 
@@ -70,10 +69,6 @@ class ProjectOverview extends Component {
     if (!name) {
       return;
     }
-
-    const project = {
-      name,
-    };
 
     const newProject = await this.saveProject(name);
     this.setState(state => ({
