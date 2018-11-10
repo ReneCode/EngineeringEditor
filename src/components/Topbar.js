@@ -15,6 +15,8 @@ const Topbar = props => {
       </ul>
       <ul className="menu-right">
         <li className="text">{userName}</li>
+        <li className="text">{process.env.REACT_APP_VERSION}</li>
+
         {/* <li className="button" onClick={props.signin}>
           Signin
         </li>
