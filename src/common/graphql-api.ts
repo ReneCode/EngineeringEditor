@@ -1,8 +1,6 @@
 const post = async (cmd: object) => {
   let SERVER = process.env.REACT_APP_GRAPHQL_SERVER;
-  console.log("A:", SERVER);
   const url = `${SERVER}/graphql`;
-  console.log("B:", url);
   const res = await fetch(url, {
     method: "POST",
     headers: {
