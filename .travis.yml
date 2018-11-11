@@ -11,6 +11,9 @@ script:
   - yarn test
   - yarn build
 
+before_deploy:
+  - cd build
+
 deploy:
   provider: azure_web_apps
   skip_cleanup: true
