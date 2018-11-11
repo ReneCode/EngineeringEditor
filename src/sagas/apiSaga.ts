@@ -5,6 +5,7 @@ import * as actions from "../actions";
 import ItemFactory from "../model/ItemFactory";
 import ItemBase from "../model/ItemBase";
 import ItemSymbol from "../model/ItemSymbol";
+import { graphql } from "../common/graphql-api";
 
 function* setPageIdSaga(action: any) {
   // load the graphic of the active page
@@ -88,11 +89,19 @@ function* apiDeleteGraphicItemSaga(items: ItemBase[]) {
 function* loadPagesSaga(action: any) {
   try {
     const projectId = action.payload;
-    const url = `${getUrl("pages")}?projectId=${projectId}`;
-    const result = yield call(fetch, url);
-    const json = yield result.json();
+    const query: string = `{
+      pages(projectId:"${projectId}") { id name }
+    }`;
+    const result = yield graphql(query);
+    // const url = `${getUrl("pages")}?projectId=${projectId}`;
+    // const result = yield call(fetch, url);
+    // const json = yield result.json();
+    const json = result.pages;
     yield put(actions.setPages(json));
-  } catch (err) {}
+  } catch (ex) {
+    console.log("---------");
+    console.log(ex);
+  }
 }
 
 function* createPageSaga(action: any) {
@@ -100,15 +109,30 @@ function* createPageSaga(action: any) {
     const { projectId, page, callback } = action.payload;
     // TODO should do the backend on POST /pages/<projectId>
     page.projectId = projectId;
-    const url = getUrl("pages");
-    const res = yield call(fetch, url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(page),
-    });
-    const newPage = yield res.json();
+
+    const mutation: string = `
+      mutation createPage($projectId: String!, $name: String!) {
+        createPage(projectId: $projectId, name: $name) {
+          id name
+        }
+      }
+      `;
+    const variables = {
+      name: page.name,
+      projectId: page.projectId,
+    };
+    const result = yield graphql(mutation, variables);
+    const newPage = result.createPage;
+
+    // const url = getUrl("pages");
+    // const res = yield call(fetch, url, {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(page),
+    // });
+    // const newPage = yield res.json();
 
     // update store
     yield put(actions.addPage(newPage));
