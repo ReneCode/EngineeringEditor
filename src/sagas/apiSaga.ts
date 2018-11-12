@@ -10,10 +10,7 @@ import { graphql } from "../common/graphql-api";
 function* setPageIdSaga(action: any) {
   // load the graphic of the active page
   const pageId = action.payload;
-  const url = getUrl("graphics") + `?pageId=${pageId}`;
-  const result = yield fetch(url);
-  const json = yield result.json();
-  const items = ItemFactory.fromJSON(json);
+  const items = yield apiLoadGraphic(pageId);
   yield put(actions.setGraphicItems(items));
   yield put(actions.zoomFull());
 }
@@ -27,7 +24,7 @@ function* apiLoadGraphic(pageId: string) {
       graphics(projectId:"${projectId}", pageId:"${pageId}") { id pageId projectId type content }
     }`;
     const result = yield graphql(query);
-    const json = yield result.json();
+    const json = result.graphics;
     const items = ItemFactory.fromJSON(json);
     return items;
   } catch (ex) {
@@ -90,23 +87,6 @@ function* apiSaveGraphicItemSaga(item: ItemBase) {
     const result = yield graphql(query, variables);
     const newItem = ItemFactory.fromJSON(result.createGraphic);
     return newItem;
-
-    /*
-    item.pageId = pageId;
-    item.projectId = projectId;
-
-    const url = getUrl("graphics");
-    const result = yield call(fetch, url, {
-      method: "POST",
-      body: JSON.stringify(item.toJSON()),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const json = yield result.json();
-    const newItem = ItemFactory.fromJSON(json);
-    return newItem;
-    */
   } catch (err) {}
 }
 
