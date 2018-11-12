@@ -111,15 +111,17 @@ function* createPageSaga(action: any) {
     page.projectId = projectId;
 
     const mutation: string = `
-      mutation createPage($projectId: String!, $name: String!) {
-        createPage(projectId: $projectId, name: $name) {
+      mutation createPage($input: PageInput!) {
+        createPage(input: $input) {
           id name
         }
       }
       `;
     const variables = {
-      name: page.name,
-      projectId: page.projectId,
+      input: {
+        name: page.name,
+        projectId: page.projectId,
+      },
     };
     const result = yield graphql(mutation, variables);
     const newPage = result.createPage;

@@ -38,11 +38,13 @@ class ProjectOverview extends Component {
       return;
     }
 
-    const query = `mutation CreateProject($name: String!) {
-      createProject(name: $name) { id name }
+    const query = `mutation CreateProject($input: ProjectInput!) {
+      createProject(input: $input) { id name }
     }`;
     const variables = {
-      name: name,
+      input: {
+        name: name,
+      },
     };
     const result = await graphql(query, variables);
     const newProject = result.createProject;
