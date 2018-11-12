@@ -20,10 +20,14 @@ function* apiLoadGraphic(pageId: string) {
     const projectId = yield select(
       (state: any) => state.project.projectId,
     );
-    const query: string = `{
-      graphics(projectId:"${projectId}", pageId:"${pageId}") { id pageId projectId type content }
+    const query: string = `query graphic($projectId: ID!, $pageId: ID!) {
+      graphics(projectId:$projectId, pageId:$pageId) { id pageId projectId type content }
     }`;
-    const result = yield graphql(query);
+    const variables = {
+      projectId,
+      pageId,
+    };
+    const result = yield graphql(query, variables);
     const json = result.graphics;
     const items = ItemFactory.fromJSON(json);
     return items;
@@ -90,6 +94,43 @@ function* apiSaveGraphicItemSaga(item: ItemBase) {
   } catch (err) {}
 }
 
+function* apiChangeGraphicItem(action: any) {
+  let items = action.payload;
+  if (!Array.isArray(items)) {
+    items = [items];
+  }
+
+  const query = `mutation updateGraphics($input: [UpdateGraphicInput]!) {
+    updateGraphics(input: $input) { id }
+  }`;
+  const variables = {
+    input: items.map((i: ItemBase) => {
+      const json: any = i.toJSON(true);
+      return {
+        projectId: i.projectId,
+        id: i.id,
+        content: json.content,
+      };
+    }),
+  };
+  console.log(">>", variables);
+  const result = yield graphql(query, variables);
+  console.log(">", result);
+
+  // const baseUrl = getUrl("graphics");
+  // const calls = items.map((item: ItemBase) => {
+  //   const url = `${baseUrl}/${item.id}`;
+  //   return call(fetch, url, {
+  //     method: "PUT",
+  //     body: JSON.stringify(item.toJSON()),
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   });
+  // });
+  // yield all(calls);
+}
+
 function* apiDeleteGraphicItemSaga(items: ItemBase[]) {
   if (!Array.isArray(items)) {
     items = [items];
@@ -107,10 +148,13 @@ function* apiDeleteGraphicItemSaga(items: ItemBase[]) {
 function* loadPagesSaga(action: any) {
   try {
     const projectId = action.payload;
-    const query: string = `{
-      pages(projectId:"${projectId}") { id name }
+    const query: string = `query pages($projectId: ID!) {
+      pages(projectId:$projectId) { id name }
     }`;
-    const result = yield graphql(query);
+    const variables = {
+      projectId,
+    };
+    const result = yield graphql(query, variables);
     // const url = `${getUrl("pages")}?projectId=${projectId}`;
     // const result = yield call(fetch, url);
     // const json = yield result.json();
@@ -160,25 +204,6 @@ function* createPageSaga(action: any) {
       callback(newPage);
     }
   } catch (err) {}
-}
-
-function* apiChangeGraphicItem(action: any) {
-  let items = action.payload;
-  if (!Array.isArray(items)) {
-    items = [items];
-  }
-  const baseUrl = getUrl("graphics");
-  const calls = items.map((item: ItemBase) => {
-    const url = `${baseUrl}/${item.id}`;
-    return call(fetch, url, {
-      method: "PUT",
-      body: JSON.stringify(item.toJSON()),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-  });
-  yield all(calls);
 }
 
 export {
