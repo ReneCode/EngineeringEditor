@@ -11,7 +11,7 @@ type ItemTypes =
   | "rect";
 
 class ItemBase {
-  id: number;
+  id: string;
   pageId: string;
   projectId: string;
   type: ItemTypes;
@@ -20,14 +20,30 @@ class ItemBase {
     this.projectId = "";
     this.pageId = pageId;
     this.type = type;
-    this.id = 0;
+    this.id = "";
   }
 
   clone(): ItemBase {
     return deepClone(this);
   }
 
-  toJSON(): object {
+  static getContent(json: any): any | null {
+    if (json.content) {
+      return JSON.parse(json.content);
+    } else {
+      return null;
+    }
+  }
+
+  static setContent(json: any, content: any) {
+    json.content = JSON.stringify(content);
+  }
+
+  static deleteContent(json: any) {
+    delete json.content;
+  }
+
+  toJSON(asContent: Boolean = false): object {
     const result: any = (<any>Object).assign({}, this);
     // if (!this.pageId) {
     //   delete result.pageId;
@@ -36,6 +52,10 @@ class ItemBase {
     //   delete result.id;
     // }
     return result;
+  }
+
+  toJsonWithContent(): object {
+    return this.toJSON();
   }
 
   // static fromJSON(json: any): ItemBase {

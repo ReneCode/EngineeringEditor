@@ -14,11 +14,21 @@ class ItemLine extends ItemBase {
   }
 
   // http://choly.ca/post/typescript-json/
-  toJSON(): object {
-    return (<any>Object).assign({}, super.toJSON(), {
+  toJSON(asContent: boolean = false): object {
+    const result = (<any>Object).assign({}, super.toJSON(), {
       p1: this.p1.toJSON(),
       p2: this.p2.toJSON(),
     });
+    if (asContent) {
+      const content = {
+        p1: result.p1,
+        p2: result.p2,
+      };
+      ItemBase.setContent(result, content);
+      delete result.p1;
+      delete result.p2;
+    }
+    return result;
   }
 
   static fromJSON(json: any): ItemLine {
@@ -26,6 +36,12 @@ class ItemLine extends ItemBase {
       throw new Error("bad json type:" + json.type);
     }
     const line = Object.create(ItemLine.prototype);
+    const content = ItemBase.getContent(json);
+    if (content) {
+      json.p1 = content.p1;
+      json.p2 = content.p2;
+      ItemBase.deleteContent(json);
+    }
     return (<any>Object).assign(line, json, {
       p1: Point.fromJSON(json.p1),
       p2: Point.fromJSON(json.p2),

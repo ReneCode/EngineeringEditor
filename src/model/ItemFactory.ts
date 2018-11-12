@@ -28,6 +28,22 @@ class ItemFactory {
         throw new Error("bad item type:" + json.type);
     }
   }
+
+  // static fromJsonWithContent(
+  //   jsonWithContent: any,
+  // ): ItemBase | Array<ItemBase> {
+  //   if (Array.isArray(jsonWithContent)) {
+  //     return jsonWithContent.map((c: any) => {
+  //       return <ItemBase>ItemFactory.fromJsonWithContent(c);
+  //     });
+  //   }
+  //   switch (jsonWithContent.type) {
+  //     case "line":
+  //       return ItemLine.fromJsonWithContent(jsonWithContent);
+  //     default:
+  //       throw new Error("bad item type:" + json.type);
+  //   }
+  // }
 }
 
 export default ItemFactory;

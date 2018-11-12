@@ -1,10 +1,13 @@
 import ItemLine from "./ItemLine";
 import ItemFactory from "./ItemFactory";
 import ItemBase from "./ItemBase";
+import Point from "../common/point";
 
 describe("ItemFactory", () => {
-  it("create array of ItemBase from json", () => {
-    const json = [
+  let json: any;
+
+  beforeEach(() => {
+    json = [
       {
         pageId: 7,
         type: "line",
@@ -34,7 +37,9 @@ describe("ItemFactory", () => {
         id: 148,
       },
     ];
+  });
 
+  it("create array of ItemBase from json", () => {
     const items = ItemFactory.fromJSON(json);
     expect(Array.isArray(items)).toBeTruthy();
     expect(items[0] instanceof ItemLine).toBe(true);

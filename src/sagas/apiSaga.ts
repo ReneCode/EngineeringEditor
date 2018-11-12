@@ -18,6 +18,23 @@ function* setPageIdSaga(action: any) {
   yield put(actions.zoomFull());
 }
 
+function* apiLoadGraphic(pageId: string) {
+  try {
+    const projectId = yield select(
+      (state: any) => state.project.projectId,
+    );
+    const query: string = `{
+      graphics(projectId:"${projectId}", pageId:"${pageId}") { id pageId projectId type content }
+    }`;
+    const result = yield graphql(query);
+    const json = yield result.json();
+    const items = ItemFactory.fromJSON(json);
+    return items;
+  } catch (ex) {
+    console.log(ex);
+  }
+}
+
 function* apiSaveSymbolItemSaga(symbol: ItemSymbol) {
   try {
     // save to database
@@ -58,6 +75,26 @@ function* apiSaveGraphicItemSaga(item: ItemBase) {
     item.pageId = pageId;
     item.projectId = projectId;
 
+    const json: any = item.toJSON(true);
+    const query = `mutation createGraphic($input: CreateGraphicInput!) {
+      createGraphic(input: $input) { id, projectId, pageId, type, content }
+    }`;
+    const variables = {
+      input: {
+        projectId,
+        pageId,
+        type: item.type,
+        content: json.content,
+      },
+    };
+    const result = yield graphql(query, variables);
+    const newItem = ItemFactory.fromJSON(result.createGraphic);
+    return newItem;
+
+    /*
+    item.pageId = pageId;
+    item.projectId = projectId;
+
     const url = getUrl("graphics");
     const result = yield call(fetch, url, {
       method: "POST",
@@ -69,6 +106,7 @@ function* apiSaveGraphicItemSaga(item: ItemBase) {
     const json = yield result.json();
     const newItem = ItemFactory.fromJSON(json);
     return newItem;
+    */
   } catch (err) {}
 }
 

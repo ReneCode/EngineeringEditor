@@ -19,13 +19,13 @@ describe("ItemGroup", () => {
     group.items.push(new ItemCircle("abc", new Point(3, 4), 22));
 
     json = {
-      id: 0,
+      id: "",
       projectId: "",
       pageId: "pageId",
       type: "group",
       items: [
         {
-          id: 0,
+          id: "",
           type: "line",
           projectId: "",
           pageId: "abc",
@@ -33,7 +33,7 @@ describe("ItemGroup", () => {
           p2: { x: 7, y: 8 },
         },
         {
-          id: 0,
+          id: "",
           type: "line",
           projectId: "",
           pageId: "xyz",
@@ -41,7 +41,7 @@ describe("ItemGroup", () => {
           p2: { x: 3, y: 4 },
         },
         {
-          id: 0,
+          id: "",
           type: "circle",
           projectId: "",
           pageId: "abc",

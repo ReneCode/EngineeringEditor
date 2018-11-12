@@ -10,7 +10,7 @@ describe("ItemSymbol", () => {
 
   beforeEach(() => {
     symbol = new ItemSymbol();
-    symbol.id = 42;
+    symbol.id = "42";
     symbol.name = "sym-A";
     symbol.insertPt = new Point(10, 10);
     symbol.items = [
@@ -19,7 +19,7 @@ describe("ItemSymbol", () => {
     ];
 
     json = {
-      id: 42,
+      id: "42",
       projectId: "",
       pageId: "",
       type: "symbol",
@@ -27,7 +27,7 @@ describe("ItemSymbol", () => {
       insertPt: { x: 10, y: 10 },
       items: [
         {
-          id: 0,
+          id: "",
           projectId: "",
           pageId: "",
           type: "line",
@@ -35,7 +35,7 @@ describe("ItemSymbol", () => {
           p2: { x: 4, y: 5 },
         },
         {
-          id: 0,
+          id: "",
           projectId: "",
           pageId: "",
           type: "circle",

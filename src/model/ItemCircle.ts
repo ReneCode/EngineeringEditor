@@ -15,10 +15,20 @@ class ItemCircle extends ItemBase {
   }
 
   // http://choly.ca/post/typescript-json/
-  toJSON(): object {
-    return (<any>Object).assign({}, super.toJSON(), {
+  toJSON(asContent: boolean = false): object {
+    const result = (<any>Object).assign({}, super.toJSON(), {
       pt: this.pt.toJSON(),
     });
+    if (asContent) {
+      const content = {
+        pt: result.pt,
+        radius: result.radius,
+      };
+      ItemBase.setContent(result, content);
+      delete result.pt;
+      delete result.radius;
+    }
+    return result;
   }
 
   static fromJSON(json: any): ItemCircle {
@@ -26,6 +36,12 @@ class ItemCircle extends ItemBase {
       throw new Error("bad json type:" + json.type);
     }
     const line = Object.create(ItemCircle.prototype);
+    const content = ItemBase.getContent(json);
+    if (content) {
+      json.pt = content.pt;
+      json.radius = content.radius;
+      ItemBase.deleteContent(json);
+    }
     return (<any>Object).assign(line, json, {
       pt: Point.fromJSON(json.pt),
     });

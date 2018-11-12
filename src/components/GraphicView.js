@@ -68,7 +68,7 @@ class GraphicView extends Component {
   };
 
   onContextMenu = ev => {
-    console.log("context:", ev);
+    console.log("onContextMenu:", ev);
   };
 
   getCursor(ev) {

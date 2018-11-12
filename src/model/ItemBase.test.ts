@@ -5,7 +5,7 @@ describe("ItemBase", () => {
     const item = new ItemBase("", "line");
     const json = item.toJSON();
     expect(json).toEqual({
-      id: 0,
+      id: "",
       pageId: "",
       projectId: "",
       type: "line",

@@ -10,16 +10,37 @@ describe("ItemLine", () => {
     const p1 = new Point(4, 5);
     const p2 = new Point(7, 8);
     line = new ItemLine("abc", p1, p2);
-    line.id = 42;
+    line.id = "42";
 
     json = {
-      id: 42,
+      id: "42",
       type: "line",
       projectId: "",
       pageId: "abc",
       p1: { x: 4, y: 5 },
       p2: { x: 7, y: 8 },
     };
+  });
+
+  it.only("toJSON and fromJSON with content", () => {
+    const item: ItemLine = new ItemLine(
+      "7",
+      new Point(-20, 120),
+      new Point(180, 120),
+    );
+    item.id = "42";
+    item.projectId = "projectId";
+
+    const json = item.toJSON(true);
+    expect(json).toHaveProperty("content");
+    expect(json).not.toHaveProperty("p1");
+
+    const str: string = JSON.stringify(json);
+    const backJson = JSON.parse(str);
+
+    const line = ItemLine.fromJSON(backJson);
+    expect(line.p1).toEqual(item.p1);
+    expect(line).not.toHaveProperty("content");
   });
 
   // it("json without pageId and id", () => {
