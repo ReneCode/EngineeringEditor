@@ -113,22 +113,7 @@ function* apiChangeGraphicItem(action: any) {
       };
     }),
   };
-  console.log(">>", variables);
-  const result = yield graphql(query, variables);
-  console.log(">", result);
-
-  // const baseUrl = getUrl("graphics");
-  // const calls = items.map((item: ItemBase) => {
-  //   const url = `${baseUrl}/${item.id}`;
-  //   return call(fetch, url, {
-  //     method: "PUT",
-  //     body: JSON.stringify(item.toJSON()),
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   });
-  // });
-  // yield all(calls);
+  yield graphql(query, variables);
 }
 
 function* apiDeleteGraphicItemSaga(items: ItemBase[]) {
