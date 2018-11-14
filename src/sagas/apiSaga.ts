@@ -133,17 +133,16 @@ function* apiDeleteGraphicItemSaga(items: ItemBase[]) {
 function* loadPagesSaga(action: any) {
   try {
     const projectId = action.payload;
-    const query: string = `query pages($projectId: ID!) {
-      pages(projectId:$projectId) { id name }
+    const query: string = `query project($id: ID!) {
+      project(id: $id) {
+        pages { id name }
+      }
     }`;
     const variables = {
-      projectId,
+      id: projectId,
     };
     const result = yield graphql(query, variables);
-    // const url = `${getUrl("pages")}?projectId=${projectId}`;
-    // const result = yield call(fetch, url);
-    // const json = yield result.json();
-    const json = result.pages;
+    const json = result.project.pages;
     yield put(actions.setPages(json));
   } catch (ex) {
     console.log("---------");
@@ -158,7 +157,7 @@ function* createPageSaga(action: any) {
     page.projectId = projectId;
 
     const mutation: string = `
-      mutation createPage($input: PageInput!) {
+      mutation createPage($input: CreatePageInput!) {
         createPage(input: $input) {
           id name
         }

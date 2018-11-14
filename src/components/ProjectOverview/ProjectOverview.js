@@ -38,7 +38,7 @@ class ProjectOverview extends Component {
       return;
     }
 
-    const query = `mutation CreateProject($input: ProjectInput!) {
+    const query = `mutation CreateProject($input: CreateProjectInput!) {
       createProject(input: $input) { id name }
     }`;
     const variables = {
