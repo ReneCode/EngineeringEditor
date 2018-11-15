@@ -10,29 +10,30 @@ import { graphql } from "../common/graphql-api";
 function* setPageIdSaga(action: any) {
   // load the graphic of the active page
   const pageId = action.payload;
-  const items = yield apiLoadGraphic(pageId);
+  const items = yield apiLoadPlacement(pageId);
   yield put(actions.setGraphicItems(items));
   yield put(actions.zoomFull());
 }
 
-function* apiLoadGraphic(pageId: string) {
+function* apiLoadPlacement(pageId: string) {
   try {
     const projectId = yield select(
       (state: any) => state.project.projectId,
     );
-    const query: string = `query graphic($projectId: ID!, $pageId: ID!) {
-      graphics(projectId:$projectId, pageId:$pageId) { id pageId projectId type content }
+    const query: string = `query placements($projectId: ID!, $pageId: ID!) {
+      placements(projectId:$projectId, pageId:$pageId) { id pageId projectId type content }
     }`;
     const variables = {
       projectId,
       pageId,
     };
     const result = yield graphql(query, variables);
-    const json = result.graphics;
+    const json = result.placements;
     const items = ItemFactory.fromJSON(json);
     return items;
   } catch (ex) {
-    console.log(ex);
+    console.log("EX:", ex);
+    return [];
   }
 }
 
@@ -77,8 +78,8 @@ function* apiSaveGraphicItemSaga(item: ItemBase) {
     item.projectId = projectId;
 
     const json: any = item.toJSON(true);
-    const query = `mutation createGraphic($input: CreateGraphicInput!) {
-      createGraphic(input: $input) { id, projectId, pageId, type, content }
+    const query = `mutation createPlacement($input: CreatePlacementInput!) {
+      createPlacement(input: $input) { id, projectId, pageId, type, content }
     }`;
     const variables = {
       input: {
@@ -89,7 +90,7 @@ function* apiSaveGraphicItemSaga(item: ItemBase) {
       },
     };
     const result = yield graphql(query, variables);
-    const newItem = ItemFactory.fromJSON(result.createGraphic);
+    const newItem = ItemFactory.fromJSON(result.createPlacement);
     return newItem;
   } catch (err) {}
 }
@@ -100,14 +101,15 @@ function* apiChangeGraphicItem(action: any) {
     items = [items];
   }
 
-  const query = `mutation updateGraphics($input: [UpdateGraphicInput]!) {
-    updateGraphics(input: $input) { id }
+  const query = `mutation updatePlacements($input: [UpdatePlacementInput]!) {
+    updatePlacements(input: $input) 
   }`;
   const variables = {
     input: items.map((i: ItemBase) => {
       const json: any = i.toJSON(true);
       return {
         projectId: i.projectId,
+        pageId: i.pageId,
         id: i.id,
         content: json.content,
       };
