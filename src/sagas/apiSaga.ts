@@ -20,16 +20,19 @@ function* apiLoadPlacement(pageId: string) {
     const projectId = yield select(
       (state: any) => state.project.projectId,
     );
-    const query: string = `query placements($projectId: ID!, $pageId: ID!) {
-      placements(projectId:$projectId, pageId:$pageId) { id pageId projectId type content }
-    }`;
-    const variables = {
-      projectId,
-      pageId,
-    };
-    const result = yield graphql(query, variables);
-    const json = result.placements;
-    const items = ItemFactory.fromJSON(json);
+    let items: ItemBase[] = [];
+    if (projectId && pageId) {
+      const query: string = `query placements($projectId: ID!, $pageId: ID!) {
+        placements(projectId:$projectId, pageId:$pageId) { id pageId projectId type content }
+      }`;
+      const variables = {
+        projectId,
+        pageId,
+      };
+      const result = yield graphql(query, variables);
+      const json = result.placements;
+      items = <ItemBase[]>ItemFactory.fromJSON(json);
+    }
     return items;
   } catch (ex) {
     console.log("EX:", ex);
