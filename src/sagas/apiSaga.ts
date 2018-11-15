@@ -104,7 +104,7 @@ function* apiChangeGraphicItem(action: any) {
     items = [items];
   }
 
-  const query = `mutation updatePlacements($input: [UpdatePlacementInput]!) {
+  const mutation = `mutation updatePlacements($input: [UpdatePlacementInput]!) {
     updatePlacements(input: $input) 
   }`;
   const variables = {
@@ -118,21 +118,27 @@ function* apiChangeGraphicItem(action: any) {
       };
     }),
   };
-  yield graphql(query, variables);
+  yield graphql(mutation, variables);
 }
 
 function* apiDeleteGraphicItemSaga(items: ItemBase[]) {
   if (!Array.isArray(items)) {
     items = [items];
   }
-  const baseUrl = getUrl("graphics");
-  const calls = items.map((item: ItemBase) => {
-    const url = `${baseUrl}/${item.id}`;
-    return call(fetch, url, {
-      method: "DELETE",
-    });
-  });
-  yield all(calls);
+
+  const mutation = `mutation M($input: [DeletePlacementInput]!) {
+    deletePlacements(input: $input)
+  }`;
+  let variables = {
+    input: items.map((i: ItemBase) => {
+      return {
+        projectId: i.projectId,
+        pageId: i.pageId,
+        id: i.id,
+      };
+    }),
+  };
+  yield graphql(mutation, variables);
 }
 
 function* loadPagesSaga(action: any) {
