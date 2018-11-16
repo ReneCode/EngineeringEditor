@@ -5,8 +5,8 @@ import { getPointSaga } from "./mouseSaga";
 import * as actionTypes from "../actions/actionTypes";
 import * as actions from "../actions";
 
-import ItemLine from "../model/ItemLine";
 import { IA_CREATE_LINE } from "../actions/interactionTypes";
+import GraphicLine from "../model/graphic/GraphicLine";
 
 function* createLineSaga() {
   let line;
@@ -16,7 +16,7 @@ function* createLineSaga() {
       return;
     }
     const startPoint = result.point;
-    line = new ItemLine("", startPoint, startPoint);
+    line = new GraphicLine(startPoint, startPoint);
     yield put(actions.setTempItem(line));
     let run = true;
     while (run) {
@@ -28,7 +28,7 @@ function* createLineSaga() {
         run = false;
       } else {
         const secondPoint = result.point;
-        line = new ItemLine("", startPoint, secondPoint);
+        line = new GraphicLine(startPoint, secondPoint);
         yield put(actions.setTempItem(line));
         if (result.type === actionTypes.MOUSE_MOVE) {
           // rubberband

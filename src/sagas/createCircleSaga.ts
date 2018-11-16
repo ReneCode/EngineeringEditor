@@ -6,8 +6,8 @@ import { apiSaveGraphicItemSaga } from "../sagas/apiSaga";
 import * as actionTypes from "../actions/actionTypes";
 import * as actions from "../actions";
 
-import ItemCircle from "../model/ItemCircle";
 import { IA_CREATE_CIRCLE } from "../actions/interactionTypes";
+import GraphicCircle from "../model/graphic/GraphicCircle";
 
 function* createCircleSaga() {
   let circle;
@@ -17,7 +17,7 @@ function* createCircleSaga() {
       return;
     }
     const middlePoint = result.point;
-    circle = new ItemCircle("", middlePoint, 0);
+    circle = new GraphicCircle(middlePoint, 0);
     yield put(actions.setTempItem(circle));
     let run = true;
     while (run) {
@@ -30,7 +30,7 @@ function* createCircleSaga() {
       } else {
         const secondPoint = result.point;
         const radius = secondPoint.sub(middlePoint).length();
-        circle = new ItemCircle("", middlePoint, radius);
+        circle = new GraphicCircle(middlePoint, radius);
         yield put(actions.setTempItem(circle));
         if (result.type === actionTypes.MOUSE_MOVE) {
           // rubberband

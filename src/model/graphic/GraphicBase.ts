@@ -1,11 +1,8 @@
-import deepClone from "../../common/deepClone";
 import { GraphicType } from "../types";
+import TransformCoordinate from "../../common/transformCoordinate";
+import Point from "../../common/point";
 
 class GraphicBase {
-  // clone(): ContentBase {
-  //   return deepClone(this);
-  // }
-
   type: GraphicType;
 
   constructor(type: GraphicType) {
@@ -17,10 +14,18 @@ class GraphicBase {
     return {};
   }
 
-  // toJSON(): object {
-  //   const result: any = (<any>Object).assign({}, this);
-  //   return result;
-  // }
+  draw(
+    context: CanvasRenderingContext2D,
+    transform: TransformCoordinate,
+  ) {}
+
+  nearPoint(pt: Point, radius: number): boolean {
+    return false;
+  }
+
+  translate(pt: Point): GraphicBase {
+    return this;
+  }
 }
 
 export default GraphicBase;

@@ -4,6 +4,8 @@ import GraphicBase from "./graphic/GraphicBase";
 import { IdType } from "./types";
 import GraphicLine from "./graphic/GraphicLine";
 import GraphicFactory from "./graphic/GraphicFactory";
+import TransformCoordinate from "../common/transformCoordinate";
+import Point from "../common/point";
 
 interface PlacementJsonType {
   projectId: IdType;
@@ -11,6 +13,17 @@ interface PlacementJsonType {
   id: IdType;
   graphic: string;
 }
+
+// this could be zipped later
+const encodeGraphic = (json: object): string => {
+  return JSON.stringify(json);
+};
+
+const decodeGraphic = (str: string): object => {
+  return JSON.parse(str);
+};
+
+// ----------
 
 class Placement {
   id: IdType;
@@ -39,13 +52,21 @@ class Placement {
     };
     if (this.graphic) {
       const graphicJson = this.graphic.toJSON();
-      result.graphic = JSON.stringify(graphicJson);
+      result.graphic = encodeGraphic(graphicJson);
     }
     return result;
   }
 
-  static fromJSON(json: PlacementJsonType): Placement {
-    const jsonGraphic = JSON.parse(json.graphic);
+  static fromJSON(
+    json: PlacementJsonType,
+  ): Placement | Array<Placement> {
+    if (Array.isArray(json)) {
+      return json.map((item: any) => {
+        return <Placement>Placement.fromJSON(item);
+      });
+    }
+
+    const jsonGraphic = decodeGraphic(json.graphic);
     const graphic = <GraphicBase>GraphicFactory.fromJSON(jsonGraphic);
     const placement = new Placement(
       json.projectId,
@@ -56,7 +77,26 @@ class Placement {
     return placement;
   }
 
-  draw() {}
+  draw(
+    context: CanvasRenderingContext2D,
+    transform: TransformCoordinate,
+  ) {
+    this.graphic.draw(context, transform);
+  }
+
+  nearPoint(pt: Point, radius: number): boolean {
+    return this.graphic.nearPoint(pt, radius);
+  }
+
+  translate(pt: Point) {
+    const placement = new Placement(
+      this.projectId,
+      this.pageId,
+      this.graphic.translate(pt),
+    );
+    placement.id = this.id;
+    return placement;
+  }
 
   // clone(): PlacementBase {
   //   return deepClone(this);

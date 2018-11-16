@@ -6,6 +6,8 @@ import ItemFactory from "../model/ItemFactory";
 import ItemBase from "../model/ItemBase";
 import ItemSymbol from "../model/ItemSymbol";
 import { graphql } from "../common/graphql-api";
+import Placement from "../model/Placement";
+import GraphicBase from "../model/graphic/GraphicBase";
 
 function* setPageIdSaga(action: any) {
   // load the graphic of the active page
@@ -20,10 +22,10 @@ function* apiLoadPlacement(pageId: string) {
     const projectId = yield select(
       (state: any) => state.project.projectId,
     );
-    let items: ItemBase[] = [];
+    let placements: Placement[] = [];
     if (projectId && pageId) {
       const query: string = `query placements($projectId: ID!, $pageId: ID!) {
-        placements(projectId:$projectId, pageId:$pageId) { id pageId projectId type content }
+        placements(projectId:$projectId, pageId:$pageId) { id pageId projectId type graphic }
       }`;
       const variables = {
         projectId,
@@ -31,9 +33,9 @@ function* apiLoadPlacement(pageId: string) {
       };
       const result = yield graphql(query, variables);
       const json = result.placements;
-      items = <ItemBase[]>ItemFactory.fromJSON(json);
+      placements = <Placement[]>Placement.fromJSON(json);
     }
-    return items;
+    return placements;
   } catch (ex) {
     console.log("EX:", ex);
     return [];
@@ -66,10 +68,11 @@ function* apiSaveSymbolItemSaga(symbol: ItemSymbol) {
   }
 }
 
-function* apiSaveGraphicItemSaga(item: ItemBase) {
+// -> Placement
+function* apiSaveGraphicItemSaga(graphic: GraphicBase) {
   try {
-    if (!(item instanceof ItemBase)) {
-      throw new Error("bad item:" + item);
+    if (!(graphic instanceof GraphicBase)) {
+      throw new Error("bad graphic:" + graphic);
     }
 
     // save to database
@@ -77,23 +80,21 @@ function* apiSaveGraphicItemSaga(item: ItemBase) {
       (state: any) => state.project.projectId,
     );
     const pageId = yield select((state: any) => state.project.pageId);
-    item.pageId = pageId;
-    item.projectId = projectId;
-
-    const json: any = item.toJSON(true);
+    const placement = new Placement(projectId, pageId, graphic);
+    const json: any = placement.toJSON();
     const query = `mutation createPlacement($input: CreatePlacementInput!) {
-      createPlacement(input: $input) { id, projectId, pageId, type, content }
+      createPlacement(input: $input) { id, projectId, pageId, type, graphic }
     }`;
     const variables = {
       input: {
         projectId,
         pageId,
-        type: item.type,
-        content: json.content,
+        type: graphic.type,
+        graphic: json.graphic,
       },
     };
     const result = yield graphql(query, variables);
-    const newItem = ItemFactory.fromJSON(result.createPlacement);
+    const newItem = Placement.fromJSON(result.createPlacement);
     return newItem;
   } catch (err) {}
 }
@@ -114,7 +115,7 @@ function* apiChangeGraphicItem(action: any) {
         projectId: i.projectId,
         pageId: i.pageId,
         id: i.id,
-        content: json.content,
+        graphic: json.graphic,
       };
     }),
   };

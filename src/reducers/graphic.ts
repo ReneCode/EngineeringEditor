@@ -1,13 +1,13 @@
 import * as actionTypes from "../actions/actionTypes";
 import Point from "../common/point";
-import ItemBase from "../model/ItemBase";
 import ItemSymbol from "../model/ItemSymbol";
+import Placement from "../model/Placement";
 
 interface IGraphicState {
   symbols: ItemSymbol[];
-  items: ItemBase[];
-  selectedItems: ItemBase[];
-  tempItems: ItemBase[];
+  items: Placement[];
+  selectedItems: Placement[];
+  tempItems: Placement[];
   cursor: object;
   viewport: object;
   canvas: object;
@@ -74,7 +74,7 @@ const addSelectedItem = (state: IGraphicState, action: any) => {
   }
   // remove items, that are allready in state.selectedItems
   newItems = newItems.filter(
-    (i: ItemBase) => state.selectedItems.indexOf(i) < 0,
+    (i: Placement) => state.selectedItems.indexOf(i) < 0,
   );
   return {
     ...state,
@@ -91,7 +91,7 @@ const changeGraphicItem = (state: IGraphicState, action: any) => {
     ...state,
     items: state.items.map(currentItem => {
       const newItem = newItems.find(
-        (i: ItemBase) => i.id === currentItem.id,
+        (i: Placement) => i.id === currentItem.id,
       );
       if (newItem) {
         return newItem;
@@ -123,9 +123,6 @@ const graphicReducer = (state = initialState, action: any) => {
       };
 
     case actionTypes.ADD_GRAPHIC_ITEM:
-      // if (!action.payload instanceof ItemBase) {
-      //   throw new Error("bad item:" + action.payload);
-      // }
       return {
         ...state,
         items: state.items.concat(action.payload),

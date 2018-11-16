@@ -1,20 +1,20 @@
 import { put, call } from "redux-saga/effects";
 import * as actions from "../actions";
-import ItemBase from "../model/ItemBase";
 import { apiSaveGraphicItemSaga } from "./apiSaga";
+import GraphicBase from "../model/graphic/GraphicBase";
 
 function* saveGraphicItemSaga(action: any) {
   try {
-    const item: any = action.payload;
-    if (!(item instanceof ItemBase)) {
-      throw new Error("bad item:" + item);
+    const graphic: any = action.payload;
+    if (!(graphic instanceof GraphicBase)) {
+      throw new Error("bad graphic:" + graphic);
     }
     // add tmp-item
-    yield put(actions.addGraphicItem(item));
+    yield put(actions.addGraphicItem(graphic));
     // save to API
-    const newItem = yield call(apiSaveGraphicItemSaga, item);
+    const newItem = yield call(apiSaveGraphicItemSaga, graphic);
     // replace tmp-item with real item (has .id from api)
-    yield put(actions.removeGraphicItem(item));
+    yield put(actions.removeGraphicItem(graphic));
     yield put(actions.addGraphicItem(newItem));
   } catch (err) {
     console.log("Error:", err);

@@ -9,9 +9,9 @@ describe("ItemCircle", () => {
   beforeEach(() => {
     const pt = new Point(7, 8);
     circle = new ItemCircle("abc", pt, 14);
-    circle.id = 42;
+    circle.id = "42";
     json = {
-      id: 42,
+      id: "42",
       type: "circle",
       projectId: "",
       pageId: "abc",

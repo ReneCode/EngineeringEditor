@@ -17,10 +17,11 @@ import ItemBase from "../model/ItemBase";
 
 import TransformCoordinate from "../common/transformCoordinate";
 import Point from "../common/point";
+import Placement from "../model/Placement";
 
 interface pickItemsSagaResult {
   point: Point;
-  items: Array<ItemBase>;
+  items: Array<Placement>;
 }
 
 function* pickItemsSaga(
@@ -47,8 +48,8 @@ function* pickItemsSaga(
       cursor.radiusScreen,
     );
 
-    const selectedItems: Array<ItemBase> = items.filter(
-      (item: ItemBase) => {
+    const selectedItems: Array<Placement> = items.filter(
+      (item: Placement) => {
         return item.nearPoint(point, pickRadius);
       },
     );
