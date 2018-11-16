@@ -32,3 +32,7 @@ http://sviridovserg.com/2017/05/16/cd-with-travis-and-azure/
 ### typescript
 
 https://github.com/Microsoft/TypeScript-React-Starter#typescript-react-starter
+
+### toJSON / fromJSON
+
+http://choly.ca/post/typescript-json/
