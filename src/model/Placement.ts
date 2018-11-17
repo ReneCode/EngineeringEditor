@@ -3,24 +3,7 @@ import { IdType } from "./types";
 import GraphicFactory from "./graphic/GraphicFactory";
 import TransformCoordinate from "../common/transformCoordinate";
 import Point from "../common/point";
-
-interface PlacementJsonType {
-  projectId: IdType;
-  pageId: IdType;
-  id: IdType;
-  graphic: string;
-}
-
-// this could be zipped later
-const encodeGraphic = (json: object): string => {
-  return JSON.stringify(json);
-};
-
-const decodeGraphic = (str: string): object => {
-  return JSON.parse(str);
-};
-
-// ----------
+import { decodeJson, encodeJson, DtoPlacement } from "./dtoUtil";
 
 class Placement {
   id: IdType;
@@ -40,30 +23,25 @@ class Placement {
     this.id = "";
   }
 
-  toJSON(): PlacementJsonType {
-    const result: PlacementJsonType = {
+  toDTO(): DtoPlacement {
+    const graphicJson = this.graphic.toJSON();
+    return {
       projectId: this.projectId,
       pageId: this.pageId,
       id: this.id,
-      graphic: "",
+      type: this.graphic.type,
+      graphic: encodeJson(graphicJson),
     };
-    if (this.graphic) {
-      const graphicJson = this.graphic.toJSON();
-      result.graphic = encodeGraphic(graphicJson);
-    }
-    return result;
   }
 
-  static fromJSON(
-    json: PlacementJsonType,
-  ): Placement | Array<Placement> {
+  static fromDTO(json: DtoPlacement): Placement | Array<Placement> {
     if (Array.isArray(json)) {
       return json.map((item: any) => {
-        return <Placement>Placement.fromJSON(item);
+        return <Placement>Placement.fromDTO(item);
       });
     }
 
-    const jsonGraphic = decodeGraphic(json.graphic);
+    const jsonGraphic = decodeJson(json.graphic);
     const graphic = <GraphicBase>GraphicFactory.fromJSON(jsonGraphic);
     const placement = new Placement(
       json.projectId,

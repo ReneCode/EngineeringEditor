@@ -25,7 +25,7 @@ function* apiUpdatePlacementSaga(placements: Placement[]) {
   }`;
   const variables = {
     input: placements.map((placement: Placement) => {
-      const json: any = placement.toJSON();
+      const json: any = placement.toDTO();
       return {
         projectId: placement.projectId,
         pageId: placement.pageId,

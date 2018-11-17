@@ -2,8 +2,8 @@ import GraphicBase from "./GraphicBase";
 import Point from "../../common/point";
 import GraphicFactory from "./GraphicFactory";
 import TransformCoordinate from "../../common/transformCoordinate";
-import DtoElement from "./DtoElement";
 import { IdType } from "../types";
+import { encodeJson, decodeJson, DtoElement } from "../dtoUtil";
 
 class GraphicSymbol extends GraphicBase {
   projecId: IdType;
@@ -25,13 +25,13 @@ class GraphicSymbol extends GraphicBase {
       }),
       insertPt: this.insertPt.toJSON(),
     };
-    return new DtoElement(
-      this.projecId,
-      this.type,
-      this.name,
-      DtoElement.encodeJson(content),
-      this.id,
-    );
+    return {
+      projectId: this.projecId,
+      type: this.type,
+      name: this.name,
+      content: encodeJson(content),
+      id: this.id,
+    };
   }
 
   static fromDTO(dto: DtoElement): GraphicSymbol {
@@ -40,7 +40,7 @@ class GraphicSymbol extends GraphicBase {
     }
     const symbol = new GraphicSymbol(dto.projectId, dto.name);
     symbol.id = dto.id;
-    const content = DtoElement.decodeJson(dto.content);
+    const content = decodeJson(dto.content);
     symbol.items = <GraphicBase[]>(
       GraphicFactory.fromJSON(content.items)
     );

@@ -1,15 +1,14 @@
-import { select, call, put, all } from "redux-saga/effects";
+import { select, put } from "redux-saga/effects";
 
 import * as actions from "../actions";
-import ItemBase from "../model/ItemBase";
 import { graphql } from "../common/graphql-api";
 import Placement from "../model/Placement";
 import GraphicBase from "../model/graphic/GraphicBase";
 import GraphicSymbol from "../model/graphic/GraphicSymbol";
-import DtoElement from "../model/graphic/DtoElement";
 import { IdType } from "../model/types";
 import GraphicSymbolRef from "../model/graphic/GraphicSymbolRef";
 import { selectGraphicSymbols } from "../reducers/selectors";
+import { DtoElement } from "../model/dtoUtil";
 
 function* setPageIdSaga(action: any) {
   // load the graphic of the active page
@@ -35,7 +34,7 @@ function* apiLoadPlacement(pageId: string) {
       };
       const result = yield graphql(query, variables);
       const json = result.placements;
-      placements = <Placement[]>Placement.fromJSON(json);
+      placements = <Placement[]>Placement.fromDTO(json);
 
       const symbols = yield selectGraphicSymbols();
       updateSymbolRef(placements, symbols);
@@ -125,7 +124,7 @@ function* apiCreatePlacementSaga(graphic: GraphicBase) {
     );
     const pageId = yield select((state: any) => state.project.pageId);
     const placement = new Placement(projectId, pageId, graphic);
-    const json: any = placement.toJSON();
+    const json: any = placement.toDTO();
     const query = `mutation createPlacement($input: CreatePlacementInput!) {
       createPlacement(input: $input) { id, projectId, pageId, type, graphic }
     }`;
@@ -138,7 +137,7 @@ function* apiCreatePlacementSaga(graphic: GraphicBase) {
       },
     };
     const result = yield graphql(query, variables);
-    const newItem = Placement.fromJSON(result.createPlacement);
+    const newItem = Placement.fromDTO(result.createPlacement);
     return newItem;
   } catch (err) {}
 }
