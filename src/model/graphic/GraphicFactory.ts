@@ -1,6 +1,8 @@
 import GraphicBase from "./GraphicBase";
 import GraphicLine from "./GraphicLine";
 import GraphicCircle from "./GraphicCircle";
+import GraphicSymbol from "./GraphicSymbol";
+import GraphicSymbolRef from "./GraphicSymbolRef";
 
 class GraphicFactory {
   static fromJSON(json: any): GraphicBase | Array<GraphicBase> {
@@ -17,9 +19,9 @@ class GraphicFactory {
       // case "group":
       //   return ItemGroup.fromJSON(json);
       // case "symbol":
-      //   return ItemSymbol.fromJSON(json);
-      // case "symbolref":
-      //   return ItemSymbolRef.fromJSON(json);
+      //   return GraphicSymbol.fromJSON(json);
+      case "symbolref":
+        return GraphicSymbolRef.fromJSON(json);
       default:
         // console.log("bad item type:", json.type);
         throw new Error("bad item type:" + json.type);

@@ -24,9 +24,7 @@ interface pickItemsSagaResult {
   items: Array<Placement>;
 }
 
-function* pickItemsSaga(
-  cursorMode = "select",
-): IterableIterator<pickItemsSagaResult> | IterableIterator<Effect> {
+function* pickItemsSaga(cursorMode = "select") {
   try {
     const getPointSagaOptions = {
       useGrid: false,

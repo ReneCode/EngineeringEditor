@@ -7,6 +7,13 @@ export const addSymbol = symbol => {
   };
 };
 
+export const setSymbols = symbols => {
+  return {
+    type: actionTypes.SET_SYMBOLS,
+    payload: symbols,
+  };
+};
+
 export const saveGraphicItem = item => {
   return {
     type: actionTypes.SAVE_GRAPHIC_ITEM,

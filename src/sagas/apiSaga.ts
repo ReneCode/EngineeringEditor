@@ -1,13 +1,15 @@
 import { select, call, put, all } from "redux-saga/effects";
 
-import getUrl from "../common/getUrl";
 import * as actions from "../actions";
-import ItemFactory from "../model/ItemFactory";
 import ItemBase from "../model/ItemBase";
-import ItemSymbol from "../model/ItemSymbol";
 import { graphql } from "../common/graphql-api";
 import Placement from "../model/Placement";
 import GraphicBase from "../model/graphic/GraphicBase";
+import GraphicSymbol from "../model/graphic/GraphicSymbol";
+import DtoElement from "../model/graphic/DtoElement";
+import { IdType } from "../model/types";
+import GraphicSymbolRef from "../model/graphic/GraphicSymbolRef";
+import { selectGraphicSymbols } from "../reducers/selectors";
 
 function* setPageIdSaga(action: any) {
   // load the graphic of the active page
@@ -34,6 +36,9 @@ function* apiLoadPlacement(pageId: string) {
       const result = yield graphql(query, variables);
       const json = result.placements;
       placements = <Placement[]>Placement.fromJSON(json);
+
+      const symbols = yield selectGraphicSymbols();
+      updateSymbolRef(placements, symbols);
     }
     return placements;
   } catch (ex) {
@@ -42,27 +47,66 @@ function* apiLoadPlacement(pageId: string) {
   }
 }
 
-function* apiSaveSymbolItemSaga(symbol: ItemSymbol) {
+const updateSymbolRef = (
+  placements: Placement[],
+  symbols: Array<GraphicSymbol>,
+): Placement[] => {
+  const newPlacements: Placement[] = <Placement[]>placements.map(
+    p => {
+      if (p.graphic && p.graphic.type === "symbolref") {
+        const symbolRef = <GraphicSymbolRef>p.graphic;
+        const symbol = symbols.find(s => s.name === symbolRef.name);
+        if (symbol) {
+          symbolRef.symbol = symbol;
+        }
+      } else {
+        return p;
+      }
+    },
+  );
+  return newPlacements;
+};
+
+function* apiSaveSymbolSaga(symbol: GraphicSymbol) {
   try {
     // save to database
-    const projectId = yield select(
-      (state: any) => state.project.projectId,
-    );
-    const saveItem = {
-      ...symbol,
+
+    let mutation = `mutation createElement($input: CreateElementInput!) {
+      createElement(input: $input) { projectId id name type content }
+    }`;
+    const dto = symbol.toDTO();
+    let variables = {
+      input: {
+        projectId: dto.projectId,
+        type: dto.type,
+        name: dto.name,
+        content: dto.content,
+      },
+    };
+    const data = yield graphql(mutation, variables);
+    const newSymbol = GraphicSymbol.fromDTO(data.createElement);
+    return newSymbol;
+  } catch (ex) {
+    console.log(ex);
+  }
+}
+
+function* apiLoadSymbols(projectId: IdType) {
+  try {
+    const query = `query Q($projectId: ID!) {
+      project(id: $projectId) {
+        elements { projectId id name type content }
+      }
+    }`;
+    const variables = {
       projectId,
     };
-    const url = getUrl("symbols");
-    const result = yield call(fetch, url, {
-      method: "POST",
-      body: JSON.stringify(saveItem),
-      headers: {
-        "Content-Type": "application/json",
-      },
+    const data = yield graphql(query, variables);
+    const dtoElements = data.project.elements;
+    const symbols = dtoElements.map((e: DtoElement) => {
+      return GraphicSymbol.fromDTO(e);
     });
-    const json = yield result.json();
-    const newSymbol = ItemFactory.fromJSON(json);
-    return newSymbol;
+    yield put(actions.setSymbols(symbols));
   } catch (ex) {
     console.log(ex);
   }
@@ -99,7 +143,7 @@ function* apiSaveGraphicItemSaga(graphic: GraphicBase) {
   } catch (err) {}
 }
 
-function* apiChangeGraphicItem(action: any) {
+function* apiChangeGraphicItemSaga(action: any) {
   let items = action.payload;
   if (!Array.isArray(items)) {
     items = [items];
@@ -203,10 +247,11 @@ function* createPageSaga(action: any) {
 }
 
 export {
-  apiChangeGraphicItem,
-  apiSaveSymbolItemSaga,
+  apiChangeGraphicItemSaga,
+  apiSaveSymbolSaga,
   setPageIdSaga,
   apiSaveGraphicItemSaga,
+  apiLoadSymbols,
   loadPagesSaga,
   createPageSaga,
   apiDeleteGraphicItemSaga,

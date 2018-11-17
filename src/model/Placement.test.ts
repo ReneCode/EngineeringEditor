@@ -28,14 +28,13 @@ describe("placement", () => {
     expect(typeof placement.graphic).toBe("object");
 
     const json = placement.toJSON();
-    console.log(json);
     expect(json).toHaveProperty("graphic");
     expect(typeof json.graphic).toBe("string");
 
     const newPlacement = Placement.fromJSON(json);
     expect(newPlacement).toBeTruthy();
     expect(newPlacement instanceof Placement).toBeTruthy();
-    expect(newPlacement.graphic).toEqual(graphic);
+    expect(newPlacement).toHaveProperty("graphic", graphic);
     expect(newPlacement).toEqual(placement);
   });
 });

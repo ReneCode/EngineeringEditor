@@ -1,10 +1,10 @@
 import * as actionTypes from "../actions/actionTypes";
 import Point from "../common/point";
-import ItemSymbol from "../model/ItemSymbol";
 import Placement from "../model/Placement";
+import GraphicSymbol from "../model/graphic/GraphicSymbol";
 
 interface IGraphicState {
-  symbols: ItemSymbol[];
+  symbols: GraphicSymbol[];
   items: Placement[];
   selectedItems: Placement[];
   tempItems: Placement[];
@@ -109,7 +109,12 @@ const graphicReducer = (state = initialState, action: any) => {
         ...state,
         symbols: state.symbols.concat(action.payload),
       };
-
+    case actionTypes.SET_SYMBOLS:
+      console.log(action.payload);
+      return {
+        ...state,
+        symbols: action.payload,
+      };
     case actionTypes.SET_TEMP_ITEM:
       return {
         ...state,

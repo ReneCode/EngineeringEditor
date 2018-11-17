@@ -5,7 +5,8 @@ import {
   loadPagesSaga,
   createPageSaga,
   setPageIdSaga,
-  apiChangeGraphicItem,
+  apiChangeGraphicItemSaga,
+  apiLoadSymbols,
 } from "../sagas/apiSaga";
 import { startInteractionSaga } from "./startInteractionSaga";
 import { zoomWindowSaga, zoomFullSaga } from "./zoomSaga";
@@ -20,7 +21,13 @@ function* rootSagas() {
     takeLatest(actionTypes.LOAD_PAGES, loadPagesSaga),
     takeLatest(actionTypes.CREATE_PAGE, createPageSaga),
     takeLatest(actionTypes.SET_PAGE_ID, setPageIdSaga),
-    takeLatest(actionTypes.CHANGE_GRAPHIC_ITEM, apiChangeGraphicItem),
+    takeLatest(
+      actionTypes.CHANGE_GRAPHIC_ITEM,
+      apiChangeGraphicItemSaga,
+    ),
+    takeLatest(actionTypes.SET_PROJECT_ID, action =>
+      apiLoadSymbols(action.payload),
+    ),
   ]);
 }
 
