@@ -73,9 +73,6 @@ export const removeGraphicItem = item => {
 
 // identify placement to update by .id
 export const updatePlacement = placements => {
-  if (!Array.isArray(placements)) {
-    placements = [placements];
-  }
   return {
     type: actionTypes.UPDATE_PLACEMENT,
     payload: placements,

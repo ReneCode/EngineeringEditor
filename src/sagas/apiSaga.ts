@@ -143,24 +143,6 @@ function* apiCreatePlacementSaga(graphic: GraphicBase) {
   } catch (err) {}
 }
 
-function* apiUpdatePlacementSaga(placements: Placement[]) {
-  const mutation = `mutation updatePlacements($input: [UpdatePlacementInput]!) {
-    updatePlacements(input: $input) 
-  }`;
-  const variables = {
-    input: placements.map((placement: Placement) => {
-      const json: any = placement.toJSON();
-      return {
-        projectId: placement.projectId,
-        pageId: placement.pageId,
-        id: placement.id,
-        graphic: json.graphic,
-      };
-    }),
-  };
-  yield graphql(mutation, variables);
-}
-
 function* apiDeletePlacementsSaga(items: Placement[]) {
   if (!Array.isArray(items)) {
     items = [items];
@@ -231,7 +213,6 @@ function* createPageSaga(action: any) {
 }
 
 export {
-  apiUpdatePlacementSaga,
   apiSaveSymbolSaga,
   setPageIdSaga,
   apiCreatePlacementSaga,
