@@ -9,6 +9,10 @@ import { IdType } from "../model/types";
 import GraphicSymbolRef from "../model/graphic/GraphicSymbolRef";
 import { selectGraphicSymbols } from "../reducers/selectors";
 import { DtoElement } from "../model/dtoUtil";
+import {
+  updatePlacementsSymbolRef,
+  updateGraphicsSymbolRef,
+} from "./updateSymbolRef";
 
 function* setPageIdSaga(action: any) {
   // load the graphic of the active page
@@ -36,8 +40,9 @@ function* apiLoadPlacement(pageId: string) {
       const json = result.placements;
       placements = <Placement[]>Placement.fromDTO(json);
 
+      // update the .symbol Property for SymbolRef items
       const symbols = yield selectGraphicSymbols();
-      updateSymbolRef(placements, symbols);
+      updatePlacementsSymbolRef(placements, symbols);
     }
     return placements;
   } catch (ex) {
@@ -45,26 +50,6 @@ function* apiLoadPlacement(pageId: string) {
     return [];
   }
 }
-
-const updateSymbolRef = (
-  placements: Placement[],
-  symbols: Array<GraphicSymbol>,
-): Placement[] => {
-  const newPlacements: Placement[] = <Placement[]>placements.map(
-    p => {
-      if (p.graphic && p.graphic.type === "symbolref") {
-        const symbolRef = <GraphicSymbolRef>p.graphic;
-        const symbol = symbols.find(s => s.name === symbolRef.name);
-        if (symbol) {
-          symbolRef.symbol = symbol;
-        }
-      } else {
-        return p;
-      }
-    },
-  );
-  return newPlacements;
-};
 
 function* apiSaveSymbolSaga(symbol: GraphicSymbol) {
   try {
@@ -103,8 +88,15 @@ function* apiLoadSymbols(projectId: IdType) {
     const data = yield graphql(query, variables);
     const dtoElements = data.project.elements;
     const symbols = dtoElements.map((e: DtoElement) => {
-      return GraphicSymbol.fromDTO(e);
+      const symbol = GraphicSymbol.fromDTO(e);
+      return symbol;
     });
+
+    // update the .symbol property of all SymbolRef items - recursive
+    symbols.forEach((symbol: GraphicSymbol) => {
+      updateGraphicsSymbolRef(symbol.items, symbols, true);
+    });
+
     yield put(actions.setSymbols(symbols));
   } catch (ex) {
     console.log(ex);
