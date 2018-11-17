@@ -11,12 +11,13 @@ import {
 import ItemBase from "../model/ItemBase";
 import deepClone from "../common/deepClone";
 import Point from "../common/point";
+import { selectGraphicSelectedItems } from "../reducers/selectors";
+import { updatePlacement } from "../actions";
+import updatePlacementSaga from "./updatePlacementSaga";
 
 function* moveGraphicItemSaga(p1: Point | null = null) {
   try {
-    const selectedItems = yield select(
-      (state: any) => state.graphic.selectedItems,
-    );
+    const selectedItems = yield selectGraphicSelectedItems();
     if (selectedItems.length === 0) {
       return;
     }
@@ -51,7 +52,7 @@ function* moveGraphicItemSaga(p1: Point | null = null) {
       } else {
         run = false;
         // only move if there is a move defined
-        yield put(actions.changeGraphicItem(movedItems));
+        yield call(updatePlacementSaga, movedItems);
       }
     }
 

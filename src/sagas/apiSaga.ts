@@ -143,22 +143,17 @@ function* apiCreatePlacementSaga(graphic: GraphicBase) {
   } catch (err) {}
 }
 
-function* apiChangeGraphicItemSaga(action: any) {
-  let items = action.payload;
-  if (!Array.isArray(items)) {
-    items = [items];
-  }
-
+function* apiUpdatePlacementSaga(placements: Placement[]) {
   const mutation = `mutation updatePlacements($input: [UpdatePlacementInput]!) {
     updatePlacements(input: $input) 
   }`;
   const variables = {
-    input: items.map((i: ItemBase) => {
-      const json: any = i.toJSON(true);
+    input: placements.map((placement: Placement) => {
+      const json: any = placement.toJSON();
       return {
-        projectId: i.projectId,
-        pageId: i.pageId,
-        id: i.id,
+        projectId: placement.projectId,
+        pageId: placement.pageId,
+        id: placement.id,
         graphic: json.graphic,
       };
     }),
@@ -201,7 +196,6 @@ function* loadPagesSaga(action: any) {
     const json = result.project.pages;
     yield put(actions.setPages(json));
   } catch (ex) {
-    console.log("---------");
     console.log(ex);
   }
 }
@@ -237,7 +231,7 @@ function* createPageSaga(action: any) {
 }
 
 export {
-  apiChangeGraphicItemSaga,
+  apiUpdatePlacementSaga,
   apiSaveSymbolSaga,
   setPageIdSaga,
   apiCreatePlacementSaga,

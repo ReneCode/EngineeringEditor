@@ -71,11 +71,14 @@ export const removeGraphicItem = item => {
   };
 };
 
-// identify item to exchange by .id
-export const changeGraphicItem = item => {
+// identify placement to update by .id
+export const updatePlacement = placements => {
+  if (!Array.isArray(placements)) {
+    placements = [placements];
+  }
   return {
-    type: actionTypes.CHANGE_GRAPHIC_ITEM,
-    payload: item,
+    type: actionTypes.UPDATE_PLACEMENT,
+    payload: placements,
   };
 };
 

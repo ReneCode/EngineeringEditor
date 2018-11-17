@@ -82,21 +82,18 @@ const addSelectedItem = (state: IGraphicState, action: any) => {
   };
 };
 
-const changeGraphicItem = (state: IGraphicState, action: any) => {
-  let newItems = action.payload;
-  if (!Array.isArray(newItems)) {
-    newItems = [newItems];
-  }
+const updatePlacements = (state: IGraphicState, action: any) => {
+  let placements = action.payload;
   return {
     ...state,
-    items: state.items.map(currentItem => {
-      const newItem = newItems.find(
-        (i: Placement) => i.id === currentItem.id,
+    items: state.items.map(currentPlacement => {
+      const newPlacement = placements.find(
+        (p: Placement) => p.id === currentPlacement.id,
       );
-      if (newItem) {
-        return newItem;
+      if (newPlacement) {
+        return newPlacement;
       } else {
-        return currentItem;
+        return currentPlacement;
       }
     }),
   };
@@ -134,8 +131,8 @@ const graphicReducer = (state = initialState, action: any) => {
     case actionTypes.REMOVE_GRAPHIC_ITEM:
       return removeGraphicItem(state, action);
 
-    case actionTypes.CHANGE_GRAPHIC_ITEM:
-      return changeGraphicItem(state, action);
+    case actionTypes.UPDATE_PLACEMENT:
+      return updatePlacements(state, action);
 
     case actionTypes.SET_CANVAS_SIZE:
       return {
