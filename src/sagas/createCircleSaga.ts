@@ -1,7 +1,7 @@
 import { put, call, cancelled } from "redux-saga/effects";
 
 import { getPointSaga } from "./mouseSaga";
-import { apiSaveGraphicItemSaga } from "../sagas/apiSaga";
+import { apiCreatePlacementSaga } from "../sagas/apiSaga";
 
 import * as actionTypes from "../actions/actionTypes";
 import * as actions from "../actions";

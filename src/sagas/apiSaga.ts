@@ -113,7 +113,7 @@ function* apiLoadSymbols(projectId: IdType) {
 }
 
 // -> Placement
-function* apiSaveGraphicItemSaga(graphic: GraphicBase) {
+function* apiCreatePlacementSaga(graphic: GraphicBase) {
   try {
     if (!(graphic instanceof GraphicBase)) {
       throw new Error("bad graphic:" + graphic);
@@ -166,7 +166,7 @@ function* apiChangeGraphicItemSaga(action: any) {
   yield graphql(mutation, variables);
 }
 
-function* apiDeleteGraphicItemSaga(items: ItemBase[]) {
+function* apiDeletePlacementsSaga(items: Placement[]) {
   if (!Array.isArray(items)) {
     items = [items];
   }
@@ -175,7 +175,7 @@ function* apiDeleteGraphicItemSaga(items: ItemBase[]) {
     deletePlacements(input: $input)
   }`;
   let variables = {
-    input: items.map((i: ItemBase) => {
+    input: items.map((i: Placement) => {
       return {
         projectId: i.projectId,
         pageId: i.pageId,
@@ -228,16 +228,6 @@ function* createPageSaga(action: any) {
     const result = yield graphql(mutation, variables);
     const newPage = result.createPage;
 
-    // const url = getUrl("pages");
-    // const res = yield call(fetch, url, {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(page),
-    // });
-    // const newPage = yield res.json();
-
     // update store
     yield put(actions.addPage(newPage));
     if (callback) {
@@ -250,9 +240,9 @@ export {
   apiChangeGraphicItemSaga,
   apiSaveSymbolSaga,
   setPageIdSaga,
-  apiSaveGraphicItemSaga,
+  apiCreatePlacementSaga,
   apiLoadSymbols,
   loadPagesSaga,
   createPageSaga,
-  apiDeleteGraphicItemSaga,
+  apiDeletePlacementsSaga,
 };

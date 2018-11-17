@@ -1,7 +1,6 @@
 import GraphicBase from "./GraphicBase";
 import GraphicLine from "./GraphicLine";
 import GraphicCircle from "./GraphicCircle";
-import GraphicSymbol from "./GraphicSymbol";
 import GraphicSymbolRef from "./GraphicSymbolRef";
 
 class GraphicFactory {

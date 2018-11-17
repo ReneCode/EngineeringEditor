@@ -1,8 +1,8 @@
-import { IdType } from "../types";
+import { IdType, GraphicType } from "../types";
 
 class DtoElement {
   projectId: IdType;
-  type: string;
+  type: GraphicType;
   name: string;
   content: string;
   id: IdType;
@@ -18,7 +18,7 @@ class DtoElement {
 
   constructor(
     projectId: IdType,
-    type: string,
+    type: GraphicType,
     name: string,
     content: string,
     id: IdType = "",

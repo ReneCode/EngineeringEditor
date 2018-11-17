@@ -1,7 +1,7 @@
 import { select, put, call } from "redux-saga/effects";
 import ItemGroup from "../model/ItemGroup";
 import * as actions from "../actions";
-import { apiDeleteGraphicItemSaga } from "./apiSaga";
+import { apiDeletePlacementsSaga } from "./apiSaga";
 
 function* createGroupSaga() {
   const items = yield select(
@@ -16,7 +16,7 @@ function* createGroupSaga() {
 
   yield put(actions.clearSelectedItem());
 
-  yield call(apiDeleteGraphicItemSaga, items);
+  yield call(apiDeletePlacementsSaga, items);
   yield put(actions.removeGraphicItem(items));
 
   // save to database

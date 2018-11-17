@@ -1,6 +1,6 @@
 import { put, call } from "redux-saga/effects";
 import * as actions from "../actions";
-import { apiSaveGraphicItemSaga } from "./apiSaga";
+import { apiCreatePlacementSaga } from "./apiSaga";
 import GraphicBase from "../model/graphic/GraphicBase";
 
 function* saveGraphicItemSaga(action: any) {
@@ -12,7 +12,7 @@ function* saveGraphicItemSaga(action: any) {
     // add tmp-item
     yield put(actions.addGraphicItem(graphic));
     // save to API
-    const newItem = yield call(apiSaveGraphicItemSaga, graphic);
+    const newItem = yield call(apiCreatePlacementSaga, graphic);
     // replace tmp-item with real item (has .id from api)
     yield put(actions.removeGraphicItem(graphic));
     yield put(actions.addGraphicItem(newItem));

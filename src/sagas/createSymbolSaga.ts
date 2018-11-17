@@ -4,8 +4,8 @@ import { MOUSE_DOWN } from "../actions/actionTypes";
 import * as actions from "../actions";
 import {
   apiSaveSymbolSaga,
-  apiSaveGraphicItemSaga,
-  apiDeleteGraphicItemSaga,
+  apiCreatePlacementSaga,
+  apiDeletePlacementsSaga,
 } from "./apiSaga";
 import GraphicSymbol from "../model/graphic/GraphicSymbol";
 import GraphicSymbolRef from "../model/graphic/GraphicSymbolRef";
@@ -38,13 +38,13 @@ function* createSymbolSaga() {
 
     const symbolRef = new GraphicSymbolRef(symbol.name);
     const placement: Placement = yield call(
-      apiSaveGraphicItemSaga,
+      apiCreatePlacementSaga,
       symbolRef,
     );
     const newSymbolRef = <GraphicSymbolRef>placement.graphic;
     newSymbolRef.symbol = newSymbol;
     yield put(actions.addGraphicItem(placement));
-    yield call(apiDeleteGraphicItemSaga, selectedItems);
+    yield call(apiDeletePlacementsSaga, selectedItems);
 
     yield put(actions.removeGraphicItem(selectedItems));
     yield put(actions.removeSelectedItem(selectedItems));

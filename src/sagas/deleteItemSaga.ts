@@ -1,19 +1,10 @@
-import {
-  put,
-  select,
-  all,
-  call,
-  cancelled,
-} from "redux-saga/effects";
+import { put, select, call, cancelled } from "redux-saga/effects";
 
 import * as actions from "../actions";
-import * as actionTypes from "../actions/actionTypes";
-import getUrl from "../common/getUrl";
-import ItemBase from "../model/ItemBase";
 
 import { pickItemsSaga } from "./pickItemsSaga";
 import { IA_DELETE_ITEM } from "../actions/interactionTypes";
-import { apiDeleteGraphicItemSaga } from "./apiSaga";
+import { apiDeletePlacementsSaga } from "./apiSaga";
 
 function* deleteItemSaga() {
   let itemsToDelete = [];
@@ -31,16 +22,7 @@ function* deleteItemSaga() {
     yield put(actions.removeGraphicItem(itemsToDelete));
     yield put(actions.removeSelectedItem(itemsToDelete));
 
-    yield call(apiDeleteGraphicItemSaga, itemsToDelete);
-
-    // const baseUrl = getUrl("graphics");
-    // const calls = itemsToDelete.map((item: ItemBase) => {
-    //   const url = `${baseUrl}/${item.id}`;
-    //   return call(fetch, url, {
-    //     method: "DELETE",
-    //   });
-    // });
-    // yield all(calls);
+    yield call(apiDeletePlacementsSaga, itemsToDelete);
 
     yield put(actions.startInteraction(IA_DELETE_ITEM));
   } catch (ex) {

@@ -45,30 +45,8 @@ class ItemBase {
 
   toJSON(asContent: Boolean = false): object {
     const result: any = (<any>Object).assign({}, this);
-    // if (!this.pageId) {
-    //   delete result.pageId;
-    // }
-    // if (!this.id) {
-    //   delete result.id;
-    // }
     return result;
   }
-
-  toJsonWithContent(): object {
-    return this.toJSON();
-  }
-
-  // static fromJSON(json: any): ItemBase {
-  //   const baseItem = Object.create(ItemBase.prototype);
-  //   if (json.id) {
-  //     baseItem.id = json.id;
-  //   }
-  //   if (json.pageId) {
-  //     baseItem.pageId = json.pageId;
-  //   }
-  //   baseItem.type = json.type;
-  //   return baseItem;
-  // }
 
   nearPoint(pt: Point, radius: number): boolean {
     return false;

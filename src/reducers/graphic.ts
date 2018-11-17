@@ -110,7 +110,6 @@ const graphicReducer = (state = initialState, action: any) => {
         symbols: state.symbols.concat(action.payload),
       };
     case actionTypes.SET_SYMBOLS:
-      console.log(action.payload);
       return {
         ...state,
         symbols: action.payload,

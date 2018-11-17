@@ -1,7 +1,6 @@
 import GraphicBase from "./GraphicBase";
 import Point from "../../common/point";
 import TransformCoordinate from "../../common/transformCoordinate";
-import { symbol } from "prop-types";
 import GraphicSymbol from "./GraphicSymbol";
 
 class GraphicSymbolRef extends GraphicBase {
