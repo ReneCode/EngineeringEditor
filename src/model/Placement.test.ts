@@ -14,7 +14,7 @@ describe("placement", () => {
     expect(placement.graphic).toBe(graphic);
     expect(typeof placement.graphic).toBe("object");
 
-    const json = placement.toJSON();
+    const json = placement.toDTO();
     expect(typeof json).toBe("object");
     expect(json).toHaveProperty("graphic");
     expect(typeof json.graphic).toBe("string");
@@ -27,11 +27,11 @@ describe("placement", () => {
     expect(placement.graphic).toBe(graphic);
     expect(typeof placement.graphic).toBe("object");
 
-    const json = placement.toJSON();
+    const json = placement.toDTO();
     expect(json).toHaveProperty("graphic");
     expect(typeof json.graphic).toBe("string");
 
-    const newPlacement = Placement.fromJSON(json);
+    const newPlacement = Placement.fromDTO(json);
     expect(newPlacement).toBeTruthy();
     expect(newPlacement instanceof Placement).toBeTruthy();
     expect(newPlacement).toHaveProperty("graphic", graphic);
