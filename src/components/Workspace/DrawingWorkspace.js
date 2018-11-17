@@ -53,11 +53,8 @@ class DrawingWorkspace extends Component {
         <button className="button" onClick={this.onSelect}>
           Select
         </button>
-        <button className="button" onClick={this.onMove}>
-          Move
-        </button>
         <button className="button" onClick={this.onDelete}>
-          Delete Item
+          Delete
         </button>
 
         <button className="button" onClick={this.onLine}>
@@ -65,9 +62,6 @@ class DrawingWorkspace extends Component {
         </button>
         <button className="button" onClick={this.onCircle}>
           Circle
-        </button>
-        <button className="button" onClick={this.onGroup}>
-          Group
         </button>
         <button className="button" onClick={this.onSymbol}>
           Symbol
