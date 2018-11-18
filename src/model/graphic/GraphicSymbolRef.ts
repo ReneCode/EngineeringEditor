@@ -8,9 +8,10 @@ class GraphicSymbolRef extends GraphicBase {
   symbol: GraphicSymbol | null = null;
   pt: Point = new Point();
 
-  constructor(name: string) {
+  constructor(name: string, pt: Point = new Point()) {
     super("symbolref");
     this.name = name;
+    this.pt = pt;
   }
 
   toJSON(): object {
@@ -50,7 +51,8 @@ class GraphicSymbolRef extends GraphicBase {
       console.log(`symbol not found: ${this.name}`);
       return false;
     }
-
+    // on draw() we use addTranslateWc(this.pt) -
+    // so we have to sub this.pt for picking
     return this.symbol.nearPoint(pt.sub(this.pt), radius);
   }
 

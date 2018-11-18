@@ -44,7 +44,7 @@ function* createSymbolSaga() {
 
     yield put(actions.addSymbol(newSymbol));
 
-    const symbolRef = new GraphicSymbolRef(symbol.name);
+    const symbolRef = new GraphicSymbolRef(symbol.name, result.point);
     const placement: Placement = yield call(
       apiCreatePlacementSaga,
       symbolRef,

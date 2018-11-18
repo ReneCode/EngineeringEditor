@@ -52,14 +52,18 @@ class GraphicSymbol extends GraphicBase {
     context: CanvasRenderingContext2D,
     transform: TransformCoordinate,
   ) {
+    transform.addTranslateWc(this.insertPt.invert());
     this.items.forEach((item: GraphicBase) => {
       item.draw(context, transform);
     });
   }
 
   nearPoint(pt: Point, radius: number): boolean {
+    // on draw() we use addTranslateWc(inverted this.pt) -
+    // so we have to add this.pt for picking
+
     return this.items.some((item: GraphicBase) =>
-      item.nearPoint(pt, radius),
+      item.nearPoint(pt.add(this.insertPt), radius),
     );
   }
 }
