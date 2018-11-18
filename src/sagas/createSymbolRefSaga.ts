@@ -10,7 +10,6 @@ function* createSymbolRefSaga(args: any[]) {
     const symbolRef = new GraphicSymbolRef(symbolName);
 
     yield addGraphicItemSaga(symbolRef);
-    console.log(args);
   } catch (ex) {
     console.log("ex:", ex);
   }
