@@ -1,6 +1,5 @@
 import GraphicSymbolRef from "../model/graphic/GraphicSymbolRef";
-import * as actions from "../actions";
-import { put } from "redux-saga/effects";
+import { addGraphicItemSaga } from "./addGraphicItemSaga";
 function* createSymbolRefSaga(args: any[]) {
   try {
     const symbolName = args[0];
@@ -10,7 +9,7 @@ function* createSymbolRefSaga(args: any[]) {
 
     const symbolRef = new GraphicSymbolRef(symbolName);
 
-    yield put(actions.saveGraphicItem(symbolRef));
+    yield addGraphicItemSaga(symbolRef);
     console.log(args);
   } catch (ex) {
     console.log("ex:", ex);

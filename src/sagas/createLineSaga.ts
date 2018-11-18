@@ -1,4 +1,4 @@
-import { put, call, cancelled } from "redux-saga/effects";
+import { put, cancelled } from "redux-saga/effects";
 
 import { getPointSaga } from "./mouseSaga";
 
@@ -7,6 +7,7 @@ import * as actions from "../actions";
 
 import { IA_CREATE_LINE } from "../actions/interactionTypes";
 import GraphicLine from "../model/graphic/GraphicLine";
+import { addGraphicItemSaga } from "./addGraphicItemSaga";
 
 function* createLineSaga() {
   let line;
@@ -37,7 +38,7 @@ function* createLineSaga() {
           yield put(actions.setTempItem());
 
           if (!secondPoint.equal(startPoint)) {
-            yield put(actions.saveGraphicItem(line));
+            yield addGraphicItemSaga(line);
             yield put(actions.startInteraction(IA_CREATE_LINE));
           } else {
             run = false;

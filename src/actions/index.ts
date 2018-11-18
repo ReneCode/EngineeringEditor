@@ -1,6 +1,5 @@
 import * as actionTypes from "./actionTypes";
 import { ModalId } from "../model/types";
-import Placement from "../model/Placement";
 export * from "./graphicActions.js";
 export * from "./mouseActions.js";
 export * from "./projectActions";

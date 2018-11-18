@@ -3,12 +3,8 @@ import * as actions from "../actions";
 import { apiCreatePlacementSaga } from "./apiSaga";
 import GraphicBase from "../model/graphic/GraphicBase";
 
-function* saveGraphicItemSaga(action: any) {
+function* addGraphicItemSaga(graphic: GraphicBase) {
   try {
-    const graphic: any = action.payload;
-    if (!(graphic instanceof GraphicBase)) {
-      throw new Error("bad graphic:" + graphic);
-    }
     // add tmp-item
     yield put(actions.addGraphicItem(graphic));
     // save to API
@@ -21,4 +17,4 @@ function* saveGraphicItemSaga(action: any) {
   }
 }
 
-export { saveGraphicItemSaga };
+export { addGraphicItemSaga };

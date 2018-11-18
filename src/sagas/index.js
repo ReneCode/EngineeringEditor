@@ -9,12 +9,11 @@ import {
 } from "../sagas/apiSaga";
 import { startInteractionSaga } from "./startInteractionSaga";
 import { zoomWindowSaga, zoomFullSaga } from "./zoomSaga";
-import { saveGraphicItemSaga } from "./saveGraphicItemSaga";
 
 function* rootSagas() {
   yield all([
     takeLatest(actionTypes.START_INTERACTION, startInteractionSaga),
-    takeLatest(actionTypes.SAVE_GRAPHIC_ITEM, saveGraphicItemSaga),
+    // takeLatest(actionTypes.SAVE_GRAPHIC_ITEM, saveGraphicItemSaga),
     takeLatest(actionTypes.ZOOM_WINDOW, zoomWindowSaga),
     takeLatest(actionTypes.ZOOM_FULL, zoomFullSaga),
     takeLatest(actionTypes.LOAD_PAGES, loadPagesSaga),

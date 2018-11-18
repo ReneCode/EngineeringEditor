@@ -1,13 +1,13 @@
 import { put, call, cancelled } from "redux-saga/effects";
 
 import { getPointSaga } from "./mouseSaga";
-import { apiCreatePlacementSaga } from "../sagas/apiSaga";
 
 import * as actionTypes from "../actions/actionTypes";
 import * as actions from "../actions";
 
 import { IA_CREATE_CIRCLE } from "../actions/interactionTypes";
 import GraphicCircle from "../model/graphic/GraphicCircle";
+import { addGraphicItemSaga } from "./addGraphicItemSaga";
 
 function* createCircleSaga() {
   let circle;
@@ -37,7 +37,7 @@ function* createCircleSaga() {
         } else {
           yield put(actions.setTempItem());
           if (radius > 0) {
-            yield put(actions.saveGraphicItem(circle));
+            yield addGraphicItemSaga(circle);
             yield put(actions.startInteraction(IA_CREATE_CIRCLE));
           } else {
             run = false;
