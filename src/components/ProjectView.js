@@ -7,6 +7,7 @@ import * as actions from "../actions";
 import Sidebar from "./Sidebar";
 import Workspace from "./Workspace/Workspace";
 import GraphicView from "./GraphicView";
+import SelectSymbolModal from "./SelectSymbol/SelectSymbolModal";
 
 class ProjectView extends Component {
   state = {
@@ -70,9 +71,19 @@ class ProjectView extends Component {
         />
         <Workspace workspace={this.state.activeWorkspace} />
         <GraphicView ref={ref => (this.graphicView = ref)} />
+        <SelectSymbolModal
+          show={this.props.showModalId === "selectSymbol"}
+          onClose={this.onCloseModal}
+        />
       </React.Fragment>
     );
   }
 }
 
-export default connect()(withRouter(ProjectView));
+const mapStateToProps = state => {
+  return {
+    showModalId: state.project.showModalId,
+  };
+};
+
+export default connect(mapStateToProps)(withRouter(ProjectView));

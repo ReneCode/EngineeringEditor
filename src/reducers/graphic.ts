@@ -3,7 +3,7 @@ import Point from "../common/point";
 import Placement from "../model/Placement";
 import GraphicSymbol from "../model/graphic/GraphicSymbol";
 
-interface IGraphicState {
+export interface IGraphicState {
   symbols: GraphicSymbol[];
   items: Placement[];
   selectedItems: Placement[];

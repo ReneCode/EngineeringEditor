@@ -1,9 +1,20 @@
 import * as actionTypes from "../actions/actionTypes";
 
-const initialState = {
-  projectId: undefined,
-  pageId: undefined,
+import { ModalId, IdType } from "../model/types";
+import { Page } from "csstype";
+
+interface IProjectState {
+  projectId: IdType;
+  pageId: IdType;
+  pages: Page[];
+  showModalId: ModalId;
+}
+
+const initialState: IProjectState = {
+  projectId: "",
+  pageId: "",
   pages: [],
+  showModalId: "",
 };
 
 const projectReducer = (
@@ -11,6 +22,12 @@ const projectReducer = (
   action: { type: string; payload: any },
 ) => {
   switch (action.type) {
+    case actionTypes.SHOW_MODAL: {
+      return {
+        ...state,
+        showModalId: action.payload,
+      };
+    }
     case actionTypes.SET_PAGES:
       return {
         ...state,

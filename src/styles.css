@@ -92,6 +92,7 @@ nav.menu .text {
 .flex-container-row {
   display: flex;
   flex-direction: row;
+  height: 100%;
 }
 
 .Workspace {
@@ -115,14 +116,39 @@ nav.menu .text {
 .Modal {
   display: flex;
   flex-direction: column;
-  /* background-color: #333;
-  color: #ddd; */
-  padding: 1rem;
+  background-color: rgb(35, 40, 42);
+  color: rgba(255, 255, 255, 0.8);
+  padding: 0px;
+  height: 100%;
 }
 
 .ModalTitle {
-  text-align: center;
-  margin-bottom: 10px;
+  display: flex;
+  font-size: 1.25rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  justify-content: center;
+  padding: 10px;
+  border-bottom: 1px solid #666;
+}
+
+.ModalContent {
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem;
+  height: 100%;
+}
+
+.fix-width-300 {
+  flex-grow: 0;
+  width: 250px;
+  background-color: #222;
+  height: 100%;
+  padding: 0px;
+}
+
+.flex-grow {
+  flex-grow: 10;
 }
 
 .pagenavigator {
@@ -141,13 +167,13 @@ nav.menu .text {
   flex-grow: 0;
 }
 
-.pagelist-item {
+.list-item {
   padding: 5px;
 }
 
-.pagelist-item:hover {
-  background-color: #666;
+.list-item:hover {
   cursor: pointer;
+  background-color: #666;
 }
 
 .showtop {

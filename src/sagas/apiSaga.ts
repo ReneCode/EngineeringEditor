@@ -7,7 +7,11 @@ import GraphicBase from "../model/graphic/GraphicBase";
 import GraphicSymbol from "../model/graphic/GraphicSymbol";
 import { IdType } from "../model/types";
 import GraphicSymbolRef from "../model/graphic/GraphicSymbolRef";
-import { selectGraphicSymbols } from "../reducers/selectors";
+import {
+  selectGraphicSymbols,
+  selectProjectId,
+  selectPageId,
+} from "../reducers/selectors";
 import { DtoElement } from "../model/dtoUtil";
 import {
   updatePlacementsSymbolRef,
@@ -111,10 +115,8 @@ function* apiCreatePlacementSaga(graphic: GraphicBase) {
     }
 
     // save to database
-    const projectId = yield select(
-      (state: any) => state.project.projectId,
-    );
-    const pageId = yield select((state: any) => state.project.pageId);
+    const projectId = yield selectProjectId();
+    const pageId = yield selectPageId();
     const placement = new Placement(projectId, pageId, graphic);
     const json: any = placement.toDTO();
     const query = `mutation createPlacement($input: CreatePlacementInput!) {

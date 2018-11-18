@@ -13,8 +13,12 @@ import {
   IA_CREATE_SYMBOL,
 } from "../../actions/interactionTypes";
 
-class DrawingWorkspace extends Component {
-  constructor(props) {
+interface IProps {
+  dispatch: Function;
+}
+
+class DrawingWorkspace extends Component<IProps> {
+  constructor(props: IProps) {
     super(props);
     this.state = {};
   }
@@ -44,6 +48,9 @@ class DrawingWorkspace extends Component {
   onSymbol = () => {
     this.props.dispatch(actions.startInteraction(IA_CREATE_SYMBOL));
   };
+  onSelectSymbol = () => {
+    this.props.dispatch(actions.showModal("selectSymbol"));
+  };
   onZoomWindow = () => {
     this.props.dispatch(actions.startInteraction(IA_ZOOM_WINDOW));
   };
@@ -65,6 +72,9 @@ class DrawingWorkspace extends Component {
         </button>
         <button className="button" onClick={this.onSymbol}>
           Symbol
+        </button>
+        <button className="button" onClick={this.onSelectSymbol}>
+          Select Symbol
         </button>
         <button className="button" onClick={this.onZoomWindow}>
           Zoom window

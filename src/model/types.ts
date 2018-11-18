@@ -8,3 +8,5 @@ export type GraphicType =
   | "line"
   | "circle"
   | "rect";
+
+export type ModalId = "" | "selectSymbol";
