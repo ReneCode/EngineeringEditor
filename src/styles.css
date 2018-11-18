@@ -186,6 +186,11 @@ nav.menu .text {
   flex-direction: row;
   flex-wrap: wrap;
 }
+
+.canvas-frame {
+  flex-grow: 10;
+  background-color: #eee;
+}
 .canvas {
   cursor: none;
 }

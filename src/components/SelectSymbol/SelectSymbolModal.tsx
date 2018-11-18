@@ -7,32 +7,70 @@ import SymbolList from "./SymbolList";
 import GraphicSymbol from "../../model/graphic/GraphicSymbol";
 import { IA_CREATE_SYMBOLREF } from "../../actions/interactionTypes";
 import CanvasFullSize from "../CanvasFullSize";
+import TransformCoordinate, {
+  IViewport,
+} from "../../common/transformCoordinate";
 interface IProps {
   show: boolean;
   dispatch: Function;
   symbols: GraphicSymbol[];
 }
 
+interface IState {
+  show: boolean;
+  activeSymbol: GraphicSymbol | null;
+}
+
 class SelectSymbolModal extends Component<IProps> {
-  state = { show: true, activeSymbolId: "" };
-  canvas: HTMLCanvasElement | null = null;
-  canvasFrame: HTMLDivElement | null = null;
+  state: IState = { show: true, activeSymbol: null };
+
+  constructor(props: any) {
+    super(props);
+    this.onDrawCanvas = this.onDrawCanvas.bind(this);
+  }
 
   onClose = () => {
     this.props.dispatch(actions.showModal(""));
   };
 
   onClickSymbol = (symbol: GraphicSymbol) => {
-    if (this.state.activeSymbolId === symbol.id) {
-      console.log("exit");
+    const name = symbol.name;
+    if (symbol && symbol === this.state.activeSymbol) {
       this.props.dispatch(actions.showModal(""));
       this.props.dispatch(
-        actions.startInteraction(IA_CREATE_SYMBOLREF, symbol.name),
+        actions.startInteraction(IA_CREATE_SYMBOLREF, name),
       );
     }
     this.setState({
-      activeSymbolId: symbol.id,
+      activeSymbol: symbol,
     });
+  };
+
+  onDrawCanvas = (
+    canvas: HTMLCanvasElement,
+    width: number,
+    height: number,
+  ) => {
+    const context = canvas.getContext("2d");
+    if (context) {
+      context.clearRect(0, 0, width, height);
+
+      // TODO calc bounding-box of symbol
+      const viewport: IViewport = {
+        x: -400,
+        y: -400,
+        width: 800,
+        height: 800,
+      };
+
+      const transform = new TransformCoordinate(viewport, {
+        width,
+        height,
+      });
+      if (this.state.activeSymbol) {
+        this.state.activeSymbol.draw(context, transform);
+      }
+    }
   };
 
   render() {
@@ -74,11 +112,11 @@ class SelectSymbolModal extends Component<IProps> {
               <div className="scrolling fix-width-300">
                 <SymbolList
                   symbols={this.props.symbols}
-                  activeSymbolId={this.state.activeSymbolId}
+                  activeSymbol={this.state.activeSymbol}
                   onClickSymbol={this.onClickSymbol}
                 />
               </div>
-              <CanvasFullSize />
+              <CanvasFullSize>{this.onDrawCanvas}</CanvasFullSize>
             </div>
           </div>
         </div>

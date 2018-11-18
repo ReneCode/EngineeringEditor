@@ -9,7 +9,7 @@ const SymbolList = props => {
           key={s.id}
           onClick={() => props.onClickSymbol(s)}
           symbol={s}
-          active={props.activeSymbolId === s.id}
+          active={props.activeSymbol === s}
         />
       ))}
     </div>

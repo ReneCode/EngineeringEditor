@@ -1,7 +1,7 @@
 import Point from "./point";
 import Matrix2d from "./matrix-2d";
 
-interface IViewport {
+export interface IViewport {
   x: number;
   y: number;
   width: number;

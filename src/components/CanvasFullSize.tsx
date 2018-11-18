@@ -19,9 +19,14 @@ class CanvasFullSize extends Component<IProps> {
   componentDidMount() {
     window.addEventListener("resize", this.onResize);
     this.onResize();
+    this.redraw();
   }
   componentWillUnmount() {
     window.removeEventListener("resize", this.onResize);
+  }
+
+  componentDidUpdate() {
+    this.redraw();
   }
 
   onResize = () => {
@@ -40,9 +45,23 @@ class CanvasFullSize extends Component<IProps> {
     }
   };
 
+  redraw = () => {
+    if (
+      this.canvas &&
+      this.props.children &&
+      typeof this.props.children === "function"
+    ) {
+      this.props.children(
+        this.canvas,
+        this.state.width,
+        this.state.height,
+      );
+    }
+  };
+
   render() {
     return (
-      <div className="flex-grow" ref={div => (this.frame = div)}>
+      <div className="canvas-frame" ref={div => (this.frame = div)}>
         <canvas
           className="canvas"
           ref={canvas => (this.canvas = canvas)}
