@@ -6,7 +6,7 @@ import { IGlobalState } from "../../reducers";
 import SymbolList from "./SymbolList";
 import GraphicSymbol from "../../model/graphic/GraphicSymbol";
 import { IA_CREATE_SYMBOLREF } from "../../actions/interactionTypes";
-
+import CanvasFullSize from "../CanvasFullSize";
 interface IProps {
   show: boolean;
   dispatch: Function;
@@ -15,6 +15,8 @@ interface IProps {
 
 class SelectSymbolModal extends Component<IProps> {
   state = { show: true, activeSymbolId: "" };
+  canvas: HTMLCanvasElement | null = null;
+  canvasFrame: HTMLDivElement | null = null;
 
   onClose = () => {
     this.props.dispatch(actions.showModal(""));
@@ -69,18 +71,14 @@ class SelectSymbolModal extends Component<IProps> {
           <div className="ModalTitle">Select Symbol</div>
           <div className="ModalContent">
             <div className="flex-container-row">
-              <div className="scrolling">
-                <div className="fix-width-300">
-                  <SymbolList
-                    symbols={this.props.symbols}
-                    activeSymbolId={this.state.activeSymbolId}
-                    onClickSymbol={this.onClickSymbol}
-                  />
-                </div>
+              <div className="scrolling fix-width-300">
+                <SymbolList
+                  symbols={this.props.symbols}
+                  activeSymbolId={this.state.activeSymbolId}
+                  onClickSymbol={this.onClickSymbol}
+                />
               </div>
-              <div className="flex-grow">
-                <canvas className="canvas" />
-              </div>
+              <CanvasFullSize />
             </div>
           </div>
         </div>

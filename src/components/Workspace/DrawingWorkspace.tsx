@@ -45,7 +45,7 @@ class DrawingWorkspace extends Component<IProps> {
   onGroup = () => {
     this.props.dispatch(actions.startInteraction(IA_CREATE_GROUP));
   };
-  onSymbol = () => {
+  onCreateSymbol = () => {
     this.props.dispatch(actions.startInteraction(IA_CREATE_SYMBOL));
   };
   onSelectSymbol = () => {
@@ -70,11 +70,11 @@ class DrawingWorkspace extends Component<IProps> {
         <button className="button" onClick={this.onCircle}>
           Circle
         </button>
-        <button className="button" onClick={this.onSymbol}>
-          Symbol
+        <button className="button" onClick={this.onCreateSymbol}>
+          Create Symbol
         </button>
         <button className="button" onClick={this.onSelectSymbol}>
-          Select Symbol
+          Place Symbol
         </button>
         <button className="button" onClick={this.onZoomWindow}>
           Zoom window
