@@ -119,7 +119,7 @@ function* apiCreatePlacementSaga(graphic: GraphicBase) {
     const pageId = yield selectPageId();
     const placement = new Placement(projectId, pageId, graphic);
     const json: any = placement.toDTO();
-    const query = `mutation createPlacement($input: CreatePlacementInput!) {
+    const mutation = `mutation createPlacement($input: CreatePlacementInput!) {
       createPlacement(input: $input) { id, projectId, pageId, type, graphic }
     }`;
     const variables = {
@@ -130,7 +130,7 @@ function* apiCreatePlacementSaga(graphic: GraphicBase) {
         graphic: json.graphic,
       },
     };
-    const result = yield graphql(query, variables);
+    const result = yield graphql(mutation, variables);
     const newItem = Placement.fromDTO(result.createPlacement);
     return newItem;
   } catch (err) {}

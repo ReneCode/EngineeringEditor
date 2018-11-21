@@ -63,7 +63,7 @@ class CanvasFullSize extends Component<IProps> {
     return (
       <div className="canvas-frame" ref={div => (this.frame = div)}>
         <canvas
-          className="canvas"
+          className="symbollist-canvas"
           ref={canvas => (this.canvas = canvas)}
           width={this.state.width}
           height={this.state.height}

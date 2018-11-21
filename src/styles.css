@@ -194,3 +194,7 @@ nav.menu .text {
 .canvas {
   cursor: none;
 }
+
+.symbollist-canvas {
+  cursor: pointer;
+}

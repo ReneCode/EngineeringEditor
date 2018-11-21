@@ -32,7 +32,7 @@ export const updateGraphicsSymbolRef = (
   });
 };
 
-const updateOneSymbolRef = (
+export const updateOneSymbolRef = (
   symbolRef: GraphicSymbolRef,
   symbols: GraphicSymbol[],
 ): GraphicSymbol | null => {

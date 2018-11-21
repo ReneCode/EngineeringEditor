@@ -50,6 +50,7 @@ function* createLineSaga() {
   } finally {
     if (yield cancelled()) {
       yield put(actions.removeSelectedItem(line));
+      yield put(actions.setTempItem());
     }
   }
 }

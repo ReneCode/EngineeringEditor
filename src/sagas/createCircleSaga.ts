@@ -49,6 +49,7 @@ function* createCircleSaga() {
   } finally {
     if (yield cancelled()) {
       yield put(actions.removeSelectedItem(circle));
+      yield put(actions.setTempItem());
     }
   }
 }

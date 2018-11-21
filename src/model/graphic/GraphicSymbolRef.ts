@@ -8,10 +8,15 @@ class GraphicSymbolRef extends GraphicBase {
   symbol: GraphicSymbol | null = null;
   pt: Point = new Point();
 
-  constructor(name: string, pt: Point = new Point()) {
+  constructor(
+    name: string,
+    pt: Point = new Point(),
+    symbol: GraphicSymbol | null = null,
+  ) {
     super("symbolref");
     this.name = name;
     this.pt = pt;
+    this.symbol = symbol;
   }
 
   toJSON(): object {
