@@ -2,15 +2,26 @@ import * as actionTypes from "../actions/actionTypes";
 import Point from "../common/point";
 import Placement from "../model/Placement";
 import GraphicSymbol from "../model/graphic/GraphicSymbol";
+import GraphicBase from "../model/graphic/GraphicBase";
 
 export interface IGraphicState {
   symbols: GraphicSymbol[];
   items: Placement[];
   selectedItems: Placement[];
   tempItems: Placement[];
-  cursor: object;
+  cursor: {
+    pt: Point;
+    radiusScreen: number;
+    mode: string;
+  };
   viewport: object;
-  canvas: object;
+  canvas: {
+    width: number;
+    height: number;
+    gridX: number;
+    gridY: number;
+    useGrid: boolean;
+  };
 }
 
 const initialState: IGraphicState = {
@@ -34,6 +45,7 @@ const initialState: IGraphicState = {
     height: 100,
     gridX: 20,
     gridY: 20,
+    useGrid: true,
   },
 };
 
@@ -101,6 +113,16 @@ const updatePlacements = (state: IGraphicState, action: any) => {
 
 const graphicReducer = (state = initialState, action: any) => {
   switch (action.type) {
+    case actionTypes.USE_GRID: {
+      return {
+        ...state,
+        canvas: {
+          ...state.canvas,
+          useGrid: action.payload,
+        },
+      };
+    }
+
     case actionTypes.ADD_SYMBOL:
       return {
         ...state,

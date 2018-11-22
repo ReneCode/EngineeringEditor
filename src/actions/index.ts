@@ -28,3 +28,10 @@ export const showModal = (id: ModalId) => {
     payload: id,
   };
 };
+
+export const useGrid = (useGrid: boolean) => {
+  return {
+    type: actionTypes.USE_GRID,
+    payload: useGrid,
+  };
+};

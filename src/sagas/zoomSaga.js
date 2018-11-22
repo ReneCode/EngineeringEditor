@@ -1,6 +1,6 @@
 import { put, select, cancelled } from "redux-saga/effects";
 
-import { getPointSaga } from "./mouseSaga";
+import { getPointSaga } from "./getPointSaga";
 
 import * as actionTypes from "../actions/actionTypes";
 import * as actions from "../actions";

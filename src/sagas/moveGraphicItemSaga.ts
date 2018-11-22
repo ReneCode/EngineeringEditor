@@ -2,7 +2,7 @@ import { put, call, cancelled, select } from "redux-saga/effects";
 
 import * as actions from "../actions";
 import { IA_SELECT } from "../actions/interactionTypes";
-import { getPointSaga } from "./mouseSaga";
+import { getPointSaga } from "./getPointSaga";
 import {
   MOUSE_UP,
   MOUSE_MOVE,
@@ -12,7 +12,6 @@ import ItemBase from "../model/ItemBase";
 import deepClone from "../common/deepClone";
 import Point from "../common/point";
 import { selectGraphicSelectedItems } from "../reducers/selectors";
-import { updatePlacement } from "../actions";
 import updatePlacementSaga from "./updatePlacementSaga";
 
 function* moveGraphicItemSaga(p1: Point | null = null) {

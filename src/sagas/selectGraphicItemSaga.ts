@@ -10,7 +10,7 @@ import * as actions from "../actions";
 import { pickItemsSaga } from "./pickItemsSaga";
 import { IA_SELECT } from "../actions/interactionTypes";
 import { delay } from "redux-saga";
-import { getPointSaga } from "./mouseSaga";
+import { getPointSaga } from "./getPointSaga";
 import { MOUSE_UP } from "../actions/actionTypes";
 import { moveGraphicItemSaga } from "./moveGraphicItemSaga";
 

@@ -4,7 +4,7 @@ import { selectGraphicSymbols } from "../reducers/selectors";
 import * as actionTypes from "../actions/actionTypes";
 import * as actions from "../actions";
 
-import { getPointSaga } from "./mouseSaga";
+import { getPointSaga } from "./getPointSaga";
 import GraphicSymbol from "../model/graphic/GraphicSymbol";
 import { put, cancelled } from "redux-saga/effects";
 import { IA_CREATE_SYMBOLREF } from "../actions/interactionTypes";

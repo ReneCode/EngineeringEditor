@@ -1,22 +1,16 @@
 import { take, select } from "redux-saga/effects";
 
 import TransformCoordinate from "../common/transformCoordinate";
+import { selectUseGrid } from "../reducers/selectors";
 
-function* getPointSaga(waitingForTypes, options) {
-  let useGrid = true;
-  if (options) {
-    if (options.useGrid === false) {
-      useGrid = false;
-    }
-  }
-
+function* getPointSaga(waitingForTypes) {
   if (!Array.isArray(waitingForTypes)) {
     waitingForTypes = [waitingForTypes];
   }
   const { type, payload } = yield take(waitingForTypes);
   const canvas = yield select(state => state.graphic.canvas);
   const viewport = yield select(state => state.graphic.viewport);
-
+  const useGrid = yield selectUseGrid();
   const transform = new TransformCoordinate(viewport, canvas);
 
   // transform canvas point to world-coordinate point

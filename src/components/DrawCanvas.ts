@@ -1,10 +1,22 @@
 import { Component } from "react";
+import TransformCoordinate from "../common/transformCoordinate";
+import { IGraphicState } from "../reducers/graphic";
+import GraphicBase from "../model/graphic/GraphicBase";
+import Placement from "../model/Placement";
 
-class DrawCanvas extends Component {
-  draw = transform => {
+interface IProps {
+  getCanvas(): HTMLCanvasElement;
+
+  graphic: IGraphicState;
+}
+
+class DrawCanvas extends Component<IProps> {
+  draw = (transform: TransformCoordinate) => {
     const canvas = this.props.getCanvas();
     const context = canvas.getContext("2d");
-
+    if (!context) {
+      return;
+    }
     context.clearRect(0, 0, canvas.width, canvas.height);
 
     const items = this.props.graphic.items;
@@ -13,16 +25,16 @@ class DrawCanvas extends Component {
 
     // only draw such itmes that are NOT in the selected list
     items.forEach(item => {
-      if (!selectedItems.find(i => i.id === item.id)) {
+      if (!selectedItems.find((i: any) => i.id === item.id)) {
         item.draw(context, transform);
       }
     });
 
     // selected items
-    selectedItems.forEach(item => {
+    selectedItems.forEach((item: Placement) => {
       context.save();
       context.setLineDash([5, 5]);
-      item.draw(context, transform, { selected: true });
+      item.draw(context, transform);
       context.restore();
     });
 
@@ -39,19 +51,21 @@ class DrawCanvas extends Component {
     this.drawCursor(context, transform);
   };
 
-  snapGrid(pt) {
-    return pt;
-    // const useGrid = true;
-    // if (useGrid) {
-    // snap to grid
-    // const canvas = this.props.graphic.canvas;
-    // return pt.snap(canvas.gridX, canvas.gridY);
-    // }
-  }
-
-  drawCursor(context, transform) {
+  drawCursor(
+    context: CanvasRenderingContext2D,
+    transform: TransformCoordinate,
+  ) {
     const cursor = this.props.graphic.cursor;
-    const pt = this.snapGrid(cursor.pt);
+
+    let pt = transform.canvasToWc(cursor.pt);
+    if (this.props.graphic.canvas.useGrid) {
+      pt = pt.snap(
+        this.props.graphic.canvas.gridX,
+        this.props.graphic.canvas.gridY,
+      );
+    }
+    pt = transform.wcToCanvas(pt);
+
     const r = cursor.radiusScreen;
 
     context.save();

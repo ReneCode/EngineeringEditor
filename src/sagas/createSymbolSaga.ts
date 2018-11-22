@@ -1,5 +1,5 @@
 import { call, put, select } from "redux-saga/effects";
-import { getPointSaga } from "./mouseSaga";
+import { getPointSaga } from "./getPointSaga";
 import { MOUSE_DOWN } from "../actions/actionTypes";
 import * as actions from "../actions";
 import {

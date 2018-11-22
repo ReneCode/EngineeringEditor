@@ -1,13 +1,12 @@
 import { put, call, cancelled } from "redux-saga/effects";
 
-import { getPointSaga } from "./mouseSaga";
-
 import * as actionTypes from "../actions/actionTypes";
 import * as actions from "../actions";
 
 import { IA_CREATE_CIRCLE } from "../actions/interactionTypes";
 import GraphicCircle from "../model/graphic/GraphicCircle";
 import { addGraphicItemSaga } from "./addGraphicItemSaga";
+import { getPointSaga } from "./getPointSaga";
 
 function* createCircleSaga() {
   let circle;

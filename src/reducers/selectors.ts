@@ -18,5 +18,11 @@ export function* selectProjectId() {
 }
 
 export function* selectPageId() {
-  return yield select((state: any) => state.project.pageId);
+  return yield select((state: IGlobalState) => state.project.pageId);
+}
+
+export function* selectUseGrid() {
+  return yield select(
+    (state: IGlobalState) => state.graphic.canvas.useGrid,
+  );
 }

@@ -40,4 +40,6 @@ export const DELETE_GRAPHIC_ITEM = "DELETE_GRAPHIC_ITEM";
 export const ZOOM_WINDOW = "ZOOM_WINDOW";
 export const ZOOM_FULL = "ZOOM_FULL";
 
+export const USE_GRID = "USE_GRID";
+
 export const SHOW_MODAL = "SHOW_MODAL";
