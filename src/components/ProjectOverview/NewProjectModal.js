@@ -49,9 +49,10 @@ class NewProjectModal extends Component {
         <div className="Modal">
           <div className="ModalTitle">Create New Project</div>
           <div className="flex-container-row">
-            <div>Name:</div>
+            <label htmlFor="projectname">Name:</label>
             <div>
               <input
+                id="projectname"
                 type="text"
                 value={this.state.name}
                 onChange={this.onChange}

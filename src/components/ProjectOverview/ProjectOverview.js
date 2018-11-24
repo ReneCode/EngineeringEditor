@@ -60,7 +60,7 @@ class ProjectOverview extends Component {
         <div className="button" onClick={this.onClickCreateProject}>
           Create Project
         </div>
-        <div className="projectlist">
+        <div data-testid="projectlist" className="projectlist">
           {this.state.projects.map(p => {
             return <ProjectCard key={p.id} project={p} />;
           })}
