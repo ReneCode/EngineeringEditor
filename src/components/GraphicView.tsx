@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, SyntheticEvent } from "react";
 import { connect } from "react-redux";
 
 import TransformCoordinate from "../common/transformCoordinate";
@@ -7,9 +7,28 @@ import DrawCanvas from "./DrawCanvas";
 
 import * as actions from "../actions";
 import Point from "../common/point";
+import { IGlobalState } from "../reducers";
+import { IGraphicState } from "../reducers/graphic";
 
-class GraphicView extends Component {
-  constructor(props) {
+interface IProps {
+  frame: HTMLDivElement;
+  canvas: HTMLCanvasElement;
+  dispatch: Function;
+  graphic: IGraphicState;
+}
+
+interface IState {
+  width: number;
+  height: number;
+}
+
+class GraphicView extends Component<IProps> {
+  frame: any;
+  canvas: any;
+  drawCanvas: any;
+  state: IState;
+
+  constructor(props: IProps) {
     super(props);
     this.state = {
       width: 100,
@@ -17,6 +36,7 @@ class GraphicView extends Component {
     };
     this.frame = React.createRef();
     this.canvas = React.createRef();
+    this.drawCanvas = {};
   }
   componentDidMount() {
     window.addEventListener("resize", this.onResize);
@@ -49,12 +69,13 @@ class GraphicView extends Component {
     );
   };
 
-  onMouseUp = ev => {
-    const pt = this.getCursor(ev);
+  onMouseUp = (ev: SyntheticEvent) => {
+    const pt = this.getCursor(ev as any);
     this.props.dispatch(actions.mouseUp(pt));
   };
 
-  onMouseDown = ev => {
+  onMouseDown = (event: SyntheticEvent) => {
+    const ev: MouseEvent = event as any;
     if (ev.button === 0) {
       // left button
       const pt = this.getCursor(ev);
@@ -62,19 +83,19 @@ class GraphicView extends Component {
     }
   };
 
-  onMouseMove = ev => {
-    const pt = this.getCursor(ev);
+  onMouseMove = (ev: SyntheticEvent) => {
+    const pt = this.getCursor(ev as any);
     this.props.dispatch(actions.mouseMove(pt));
   };
 
-  onContextMenu = ev => {
+  onContextMenu = (ev: SyntheticEvent) => {
     console.log("onContextMenu:", ev);
   };
 
-  getCursor(ev) {
+  getCursor = (ev: MouseEvent) => {
     const { top, left } = this.canvas.getBoundingClientRect();
     return new Point(ev.clientX - left, ev.clientY - top);
-  }
+  };
 
   redraw = () => {
     const transform = new TransformCoordinate(
@@ -112,9 +133,7 @@ class GraphicView extends Component {
   }
 }
 
-GraphicView.propTypes = {};
-
-const mapStateToProps = state => {
+const mapStateToProps = (state: IGlobalState) => {
   return {
     graphic: state.graphic,
     page: state.project.page,

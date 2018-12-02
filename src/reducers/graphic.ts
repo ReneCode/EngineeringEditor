@@ -14,7 +14,12 @@ export interface IGraphicState {
     radiusScreen: number;
     mode: string;
   };
-  viewport: object;
+  viewport: {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  };
   canvas: {
     width: number;
     height: number;
