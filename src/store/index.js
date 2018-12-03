@@ -1,5 +1,8 @@
 import { createStore, applyMiddleware, compose } from "redux";
+
+import reduxThunk from "redux-thunk";
 import createSagaMiddleware from "redux-saga";
+import interactionMiddleware from "./interactionMiddleware";
 
 import reducers from "../reducers";
 import rootSagas from "../sagas";
@@ -12,7 +15,13 @@ const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(
   reducers,
-  composeEnhancers(applyMiddleware(sagaMiddleware)),
+  composeEnhancers(
+    applyMiddleware(
+      interactionMiddleware,
+      reduxThunk,
+      sagaMiddleware,
+    ),
+  ),
 );
 
 sagaMiddleware.run(rootSagas);

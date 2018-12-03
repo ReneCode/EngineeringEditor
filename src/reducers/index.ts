@@ -1,8 +1,9 @@
 import { combineReducers } from "redux";
 
-import workspace from "./workspace";
-import project from "./project";
-import graphic, { IGraphicState } from "./graphic";
+import interaction from "./interactionReducer";
+import workspace from "./workspaceReducer";
+import project from "./projectReducer";
+import graphic, { IGraphicState } from "./graphicReducer";
 
 export interface IGlobalState {
   workspace: any;
@@ -11,6 +12,7 @@ export interface IGlobalState {
 }
 
 const reducers = combineReducers({
+  interaction,
   workspace,
   project,
   graphic,

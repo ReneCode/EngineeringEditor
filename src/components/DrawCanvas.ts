@@ -1,6 +1,6 @@
 import { Component } from "react";
 import TransformCoordinate from "../common/transformCoordinate";
-import { IGraphicState } from "../reducers/graphic";
+import { IGraphicState } from "../reducers/graphicReducer";
 import GraphicBase from "../model/graphic/GraphicBase";
 import Placement from "../model/Placement";
 

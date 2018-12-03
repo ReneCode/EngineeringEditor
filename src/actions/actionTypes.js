@@ -43,3 +43,6 @@ export const ZOOM_FULL = "ZOOM_FULL";
 export const USE_GRID = "USE_GRID";
 
 export const SHOW_MODAL = "SHOW_MODAL";
+
+export const SET_START_INTERACTION_HANDLER =
+  "SET_START_INTERACTION_HANDLER";

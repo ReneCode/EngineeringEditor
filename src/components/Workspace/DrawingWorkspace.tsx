@@ -11,6 +11,7 @@ import {
   IA_DELETE_ITEM,
   IA_CREATE_GROUP,
   IA_CREATE_SYMBOL,
+  IA_CREATE_POLYGON,
 } from "../../actions/interactionTypes";
 
 interface IProps {
@@ -54,6 +55,10 @@ class DrawingWorkspace extends Component<IProps> {
   onZoomWindow = () => {
     this.props.dispatch(actions.startInteraction(IA_ZOOM_WINDOW));
   };
+
+  startIa = (ia: string) => {
+    this.props.dispatch(actions.startInteraction(ia));
+  };
   render() {
     return (
       <div className="drawingworkspace">
@@ -70,8 +75,13 @@ class DrawingWorkspace extends Component<IProps> {
         <button className="button" onClick={this.onCircle}>
           Circle
         </button>
-        <button className="button" onClick={this.onCreateSymbol}>
-          Create Symbol
+        <button className="button" onClick={this.onCircle}>
+          Circle
+        </button>
+        <button
+          className="button"
+          onClick={() => this.startIa(IA_CREATE_POLYGON)}>
+          Polygon
         </button>
         <button className="button" onClick={this.onSelectSymbol}>
           Place Symbol

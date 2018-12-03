@@ -4,6 +4,7 @@ export * from "./graphicActions.js";
 export * from "./mouseActions.js";
 export * from "./projectActions";
 export * from "./zoomActions";
+export * from "./addGraphicItemThunk";
 
 export const setTempItem = (item: any = undefined) => {
   return {
@@ -33,5 +34,12 @@ export const useGrid = (useGrid: boolean) => {
   return {
     type: actionTypes.USE_GRID,
     payload: useGrid,
+  };
+};
+
+export const setStartInteractionHandler = (handler: Function) => {
+  return {
+    type: actionTypes.SET_START_INTERACTION_HANDLER,
+    payload: handler,
   };
 };

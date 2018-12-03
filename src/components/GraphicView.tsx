@@ -8,7 +8,8 @@ import DrawCanvas from "./DrawCanvas";
 import * as actions from "../actions";
 import Point from "../common/point";
 import { IGlobalState } from "../reducers";
-import { IGraphicState } from "../reducers/graphic";
+import { IGraphicState } from "../reducers/graphicReducer";
+import Interaction from "./interaction/Interaction";
 
 interface IProps {
   frame: HTMLDivElement;
@@ -128,6 +129,7 @@ class GraphicView extends Component<IProps> {
           getCanvas={() => this.canvas}
           graphic={this.props.graphic}
         />
+        <Interaction getCanvas={() => this.canvas} />
       </div>
     );
   }
@@ -135,6 +137,7 @@ class GraphicView extends Component<IProps> {
 
 const mapStateToProps = (state: IGlobalState) => {
   return {
+    state: state,
     graphic: state.graphic,
     page: state.project.page,
   };

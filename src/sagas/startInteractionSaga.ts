@@ -14,7 +14,7 @@ function* startInteractionSaga(action: any) {
   const iaType = action.payload.type;
   const sagas: any = {
     IA_CREATE_CIRCLE: createCircleSaga,
-    IA_CREATE_LINE: createLineSaga,
+    // IA_CREATE_LINE: createLineSaga,
     IA_ZOOM_WINDOW: zoomWindowSaga,
     IA_SELECT: selectGraphicItemSaga,
     IA_MOVE: moveGraphicItemSaga,
@@ -29,7 +29,7 @@ function* startInteractionSaga(action: any) {
     yield call(saga, action.payload.args);
     return;
   } else {
-    throw new Error(`bad interaction: ${iaType}`);
+    // throw new Error(`bad interaction: ${iaType}`);
   }
 }
 

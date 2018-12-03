@@ -6,6 +6,7 @@ export type GraphicType =
   | "symbol"
   | "group"
   | "line"
+  | "polygon"
   | "circle"
   | "rect";
 
