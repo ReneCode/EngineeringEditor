@@ -37,10 +37,12 @@ class Interaction extends Component<IProps> {
 
   async componentDidMount() {
     const canvas = this.props.getCanvas();
-    canvas.addEventListener("mousedown", this.onMouseDown);
-    canvas.addEventListener("mousemove", this.onMouseMove);
-    canvas.addEventListener("mouseup", this.onMouseUp);
-    document.addEventListener("keydown", this.onKeyDown);
+    if (canvas) {
+      canvas.addEventListener("mousedown", this.onMouseDown);
+      canvas.addEventListener("mousemove", this.onMouseMove);
+      canvas.addEventListener("mouseup", this.onMouseUp);
+      document.addEventListener("keydown", this.onKeyDown);
+    }
 
     this.props.dispatch(
       actions.setStartInteractionHandler(this.startInteraction),
@@ -49,10 +51,13 @@ class Interaction extends Component<IProps> {
 
   componentWillUnmount() {
     const canvas = this.props.getCanvas();
-    canvas.removeEventListener("mousedown", this.onMouseDown);
-    canvas.removeEventListener("mousemove", this.onMouseMove);
-    canvas.removeEventListener("mouseup", this.onMouseUp);
-    document.removeEventListener("keydown", this.onKeyDown);
+    if (canvas) {
+      canvas.removeEventListener("mousedown", this.onMouseDown);
+      canvas.removeEventListener("mousemove", this.onMouseMove);
+      canvas.removeEventListener("mouseup", this.onMouseUp);
+      document.removeEventListener("keydown", this.onKeyDown);
+    }
+    this.props.dispatch(actions.setStartInteractionHandler(() => {}));
   }
 
   onKeyDown = (ev: KeyboardEvent) => {
