@@ -10,6 +10,7 @@ import {
   IA_CREATE_POLYGON,
 } from "../../actions/interactionTypes";
 import IaPolygon from "./IaPolygon";
+import InteractionStarter from "./InteractionStarter";
 
 export enum IaEventType {
   none = 0,
@@ -29,10 +30,17 @@ class Interaction extends Component<IProps> {
   waitTypes: IaEventType[] = [];
   promiseResolve: Function = () => {};
   promiseReject: Function = () => {};
-  interaction: any;
+  iaStarter: InteractionStarter;
 
   constructor(props: IProps) {
     super(props);
+
+    const iaConfig = {
+      getPoint: this.getPoint,
+      state: this.props.state,
+      dispatch: this.props.dispatch,
+    };
+    this.iaStarter = new InteractionStarter(iaConfig);
   }
 
   async componentDidMount() {
@@ -134,29 +142,10 @@ class Interaction extends Component<IProps> {
   };
 
   startInteraction = (action: any) => {
-    if (this.interaction && this.interaction.stop) {
-      this.interaction.stop();
-    }
     // finish current promise
     this.promiseResolve(null);
-    const iaConfig = {
-      getPoint: this.getPoint,
-      state: this.props.state,
-      dispatch: this.props.dispatch,
-    };
-    let ia;
-    switch (action.payload.type) {
-      case IA_CREATE_LINE:
-        ia = new IaLine(iaConfig);
-        break;
-      case IA_CREATE_POLYGON:
-        ia = new IaPolygon(iaConfig);
-        break;
-    }
-    if (ia) {
-      this.interaction = ia;
-      ia.start();
-    }
+
+    this.iaStarter.start(action);
   };
 
   render() {

@@ -12,6 +12,7 @@ import {
   IA_CREATE_GROUP,
   IA_CREATE_SYMBOL,
   IA_CREATE_POLYGON,
+  IA_CREATE_CONNECTION_POINT,
 } from "../../actions/interactionTypes";
 
 interface IProps {
@@ -69,7 +70,7 @@ class DrawingWorkspace extends Component<IProps> {
         <button
           className="button"
           onClick={() => this.startIa(IA_CREATE_SYMBOL)}>
-          create Symbol
+          Create Symbol
         </button>
         <button className="button" onClick={this.onSelectSymbol}>
           Place Symbol
@@ -79,6 +80,11 @@ class DrawingWorkspace extends Component<IProps> {
           className="button"
           onClick={() => this.startIa(IA_ZOOM_WINDOW)}>
           Zoom window
+        </button>
+        <button
+          className="button"
+          onClick={() => this.startIa(IA_CREATE_CONNECTION_POINT)}>
+          Connection Point
         </button>
       </div>
     );

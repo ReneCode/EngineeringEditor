@@ -1,6 +1,14 @@
 import Matrix2d from "./matrix-2d";
 import { snap } from "./snap";
 
+export enum RelativeDirection {
+  None,
+  Right,
+  Up,
+  Left,
+  Down,
+}
+
 export default class Point {
   x: number = 0;
   y: number = 0;
@@ -80,5 +88,29 @@ export default class Point {
   scale(sx: number, sy: number): Point {
     const mat = Matrix2d.scale(sx, sy);
     return mat.transformPoint(this);
+  }
+
+  relativeDirection(pt: Point): RelativeDirection {
+    if (pt.equal(this)) {
+      return RelativeDirection.None;
+    }
+
+    const d = pt.sub(this);
+    if (Math.abs(d.x) >= Math.abs(d.y)) {
+      if (d.x > 0) {
+        return RelativeDirection.Right;
+      } else {
+        return RelativeDirection.Left;
+      }
+    }
+    // if (Math.abs(d.y) >= Math.abs(d.x)) {
+    else {
+      if (d.y > 0) {
+        return RelativeDirection.Up;
+      } else {
+        return RelativeDirection.Down;
+      }
+    }
+    return RelativeDirection.None;
   }
 }

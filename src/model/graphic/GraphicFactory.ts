@@ -3,6 +3,7 @@ import GraphicLine from "./GraphicLine";
 import GraphicCircle from "./GraphicCircle";
 import GraphicSymbolRef from "./GraphicSymbolRef";
 import GraphicPolygon from "./GraphicPolygon";
+import GraphicConnectionPoint from "./GraphicConnectionPoint";
 
 class GraphicFactory {
   static fromJSON(json: any): GraphicBase | Array<GraphicBase> {
@@ -16,7 +17,8 @@ class GraphicFactory {
         return GraphicLine.fromJSON(json);
       case "polygon":
         return GraphicPolygon.fromJSON(json);
-
+      case "connectionpoint":
+        return GraphicConnectionPoint.fromJSON(json);
       case "circle":
         return GraphicCircle.fromJSON(json);
       // case "group":
