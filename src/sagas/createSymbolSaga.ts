@@ -51,7 +51,7 @@ function* createSymbolSaga() {
     );
     const newSymbolRef = <GraphicSymbolRef>placement.graphic;
     newSymbolRef.symbol = newSymbol;
-    yield put(actions.addGraphicItem(placement));
+    yield put(actions.addItem(placement));
     yield call(apiDeletePlacementsSaga, selectedItems);
 
     yield put(actions.removeGraphicItem(selectedItems));

@@ -29,7 +29,6 @@ class Placement {
       projectId: this.projectId,
       pageId: this.pageId,
       id: this.id,
-      type: this.graphic.type,
       graphic: encodeJson(graphicJson),
     };
   }

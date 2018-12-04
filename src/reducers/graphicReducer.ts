@@ -149,7 +149,7 @@ const graphicReducer = (state = initialState, action: any) => {
         items: action.payload,
       };
 
-    case actionTypes.ADD_GRAPHIC_ITEM:
+    case actionTypes.ADD_ITEM:
       return {
         ...state,
         items: state.items.concat(action.payload),

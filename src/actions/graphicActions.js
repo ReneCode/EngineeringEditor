@@ -57,9 +57,9 @@ export const setGraphicItems = items => {
   };
 };
 
-export const addGraphicItem = item => {
+export const addItem = item => {
   return {
-    type: actionTypes.ADD_GRAPHIC_ITEM,
+    type: actionTypes.ADD_ITEM,
     payload: item,
   };
 };

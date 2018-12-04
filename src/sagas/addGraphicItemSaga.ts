@@ -21,7 +21,7 @@ function* updatePlacement(placement: Placement) {
 function* addGraphicItemSaga(graphic: GraphicBase) {
   try {
     // add tmp-item
-    yield put(actions.addGraphicItem(graphic));
+    yield put(actions.addItem(graphic));
     // save to API
     const newPlacement = yield call(apiCreatePlacementSaga, graphic);
     // e.g. set symbol of symbolRef items
@@ -29,7 +29,7 @@ function* addGraphicItemSaga(graphic: GraphicBase) {
     yield updatePlacement(newPlacement);
     // replace tmp-item with real item (has .id from api)
     yield put(actions.removeGraphicItem(graphic));
-    yield put(actions.addGraphicItem(newPlacement));
+    yield put(actions.addItem(newPlacement));
   } catch (err) {
     console.log("Error:", err);
   }

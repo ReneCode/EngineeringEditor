@@ -4,7 +4,7 @@ export * from "./graphicActions.js";
 export * from "./mouseActions.js";
 export * from "./projectActions";
 export * from "./zoomActions";
-export * from "./addGraphicItemThunk";
+export * from "./saveGraphicItem";
 
 export const setTempItem = (item: any = undefined) => {
   return {

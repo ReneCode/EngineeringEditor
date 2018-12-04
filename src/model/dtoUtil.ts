@@ -4,7 +4,6 @@ export interface DtoPlacement {
   projectId: IdType;
   pageId: IdType;
   id: IdType;
-  type: GraphicType;
   graphic: string;
 }
 

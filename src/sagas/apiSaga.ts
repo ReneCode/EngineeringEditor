@@ -34,7 +34,7 @@ function* apiLoadPlacement(pageId: string) {
     let placements: Placement[] = [];
     if (projectId && pageId) {
       const query: string = `query placements($projectId: ID!, $pageId: ID!) {
-        placements(projectId:$projectId, pageId:$pageId) { id pageId projectId type graphic }
+        placements(projectId:$projectId, pageId:$pageId) { id pageId projectId graphic }
       }`;
       const variables = {
         projectId,
@@ -90,18 +90,20 @@ function* apiLoadSymbols(projectId: IdType) {
       projectId,
     };
     const data = yield graphql(query, variables);
-    const dtoElements = data.project.elements;
-    const symbols = dtoElements.map((e: DtoElement) => {
-      const symbol = GraphicSymbol.fromDTO(e);
-      return symbol;
-    });
+    if (data.project) {
+      const dtoElements = data.project.elements;
+      const symbols = dtoElements.map((e: DtoElement) => {
+        const symbol = GraphicSymbol.fromDTO(e);
+        return symbol;
+      });
 
-    // update the .symbol property of all SymbolRef items - recursive
-    symbols.forEach((symbol: GraphicSymbol) => {
-      updateGraphicsSymbolRef(symbol.items, symbols, true);
-    });
+      // update the .symbol property of all SymbolRef items - recursive
+      symbols.forEach((symbol: GraphicSymbol) => {
+        updateGraphicsSymbolRef(symbol.items, symbols, true);
+      });
 
-    yield put(actions.setSymbols(symbols));
+      yield put(actions.setSymbols(symbols));
+    }
   } catch (ex) {
     console.log(ex);
   }

@@ -20,13 +20,12 @@ const apiCreatePlacement = async (
     const placement = new Placement(projectId, pageId, graphic);
     const json: any = placement.toDTO();
     const mutation = `mutation createPlacement($input: CreatePlacementInput!) {
-      createPlacement(input: $input) { id, projectId, pageId, type, graphic }
+      createPlacement(input: $input) { id, projectId, pageId, graphic }
     }`;
     const variables = {
       input: {
         projectId,
         pageId,
-        type: graphic.type,
         graphic: json.graphic,
       },
     };
@@ -36,10 +35,9 @@ const apiCreatePlacement = async (
   } catch (err) {}
 };
 
-export const addGraphicItemThunk = (graphic: GraphicBase) => {
+export const saveGraphicItem = (graphic: GraphicBase) => {
+  // redux-thunk
   return async (dispatch: Function, getState: Function) => {
-    await dispatch(actions.addGraphicItem(graphic));
-
     const state: IGlobalState = getState();
     const projectId = state.project.projectId;
     const pageId = state.project.pageId;
@@ -48,5 +46,6 @@ export const addGraphicItemThunk = (graphic: GraphicBase) => {
       pageId,
       graphic,
     );
+    return newPlacement;
   };
 };

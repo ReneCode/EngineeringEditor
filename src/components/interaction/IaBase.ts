@@ -20,10 +20,11 @@ class IaBase {
 
   saveGraphic = async (graphic: GraphicBase) => {
     const placement = await this.props.dispatch(
-      actions.addGraphicItemThunk(graphic),
+      actions.saveGraphicItem(graphic),
     );
 
     this.props.dispatch(actions.setTempItem());
+    this.props.dispatch(actions.addItem(placement));
   };
 }
 

@@ -43,9 +43,12 @@ class IaLine {
           // rubberband
         } else {
           // finish
-          this.props.dispatch(actions.setTempItem());
           if (!secondPoint.equal(startPoint)) {
-            this.props.dispatch(actions.addGraphicItemThunk(line));
+            const placement = await this.props.dispatch(
+              actions.saveGraphicItem(line),
+            );
+            this.props.dispatch(actions.setTempItem());
+            this.props.dispatch(actions.addItem(placement));
           }
           run = false;
         }
