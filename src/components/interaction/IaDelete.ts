@@ -14,7 +14,6 @@ class IaDelete extends IaBase {
         }
         itemsToDelete = result.items;
       }
-      console.log("delete:", itemsToDelete);
       await this.props.dispatch(
         actions.removeGraphicItem(itemsToDelete),
       );

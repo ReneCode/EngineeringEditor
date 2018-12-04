@@ -20,6 +20,7 @@ class IaPickItem extends IaBase {
         IaEventType.mouseDown,
         IaEventType.keyDown,
       ]);
+      // switch back to default cursor
       this.props.dispatch(actions.setCursorMode());
 
       if (

@@ -1,7 +1,6 @@
 import { call } from "redux-saga/effects";
 
 import { selectGraphicItemSaga } from "./selectGraphicItemSaga";
-import { deleteItemSaga } from "./deleteItemSaga";
 import { moveGraphicItemSaga } from "./moveGraphicItemSaga";
 import { createGroupSaga } from "./createGroupSaga";
 import createSymbolSaga from "./createSymbolSaga";
@@ -11,7 +10,6 @@ function* startInteractionSaga(action: any) {
   const sagas: any = {
     IA_SELECT: selectGraphicItemSaga,
     IA_MOVE: moveGraphicItemSaga,
-    // IA_DELETE_ITEM: deleteItemSaga,
     IA_CREATE_GROUP: createGroupSaga,
     IA_CREATE_SYMBOL: createSymbolSaga,
   };

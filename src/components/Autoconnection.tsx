@@ -30,7 +30,7 @@ class Autoconnection extends Component<IProps> {
       .map(g => (g as GraphicSymbolRef).symbol)
       .reduce(reducer, []);
 
-    console.log("connectionPoints: ", connectionPoints);
+    // console.log("connectionPoints: ", connectionPoints);
 
     const len = connectionPoints.length;
     for (let i = 0; i < len; i++) {
