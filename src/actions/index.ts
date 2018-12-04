@@ -5,6 +5,7 @@ export * from "./mouseActions.js";
 export * from "./projectActions";
 export * from "./zoomActions";
 export * from "./saveGraphicItem";
+export * from "./deletePlacement";
 
 export const setTempItem = (item: any = undefined) => {
   return {

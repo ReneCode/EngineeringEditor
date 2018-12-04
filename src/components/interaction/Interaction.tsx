@@ -1,16 +1,11 @@
 import { Component } from "react";
-import IaLine from "./IaLine";
 import Point from "../../common/point";
 import { connect } from "react-redux";
 import * as actions from "../../actions";
 import { IGlobalState } from "../../reducers";
 import TransformCoordinate from "../../common/transformCoordinate";
-import {
-  IA_CREATE_LINE,
-  IA_CREATE_POLYGON,
-} from "../../actions/interactionTypes";
-import IaPolygon from "./IaPolygon";
 import InteractionStarter from "./InteractionStarter";
+import { IaConfig } from "./IaBase";
 
 export enum IaEventType {
   none = 0,
@@ -140,7 +135,7 @@ class Interaction extends Component<IProps> {
     // finish current promise
     this.promiseResolve(null);
 
-    const iaConfig = {
+    const iaConfig: IaConfig = {
       getPoint: this.getPoint,
       state: this.props.state,
       dispatch: this.props.dispatch,

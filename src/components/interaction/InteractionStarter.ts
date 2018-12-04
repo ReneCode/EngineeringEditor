@@ -5,6 +5,7 @@ import IaCircle from "./IaCircle";
 import IaSymbolRef from "./IaSymbolRef";
 import IaZoomWindow from "./IaZoomWindow";
 import IaDelete from "./IaDelete";
+import { IaConfig } from "./IaBase";
 
 const iaMap: { [key: string]: any } = {
   IA_DELETE_ITEM: IaDelete,
@@ -19,7 +20,7 @@ const iaMap: { [key: string]: any } = {
 class InteractionStarter {
   interaction: any = undefined;
 
-  start = async (iaConfig: any, action: any) => {
+  start = async (iaConfig: IaConfig, action: any) => {
     if (this.interaction && this.interaction.stop) {
       this.interaction.stop();
     }
@@ -28,10 +29,10 @@ class InteractionStarter {
     let iaClass = iaMap[type];
     if (iaClass) {
       this.interaction = new iaClass(iaConfig);
-      let ok = false;
-      do {
-        ok = await this.interaction.start(action.payload.args);
-      } while (ok);
+      let repeat = await this.interaction.start(action.payload.args);
+      if (repeat) {
+        iaConfig.dispatch(action);
+      }
     } else {
       console.log("Interaction not found:", type);
     }

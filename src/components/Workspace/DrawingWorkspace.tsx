@@ -39,6 +39,7 @@ class DrawingWorkspace extends Component<IProps> {
   startIa = (ia: string) => {
     this.props.dispatch(actions.startInteraction(ia));
   };
+
   render() {
     return (
       <div className="drawingworkspace">
