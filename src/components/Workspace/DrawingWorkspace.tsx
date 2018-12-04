@@ -75,7 +75,6 @@ class DrawingWorkspace extends Component<IProps> {
         <button className="button" onClick={this.onSelectSymbol}>
           Place Symbol
         </button>
-        };
         <button
           className="button"
           onClick={() => this.startIa(IA_ZOOM_WINDOW)}>
