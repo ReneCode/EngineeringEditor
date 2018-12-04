@@ -1,5 +1,5 @@
 import IaBase, { IaConfig } from "./IaBase";
-import GraphicPolygon from "../../model/graphic/GraphicPolygon";
+import GraphicBase from "../../model/graphic/GraphicPolygon";
 import { IaEventType } from "./Interaction";
 import * as actions from "../../actions";
 
@@ -10,7 +10,7 @@ class IaPolygon extends IaBase {
 
   start = async () => {
     try {
-      let polygon = new GraphicPolygon();
+      let polygon = new GraphicBase();
       let run = true;
       while (run) {
         const result = await this.props.getPoint([
@@ -73,14 +73,9 @@ class IaPolygon extends IaBase {
       // remove last dynamic point
       this.props.dispatch(actions.setTempItem(polygon));
       if (polygon.points.length >= 2) {
-        this.save(polygon);
+        this.saveGraphic(polygon);
       }
     } catch (ex) {}
-  };
-
-  save = async (polygon: GraphicPolygon) => {
-    await this.props.dispatch(actions.addGraphicItemThunk(polygon));
-    this.props.dispatch(actions.setTempItem());
   };
 }
 

@@ -43,6 +43,10 @@ export const addGraphicItemThunk = (graphic: GraphicBase) => {
     const state: IGlobalState = getState();
     const projectId = state.project.projectId;
     const pageId = state.project.pageId;
-    await apiCreatePlacement(projectId, pageId, graphic);
+    const newPlacement = await apiCreatePlacement(
+      projectId,
+      pageId,
+      graphic,
+    );
   };
 };

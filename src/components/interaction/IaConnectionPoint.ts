@@ -79,14 +79,9 @@ class IaConnectionPoint extends IaBase {
           }
         }
 
-        this.save(connectionPoint);
+        this.saveGraphic(connectionPoint);
       }
     } catch (ex) {}
-  };
-
-  save = async (graphic: GraphicBase) => {
-    await this.props.dispatch(actions.addGraphicItemThunk(graphic));
-    this.props.dispatch(actions.setTempItem());
   };
 }
 
