@@ -3,14 +3,17 @@ import IaPolygon from "./IaPolygon";
 import IaConnectionPoint from "./IaConnectionPoint";
 import IaCircle from "./IaCircle";
 import IaSymbolRef from "./IaSymbolRef";
-import { ok } from "assert";
+import IaZoomWindow from "./IaZoomWindow";
+import IaDelete from "./IaDelete";
 
 const iaMap: { [key: string]: any } = {
+  IA_DELETE_ITEM: IaDelete,
   IA_CREATE_LINE: IaLine,
   IA_CREATE_CIRCLE: IaCircle,
   IA_CREATE_POLYGON: IaPolygon,
   IA_CREATE_CONNECTION_POINT: IaConnectionPoint,
   IA_CREATE_SYMBOLREF: IaSymbolRef,
+  IA_ZOOM_WINDOW: IaZoomWindow,
 };
 
 class InteractionStarter {

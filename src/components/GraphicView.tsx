@@ -10,6 +10,7 @@ import Point from "../common/point";
 import { IGlobalState } from "../reducers";
 import { IGraphicState } from "../reducers/graphicReducer";
 import Interaction from "./interaction/Interaction";
+import Autoconnection from "./Autoconnection";
 
 interface IProps {
   frame: HTMLDivElement;
@@ -129,6 +130,7 @@ class GraphicView extends Component<IProps> {
           getCanvas={() => this.canvas}
           graphic={this.props.graphic}
         />
+        <Autoconnection />
         <Interaction getCanvas={() => this.canvas} />
       </div>
     );

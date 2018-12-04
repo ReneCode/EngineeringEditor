@@ -122,13 +122,12 @@ function* apiCreatePlacementSaga(graphic: GraphicBase) {
     const placement = new Placement(projectId, pageId, graphic);
     const json: any = placement.toDTO();
     const mutation = `mutation createPlacement($input: CreatePlacementInput!) {
-      createPlacement(input: $input) { id, projectId, pageId, type, graphic }
+      createPlacement(input: $input) { id, projectId, pageId, graphic }
     }`;
     const variables = {
       input: {
         projectId,
         pageId,
-        type: graphic.type,
         graphic: json.graphic,
       },
     };

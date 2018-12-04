@@ -8,18 +8,13 @@ import {
   apiLoadSymbols,
 } from "../sagas/apiSaga";
 import { startInteractionSaga } from "./startInteractionSaga";
-import { zoomWindowSaga, zoomFullSaga } from "./zoomSaga";
 
 function* rootSagas() {
   yield all([
     takeLatest(actionTypes.START_INTERACTION, startInteractionSaga),
-    // takeLatest(actionTypes.SAVE_GRAPHIC_ITEM, saveGraphicItemSaga),
-    takeLatest(actionTypes.ZOOM_WINDOW, zoomWindowSaga),
-    takeLatest(actionTypes.ZOOM_FULL, zoomFullSaga),
     takeLatest(actionTypes.LOAD_PAGES, loadPagesSaga),
     takeLatest(actionTypes.CREATE_PAGE, createPageSaga),
     takeLatest(actionTypes.SET_PAGE_ID, setPageIdSaga),
-    // takeLatest(actionTypes.UPDATE_PLACEMENT, updatePlacementSaga),
     takeLatest(actionTypes.SET_PROJECT_ID, action =>
       apiLoadSymbols(action.payload),
     ),

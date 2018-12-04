@@ -1,6 +1,5 @@
 import { call } from "redux-saga/effects";
 
-import { zoomWindowSaga } from "./zoomSaga";
 import { selectGraphicItemSaga } from "./selectGraphicItemSaga";
 import { deleteItemSaga } from "./deleteItemSaga";
 import { moveGraphicItemSaga } from "./moveGraphicItemSaga";
@@ -10,7 +9,6 @@ import createSymbolSaga from "./createSymbolSaga";
 function* startInteractionSaga(action: any) {
   const iaType = action.payload.type;
   const sagas: any = {
-    IA_ZOOM_WINDOW: zoomWindowSaga,
     IA_SELECT: selectGraphicItemSaga,
     IA_MOVE: moveGraphicItemSaga,
     IA_DELETE_ITEM: deleteItemSaga,
