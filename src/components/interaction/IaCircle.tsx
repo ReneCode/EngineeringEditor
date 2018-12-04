@@ -5,8 +5,9 @@ import GraphicLine from "../../model/graphic/GraphicLine";
 import * as actions from "../../actions";
 import IaBase, { IaConfig } from "./IaBase";
 import Point from "../../common/point";
+import GraphicCircle from "../../model/graphic/GraphicCircle";
 
-class IaLine extends IaBase {
+class IaCircle extends IaBase {
   constructor(config: IaConfig) {
     super(config);
   }
@@ -15,8 +16,8 @@ class IaLine extends IaBase {
     try {
       let run = true;
       let nPoints = 0;
-      let line = new GraphicLine(new Point(), new Point());
-      let startPoint = new Point();
+      let circle = new GraphicCircle(new Point(), 0);
+      let middlePoint = new Point();
       while (run) {
         const result = await this.props.getPoint([
           IaEventType.mouseUp,
@@ -37,22 +38,23 @@ class IaLine extends IaBase {
           switch (result.type) {
             case IaEventType.mouseDown:
               nPoints++;
-              startPoint = result.pointWc;
-              line = new GraphicLine(startPoint, startPoint);
+              middlePoint = result.pointWc;
+              circle.pt = middlePoint;
               break;
           }
         } else {
           const secondPoint = result.pointWc;
-          line.p2 = secondPoint;
-          this.props.dispatch(actions.setTempItem(line));
+          const radius = secondPoint.sub(middlePoint).length();
+          circle.radius = radius;
+          this.props.dispatch(actions.setTempItem(circle));
 
           if (
             result.type === IaEventType.mouseUp ||
             result.type === IaEventType.mouseDown
           ) {
             // finish
-            if (!secondPoint.equal(startPoint)) {
-              this.saveGraphic(line);
+            if (!secondPoint.equal(middlePoint)) {
+              this.saveGraphic(circle);
               run = false;
             }
           }
@@ -64,4 +66,4 @@ class IaLine extends IaBase {
   };
 }
 
-export default IaLine;
+export default IaCircle;

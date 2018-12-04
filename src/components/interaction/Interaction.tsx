@@ -35,12 +35,7 @@ class Interaction extends Component<IProps> {
   constructor(props: IProps) {
     super(props);
 
-    const iaConfig = {
-      getPoint: this.getPoint,
-      state: this.props.state,
-      dispatch: this.props.dispatch,
-    };
-    this.iaStarter = new InteractionStarter(iaConfig);
+    this.iaStarter = new InteractionStarter();
   }
 
   async componentDidMount() {
@@ -145,7 +140,13 @@ class Interaction extends Component<IProps> {
     // finish current promise
     this.promiseResolve(null);
 
-    this.iaStarter.start(action);
+    const iaConfig = {
+      getPoint: this.getPoint,
+      state: this.props.state,
+      dispatch: this.props.dispatch,
+    };
+
+    this.iaStarter.start(iaConfig, action);
   };
 
   render() {

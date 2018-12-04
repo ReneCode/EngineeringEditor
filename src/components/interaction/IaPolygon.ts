@@ -28,13 +28,9 @@ class IaPolygon extends IaBase {
             run = false;
           }
         } else {
-          // const oldPoints = polygon.points;
-          // polygon = new GraphicPolygon();
-          // polygon.points = oldPoints.map(p => p);
           if (polygon.points.length === 0) {
             switch (result.type) {
               case IaEventType.mouseDown:
-              case IaEventType.mouseUp:
                 polygon.points.push(result.pointWc);
                 // that is the next moving point
                 polygon.points.push(result.pointWc);
@@ -74,6 +70,7 @@ class IaPolygon extends IaBase {
       this.props.dispatch(actions.setTempItem(polygon));
       if (polygon.points.length >= 2) {
         this.saveGraphic(polygon);
+        return true; // restart
       }
     } catch (ex) {}
   };

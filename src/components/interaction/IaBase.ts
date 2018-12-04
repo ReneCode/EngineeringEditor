@@ -1,6 +1,9 @@
 import { IGlobalState } from "../../reducers";
 import * as actions from "../../actions";
 import GraphicBase from "../../model/graphic/GraphicBase";
+import Placement from "../../model/Placement";
+import { updateOneSymbolRef } from "../../sagas/updateSymbolRef";
+import GraphicSymbolRef from "../../model/graphic/GraphicSymbolRef";
 
 export interface IaConfig {
   getPoint: Function;
@@ -15,17 +18,34 @@ class IaBase {
     this.props = props;
   }
 
-  start() {}
+  start(args: any[]) {}
   stop() {}
 
   saveGraphic = async (graphic: GraphicBase) => {
-    const placement = await this.props.dispatch(
-      actions.saveGraphicItem(graphic),
-    );
+    try {
+      const placement = await this.props.dispatch(
+        actions.saveGraphicItem(graphic),
+      );
+      this.updatePlacement(placement);
 
-    this.props.dispatch(actions.setTempItem());
-    this.props.dispatch(actions.addItem(placement));
+      this.props.dispatch(actions.setTempItem());
+      this.props.dispatch(actions.addItem(placement));
+      return placement;
+    } catch (ex) {
+      console.log("Exception on saveGraphic:", ex);
+    }
   };
+
+  updatePlacement(placement: Placement) {
+    const graphic = placement.graphic;
+    if (graphic) {
+      if (graphic.type === "symbolref") {
+        const symbolRef = graphic as GraphicSymbolRef;
+        const symbols = this.props.state.graphic.symbols;
+        updateOneSymbolRef(symbolRef, symbols);
+      }
+    }
+  }
 }
 
 export default IaBase;
