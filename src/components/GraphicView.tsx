@@ -108,13 +108,23 @@ class GraphicView extends Component<IProps> {
   };
 
   render() {
+    const transform = new TransformCoordinate(
+      this.props.graphic.viewport,
+      this.props.graphic.canvas,
+    );
+
+    const { gridX, gridY } = this.props.graphic.canvas;
+    const cursorWc = transform
+      .canvasToWc(this.props.graphic.cursor.pt)
+      .snap(gridX, gridY);
+
     return (
       <div ref={div => (this.frame = div)} className="GraphicView">
-        {/* <div className="showtop">
+        <div className="showtop">
           x:
-          {this.props.graphic.cursor.x} y:
-          {this.props.graphic.cursor.y}
-        </div> */}
+          {cursorWc.x} y:
+          {cursorWc.y}
+        </div>
         <canvas
           className="canvas"
           ref={canvas => (this.canvas = canvas)}
