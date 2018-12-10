@@ -48,7 +48,7 @@ class ProjectOverview extends Component {
   importProject = async filename => {
     try {
       const url = urlPersistence + `/${filename}`;
-      const result = await fetch(url);
+      await fetch(url);
       this.loadProjects();
     } catch (ex) {
       console.log(ex);
