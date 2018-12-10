@@ -16,7 +16,10 @@ class ProjectOverview extends Component {
 
   async componentDidMount() {
     this.loadProjectFileNames();
+    this.loadProjects();
+  }
 
+  loadProjects = async () => {
     const res = await graphql(`
       {
         projects {
@@ -28,7 +31,7 @@ class ProjectOverview extends Component {
     this.setState({
       projects: res.projects,
     });
-  }
+  };
 
   loadProjectFileNames = async () => {
     try {
@@ -42,10 +45,11 @@ class ProjectOverview extends Component {
     }
   };
 
-  loadProject = async filename => {
+  importProject = async filename => {
     try {
       const url = urlPersistence + `/${filename}`;
       const result = await fetch(url);
+      this.loadProjects();
     } catch (ex) {
       console.log(ex);
     }
@@ -102,7 +106,7 @@ class ProjectOverview extends Component {
               <ProjectFileName
                 key={f}
                 filename={f}
-                onClick={() => this.loadProject(f)}
+                onClick={() => this.importProject(f)}
               />
             );
           })}
