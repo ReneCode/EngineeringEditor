@@ -47,8 +47,8 @@ const initialState: IGraphicState = {
   canvas: {
     width: 100,
     height: 100,
-    gridX: 20,
-    gridY: 20,
+    gridX: 4,
+    gridY: 4,
     useGrid: true,
   },
 };
