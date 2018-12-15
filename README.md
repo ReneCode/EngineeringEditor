@@ -10,6 +10,9 @@ Layout inspired by CodeSandbox ;-)
 
 https://github.com/typicode/json-server
 
+##svg icons
+http://svgicons.sparkk.fr/
+
 ## redux-saga
 
 ### call

@@ -14,7 +14,7 @@ class ProjectOverview extends Component {
     showNewProjectModal: false,
   };
 
-  async componentDidMount() {
+  componentDidMount() {
     this.loadProjectFileNames();
     this.loadProjects();
   }

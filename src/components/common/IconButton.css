@@ -1,0 +1,33 @@
+.icon-btn {
+  width: 40px;
+  height: 40px;
+  position: relative;
+}
+
+.icon-btn svg {
+  width: 1.5em;
+  height: 1.5em;
+
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+}
+
+.svg-icon {
+  width: 1em;
+  height: 1em;
+}
+
+.svg-icon path,
+.svg-icon polygon,
+.svg-icon rect {
+  fill: #4691f6;
+}
+
+.svg-icon circle {
+  stroke: #4691f6;
+  stroke-width: 1;
+}

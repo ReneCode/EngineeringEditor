@@ -1,0 +1,30 @@
+@import "../../variables.scss";
+
+.projectcard {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  background-color: $background-color;
+  box-shadow: 2px 2px 4px #333;
+
+  width: 250px;
+  height: 120px;
+  margin: 10px;
+  padding: 10px;
+}
+
+.text {
+  flex-grow: 1;
+}
+
+.name {
+  font-size: 2rem;
+  margin-top: 1rem;
+}
+
+.actions {
+  flex: 1;
+  justify-content: end;
+  flex-grow: 0;
+}

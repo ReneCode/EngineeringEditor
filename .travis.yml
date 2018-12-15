@@ -12,6 +12,7 @@ script:
   - yarn build
 
 before_deploy:
+  - cp web.config build/
   - cd build
 
 deploy:
