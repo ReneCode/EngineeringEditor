@@ -1,6 +1,6 @@
 import React from "react";
 
-import "./IconButton.css";
+import "./IconButton.scss";
 import SvgExport from "./SvgExport";
 import SvgImport from "./SvgImport";
 import SvgDots from "./SvgDots";
@@ -8,6 +8,7 @@ import SvgDots from "./SvgDots";
 interface IProps {
   onClick: Function;
   icon: string;
+  title: string;
 }
 
 const IconButton = (props: IProps) => {
@@ -25,7 +26,10 @@ const IconButton = (props: IProps) => {
   }
 
   return (
-    <div className="icon-btn" onClick={() => props.onClick()}>
+    <div
+      className="icon-btn"
+      onClick={() => props.onClick()}
+      title={props.title}>
       <svg className="svg-icon" viewBox="0 0 20 20">
         {svg}
       </svg>

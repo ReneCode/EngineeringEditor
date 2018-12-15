@@ -41,6 +41,7 @@ class NewProjectModal extends Component {
   render() {
     return (
       <Modal
+        ariaHideApp={true}
         style={this.getStyles()}
         isOpen={this.props.show}
         onRequestClose={() => {

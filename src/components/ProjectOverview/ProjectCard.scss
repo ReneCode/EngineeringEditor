@@ -6,7 +6,9 @@
   justify-content: space-between;
 
   background-color: $background-color;
-  box-shadow: 2px 2px 4px #333;
+  border: 1px solid $border-color;
+  color: $primary-color;
+  cursor: pointer;
 
   width: 250px;
   height: 120px;
@@ -14,17 +16,33 @@
   padding: 10px;
 }
 
+.selected-card {
+  border: 1px solid $select-color;
+}
+
 .text {
   flex-grow: 1;
 }
 
 .name {
-  font-size: 2rem;
-  margin-top: 1rem;
+  font-size: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.add-project {
+  color: $secondary-color;
+  font-size: 1.1rem;
+  display: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
 }
 
 .actions {
-  flex: 1;
-  justify-content: end;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   flex-grow: 0;
 }

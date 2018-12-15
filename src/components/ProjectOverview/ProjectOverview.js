@@ -1,8 +1,11 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router";
 import ProjectCard from "./ProjectCard";
-import ProjectFileName from "./ProjectFileName";
+import ProjectAddCard from "./ProjectAddCard";
 import NewProjectModal from "./NewProjectModal";
 import { graphql } from "../../common/graphql-api";
+
+import "./ProjectOverview.scss";
 
 let SERVER = process.env.REACT_APP_GRAPHQL_SERVER;
 const urlPersistence = `${SERVER}/persistence/projects`;
@@ -11,6 +14,7 @@ class ProjectOverview extends Component {
   state = {
     projects: [],
     projectFileNames: [],
+    selectedProjectName: "",
     showNewProjectModal: false,
   };
 
@@ -28,6 +32,7 @@ class ProjectOverview extends Component {
         }
       }
     `);
+
     this.setState({
       projects: res.projects,
     });
@@ -48,8 +53,10 @@ class ProjectOverview extends Component {
   importProject = async filename => {
     try {
       const url = urlPersistence + `/${filename}`;
-      await fetch(url);
-      this.loadProjects();
+      const result = await fetch(url);
+      const json = await result.json();
+      await this.loadProjects();
+      return json.id;
     } catch (ex) {
       console.log(ex);
     }
@@ -86,31 +93,62 @@ class ProjectOverview extends Component {
     }));
   };
 
+  onExport = async project => {
+    try {
+      const url = urlPersistence + `/${project.name}`;
+      await fetch(url, {
+        method: "POST",
+        body: JSON.stringify(project),
+      });
+    } catch (ex) {
+      console.log(ex);
+    }
+  };
+
+  onClickSelectProject = async project => {
+    if (this.state.selectedProjectName === project.name) {
+      let id = project.id;
+      if (!id) {
+        id = await this.importProject(project.name);
+      }
+      this.props.history.push(`/p/${id}`);
+    } else {
+      this.setState({
+        selectedProjectName: project.name,
+      });
+    }
+  };
+
+  onClickAddProject = () => {};
+
+  onClickMoreProject = () => {};
+
   render() {
+    const allProjects = this.state.projects.map(p => p);
+    this.state.projectFileNames.forEach(name => {
+      if (!allProjects.find(f => f.name === name)) {
+        allProjects.push({ name, id: null });
+      }
+    });
+
     return (
       <div>
-        <div className="button" onClick={this.onClickCreateProject}>
-          Create Project
-        </div>
-
         <div data-testid="projectlist" className="projectlist">
-          {this.state.projects.map(p => {
-            return <ProjectCard key={p.id} project={p} />;
-          })}
-        </div>
-
-        <h3>Project Files</h3>
-        <div>
-          {this.state.projectFileNames.map(f => {
+          <ProjectAddCard onClick={this.onClickCreateProject} />
+          {allProjects.map((p, index) => {
             return (
-              <ProjectFileName
-                key={f}
-                filename={f}
-                onClick={() => this.importProject(f)}
+              <ProjectCard
+                key={index}
+                project={p}
+                active={this.state.selectedProjectName === p.name}
+                onClick={this.onClickSelectProject}
+                onExport={p.id && this.onExport}
+                // onImport={p => this.onImportProject(p.name)}
               />
             );
           })}
         </div>
+
         <NewProjectModal
           show={this.state.showNewProjectModal}
           onClose={this.onCloseModal}
@@ -120,4 +158,4 @@ class ProjectOverview extends Component {
   }
 }
 
-export default ProjectOverview;
+export default withRouter(ProjectOverview);
