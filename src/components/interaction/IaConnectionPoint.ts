@@ -1,12 +1,10 @@
 import IaBase, { IaConfig } from "./IaBase";
-import GraphicPolygon from "../../model/graphic/GraphicPolygon";
 import { IaEventType } from "./Interaction";
 import * as actions from "../../actions";
 import GraphicConnectionPoint, {
   ConnectionPointDirection,
 } from "../../model/graphic/GraphicConnectionPoint";
-import GraphicBase from "../../model/graphic/GraphicBase";
-import { RelativeDirection } from "../../common/point";
+import Point, { RelativeDirection } from "../../common/point";
 
 class IaConnectionPoint extends IaBase {
   constructor(config: IaConfig) {
@@ -16,71 +14,69 @@ class IaConnectionPoint extends IaBase {
   start = async () => {
     try {
       let run = true;
-      let connectionPoint:
-        | GraphicConnectionPoint
-        | undefined = undefined;
-      // place graphic
+      let nPoints = 0;
+      let firstPoint = new Point();
+      let connectionPoint = new GraphicConnectionPoint(new Point());
       while (run) {
         const result = await this.props.getPoint([
+          IaEventType.mouseUp,
           IaEventType.mouseDown,
           IaEventType.mouseMove,
+          IaEventType.keyDown,
         ]);
-        if (!result) {
+        if (
+          !result ||
+          (result.type === IaEventType.keyDown &&
+            result.event.key === "Escape")
+        ) {
           this.props.dispatch(actions.setTempItem());
           return;
         }
-        connectionPoint = new GraphicConnectionPoint(result.pointWc);
-        this.props.dispatch(actions.setTempItem(connectionPoint));
-
-        switch (result.type) {
-          case IaEventType.mouseDown:
-            run = false;
-            break;
-        }
-      }
-
-      if (connectionPoint) {
-        // set direction
-        run = true;
-        while (run) {
-          const result = await this.props.getPoint([
-            IaEventType.mouseUp,
-            IaEventType.mouseMove,
-          ]);
-
+        if (nPoints === 0) {
+          firstPoint = result.pointWc;
+          connectionPoint.pt = firstPoint;
           switch (result.type) {
-            case IaEventType.mouseUp:
-              run = false;
+            case IaEventType.mouseDown:
+              nPoints++;
               break;
-            default:
-              const dir = connectionPoint.pt.relativeDirection(
-                result.pointWc,
-              );
-              switch (dir) {
-                case RelativeDirection.Right:
-                  connectionPoint.direction =
-                    ConnectionPointDirection.RIGHT;
-                  break;
-                case RelativeDirection.Up:
-                  connectionPoint.direction =
-                    ConnectionPointDirection.UP;
-                  break;
-                case RelativeDirection.Left:
-                  connectionPoint.direction =
-                    ConnectionPointDirection.LEFT;
-                  break;
-                case RelativeDirection.Down:
-                  connectionPoint.direction =
-                    ConnectionPointDirection.DOWN;
-              }
-              this.props.dispatch(
-                actions.setTempItem(connectionPoint),
-              );
+          }
+          this.props.dispatch(actions.setTempItem(connectionPoint));
+        } else {
+          const nextPoint = result.pointWc;
+
+          if (
+            result.type === IaEventType.mouseDown ||
+            result.type === IaEventType.mouseUp
+          ) {
+            if (!nextPoint.equal(firstPoint)) {
+              this.saveGraphic(connectionPoint);
+              run = false;
+            }
+          } else {
+            // mouse move
+            const dir = firstPoint.relativeDirection(nextPoint);
+            switch (dir) {
+              case RelativeDirection.Right:
+                connectionPoint.direction =
+                  ConnectionPointDirection.RIGHT;
+                break;
+              case RelativeDirection.Up:
+                connectionPoint.direction =
+                  ConnectionPointDirection.UP;
+                break;
+              case RelativeDirection.Left:
+                connectionPoint.direction =
+                  ConnectionPointDirection.LEFT;
+                break;
+              case RelativeDirection.Down:
+                connectionPoint.direction =
+                  ConnectionPointDirection.DOWN;
+            }
+            this.props.dispatch(actions.setTempItem(connectionPoint));
           }
         }
-
-        this.saveGraphic(connectionPoint);
       }
+      return true;
     } catch (ex) {}
   };
 }
