@@ -2,8 +2,6 @@ import React from "react";
 import { Provider } from "react-redux";
 import ReactDOM from "react-dom";
 
-import { ThemeProvider } from "styled-components";
-import theme from "./theme";
 import AppFrame from "./components/AppFrame";
 
 import store from "./store";
@@ -13,11 +11,9 @@ import "./split-pane.css";
 
 function Main() {
   return (
-    <ThemeProvider theme={theme}>
-      <Provider store={store}>
-        <AppFrame className="Main" />
-      </Provider>
-    </ThemeProvider>
+    <Provider store={store}>
+      <AppFrame className="Main" />
+    </Provider>
   );
 }
 
