@@ -6,6 +6,7 @@ import IaSymbolRef from "./IaSymbolRef";
 import IaZoomWindow from "./IaZoomWindow";
 import IaDelete from "./IaDelete";
 import { IaConfig } from "./IaBase";
+import IaSelect from "./IaSelect";
 
 const iaMap: { [key: string]: any } = {
   IA_DELETE_ITEM: IaDelete,
@@ -15,6 +16,7 @@ const iaMap: { [key: string]: any } = {
   IA_CREATE_CONNECTION_POINT: IaConnectionPoint,
   IA_CREATE_SYMBOLREF: IaSymbolRef,
   IA_ZOOM_WINDOW: IaZoomWindow,
+  IA_SELECT: IaSelect,
 };
 
 class InteractionStarter {

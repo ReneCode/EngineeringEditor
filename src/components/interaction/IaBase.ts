@@ -4,6 +4,7 @@ import GraphicBase from "../../model/graphic/GraphicBase";
 import Placement from "../../model/Placement";
 import { updateOneSymbolRef } from "../../sagas/updateSymbolRef";
 import GraphicSymbolRef from "../../model/graphic/GraphicSymbolRef";
+import { IaEventType } from "./Interaction";
 
 export interface IaConfig {
   getPoint: Function;
@@ -20,6 +21,18 @@ class IaBase {
 
   start(args: any[]) {}
   stop() {}
+
+  isEscape = (result: any) => {
+    return (
+      !result ||
+      (result.type === IaEventType.keyDown &&
+        result.event.key === "Escape")
+    );
+  };
+
+  selectItems = () => {
+    return this.props.state.graphic.items;
+  };
 
   saveGraphic = async (graphic: GraphicBase) => {
     try {
