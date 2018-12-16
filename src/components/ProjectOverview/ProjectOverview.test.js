@@ -45,7 +45,7 @@ describe("ProjectOverview", () => {
     await waitForElement(() => getByText("Create New Project"));
     const nameInput = getByLabelText("Name:");
     // https://stackoverflow.com/questions/53195381/react-testing-library-with-typescript-set-an-inputs-value
-    (nameInput as HTMLInputElement).value = newProjectName;
+    nameInput.value = newProjectName;
     const createButton2 = getByText("Create");
     createButton2.click();
 
