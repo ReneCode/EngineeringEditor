@@ -4,26 +4,35 @@ import GraphicBase from "../../model/graphic/GraphicBase";
 import Placement from "../../model/Placement";
 import { updateOneSymbolRef } from "../../sagas/updateSymbolRef";
 import GraphicSymbolRef from "../../model/graphic/GraphicSymbolRef";
-import { IaEventType } from "./Interaction";
 import Point from "../../common/point";
+import TransformCoordinate from "../../common/transformCoordinate";
 
-export type GetPointResult = Promise<{
+export enum IaEventType {
+  none = 0,
+  mouseDown,
+  mouseUp,
+  mouseMove,
+  keyDown,
+}
+
+export type GetEventResult = Promise<{
   type: IaEventType;
   event: MouseEvent | KeyboardEvent;
   point: Point;
   pointWc: Point;
+  transform: TransformCoordinate;
 }>;
 
-export interface IaConfig {
-  getPoint(types: IaEventType[] | IaEventType): GetPointResult;
+export interface IaContext {
+  getEvent(types: IaEventType[] | IaEventType): GetEventResult;
   dispatch: Function;
   getState(): IGlobalState;
 }
 
 class IaBase {
-  props: IaConfig;
+  props: IaContext;
 
-  constructor(props: IaConfig) {
+  constructor(props: IaContext) {
     this.props = props;
   }
 

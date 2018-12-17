@@ -5,15 +5,7 @@ import * as actions from "../../actions";
 import { IGlobalState } from "../../reducers";
 import TransformCoordinate from "../../common/transformCoordinate";
 import InteractionStarter from "./InteractionStarter";
-import { IaConfig, GetPointResult } from "./IaBase";
-
-export enum IaEventType {
-  none = 0,
-  mouseDown,
-  mouseUp,
-  mouseMove,
-  keyDown,
-}
+import { IaContext, GetEventResult, IaEventType } from "./IaBase";
 
 interface IProps {
   getCanvas(): HTMLCanvasElement;
@@ -113,12 +105,13 @@ class Interaction extends Component<IProps> {
           event,
           pointWc,
           pointCanvas,
+          transform,
         });
       }
     }
   };
 
-  getPoint = (types: IaEventType[] | IaEventType): GetPointResult => {
+  getEvent = (types: IaEventType[] | IaEventType): GetEventResult => {
     if (!Array.isArray(types)) {
       types = [types];
     }
@@ -133,8 +126,8 @@ class Interaction extends Component<IProps> {
     // finish current promise
     this.promiseResolve(null);
 
-    const iaConfig: IaConfig = {
-      getPoint: this.getPoint,
+    const iaConfig: IaContext = {
+      getEvent: this.getEvent,
       getState: this.props.getState,
       dispatch: this.props.dispatch,
     };

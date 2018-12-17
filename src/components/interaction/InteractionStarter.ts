@@ -5,7 +5,7 @@ import IaCircle from "./IaCircle";
 import IaSymbolRef from "./IaSymbolRef";
 import IaZoomWindow from "./IaZoomWindow";
 import IaDelete from "./IaDelete";
-import { IaConfig } from "./IaBase";
+import { IaContext } from "./IaBase";
 import IaSelect from "./IaSelect";
 import IaMove from "./IaMove";
 
@@ -24,7 +24,7 @@ const iaMap: { [key: string]: any } = {
 class InteractionStarter {
   interaction: any = undefined;
 
-  start = async (iaConfig: IaConfig, action: any) => {
+  start = async (iaConfig: IaContext, action: any) => {
     if (this.interaction && this.interaction.stop) {
       this.interaction.stop();
     }
@@ -37,7 +37,7 @@ class InteractionStarter {
         action.payload.args,
       );
       if (result) {
-        const { repeat: restart } = result;
+        const { restart } = result;
         if (restart) {
           iaConfig.dispatch(action);
         }

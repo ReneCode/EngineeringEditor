@@ -1,10 +1,9 @@
-import IaBase, { IaConfig } from "./IaBase";
+import IaBase, { IaContext, IaEventType } from "./IaBase";
 import GraphicBase from "../../model/graphic/GraphicPolygon";
-import { IaEventType } from "./Interaction";
 import * as actions from "../../actions";
 
 class IaPolygon extends IaBase {
-  constructor(config: IaConfig) {
+  constructor(config: IaContext) {
     super(config);
   }
 
@@ -13,7 +12,7 @@ class IaPolygon extends IaBase {
       let polygon = new GraphicBase();
       let run = true;
       while (run) {
-        const result = await this.props.getPoint([
+        const result = await this.props.getEvent([
           IaEventType.mouseDown,
           IaEventType.mouseUp,
           IaEventType.mouseMove,
@@ -68,7 +67,7 @@ class IaPolygon extends IaBase {
       this.props.dispatch(actions.setTempItem(polygon));
       if (polygon.points.length >= 2) {
         this.saveGraphic(polygon);
-        return true; // restart
+        return { restart: true };
       }
     } catch (ex) {}
   };

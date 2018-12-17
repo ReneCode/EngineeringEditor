@@ -1,12 +1,11 @@
-import { IaEventType } from "./Interaction";
 import * as actions from "../../actions";
-import IaBase, { IaConfig } from "./IaBase";
+import IaBase, { IaContext, IaEventType } from "./IaBase";
 import Point from "../../common/point";
 import TransformCoordinate from "../../common/transformCoordinate";
 import Placement from "../../model/Placement";
 
 class IaPickItem extends IaBase {
-  constructor(config: IaConfig) {
+  constructor(config: IaContext) {
     super(config);
   }
 
@@ -34,7 +33,7 @@ class IaPickItem extends IaBase {
       if (args && args.length > 0) {
         this.props.dispatch(actions.setCursorMode(args[0]));
       }
-      const result = await this.props.getPoint([
+      const result = await this.props.getEvent([
         IaEventType.mouseDown,
         IaEventType.keyDown,
       ]);

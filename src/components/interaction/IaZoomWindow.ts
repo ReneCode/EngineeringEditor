@@ -1,14 +1,11 @@
-import { IaEventType } from "./Interaction";
-import { IGlobalState } from "../../reducers";
-import GraphicLine from "../../model/graphic/GraphicLine";
 import * as actions from "../../actions";
-import IaBase, { IaConfig } from "./IaBase";
+import IaBase, { IaContext, IaEventType } from "./IaBase";
 import Point from "../../common/point";
 import GraphicRect from "../../model/graphic/GraphicRect";
 import TransformCoordinate from "../../common/transformCoordinate";
 
 class IaZoomWindow extends IaBase {
-  constructor(config: IaConfig) {
+  constructor(config: IaContext) {
     super(config);
   }
 
@@ -19,7 +16,7 @@ class IaZoomWindow extends IaBase {
       let rect = new GraphicRect(new Point(), new Point());
       let startPoint = new Point();
       while (run) {
-        const result = await this.props.getPoint([
+        const result = await this.props.getEvent([
           IaEventType.mouseUp,
           IaEventType.mouseDown,
           IaEventType.mouseMove,

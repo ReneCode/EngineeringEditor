@@ -1,16 +1,12 @@
-import { Component } from "react";
-import { IaEventType } from "./Interaction";
-import { IGlobalState } from "../../reducers";
-import GraphicLine from "../../model/graphic/GraphicLine";
 import * as actions from "../../actions";
-import IaBase, { IaConfig } from "./IaBase";
+import IaBase, { IaContext, IaEventType } from "./IaBase";
 import Point from "../../common/point";
 import deepClone from "../../common/deepClone";
 import IaPickItem from "./IaPickItem";
 import ItemBase from "../../model/ItemBase";
 
 class IaMove extends IaBase {
-  constructor(config: IaConfig) {
+  constructor(config: IaContext) {
     super(config);
   }
 
@@ -32,7 +28,7 @@ class IaMove extends IaBase {
       const items = this.props.getState().graphic.selectedItems;
       const orginalItems = deepClone(items);
       while (run) {
-        const result = await this.props.getPoint([
+        const result = await this.props.getEvent([
           IaEventType.mouseUp,
           IaEventType.mouseMove,
           IaEventType.keyDown,

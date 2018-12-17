@@ -1,12 +1,10 @@
-import IaBase, { IaConfig } from "./IaBase";
-import GraphicBase from "../../model/graphic/GraphicPolygon";
-import { IaEventType } from "./Interaction";
+import IaBase, { IaContext, IaEventType } from "./IaBase";
 import * as actions from "../../actions";
 import GraphicSymbolRef from "../../model/graphic/GraphicSymbolRef";
 import Point from "../../common/point";
 
 class IaSymbolRef extends IaBase {
-  constructor(config: IaConfig) {
+  constructor(config: IaContext) {
     super(config);
   }
 
@@ -30,7 +28,7 @@ class IaSymbolRef extends IaBase {
         symbol,
       );
       while (run) {
-        const result = await this.props.getPoint([
+        const result = await this.props.getEvent([
           IaEventType.mouseDown,
           IaEventType.mouseMove,
           IaEventType.keyDown,

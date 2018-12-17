@@ -1,13 +1,10 @@
-import { Component } from "react";
-import { IaEventType } from "./Interaction";
-import { IGlobalState } from "../../reducers";
 import GraphicLine from "../../model/graphic/GraphicLine";
 import * as actions from "../../actions";
-import IaBase, { IaConfig } from "./IaBase";
+import IaBase, { IaContext, IaEventType } from "./IaBase";
 import Point from "../../common/point";
 
 class IaLine extends IaBase {
-  constructor(config: IaConfig) {
+  constructor(config: IaContext) {
     super(config);
   }
 
@@ -18,7 +15,7 @@ class IaLine extends IaBase {
       let line = new GraphicLine(new Point(), new Point());
       let startPoint = new Point();
       while (run) {
-        const result = await this.props.getPoint([
+        const result = await this.props.getEvent([
           IaEventType.mouseUp,
           IaEventType.mouseDown,
           IaEventType.mouseMove,

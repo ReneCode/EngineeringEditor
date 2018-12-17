@@ -1,5 +1,4 @@
-import IaBase, { IaConfig } from "./IaBase";
-import { IaEventType } from "./Interaction";
+import IaBase, { IaContext, IaEventType } from "./IaBase";
 import * as actions from "../../actions";
 import GraphicConnectionPoint, {
   ConnectionPointDirection,
@@ -7,7 +6,7 @@ import GraphicConnectionPoint, {
 import Point, { RelativeDirection } from "../../common/point";
 
 class IaConnectionPoint extends IaBase {
-  constructor(config: IaConfig) {
+  constructor(config: IaContext) {
     super(config);
   }
 
@@ -18,7 +17,7 @@ class IaConnectionPoint extends IaBase {
       let firstPoint = new Point();
       let connectionPoint = new GraphicConnectionPoint(new Point());
       while (run) {
-        const result = await this.props.getPoint([
+        const result = await this.props.getEvent([
           IaEventType.mouseUp,
           IaEventType.mouseDown,
           IaEventType.mouseMove,
