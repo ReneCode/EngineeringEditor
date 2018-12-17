@@ -25,11 +25,7 @@ class IaZoomWindow extends IaBase {
           IaEventType.mouseMove,
           IaEventType.keyDown,
         ]);
-        if (
-          !result ||
-          (result.type === IaEventType.keyDown &&
-            result.event.key === "Escape")
-        ) {
+        if (this.isEscape(result)) {
           this.props.dispatch(actions.setTempItem());
           return;
         }
@@ -60,7 +56,7 @@ class IaZoomWindow extends IaBase {
           }
         }
       }
-      return true; // restart
+      // return true; // restart
     } finally {
     }
   };
@@ -78,7 +74,7 @@ class IaZoomWindow extends IaBase {
       width: width,
       height: height,
     };
-    const canvas = this.props.state.graphic.canvas;
+    const canvas = this.props.getState().graphic.canvas;
     const tc = new TransformCoordinate(viewport, canvas);
     const correctedViewport = tc.viewport;
     this.props.dispatch(

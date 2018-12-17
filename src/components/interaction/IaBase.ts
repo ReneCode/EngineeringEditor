@@ -5,11 +5,19 @@ import Placement from "../../model/Placement";
 import { updateOneSymbolRef } from "../../sagas/updateSymbolRef";
 import GraphicSymbolRef from "../../model/graphic/GraphicSymbolRef";
 import { IaEventType } from "./Interaction";
+import Point from "../../common/point";
+
+export type GetPointResult = Promise<{
+  type: IaEventType;
+  event: MouseEvent | KeyboardEvent;
+  point: Point;
+  pointWc: Point;
+}>;
 
 export interface IaConfig {
-  getPoint: Function;
+  getPoint(types: IaEventType[] | IaEventType): GetPointResult;
   dispatch: Function;
-  state: IGlobalState;
+  getState(): IGlobalState;
 }
 
 class IaBase {
@@ -19,8 +27,8 @@ class IaBase {
     this.props = props;
   }
 
-  start(args: any[]) {}
-  stop() {}
+  // start() {}
+  // stop() {}
 
   isEscape = (result: any) => {
     return (
@@ -31,7 +39,7 @@ class IaBase {
   };
 
   selectItems = () => {
-    return this.props.state.graphic.items;
+    return this.props.getState().graphic.items;
   };
 
   saveGraphic = async (graphic: GraphicBase) => {
@@ -54,7 +62,7 @@ class IaBase {
     if (graphic) {
       if (graphic.type === "symbolref") {
         const symbolRef = graphic as GraphicSymbolRef;
-        const symbols = this.props.state.graphic.symbols;
+        const symbols = this.props.getState().graphic.symbols;
         updateOneSymbolRef(symbolRef, symbols);
       }
     }

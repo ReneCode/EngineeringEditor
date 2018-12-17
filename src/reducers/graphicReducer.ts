@@ -92,6 +92,7 @@ const addSelectedItem = (state: IGraphicState, action: any) => {
   newItems = newItems.filter(
     (i: Placement) => state.selectedItems.indexOf(i) < 0,
   );
+
   return {
     ...state,
     selectedItems: state.selectedItems.concat(newItems),

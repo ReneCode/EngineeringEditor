@@ -5,7 +5,7 @@ import IaPickItem from "./IaPickItem";
 class IaDelete extends IaBase {
   start = async () => {
     try {
-      let itemsToDelete = this.props.state.graphic.selectedItems;
+      let itemsToDelete = this.props.getState().graphic.selectedItems;
       if (itemsToDelete.length === 0) {
         const pickItem = new IaPickItem(this.props);
         const result = await pickItem.start(["delete"]);

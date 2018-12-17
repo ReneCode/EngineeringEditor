@@ -86,6 +86,12 @@ class DrawingWorkspace extends Component<IProps> {
           onClick={() => this.startIa(IA_CREATE_CONNECTION_POINT)}>
           Connection Point
         </button>
+
+        <button
+          className="button"
+          onClick={() => this.startIa(IA_MOVE)}>
+          Move
+        </button>
       </div>
     );
   }

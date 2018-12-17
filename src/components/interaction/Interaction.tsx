@@ -5,7 +5,7 @@ import * as actions from "../../actions";
 import { IGlobalState } from "../../reducers";
 import TransformCoordinate from "../../common/transformCoordinate";
 import InteractionStarter from "./InteractionStarter";
-import { IaConfig } from "./IaBase";
+import { IaConfig, GetPointResult } from "./IaBase";
 
 export enum IaEventType {
   none = 0,
@@ -18,7 +18,7 @@ export enum IaEventType {
 interface IProps {
   getCanvas(): HTMLCanvasElement;
   dispatch: Function;
-  state: IGlobalState;
+  getState(): IGlobalState;
 }
 
 class Interaction extends Component<IProps> {
@@ -98,7 +98,7 @@ class Interaction extends Component<IProps> {
       if (event instanceof MouseEvent) {
         const pointCanvas = this.getCursor(event as MouseEvent);
 
-        const { canvas, viewport } = this.props.state.graphic;
+        const { canvas, viewport } = this.props.getState().graphic;
         const transform = new TransformCoordinate(viewport, canvas);
 
         // transform canvas point to world-coordinate point
@@ -118,9 +118,7 @@ class Interaction extends Component<IProps> {
     }
   };
 
-  getPoint = (
-    types: IaEventType[] | IaEventType,
-  ): Promise<{ type: IaEventType; event: MouseEvent }> => {
+  getPoint = (types: IaEventType[] | IaEventType): GetPointResult => {
     if (!Array.isArray(types)) {
       types = [types];
     }
@@ -137,7 +135,7 @@ class Interaction extends Component<IProps> {
 
     const iaConfig: IaConfig = {
       getPoint: this.getPoint,
-      state: this.props.state,
+      getState: this.props.getState,
       dispatch: this.props.dispatch,
     };
 

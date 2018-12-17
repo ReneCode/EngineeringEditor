@@ -23,10 +23,8 @@ class IaPolygon extends IaBase {
           this.props.dispatch(actions.setTempItem());
           return;
         }
-        if (result.type === IaEventType.keyDown) {
-          if (result.event.key === "Escape") {
-            run = false;
-          }
+        if (this.isEscape(result)) {
+          run = false;
         } else {
           if (polygon.points.length === 0) {
             switch (result.type) {

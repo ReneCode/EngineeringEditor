@@ -7,6 +7,7 @@ import IaZoomWindow from "./IaZoomWindow";
 import IaDelete from "./IaDelete";
 import { IaConfig } from "./IaBase";
 import IaSelect from "./IaSelect";
+import IaMove from "./IaMove";
 
 const iaMap: { [key: string]: any } = {
   IA_DELETE_ITEM: IaDelete,
@@ -17,6 +18,7 @@ const iaMap: { [key: string]: any } = {
   IA_CREATE_SYMBOLREF: IaSymbolRef,
   IA_ZOOM_WINDOW: IaZoomWindow,
   IA_SELECT: IaSelect,
+  IA_MOVE: IaMove,
 };
 
 class InteractionStarter {
@@ -31,9 +33,14 @@ class InteractionStarter {
     let iaClass = iaMap[type];
     if (iaClass) {
       this.interaction = new iaClass(iaConfig);
-      let repeat = await this.interaction.start(action.payload.args);
-      if (repeat) {
-        iaConfig.dispatch(action);
+      const result = await this.interaction.start(
+        action.payload.args,
+      );
+      if (result) {
+        const { repeat: restart } = result;
+        if (restart) {
+          iaConfig.dispatch(action);
+        }
       }
     } else {
       console.log("Interaction not found:", type);

@@ -54,7 +54,7 @@ class IaLine extends IaBase {
           }
         }
       }
-      return true; // restart
+      return { restart: true };
     } finally {
     }
   };

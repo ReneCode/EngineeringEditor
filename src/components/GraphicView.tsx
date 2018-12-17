@@ -17,6 +17,7 @@ interface IProps {
   canvas: HTMLCanvasElement;
   dispatch: Function;
   graphic: IGraphicState;
+  state: IGlobalState;
 }
 
 interface IState {
@@ -141,7 +142,10 @@ class GraphicView extends Component<IProps> {
           graphic={this.props.graphic}
         />
         <Autoconnection />
-        <Interaction getCanvas={() => this.canvas} />
+        <Interaction
+          getCanvas={() => this.canvas}
+          getState={() => this.props.state}
+        />
       </div>
     );
   }

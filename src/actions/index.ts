@@ -6,6 +6,7 @@ export * from "./projectActions";
 export * from "./zoomActions";
 export * from "./saveGraphicItem";
 export * from "./deletePlacement";
+export * from "./apiUpdatePlacement";
 
 export const setTempItem = (item: any = undefined) => {
   return {

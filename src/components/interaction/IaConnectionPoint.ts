@@ -24,11 +24,7 @@ class IaConnectionPoint extends IaBase {
           IaEventType.mouseMove,
           IaEventType.keyDown,
         ]);
-        if (
-          !result ||
-          (result.type === IaEventType.keyDown &&
-            result.event.key === "Escape")
-        ) {
+        if (this.isEscape(result)) {
           this.props.dispatch(actions.setTempItem());
           return;
         }

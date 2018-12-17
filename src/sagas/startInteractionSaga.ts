@@ -7,7 +7,6 @@ import createSymbolSaga from "./createSymbolSaga";
 function* startInteractionSaga(action: any) {
   const iaType = action.payload.type;
   const sagas: any = {
-    IA_MOVE: moveGraphicItemSaga,
     IA_CREATE_GROUP: createGroupSaga,
     IA_CREATE_SYMBOL: createSymbolSaga,
   };
