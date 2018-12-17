@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import * as actions from "../../actions";
 import {
   IA_SELECT,
-  IA_MOVE,
   IA_CREATE_CIRCLE,
   IA_CREATE_LINE,
   IA_ZOOM_WINDOW,
@@ -24,10 +23,6 @@ class DrawingWorkspace extends Component<IProps> {
     super(props);
     this.state = {};
   }
-
-  onMove = () => {
-    this.props.dispatch(actions.startInteraction(IA_MOVE));
-  };
 
   onGroup = () => {
     this.props.dispatch(actions.startInteraction(IA_CREATE_GROUP));
@@ -85,12 +80,6 @@ class DrawingWorkspace extends Component<IProps> {
           className="button"
           onClick={() => this.startIa(IA_CREATE_CONNECTION_POINT)}>
           Connection Point
-        </button>
-
-        <button
-          className="button"
-          onClick={() => this.startIa(IA_MOVE)}>
-          Move
         </button>
       </div>
     );

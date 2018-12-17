@@ -2,7 +2,6 @@ import * as actions from "../../actions";
 import IaBase, { IaContext, IaEventType } from "./IaBase";
 import Point from "../../common/point";
 import deepClone from "../../common/deepClone";
-import IaPickItem from "./IaPickItem";
 import ItemBase from "../../model/ItemBase";
 
 class IaMove extends IaBase {
@@ -10,23 +9,17 @@ class IaMove extends IaBase {
     super(config);
   }
 
-  start = async (args: any[]) => {
+  start = async (firstPoint: Point) => {
     try {
-      let run = true;
-      let firstPoint = new Point();
-
-      const iaPickItem = new IaPickItem(this.context);
-      const result = await iaPickItem.start(["select"]);
-      if (!result) {
+      if (!firstPoint) {
+        throw new Error("firstPoint missing");
+      }
+      const items = this.context.getState().graphic.selectedItems;
+      if (items.length === 0) {
         return;
       }
-      await this.context.dispatch(
-        actions.addSelectedItem(result.items),
-      );
-      firstPoint = result.point;
-
-      const items = this.context.getState().graphic.selectedItems;
       const orginalItems = deepClone(items);
+      let run = true;
       while (run) {
         const result = await this.context.getEvent([
           IaEventType.mouseUp,
@@ -45,9 +38,8 @@ class IaMove extends IaBase {
 
         switch (result.type) {
           case IaEventType.mouseUp:
-            console.log("up");
-            this.context.dispatch(actions.clearSelectedItem());
             if (!firstPoint.equal(secondPoint)) {
+              this.context.dispatch(actions.clearSelectedItem());
               this.context.dispatch(
                 actions.updatePlacement(movedItems),
               );
