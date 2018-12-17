@@ -1,6 +1,7 @@
 import { GraphicType } from "../types";
 import TransformCoordinate from "../../common/transformCoordinate";
 import Point from "../../common/point";
+import Box from "../../common/box";
 
 class GraphicBase {
   type: GraphicType;
@@ -11,20 +12,26 @@ class GraphicBase {
 
   // will be overwritten by class that extends this class
   toJSON(): object {
-    return {};
+    throw new Error("extend from GraphicBase");
   }
 
   draw(
     context: CanvasRenderingContext2D,
     transform: TransformCoordinate,
-  ) {}
+  ) {
+    throw new Error("extend from GraphicBase");
+  }
 
   nearPoint(pt: Point, radius: number): boolean {
-    return false;
+    throw new Error("extend from GraphicBase");
+  }
+
+  insideBox(box: Box): boolean {
+    throw new Error("extend from GraphicBase");
   }
 
   translate(pt: Point): GraphicBase {
-    return this;
+    throw new Error("extend from GraphicBase");
   }
 }
 

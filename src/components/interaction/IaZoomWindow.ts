@@ -16,14 +16,14 @@ class IaZoomWindow extends IaBase {
       let rect = new GraphicRect(new Point(), new Point());
       let startPoint = new Point();
       while (run) {
-        const result = await this.props.getEvent([
+        const result = await this.context.getEvent([
           IaEventType.mouseUp,
           IaEventType.mouseDown,
           IaEventType.mouseMove,
           IaEventType.keyDown,
         ]);
         if (this.isEscape(result)) {
-          this.props.dispatch(actions.setTempItem());
+          this.context.dispatch(actions.setTempItem());
           return;
         }
         if (nPoints === 0) {
@@ -38,7 +38,7 @@ class IaZoomWindow extends IaBase {
         } else {
           const secondPoint = result.pointWc;
           rect.p2 = secondPoint;
-          this.props.dispatch(actions.setTempItem(rect));
+          this.context.dispatch(actions.setTempItem(rect));
 
           if (
             result.type === IaEventType.mouseUp ||
@@ -46,7 +46,7 @@ class IaZoomWindow extends IaBase {
           ) {
             // finish
             if (!secondPoint.equal(startPoint)) {
-              this.props.dispatch(actions.setTempItem());
+              this.context.dispatch(actions.setTempItem());
               this.setViewport(startPoint, secondPoint);
               run = false;
             }
@@ -71,10 +71,10 @@ class IaZoomWindow extends IaBase {
       width: width,
       height: height,
     };
-    const canvas = this.props.getState().graphic.canvas;
+    const canvas = this.context.getState().graphic.canvas;
     const tc = new TransformCoordinate(viewport, canvas);
     const correctedViewport = tc.viewport;
-    this.props.dispatch(
+    this.context.dispatch(
       actions.setViewport(
         correctedViewport.x,
         correctedViewport.y,

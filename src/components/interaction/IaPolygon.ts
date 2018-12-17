@@ -12,14 +12,14 @@ class IaPolygon extends IaBase {
       let polygon = new GraphicBase();
       let run = true;
       while (run) {
-        const result = await this.props.getEvent([
+        const result = await this.context.getEvent([
           IaEventType.mouseDown,
           IaEventType.mouseUp,
           IaEventType.mouseMove,
           IaEventType.keyDown,
         ]);
         if (!result) {
-          this.props.dispatch(actions.setTempItem());
+          this.context.dispatch(actions.setTempItem());
           return;
         }
         if (this.isEscape(result)) {
@@ -55,7 +55,7 @@ class IaPolygon extends IaBase {
                 break;
             }
           }
-          this.props.dispatch(actions.setTempItem(polygon));
+          this.context.dispatch(actions.setTempItem(polygon));
         }
       } // while (run)
 
@@ -64,7 +64,7 @@ class IaPolygon extends IaBase {
         polygon.points.splice(len - 1);
       }
       // remove last dynamic point
-      this.props.dispatch(actions.setTempItem(polygon));
+      this.context.dispatch(actions.setTempItem(polygon));
       if (polygon.points.length >= 2) {
         this.saveGraphic(polygon);
         return { restart: true };

@@ -3,6 +3,7 @@ import GraphicBase from "./GraphicBase";
 import Arc from "../../common/arc";
 import TransformCoordinate from "../../common/transformCoordinate";
 import deepClone from "../../common/deepClone";
+import Box from "../../common/box";
 
 class GraphicCircle extends GraphicBase {
   pt: Point;
@@ -31,6 +32,18 @@ class GraphicCircle extends GraphicBase {
   nearPoint(pt: Point, radius: number): boolean {
     const arc = new Arc(this.pt, this.radius);
     return arc.nearPoint(pt, radius);
+  }
+
+  insideBox(box: Box): boolean {
+    const bbox = this.boundingBox();
+    return box.intersect(bbox);
+  }
+
+  boundingBox(): Box {
+    return new Box(
+      new Point(this.pt.x - this.radius, this.pt.y - this.radius),
+      new Point(this.pt.x + this.radius, this.pt.y + this.radius),
+    );
   }
 
   draw(

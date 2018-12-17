@@ -5,23 +5,24 @@ import IaPickItem from "./IaPickItem";
 class IaDelete extends IaBase {
   start = async () => {
     try {
-      let itemsToDelete = this.props.getState().graphic.selectedItems;
+      let itemsToDelete = this.context.getState().graphic
+        .selectedItems;
       if (itemsToDelete.length === 0) {
-        const pickItem = new IaPickItem(this.props);
+        const pickItem = new IaPickItem(this.context);
         const result = await pickItem.start(["delete"]);
         if (!result) {
           return;
         }
         itemsToDelete = result.items;
       }
-      await this.props.dispatch(
+      await this.context.dispatch(
         actions.removeGraphicItem(itemsToDelete),
       );
-      await this.props.dispatch(
+      await this.context.dispatch(
         actions.removeSelectedItem(itemsToDelete),
       );
 
-      await this.props.dispatch(
+      await this.context.dispatch(
         actions.deletePlacement(itemsToDelete),
       );
 

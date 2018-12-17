@@ -1,39 +1,21 @@
 import * as actions from "../../actions";
 import IaBase, { IaContext, IaEventType } from "./IaBase";
 import Point from "../../common/point";
-import TransformCoordinate from "../../common/transformCoordinate";
 import Placement from "../../model/Placement";
 
 class IaPickItem extends IaBase {
-  constructor(config: IaContext) {
-    super(config);
-  }
-
-  pickItems(pt: Point): Placement[] {
-    const {
-      canvas,
-      viewport,
-      items,
-      cursor,
-    } = this.props.getState().graphic;
-    const transform = new TransformCoordinate(viewport, canvas);
-    const pickRadius = transform.canvasLengthToWc(
-      cursor.radiusScreen,
-    );
-    const pickedPlacements = items.filter(p =>
-      p.nearPoint(pt, pickRadius),
-    );
-    return pickedPlacements;
+  constructor(context: IaContext) {
+    super(context);
   }
 
   start = async (
-    args: any[],
+    ...args: any
   ): Promise<null | { items: Placement[]; point: Point }> => {
     try {
       if (args && args.length > 0) {
-        this.props.dispatch(actions.setCursorMode(args[0]));
+        this.context.dispatch(actions.setCursorMode(args[0]));
       }
-      const result = await this.props.getEvent([
+      const result = await this.context.getEvent([
         IaEventType.mouseDown,
         IaEventType.keyDown,
       ]);
@@ -42,7 +24,7 @@ class IaPickItem extends IaBase {
       }
       const point = result.pointWc;
       const items = this.pickItems(point);
-      this.props.dispatch(actions.setCursorMode());
+      this.context.dispatch(actions.setCursorMode());
 
       return { items, point };
     } finally {

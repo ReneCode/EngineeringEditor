@@ -15,14 +15,14 @@ class IaCircle extends IaBase {
       let circle = new GraphicCircle(new Point(), 0);
       let middlePoint = new Point();
       while (run) {
-        const result = await this.props.getEvent([
+        const result = await this.context.getEvent([
           IaEventType.mouseUp,
           IaEventType.mouseDown,
           IaEventType.mouseMove,
           IaEventType.keyDown,
         ]);
         if (this.isEscape(result)) {
-          this.props.dispatch(actions.setTempItem());
+          this.context.dispatch(actions.setTempItem());
           return;
         }
         if (nPoints === 0) {
@@ -38,7 +38,7 @@ class IaCircle extends IaBase {
           const secondPoint = result.pointWc;
           const radius = secondPoint.sub(middlePoint).length();
           circle.radius = radius;
-          this.props.dispatch(actions.setTempItem(circle));
+          this.context.dispatch(actions.setTempItem(circle));
 
           if (
             result.type === IaEventType.mouseUp ||

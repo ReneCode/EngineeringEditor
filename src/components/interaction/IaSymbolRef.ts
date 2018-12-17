@@ -15,7 +15,7 @@ class IaSymbolRef extends IaBase {
         throw Error("symbol name missing");
       }
 
-      const symbols = this.props.getState().graphic.symbols;
+      const symbols = this.context.getState().graphic.symbols;
       const symbol = symbols.find(s => s.name === symbolName);
       if (!symbol) {
         throw Error("symbol not found: " + symbolName);
@@ -28,18 +28,18 @@ class IaSymbolRef extends IaBase {
         symbol,
       );
       while (run) {
-        const result = await this.props.getEvent([
+        const result = await this.context.getEvent([
           IaEventType.mouseDown,
           IaEventType.mouseMove,
           IaEventType.keyDown,
         ]);
         if (this.isEscape(result)) {
-          this.props.dispatch(actions.setTempItem());
+          this.context.dispatch(actions.setTempItem());
           return;
         }
 
         symbolRef.pt = result.pointWc;
-        this.props.dispatch(actions.setTempItem(symbolRef));
+        this.context.dispatch(actions.setTempItem(symbolRef));
         switch (result.type) {
           case IaEventType.mouseDown:
             this.saveGraphic(symbolRef);

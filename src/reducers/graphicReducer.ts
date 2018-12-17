@@ -35,7 +35,7 @@ const initialState: IGraphicState = {
   tempItems: [],
   cursor: {
     pt: new Point(0, 0),
-    radiusScreen: 20,
+    radiusScreen: 10,
     mode: "",
   },
   viewport: {

@@ -5,47 +5,64 @@ import TransformCoordinate from "../../common/transformCoordinate";
 import Placement from "../../model/Placement";
 import GraphicRect from "../../model/graphic/GraphicRect";
 import { IA_MOVE } from "../../actions/interactionTypes";
+import IaPickItem from "./IaPickItem";
+import IaRectRubberband, {
+  IaRectRubberbandResult,
+} from "./IaRectRubberband";
+import Box from "../../common/box";
 
 class IaSelect extends IaBase {
-  constructor(config: IaContext) {
-    super(config);
+  interactionStack: IaBase[] = [];
+
+  constructor(context: IaContext) {
+    super(context);
   }
 
-  pickItems(pt: Point): Placement[] {
-    const {
-      canvas,
-      viewport,
-      items,
-      cursor,
-    } = this.props.getState().graphic;
-    const transform = new TransformCoordinate(viewport, canvas);
-    const pickRadius = transform.canvasLengthToWc(
-      cursor.radiusScreen,
-    );
-    const pickedPlacements = items.filter(p =>
-      p.nearPoint(pt, pickRadius),
-    );
-    return pickedPlacements;
+  selectFromRect({ p1, p2 }: IaRectRubberbandResult) {
+    const box = new Box(p1, p2);
+    const items = this.context
+      .getState()
+      .graphic.items.filter(g => g.insideBox(box));
+    this.context.dispatch(actions.addSelectedItem(items));
   }
 
-  start = async () => {
+  async start() {
     try {
-      let run = true;
-      this.props.dispatch(actions.setCursorMode("select"));
-      let nPoint = 0;
+      const iaPickItem = new IaPickItem(this.context);
+      const result = await iaPickItem.start("select");
+      if (!result) {
+        return;
+      }
+
+      const firstPoint = result.point;
+      const items = result.items;
+      if (items.length === 0) {
+        this.context.dispatch(actions.clearSelectedItem());
+
+        const iaRectRubberband = new IaRectRubberband(this.context);
+        const result = await iaRectRubberband.start(firstPoint);
+        console.log(":", result);
+        if (result) {
+          this.selectFromRect(result);
+        }
+      } else {
+        this.context.dispatch(actions.addSelectedItem(items));
+      }
+      return { restart: true };
+      /*
       let rect = new GraphicRect(new Point(), new Point());
-      let firstPoint = new Point();
       let itemSelected = false;
+      let run = true;
       while (run) {
-        const result = await this.props.getEvent([
+        const result = await this.context.getEvent([
           IaEventType.mouseUp,
           IaEventType.mouseDown,
           IaEventType.mouseMove,
           IaEventType.keyDown,
         ]);
         if (this.isEscape(result)) {
-          this.props.dispatch(actions.setCursorMode());
-          this.props.dispatch(actions.setTempItem());
+          this.context.dispatch(actions.setCursorMode());
+          this.context.dispatch(actions.setTempItem());
 
           return;
         }
@@ -57,14 +74,13 @@ class IaSelect extends IaBase {
               const items = this.pickItems(firstPoint);
               itemSelected = items.length > 0;
               if (!itemSelected) {
-                this.props.dispatch(actions.clearSelectedItem());
+                this.context.dispatch(actions.clearSelectedItem());
               } else {
-                this.props.dispatch(actions.addSelectedItem(items));
+                this.context.dispatch(actions.addSelectedItem(items));
               }
               break;
           }
         } else {
-          console.log(this.props.getState().graphic.selectedItems);
           const secondPoint = result.pointWc;
           switch (result.type) {
             case IaEventType.mouseUp:
@@ -77,10 +93,10 @@ class IaSelect extends IaBase {
             case IaEventType.mouseMove:
               if (!itemSelected) {
                 rect = new GraphicRect(firstPoint, secondPoint);
-                this.props.dispatch(actions.setTempItem(rect));
+                this.context.dispatch(actions.setTempItem(rect));
               } else {
                 run = false;
-                this.props.dispatch(
+                this.context.dispatch(
                   actions.startInteraction(IA_MOVE, firstPoint),
                 );
               }
@@ -88,12 +104,13 @@ class IaSelect extends IaBase {
           }
         }
       }
-      this.props.dispatch(actions.setCursorMode());
+      this.context.dispatch(actions.setCursorMode());
 
       return true; // restart
+      */
     } finally {
     }
-  };
+  }
 }
 
 export default IaSelect;

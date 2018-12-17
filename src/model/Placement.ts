@@ -4,6 +4,7 @@ import GraphicFactory from "./graphic/GraphicFactory";
 import TransformCoordinate from "../common/transformCoordinate";
 import Point from "../common/point";
 import { decodeJson, encodeJson, DtoPlacement } from "./dtoUtil";
+import Box from "../common/box";
 
 class Placement {
   id: IdType;
@@ -60,6 +61,10 @@ class Placement {
 
   nearPoint(pt: Point, radius: number): boolean {
     return this.graphic.nearPoint(pt, radius);
+  }
+
+  insideBox(box: Box): boolean {
+    return this.graphic.insideBox(box);
   }
 
   translate(pt: Point) {

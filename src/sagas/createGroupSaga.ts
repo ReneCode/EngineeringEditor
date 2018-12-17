@@ -8,20 +8,20 @@ function* createGroupSaga() {
   const items = yield select(
     (state: any) => state.graphic.selectedItems,
   );
-  if (items.length === 0) {
-    return;
-  }
+  // if (items.length === 0) {
+  //   return;
+  // }
 
-  const group = new ItemGroup("");
-  group.items = items;
+  // const group = new ItemGroup("");
+  // group.items = items;
 
-  yield put(actions.clearSelectedItem());
+  // yield put(actions.clearSelectedItem());
 
-  yield call(apiDeletePlacementsSaga, items);
-  yield put(actions.removeGraphicItem(items));
+  // yield call(apiDeletePlacementsSaga, items);
+  // yield put(actions.removeGraphicItem(items));
 
-  // save to database
-  yield addGraphicItemSaga(group);
+  // // save to database
+  // yield addGraphicItemSaga(group);
 }
 
 export { createGroupSaga };

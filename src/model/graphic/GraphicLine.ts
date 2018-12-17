@@ -3,6 +3,7 @@ import Point from "../../common/point";
 import Line from "../../common/line";
 import TransformCoordinate from "../../common/transformCoordinate";
 import deepClone from "../../common/deepClone";
+import Box from "../../common/box";
 
 class GraphicLine extends GraphicBase {
   p1: Point;
@@ -32,6 +33,15 @@ class GraphicLine extends GraphicBase {
   nearPoint(pt: Point, radius: number): boolean {
     const line = new Line(this.p1, this.p2);
     return line.nearPoint(pt, radius);
+  }
+
+  insideBox(box: Box): boolean {
+    const bbox = this.boundingBox();
+    return box.intersect(bbox);
+  }
+
+  boundingBox(): Box {
+    return new Box(this.p1, this.p2);
   }
 
   draw(

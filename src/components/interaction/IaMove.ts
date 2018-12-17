@@ -15,26 +15,26 @@ class IaMove extends IaBase {
       let run = true;
       let firstPoint = new Point();
 
-      const iaPickItem = new IaPickItem(this.props);
+      const iaPickItem = new IaPickItem(this.context);
       const result = await iaPickItem.start(["select"]);
       if (!result) {
         return;
       }
-      await this.props.dispatch(
+      await this.context.dispatch(
         actions.addSelectedItem(result.items),
       );
       firstPoint = result.point;
 
-      const items = this.props.getState().graphic.selectedItems;
+      const items = this.context.getState().graphic.selectedItems;
       const orginalItems = deepClone(items);
       while (run) {
-        const result = await this.props.getEvent([
+        const result = await this.context.getEvent([
           IaEventType.mouseUp,
           IaEventType.mouseMove,
           IaEventType.keyDown,
         ]);
         if (this.isEscape(result)) {
-          this.props.dispatch(actions.clearSelectedItem());
+          this.context.dispatch(actions.clearSelectedItem());
           return;
         }
         const secondPoint = result.pointWc;
@@ -46,12 +46,12 @@ class IaMove extends IaBase {
         switch (result.type) {
           case IaEventType.mouseUp:
             console.log("up");
-            this.props.dispatch(actions.clearSelectedItem());
+            this.context.dispatch(actions.clearSelectedItem());
             if (!firstPoint.equal(secondPoint)) {
-              this.props.dispatch(
+              this.context.dispatch(
                 actions.updatePlacement(movedItems),
               );
-              this.props.dispatch(
+              this.context.dispatch(
                 actions.apiUpdatePlacement(movedItems),
               );
             }
@@ -59,8 +59,10 @@ class IaMove extends IaBase {
             break;
 
           case IaEventType.mouseMove:
-            this.props.dispatch(actions.clearSelectedItem());
-            this.props.dispatch(actions.addSelectedItem(movedItems));
+            this.context.dispatch(actions.clearSelectedItem());
+            this.context.dispatch(
+              actions.addSelectedItem(movedItems),
+            );
             break;
         }
       }

@@ -17,14 +17,14 @@ class IaConnectionPoint extends IaBase {
       let firstPoint = new Point();
       let connectionPoint = new GraphicConnectionPoint(new Point());
       while (run) {
-        const result = await this.props.getEvent([
+        const result = await this.context.getEvent([
           IaEventType.mouseUp,
           IaEventType.mouseDown,
           IaEventType.mouseMove,
           IaEventType.keyDown,
         ]);
         if (this.isEscape(result)) {
-          this.props.dispatch(actions.setTempItem());
+          this.context.dispatch(actions.setTempItem());
           return;
         }
         if (nPoints === 0) {
@@ -35,7 +35,7 @@ class IaConnectionPoint extends IaBase {
               nPoints++;
               break;
           }
-          this.props.dispatch(actions.setTempItem(connectionPoint));
+          this.context.dispatch(actions.setTempItem(connectionPoint));
         } else {
           const nextPoint = result.pointWc;
 
@@ -67,7 +67,9 @@ class IaConnectionPoint extends IaBase {
                 connectionPoint.direction =
                   ConnectionPointDirection.DOWN;
             }
-            this.props.dispatch(actions.setTempItem(connectionPoint));
+            this.context.dispatch(
+              actions.setTempItem(connectionPoint),
+            );
           }
         }
       }
