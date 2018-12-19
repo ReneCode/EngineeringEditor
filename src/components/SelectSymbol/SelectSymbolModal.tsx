@@ -10,6 +10,7 @@ import CanvasFullSize from "../CanvasFullSize";
 import TransformCoordinate, {
   IViewport,
 } from "../../common/transformCoordinate";
+
 interface IProps {
   show: boolean;
   dispatch: Function;

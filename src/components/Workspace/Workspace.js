@@ -15,12 +15,12 @@ const Workspace = props => {
       component = <DrawingWorkspace {...props} />;
       break;
 
-    case null:
+    case "":
       component = null;
       break;
 
     default:
-      component = <div>workspace missing: {props.workspace}</div>;
+    // component = <div>workspace missing: {props.workspace}</div>;
   }
 
   if (!component) {

@@ -3,6 +3,7 @@ import Point from "../../common/point";
 import Line from "../../common/line";
 import TransformCoordinate from "../../common/transformCoordinate";
 import deepClone from "../../common/deepClone";
+import Box from "../../common/box";
 
 class GraphicPolygon extends GraphicBase {
   points: Point[] = [];
@@ -30,6 +31,17 @@ class GraphicPolygon extends GraphicBase {
       const line = new Line(this.points[i], this.points[i + 1]);
       const near = line.nearPoint(pt, radius);
       if (near) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  insideBox(box: Box): boolean {
+    const len = this.points.length;
+    for (let i = 0; i < len - 1; i++) {
+      const line = new Line(this.points[i], this.points[i + 1]);
+      if (box.isLineInside(line)) {
         return true;
       }
     }

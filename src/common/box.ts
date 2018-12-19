@@ -23,19 +23,40 @@ export default class Box {
   // box is inside or partly inside this
   intersect(box: Box): boolean {
     return (
-      this.inside(box.bottomLeft()) ||
-      this.inside(box.bottomRight()) ||
-      this.inside(box.topLeft()) ||
-      this.inside(box.topRight())
+      this.isPointInside(box.bottomLeft()) ||
+      this.isPointInside(box.bottomRight()) ||
+      this.isPointInside(box.topLeft()) ||
+      this.isPointInside(box.topRight())
     );
   }
 
-  inside(pt: Point): boolean {
+  isPointInside(pt: Point): boolean {
     return (
       this.p1.x <= pt.x &&
       pt.x <= this.p2.x &&
       this.p1.y <= pt.y &&
       pt.y <= this.p2.y
     );
+  }
+
+  isLineInside(line: Line): boolean {
+    if (line.p1.x < this.p1.x && line.p2.x < this.p1.x) {
+      // line left
+      return false;
+    }
+    if (line.p1.y < this.p1.y && line.p2.y < this.p1.y) {
+      // line buttom
+      return false;
+    }
+    if (line.p1.x > this.p2.x && line.p2.x > this.p2.x) {
+      // line right
+      return false;
+    }
+    if (line.p1.y > this.p2.y && line.p2.y > this.p2.y) {
+      // line buttom
+      return false;
+    }
+
+    return true;
   }
 }

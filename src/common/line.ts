@@ -11,6 +11,19 @@ export default class Line {
     this.p2 = p2;
   }
 
+  minX() {
+    return Math.min(this.p1.x, this.p2.x);
+  }
+  maxX() {
+    return Math.max(this.p1.x, this.p2.x);
+  }
+  minY() {
+    return Math.min(this.p1.y, this.p2.y);
+  }
+  maxY() {
+    return Math.max(this.p1.y, this.p2.y);
+  }
+
   length(): number {
     const delta = this.p2.sub(this.p1);
     return delta.length();

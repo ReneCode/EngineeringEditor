@@ -3,14 +3,26 @@ import PropTypes from "prop-types";
 
 import SidebarButton from "./SidebarButton";
 
-const Sidebar = props => {
+export interface ISidebarButton {
+  id: string;
+  text: string;
+  workspace?: boolean;
+}
+
+interface IProps {
+  buttons: ISidebarButton[];
+  onClick: Function;
+  active: string;
+}
+
+const Sidebar = (props: IProps) => {
   return (
     <div className="Sidebar border-right">
       {props.buttons.map(b => {
         return (
           <SidebarButton
-            key={b.name}
-            active={props.active === b.name}
+            key={b.id}
+            active={props.active === b.id}
             text={b.text}
             onClick={() => props.onClick(b)}
           />

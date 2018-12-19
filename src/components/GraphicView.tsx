@@ -13,8 +13,6 @@ import Interaction from "./interaction/Interaction";
 import Autoconnection from "./Autoconnection";
 
 interface IProps {
-  frame: HTMLDivElement;
-  canvas: HTMLCanvasElement;
   dispatch: Function;
   graphic: IGraphicState;
   state: IGlobalState;
@@ -159,9 +157,37 @@ const mapStateToProps = (state: IGlobalState) => {
   };
 };
 
-export default connect(
+const ConnectedComponent = connect(
   mapStateToProps,
   null,
   null,
   { withRef: true },
 )(GraphicView);
+
+export default ConnectedComponent;
+
+/*
+export type Instance<T> = T extends { new (...args: any[]): infer U }
+  ? U
+  : never;
+
+export type GetProps<T> = T extends React.ComponentType<infer P>
+  ? P
+  : never;
+
+export type GetWrappedComponent<T> = T extends {
+  WrappedComponent: infer C;
+}
+  ? C
+  : never;
+
+export type ConnectWithRef<T> = {
+  new (props: GetProps<T>): Instance<T> & {
+    getWrappedInstance?: () => Instance<GetWrappedComponent<T>>;
+  };
+};
+
+export default ConnectedComponent as ConnectWithRef<
+  typeof ConnectedComponent
+>;
+*/

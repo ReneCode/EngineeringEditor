@@ -111,7 +111,7 @@ class ProjectOverview extends Component {
       if (!id) {
         id = await this.importProject(project.name);
       }
-      this.props.history.push(`/p/${id}`);
+      this.props.history.push(`/p/${id}/firstpage`);
     } else {
       this.setState({
         selectedProjectName: project.name,

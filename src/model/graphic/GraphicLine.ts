@@ -36,12 +36,8 @@ class GraphicLine extends GraphicBase {
   }
 
   insideBox(box: Box): boolean {
-    const bbox = this.boundingBox();
-    return box.intersect(bbox);
-  }
-
-  boundingBox(): Box {
-    return new Box(this.p1, this.p2);
+    const line = new Line(this.p1, this.p2);
+    return box.isLineInside(line);
   }
 
   draw(
