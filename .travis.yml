@@ -9,6 +9,7 @@ install:
 script:
   - scripts/prebuild.sh
   - yarn test
+  - yarn start-server
   - yarn cypress
   - yarn build
 
