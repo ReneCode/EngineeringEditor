@@ -15,18 +15,16 @@ class IaDelete extends IaBase {
         }
         itemsToDelete = result.items;
       }
-      await this.context.dispatch(
-        actions.removeGraphicItem(itemsToDelete),
-      );
+      await this.context.dispatch(actions.removeItem(itemsToDelete));
       await this.context.dispatch(
         actions.removeSelectedItem(itemsToDelete),
       );
 
       await this.context.dispatch(
-        actions.deletePlacement(itemsToDelete),
+        actions.apiDeletePlacement(itemsToDelete),
       );
 
-      return true; // restart
+      return { restart: true };
     } catch (ex) {
       console.log("Exception on IaDelete:", ex);
     }

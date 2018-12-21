@@ -1,11 +1,11 @@
 import * as actionTypes from "./actionTypes";
 import { ModalId } from "../model/types";
-export * from "./graphicActions.js";
-export * from "./mouseActions.js";
+export * from "./graphicActions";
+export * from "./mouseActions";
 export * from "./projectActions";
 export * from "./zoomActions";
-export * from "./saveGraphicItem";
-export * from "./deletePlacement";
+export * from "./apiSaveGraphicItem";
+export * from "./apiDeletePlacement";
 export * from "./apiUpdatePlacement";
 
 export const setTempItem = (item: any = undefined) => {

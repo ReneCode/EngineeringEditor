@@ -70,7 +70,7 @@ const removeSelectedItems = (state: IGraphicState, action: any) => {
   };
 };
 
-const removeGraphicItem = (state: IGraphicState, action: any) => {
+const removeItem = (state: IGraphicState, action: any) => {
   let items;
   if (Array.isArray(action.payload)) {
     items = state.items.filter(i => !action.payload.includes(i));
@@ -155,8 +155,8 @@ const graphicReducer = (state = initialState, action: any) => {
         ...state,
         items: state.items.concat(action.payload),
       };
-    case actionTypes.REMOVE_GRAPHIC_ITEM:
-      return removeGraphicItem(state, action);
+    case actionTypes.REMOVE_ITEM:
+      return removeItem(state, action);
 
     case actionTypes.UPDATE_PLACEMENT:
       return updatePlacements(state, action);

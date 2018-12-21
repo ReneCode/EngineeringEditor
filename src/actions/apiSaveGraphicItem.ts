@@ -35,7 +35,7 @@ const apiCreatePlacement = async (
   } catch (err) {}
 };
 
-export const saveGraphicItem = (graphic: GraphicBase) => {
+export const apiSaveGraphicItem = (graphic: GraphicBase) => {
   // redux-thunk
   return async (dispatch: Function, getState: Function) => {
     const state: IGlobalState = getState();

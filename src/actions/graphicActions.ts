@@ -1,13 +1,16 @@
 import * as actionTypes from "./actionTypes";
+import GraphicSymbol from "../model/graphic/GraphicSymbol";
+import GraphicBase from "../model/graphic/GraphicBase";
+import Placement from "../model/Placement";
 
-export const addSymbol = symbol => {
+export const addSymbol = (symbol: GraphicSymbol) => {
   return {
     type: actionTypes.ADD_SYMBOL,
     payload: symbol,
   };
 };
 
-export const setSymbols = symbols => {
+export const setSymbols = (symbols: GraphicSymbol[]) => {
   return {
     type: actionTypes.SET_SYMBOLS,
     payload: symbols,
@@ -21,14 +24,14 @@ export const setSymbols = symbols => {
 //   };
 // };
 
-export const deleteGraphicItem = item => {
+export const deleteGraphicItem = (item: GraphicBase) => {
   return {
     type: actionTypes.DELETE_GRAPHIC_ITEM,
     payload: item,
   };
 };
 
-export const setCanvasSize = (width, height) => {
+export const setCanvasSize = (width: number, height: number) => {
   return {
     type: actionTypes.SET_CANVAS_SIZE,
     payload: {
@@ -38,7 +41,12 @@ export const setCanvasSize = (width, height) => {
   };
 };
 
-export const setViewport = (x, y, width, height) => {
+export const setViewport = (
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+) => {
   return {
     type: actionTypes.SET_VIEWPORT,
     payload: {
@@ -50,43 +58,45 @@ export const setViewport = (x, y, width, height) => {
   };
 };
 
-export const setGraphicItems = items => {
+export const setGraphicItems = (items: GraphicBase[]) => {
   return {
     type: actionTypes.SET_GRAPHIC_ITEMS,
     payload: items,
   };
 };
 
-export const addItem = item => {
+export const addItem = (item: GraphicBase | Placement) => {
   return {
     type: actionTypes.ADD_ITEM,
     payload: item,
   };
 };
 
-export const removeGraphicItem = item => {
+export const removeItem = (item: Placement | Placement[]) => {
   return {
-    type: actionTypes.REMOVE_GRAPHIC_ITEM,
+    type: actionTypes.REMOVE_ITEM,
     payload: item,
   };
 };
 
 // identify placement to update by .id
-export const updatePlacement = placements => {
+export const updatePlacement = (
+  placements: Placement | Placement[],
+) => {
   return {
     type: actionTypes.UPDATE_PLACEMENT,
     payload: placements,
   };
 };
 
-export const addSelectedItem = item => {
+export const addSelectedItem = (item: Placement | Placement[]) => {
   return {
     type: actionTypes.ADD_SELECTED_ITEM,
     payload: item,
   };
 };
 
-export const removeSelectedItem = item => {
+export const removeSelectedItem = (item: Placement | Placement[]) => {
   return {
     type: actionTypes.REMOVE_SELECTED_ITEM,
     payload: item,

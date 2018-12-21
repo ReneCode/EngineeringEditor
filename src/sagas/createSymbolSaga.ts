@@ -54,7 +54,7 @@ function* createSymbolSaga() {
     yield put(actions.addItem(placement));
     yield call(apiDeletePlacementsSaga, selectedItems);
 
-    yield put(actions.removeGraphicItem(selectedItems));
+    yield put(actions.removeItem(selectedItems));
     yield put(actions.removeSelectedItem(selectedItems));
   } catch (ex) {}
 }

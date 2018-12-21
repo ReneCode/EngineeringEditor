@@ -18,21 +18,25 @@ function* updatePlacement(placement: Placement) {
   }
 }
 
-function* addGraphicItemSaga(graphic: GraphicBase) {
-  try {
-    // add tmp-item
-    yield put(actions.addItem(graphic));
-    // save to API
-    const newPlacement = yield call(apiCreatePlacementSaga, graphic);
-    // e.g. set symbol of symbolRef items
+const a = 34;
 
-    yield updatePlacement(newPlacement);
-    // replace tmp-item with real item (has .id from api)
-    yield put(actions.removeGraphicItem(graphic));
-    yield put(actions.addItem(newPlacement));
-  } catch (err) {
-    console.log("Error:", err);
-  }
-}
+export default a;
 
-export { addGraphicItemSaga };
+// function* addGraphicItemSaga(graphic: GraphicBase) {
+//   try {
+//     // add tmp-item
+//     yield put(actions.addItem(graphic));
+//     // save to API
+//     const newPlacement = yield call(apiCreatePlacementSaga, graphic);
+//     // e.g. set symbol of symbolRef items
+
+//     yield updatePlacement(newPlacement);
+//     // replace tmp-item with real item (has .id from api)
+//     yield put(actions.removeItem(graphic));
+//     yield put(actions.addItem(newPlacement));
+//   } catch (err) {
+//     console.log("Error:", err);
+//   }
+// }
+
+// export { addGraphicItemSaga };

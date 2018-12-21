@@ -2,7 +2,7 @@ import { select, put, call } from "redux-saga/effects";
 import ItemGroup from "../model/ItemGroup";
 import * as actions from "../actions";
 import { apiDeletePlacementsSaga } from "./apiSaga";
-import { addGraphicItemSaga } from "./addGraphicItemSaga";
+// import { addGraphicItemSaga } from "./addGraphicItemSaga";
 
 function* createGroupSaga() {
   const items = yield select(

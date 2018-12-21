@@ -24,6 +24,10 @@ class IaPolygon extends IaBase {
         }
         if (this.isEscape(result)) {
           run = false;
+        }
+
+        if (result.type === IaEventType.keyDown) {
+          // TODO keyboard commands (h = horizontal,v = vertical)
         } else {
           if (polygon.points.length === 0) {
             switch (result.type) {

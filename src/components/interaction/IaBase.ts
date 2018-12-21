@@ -86,7 +86,7 @@ class IaBase {
   saveGraphic = async (graphic: GraphicBase) => {
     try {
       const placement = await this.context.dispatch(
-        actions.saveGraphicItem(graphic),
+        actions.apiSaveGraphicItem(graphic),
       );
       this.updatePlacement(placement);
 

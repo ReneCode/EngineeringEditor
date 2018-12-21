@@ -33,8 +33,6 @@ class ProjectView extends Component<IProps> {
     const { match } = this.props;
     const { projectId, pageId } = match.params;
 
-    console.log("update:", projectId, pageId);
-
     this.props.dispatch(actions.setProjectId(projectId));
     this.props.dispatch(actions.setPageId(pageId));
   };

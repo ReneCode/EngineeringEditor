@@ -25,28 +25,32 @@ class IaLine extends IaBase {
           this.context.dispatch(actions.setTempItem());
           return;
         }
-        if (nPoints === 0) {
-          // get first Point
-          switch (result.type) {
-            case IaEventType.mouseDown:
-              nPoints++;
-              startPoint = result.pointWc;
-              line = new GraphicLine(startPoint, startPoint);
-              break;
-          }
+        if (result.type === IaEventType.keyDown) {
+          // TODO keyboard commands (h = horizontal,v = vertical)
         } else {
-          const secondPoint = result.pointWc;
-          line.p2 = secondPoint;
-          this.context.dispatch(actions.setTempItem(line));
+          if (nPoints === 0) {
+            // get first Point
+            switch (result.type) {
+              case IaEventType.mouseDown:
+                nPoints++;
+                startPoint = result.pointWc;
+                line = new GraphicLine(startPoint, startPoint);
+                break;
+            }
+          } else {
+            const secondPoint = result.pointWc;
+            line.p2 = secondPoint;
+            this.context.dispatch(actions.setTempItem(line));
 
-          if (
-            result.type === IaEventType.mouseUp ||
-            result.type === IaEventType.mouseDown
-          ) {
-            // finish
-            if (!secondPoint.equal(startPoint)) {
-              this.saveGraphic(line);
-              run = false;
+            if (
+              result.type === IaEventType.mouseUp ||
+              result.type === IaEventType.mouseDown
+            ) {
+              // finish
+              if (!secondPoint.equal(startPoint)) {
+                this.saveGraphic(line);
+                run = false;
+              }
             }
           }
         }
