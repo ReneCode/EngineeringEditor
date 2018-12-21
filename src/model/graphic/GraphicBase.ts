@@ -27,7 +27,8 @@ class GraphicBase {
   }
 
   insideBox(box: Box): boolean {
-    throw new Error("extend from GraphicBase");
+    console.log("insideBox missing for:", this);
+    return false;
   }
 
   translate(pt: Point): GraphicBase {

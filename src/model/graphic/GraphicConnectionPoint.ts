@@ -2,6 +2,7 @@ import Point from "../../common/point";
 import GraphicBase from "./GraphicBase";
 import TransformCoordinate from "../../common/transformCoordinate";
 import deepClone from "../../common/deepClone";
+import Box from "../../common/box";
 
 // https://www.cadlinecommunity.co.uk/hc/en-us/articles/360000136085-AutoCAD-Electrical-2018-Schematic-Symbol-Wire-Connection-Attributes
 export enum ConnectionPointDirection {
@@ -10,6 +11,8 @@ export enum ConnectionPointDirection {
   LEFT = 4,
   DOWN = 8,
 }
+
+const RADIUS_CANVAS = 5;
 
 class GraphicConnectionPoint extends GraphicBase {
   pt: Point;
@@ -40,6 +43,10 @@ class GraphicConnectionPoint extends GraphicBase {
     return this.pt.sub(pt).length() <= radius;
   }
 
+  insideBox(box: Box): boolean {
+    return box.isPointInside(this.pt);
+  }
+
   draw(
     context: CanvasRenderingContext2D,
     transform: TransformCoordinate,
@@ -47,7 +54,7 @@ class GraphicConnectionPoint extends GraphicBase {
     context.beginPath();
     context.fillStyle = "rgba(50,100,50,0.4)";
     const pt = transform.wcToCanvas(this.pt);
-    const r = 5;
+    const r = RADIUS_CANVAS;
     context.arc(pt.x, pt.y, r, 0, 2 * Math.PI);
     context.fill();
     context.stroke();
