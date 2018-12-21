@@ -1,26 +1,18 @@
 import * as actionTypes from "../actions/actionTypes";
 
 export interface IInteractionState {
-  startInteractionHandler: Function;
-  interactions: string[];
+  startInteractionHandler: Function | null;
 }
 
 const initialState: IInteractionState = {
-  startInteractionHandler: (action: any) => {
-    console.log("start interaction:", action);
-  },
-  interactions: [],
+  startInteractionHandler: null,
 };
 
 const interactionReducer = (
   state: IInteractionState = initialState,
-  action: any,
+  action: { type: string; payload?: any },
 ) => {
   switch (action.type) {
-    // case actionTypes.PUSH_INTERACTION:
-    //   return {
-    //     ...state,
-    //   };
     case actionTypes.SET_START_INTERACTION_HANDLER:
       return {
         ...state,

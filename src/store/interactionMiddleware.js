@@ -4,7 +4,9 @@ const interactionMiddleware = store => next => action => {
   try {
     if (action.type === actionTypes.START_INTERACTION) {
       const state = store.getState();
-      state.interaction.startInteractionHandler(action);
+      if (state.interaction) {
+        state.interaction.startInteractionHandler(action);
+      }
     }
   } catch (ex) {
     console.log("Exception:", ex);

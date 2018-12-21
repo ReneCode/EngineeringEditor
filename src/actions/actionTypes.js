@@ -22,6 +22,8 @@ export const ADD_SYMBOL = "ADD_SYMBOL";
 export const SET_TEMP_ITEM = "SET_TEMP_ITEM";
 
 export const START_INTERACTION = "START_INTERACTION";
+export const SET_START_INTERACTION_HANDLER =
+  "SET_START_INTERACTION_HANDLER";
 
 export const SET_PROJECT_ID = "SET_PROJECT_ID";
 export const SET_PAGE_ID = "SET_PAGE_ID";
@@ -42,6 +44,3 @@ export const ZOOM_FULL = "ZOOM_FULL";
 export const USE_GRID = "USE_GRID";
 
 export const SHOW_MODAL = "SHOW_MODAL";
-
-export const SET_START_INTERACTION_HANDLER =
-  "SET_START_INTERACTION_HANDLER";

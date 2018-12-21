@@ -16,8 +16,8 @@ interface IProps {
 
 class Interaction extends Component<IProps> {
   waitTypes: IaEventType[] = [];
-  promiseResolve: Function = () => {};
-  promiseReject: Function = () => {};
+  promiseResolve: Function | null = () => {};
+  promiseReject: Function | null = () => {};
   iaStarter: InteractionStarter;
 
   constructor(props: IProps) {
@@ -85,6 +85,9 @@ class Interaction extends Component<IProps> {
       // that is the event I was looking for
 
       if (event instanceof KeyboardEvent) {
+        if (!this.promiseResolve) {
+          throw new Error("promiseResolve missing");
+        }
         return this.promiseResolve({
           type,
           event,
@@ -103,6 +106,9 @@ class Interaction extends Component<IProps> {
           pointWc = pointWc.snap(canvas.gridX, canvas.gridY);
         }
 
+        if (!this.promiseResolve) {
+          throw new Error("promiseResolve missing");
+        }
         return this.promiseResolve({
           type,
           event,
@@ -127,7 +133,11 @@ class Interaction extends Component<IProps> {
 
   startInteraction = (action: any) => {
     // finish current promise
-    this.promiseResolve(null);
+    if (this.promiseResolve) {
+      this.promiseResolve(null);
+    }
+    this.promiseResolve = null;
+    this.promiseReject = null;
 
     const iaConfig: IaContext = {
       getEvent: this.getEvent,
