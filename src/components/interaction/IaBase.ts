@@ -36,10 +36,10 @@ class IaBase {
     this.context = context;
   }
 
-  start(...args: any) {
+  start(...args: any): any {
     throw new Error("can't start IaBase");
   }
-  // stop() {}
+  stop() {}
 
   isEscape = (result: any) => {
     return (

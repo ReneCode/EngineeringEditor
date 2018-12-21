@@ -1,3 +1,4 @@
+import * as actions from "./../../actions";
 import IaLine from "./IaLine";
 import IaPolygon from "./IaPolygon";
 import IaConnectionPoint from "./IaConnectionPoint";
@@ -5,9 +6,10 @@ import IaCircle from "./IaCircle";
 import IaSymbolRef from "./IaSymbolRef";
 import IaZoomWindow from "./IaZoomWindow";
 import IaDelete from "./IaDelete";
-import { IaContext } from "./IaBase";
+import IaBase, { IaContext } from "./IaBase";
 import IaSelect from "./IaSelect";
 import IaMove from "./IaMove";
+import { IA_SELECT } from "../../actions/interactionTypes";
 
 const iaMap: { [key: string]: any } = {
   IA_DELETE_ITEM: IaDelete,
@@ -22,7 +24,7 @@ const iaMap: { [key: string]: any } = {
 };
 
 class InteractionStarter {
-  interaction: any = undefined;
+  interaction: IaBase | undefined;
 
   start = async (iaConfig: IaContext, action: any) => {
     if (this.interaction && this.interaction.stop) {
@@ -31,15 +33,25 @@ class InteractionStarter {
 
     const type = action.payload.type;
     let iaClass = iaMap[type];
+    let startIaSelect = true;
     if (iaClass) {
       this.interaction = new iaClass(iaConfig);
-      const result = await this.interaction.start(
-        action.payload.args,
-      );
-      if (result) {
-        const { restart } = result;
-        if (restart) {
-          iaConfig.dispatch(action);
+      console.log("start:", type);
+      if (this.interaction) {
+        const result = await this.interaction.start(
+          action.payload.args,
+        );
+        console.log("finished:", type, result);
+        if (result) {
+          const { restart } = result;
+          if (restart) {
+            iaConfig.dispatch(action);
+            startIaSelect = false;
+          }
+        }
+        if (startIaSelect) {
+          console.log("start ??");
+          // iaConfig.dispatch(actions.startInteraction(IA_SELECT));
         }
       }
     } else {

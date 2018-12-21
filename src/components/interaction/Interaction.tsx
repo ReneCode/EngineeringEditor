@@ -6,6 +6,7 @@ import { IGlobalState } from "../../reducers";
 import TransformCoordinate from "../../common/transformCoordinate";
 import InteractionStarter from "./InteractionStarter";
 import { IaContext, GetEventResult, IaEventType } from "./IaBase";
+import { IA_SELECT } from "../../actions/interactionTypes";
 
 interface IProps {
   getCanvas(): HTMLCanvasElement;
@@ -37,6 +38,8 @@ class Interaction extends Component<IProps> {
     this.props.dispatch(
       actions.setStartInteractionHandler(this.startInteraction),
     );
+
+    this.props.dispatch(actions.startInteraction(IA_SELECT));
   }
 
   componentWillUnmount() {
