@@ -6,6 +6,7 @@ import IaRectRubberband, {
 import Box from "../../common/box";
 import IaMove from "./IaMove";
 import * as actionTypes from "../../actions/actionTypes";
+import { deletePlacement } from "../../actions";
 
 class IaSelect extends IaBase {
   constructor(context: IaContext) {
@@ -37,15 +38,19 @@ class IaSelect extends IaBase {
         return;
       }
       if (result.type === IaEventType.keyDown) {
+        const event = result.event as KeyboardEvent;
         console.log(result);
         let itemsToDelete = this.context.getState().graphic
           .selectedItems;
         if (itemsToDelete.length > 0) {
-          if ((result.event as KeyboardEvent).key === "Backspace") {
-            await this.context.dispatch({
-              type: actionTypes.REMOVE_PLACEMENT,
-              payload: itemsToDelete,
-            });
+          if (event.key === "Backspace") {
+            await this.context.dispatch(
+              deletePlacement(itemsToDelete),
+            );
+            // await this.context.dispatch({
+            //   type: actionTypes.REMOVE_PLACEMENT,
+            //   payload: itemsToDelete,
+            // });
             // await this.context.dispatch(
             //   actions.removeSelectedItem(itemsToDelete),
             // );

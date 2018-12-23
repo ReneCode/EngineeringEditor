@@ -1,15 +1,15 @@
 import Placement from "../model/Placement";
 
 import * as actionTypes from "./actionTypes";
-import apiAddPlacement from "./apiAddPlacement";
+import apiCreatePlacement from "./apiCreatePlacement";
 import { IGlobalState } from "../reducers";
-import { apiRemovePlacement } from "./apiRemovePlacement";
+import { apiDeletePlacement } from "./apiDeletePlacement";
 
 /*
   add the given placement to the current project/page
   into apiServer and the store
 */
-export const addPlacement = (placement: Placement): any => {
+export const createPlacement = (placement: Placement): any => {
   return async (
     dispatch: any,
     getState: () => IGlobalState,
@@ -18,7 +18,7 @@ export const addPlacement = (placement: Placement): any => {
       placement.projectId = getState().project.projectId;
       placement.pageId = getState().project.pageId;
 
-      const newPlacement = await apiAddPlacement(placement);
+      const newPlacement = await apiCreatePlacement(placement);
 
       const action = {
         type: actionTypes.ADD_PLACEMENT,
@@ -35,18 +35,22 @@ export const addPlacement = (placement: Placement): any => {
   };
 };
 
-export const removePlacement = (
+export const deletePlacement = (
   placement: Placement | Placement[],
 ): any => {
-  return async (dispatch: any, getState: () => IGlobalState) => {
+  return async (
+    dispatch: any,
+    getState: () => IGlobalState,
+  ): Promise<any> => {
     try {
+      console.log("ABC");
       if (!Array.isArray(placement)) {
         placement = [placement];
       }
 
-      await apiRemovePlacement(placement);
+      await apiDeletePlacement(placement);
       dispatch({
-        type: actionTypes.REMOVE_PLACEMENT,
+        type: actionTypes.DELETE_PLACEMENT,
         payload: placement,
       });
     } catch (ex) {

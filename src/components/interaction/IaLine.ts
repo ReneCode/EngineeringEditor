@@ -50,7 +50,7 @@ class IaLine extends IaBase {
               // finish
               if (!secondPoint.equal(startPoint)) {
                 await this.context.dispatch(
-                  actions.addPlacement(line),
+                  actions.createPlacement(line),
                 );
                 this.context.dispatch(actions.setTempItem());
                 run = false;

@@ -192,7 +192,7 @@ const graphicReducer = (state = initialState, action: any) => {
         items: state.items.concat(action.payload),
       };
 
-    case actionTypes.REMOVE_PLACEMENT:
+    case actionTypes.DELETE_PLACEMENT:
       return removePlacement(state, action);
 
     case actionTypes.REMOVE_ITEM:

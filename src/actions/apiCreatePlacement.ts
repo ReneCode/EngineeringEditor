@@ -4,7 +4,7 @@ import { graphql } from "../common/graphql-api";
 import PlacementFactory from "../model/PlacementFactory";
 
 // -> Placement
-const apiAddPlacement = async (
+const apiCreatePlacement = async (
   placement: Placement,
 ): Promise<Placement> => {
   try {
@@ -30,4 +30,4 @@ const apiAddPlacement = async (
   }
 };
 
-export default apiAddPlacement;
+export default apiCreatePlacement;
