@@ -5,8 +5,10 @@ export * from "./mouseActions";
 export * from "./projectActions";
 export * from "./zoomActions";
 export * from "./apiSaveGraphicItem";
-export * from "./apiDeletePlacement";
+export * from "./apiRemovePlacement";
 export * from "./apiUpdatePlacement";
+export * from "./placementActions";
+export * from "./setPageId";
 
 export const setTempItem = (item: any = undefined) => {
   return {

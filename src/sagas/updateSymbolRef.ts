@@ -8,8 +8,8 @@ export const updatePlacementsSymbolRef = (
   symbols: GraphicSymbol[],
 ) => {
   placements.forEach(p => {
-    if (p.graphic && p.graphic.type === "symbolref") {
-      updateOneSymbolRef(<GraphicSymbolRef>p.graphic, symbols);
+    if (p && p.type === "symbolref") {
+      updateOneSymbolRef(<GraphicSymbolRef>p, symbols);
     }
   });
 };

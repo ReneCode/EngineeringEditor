@@ -1,8 +1,10 @@
 import { Component } from "react";
 import TransformCoordinate from "../common/transformCoordinate";
 import { IGraphicState } from "../reducers/graphicReducer";
-import GraphicBase from "../model/graphic/GraphicBase";
 import Placement from "../model/Placement";
+import { connect } from "react-redux";
+import { IGlobalState } from "../reducers";
+import Point from "../common/point";
 
 interface IProps {
   getCanvas(): HTMLCanvasElement;
@@ -11,6 +13,49 @@ interface IProps {
 }
 
 class DrawCanvas extends Component<IProps> {
+  state = {
+    cursorPoint: new Point(),
+  };
+
+  componentDidUpdate() {
+    this.redraw();
+  }
+
+  async componentDidMount() {
+    const canvas = this.props.getCanvas();
+    if (canvas) {
+      canvas.addEventListener("mousemove", this.onMouseMove);
+    }
+  }
+
+  componentWillUnmount() {
+    const canvas = this.props.getCanvas();
+    if (canvas) {
+      canvas.removeEventListener("mousemove", this.onMouseMove);
+    }
+  }
+
+  onMouseMove = (ev: MouseEvent) => {
+    const pt = this.getCursor(ev);
+    this.setState({ cursorPoint: pt });
+  };
+
+  getCursor = (ev: MouseEvent) => {
+    const {
+      top,
+      left,
+    } = this.props.getCanvas().getBoundingClientRect();
+    return new Point(ev.clientX - left, ev.clientY - top);
+  };
+
+  redraw = () => {
+    const transform = new TransformCoordinate(
+      this.props.graphic.viewport,
+      this.props.graphic.canvas,
+    );
+    this.draw(transform);
+  };
+
   draw = (transform: TransformCoordinate) => {
     const canvas = this.props.getCanvas();
     const context = canvas.getContext("2d");
@@ -55,9 +100,9 @@ class DrawCanvas extends Component<IProps> {
     context: CanvasRenderingContext2D,
     transform: TransformCoordinate,
   ) {
-    const cursor = this.props.graphic.cursor;
+    const { radiusScreen, mode } = this.props.graphic.cursor;
 
-    let pt = transform.canvasToWc(cursor.pt);
+    let pt = transform.canvasToWc(this.state.cursorPoint);
     if (this.props.graphic.canvas.useGrid) {
       pt = pt.snap(
         this.props.graphic.canvas.gridX,
@@ -66,26 +111,24 @@ class DrawCanvas extends Component<IProps> {
     }
     pt = transform.wcToCanvas(pt);
 
-    const r = cursor.radiusScreen;
-
     context.save();
     context.beginPath();
     context.strokeStyle = "rgba(0,0,0,0.3)";
-    switch (cursor.mode) {
+    switch (mode) {
       case "select":
         context.fillStyle = "rgba(68,68,85,0.2)";
-        context.arc(pt.x, pt.y, r, 0, 2 * Math.PI);
+        context.arc(pt.x, pt.y, radiusScreen, 0, 2 * Math.PI);
         break;
       case "delete":
         context.fillStyle = "rgba(185,0,0,0.2)";
-        context.arc(pt.x, pt.y, r, 0, 2 * Math.PI);
+        context.arc(pt.x, pt.y, radiusScreen, 0, 2 * Math.PI);
         break;
       default:
     }
-    context.moveTo(pt.x - r * 3, pt.y);
-    context.lineTo(pt.x + r * 3, pt.y);
-    context.moveTo(pt.x, pt.y - r * 3);
-    context.lineTo(pt.x, pt.y + r * 3);
+    context.moveTo(pt.x - radiusScreen * 3, pt.y);
+    context.lineTo(pt.x + radiusScreen * 3, pt.y);
+    context.moveTo(pt.x, pt.y - radiusScreen * 3);
+    context.lineTo(pt.x, pt.y + radiusScreen * 3);
     context.fill();
     context.stroke();
     context.restore();
@@ -95,4 +138,11 @@ class DrawCanvas extends Component<IProps> {
     return null;
   }
 }
-export default DrawCanvas;
+
+const mapStateToProps = (state: IGlobalState) => {
+  return {
+    graphic: state.graphic,
+  };
+};
+
+export default connect(mapStateToProps)(DrawCanvas);

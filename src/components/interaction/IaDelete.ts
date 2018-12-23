@@ -20,9 +20,9 @@ class IaDelete extends IaBase {
         actions.removeSelectedItem(itemsToDelete),
       );
 
-      await this.context.dispatch(
-        actions.apiDeletePlacement(itemsToDelete),
-      );
+      // await this.context.dispatch(
+      //   actions.apiDeletePlacement(itemsToDelete),
+      // );
 
       return { restart: true };
     } catch (ex) {

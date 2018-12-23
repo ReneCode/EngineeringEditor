@@ -17,7 +17,8 @@ const apiCreatePlacement = async (
     }
 
     // save to database
-    const placement = new Placement(projectId, pageId, graphic);
+    // const placement = new Placement(projectId, pageId, graphic);
+    const placement = new Placement("line");
     const json: any = placement.toDTO();
     const mutation = `mutation createPlacement($input: CreatePlacementInput!) {
       createPlacement(input: $input) { id, projectId, pageId, graphic }
@@ -30,8 +31,8 @@ const apiCreatePlacement = async (
       },
     };
     const result = await graphql(mutation, variables);
-    const newItem = Placement.fromDTO(result.createPlacement);
-    return newItem;
+    // const newItem = Placement.fromDTO(result.createPlacement);
+    // return newItem;
   } catch (err) {}
 };
 

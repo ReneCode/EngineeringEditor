@@ -17,15 +17,17 @@ import {
   updatePlacementsSymbolRef,
   updateGraphicsSymbolRef,
 } from "./updateSymbolRef";
+import PlacementFactory from "../model/PlacementFactory";
 
 function* setPageIdSaga(action: any) {
   // load the graphic of the active page
   const pageId = action.payload;
-  const items = yield apiLoadPlacement(pageId);
-  yield put(actions.setGraphicItems(items));
+  // const items = yield apiLoadPlacement(pageId);
+  // yield put(actions.setGraphicItems(items));
   yield put(actions.zoomFull());
 }
 
+/*
 function* apiLoadPlacement(pageId: string) {
   try {
     const projectId = yield select(
@@ -42,7 +44,8 @@ function* apiLoadPlacement(pageId: string) {
       };
       const result = yield graphql(query, variables);
       const json = result.placements;
-      placements = <Placement[]>Placement.fromDTO(json);
+      // placements = <Placement[]>Placement.fromDTO(json);
+      placements = <Placement[]>PlacementFactory.fromDTO(json);
 
       // update the .symbol Property for SymbolRef items
       const symbols = yield selectGraphicSymbols();
@@ -54,7 +57,7 @@ function* apiLoadPlacement(pageId: string) {
     return [];
   }
 }
-
+*/
 function* apiSaveSymbolSaga(symbol: GraphicSymbol) {
   try {
     // save to database
@@ -119,7 +122,8 @@ function* apiCreatePlacementSaga(graphic: GraphicBase) {
     // save to database
     const projectId = yield selectProjectId();
     const pageId = yield selectPageId();
-    const placement = new Placement(projectId, pageId, graphic);
+    // const placement = new Placement(projectId, pageId, graphic);
+    const placement = new Placement("line");
     const json: any = placement.toDTO();
     const mutation = `mutation createPlacement($input: CreatePlacementInput!) {
       createPlacement(input: $input) { id, projectId, pageId, graphic }
@@ -132,7 +136,8 @@ function* apiCreatePlacementSaga(graphic: GraphicBase) {
       },
     };
     const result = yield graphql(mutation, variables);
-    const newItem = Placement.fromDTO(result.createPlacement);
+    // const newItem = Placement.fromDTO(result.createPlacement);
+    const newItem = PlacementFactory.fromDTO(result.createPlacement);
     return newItem;
   } catch (err) {}
 }

@@ -27,6 +27,7 @@ class IaLine extends IaBase {
         }
         if (result.type === IaEventType.keyDown) {
           // TODO keyboard commands (h = horizontal,v = vertical)
+          // please take a reuseable solution
         } else {
           if (nPoints === 0) {
             // get first Point
@@ -40,7 +41,7 @@ class IaLine extends IaBase {
           } else {
             const secondPoint = result.pointWc;
             line.p2 = secondPoint;
-            this.context.dispatch(actions.setTempItem(line));
+            await this.context.dispatch(actions.setTempItem(line));
 
             if (
               result.type === IaEventType.mouseUp ||
@@ -48,7 +49,10 @@ class IaLine extends IaBase {
             ) {
               // finish
               if (!secondPoint.equal(startPoint)) {
-                this.saveGraphic(line);
+                await this.context.dispatch(
+                  actions.addPlacement(line),
+                );
+                this.context.dispatch(actions.setTempItem());
                 run = false;
               }
             }

@@ -11,7 +11,10 @@ export const ADD_SELECTED_ITEM = "ADD_SELECTED_ITEM";
 export const REMOVE_SELECTED_ITEM = "REMOVE_SELECTED_ITEM";
 export const CLEAR_SELECTED_ITEM = "CLEAR_SELECTED_ITEM";
 
-export const ADD_ITEM = "ADD_ITEM";
+export const SET_PLACEMENT = "SET_PLACEMENT";
+export const ADD_PLACEMENT = "ADD_PLACEMENT";
+export const REMOVE_PLACEMENT = "REMOVE_PLACEMENT";
+
 export const UPDATE_PLACEMENT = "UPDATE_PLACEMENT";
 export const REMOVE_ITEM = "REMOVE_ITEM";
 export const SET_GRAPHIC_ITEMS = "SET_GRAPHIC_ITEMS";
@@ -44,3 +47,5 @@ export const ZOOM_FULL = "ZOOM_FULL";
 export const USE_GRID = "USE_GRID";
 
 export const SHOW_MODAL = "SHOW_MODAL";
+
+export const SET_ERROR = "SET_ERROR";

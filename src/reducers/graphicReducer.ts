@@ -70,6 +70,28 @@ const removeSelectedItems = (state: IGraphicState, action: any) => {
   };
 };
 
+/*
+  remove placements from 
+    .items
+    .selectedItems
+*/
+const removePlacement = (state: IGraphicState, action: any) => {
+  if (!Array.isArray(action.payload)) {
+    throw new Error("payload has to be array of placements");
+  }
+  const items = state.items.filter(i => !action.payload.includes(i));
+  const selectedItems = state.selectedItems.filter(
+    i => !action.payload.includes(i),
+  );
+
+  return {
+    ...state,
+    items,
+    selectedItems,
+  };
+};
+
+// deprecated
 const removeItem = (state: IGraphicState, action: any) => {
   let items;
   if (Array.isArray(action.payload)) {
@@ -96,6 +118,17 @@ const addSelectedItem = (state: IGraphicState, action: any) => {
   return {
     ...state,
     selectedItems: state.selectedItems.concat(newItems),
+  };
+};
+
+const setPlacement = (state: IGraphicState, action: any) => {
+  let newItems = action.payload;
+  if (!Array.isArray(newItems)) {
+    newItems = [newItems];
+  }
+  return {
+    ...state,
+    items: [].concat(newItems),
   };
 };
 
@@ -128,6 +161,9 @@ const graphicReducer = (state = initialState, action: any) => {
       };
     }
 
+    case actionTypes.SET_PLACEMENT:
+      return setPlacement(state, action);
+
     case actionTypes.ADD_SYMBOL:
       return {
         ...state,
@@ -150,11 +186,15 @@ const graphicReducer = (state = initialState, action: any) => {
         items: action.payload,
       };
 
-    case actionTypes.ADD_ITEM:
+    case actionTypes.ADD_PLACEMENT:
       return {
         ...state,
         items: state.items.concat(action.payload),
       };
+
+    case actionTypes.REMOVE_PLACEMENT:
+      return removePlacement(state, action);
+
     case actionTypes.REMOVE_ITEM:
       return removeItem(state, action);
 

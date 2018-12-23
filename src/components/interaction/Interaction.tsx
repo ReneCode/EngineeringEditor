@@ -11,7 +11,7 @@ import { IA_SELECT } from "../../actions/interactionTypes";
 interface IProps {
   getCanvas(): HTMLCanvasElement;
   dispatch: Function;
-  getState(): IGlobalState;
+  state: IGlobalState;
 }
 
 class Interaction extends Component<IProps> {
@@ -96,7 +96,7 @@ class Interaction extends Component<IProps> {
       if (event instanceof MouseEvent) {
         const pointCanvas = this.getCursor(event as MouseEvent);
 
-        const { canvas, viewport } = this.props.getState().graphic;
+        const { canvas, viewport } = this.props.state.graphic;
         const transform = new TransformCoordinate(viewport, canvas);
 
         // transform canvas point to world-coordinate point
@@ -141,7 +141,7 @@ class Interaction extends Component<IProps> {
 
     const iaConfig: IaContext = {
       getEvent: this.getEvent,
-      getState: this.props.getState,
+      getState: () => this.props.state,
       dispatch: this.props.dispatch,
     };
 

@@ -17,13 +17,13 @@ const store = createStore(
   reducers,
   composeEnhancers(
     applyMiddleware(
-      interactionMiddleware,
       reduxThunk,
-      sagaMiddleware,
+      interactionMiddleware,
+      // sagaMiddleware,
     ),
   ),
 );
 
-sagaMiddleware.run(rootSagas);
+// sagaMiddleware.run(rootSagas);
 
 export default store;

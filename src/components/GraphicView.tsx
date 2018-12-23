@@ -11,11 +11,11 @@ import { IGlobalState } from "../reducers";
 import { IGraphicState } from "../reducers/graphicReducer";
 import Interaction from "./interaction/Interaction";
 import Autoconnection from "./Autoconnection";
+import CursorPosition from "./CursorPosition";
 
 interface IProps {
   dispatch: Function;
   graphic: IGraphicState;
-  state: IGlobalState;
 }
 
 interface IState {
@@ -26,7 +26,6 @@ interface IState {
 class GraphicView extends Component<IProps> {
   frame: any;
   canvas: any;
-  drawCanvas: any;
   state: IState;
 
   constructor(props: IProps) {
@@ -37,7 +36,6 @@ class GraphicView extends Component<IProps> {
     };
     this.frame = React.createRef();
     this.canvas = React.createRef();
-    this.drawCanvas = {};
   }
   componentDidMount() {
     window.addEventListener("resize", this.onResize);
@@ -69,7 +67,7 @@ class GraphicView extends Component<IProps> {
       actions.setCanvasSize(rect.width, rect.height),
     );
   };
-
+  /*
   onMouseUp = (ev: SyntheticEvent) => {
     const pt = this.getCursor(ev as any);
     this.props.dispatch(actions.mouseUp(pt));
@@ -88,7 +86,7 @@ class GraphicView extends Component<IProps> {
     const pt = this.getCursor(ev as any);
     this.props.dispatch(actions.mouseMove(pt));
   };
-
+*/
   onContextMenu = (ev: SyntheticEvent) => {
     console.log("onContextMenu:", ev);
   };
@@ -103,47 +101,41 @@ class GraphicView extends Component<IProps> {
       this.props.graphic.viewport,
       this.props.graphic.canvas,
     );
-    this.drawCanvas.draw(transform);
+    // this.drawCanvas.draw(transform);
   };
 
   render() {
-    const transform = new TransformCoordinate(
-      this.props.graphic.viewport,
-      this.props.graphic.canvas,
-    );
+    // const transform = new TransformCoordinate(
+    //   this.props.graphic.viewport,
+    //   this.props.graphic.canvas,
+    // );
 
-    const { gridX, gridY } = this.props.graphic.canvas;
-    const cursorWc = transform
-      .canvasToWc(this.props.graphic.cursor.pt)
-      .snap(gridX, gridY);
+    // const { gridX, gridY } = this.props.graphic.canvas;
+    // const cursorWc = transform
+    //   .canvasToWc(this.props.graphic.cursor.pt)
+    //   .snap(gridX, gridY);
 
     return (
       <div ref={div => (this.frame = div)} className="GraphicView">
-        <div className="showtop">
+        {/* <CursorPosition /> */}
+        {/* <div className="showtop">
           x:
           {cursorWc.x} y:
           {cursorWc.y}
-        </div>
+        </div> */}
         <canvas
           className="canvas"
           ref={canvas => (this.canvas = canvas)}
           width={this.state.width}
           height={this.state.height}
-          onMouseDown={this.onMouseDown}
-          onMouseUp={this.onMouseUp}
-          onMouseMove={this.onMouseMove}
+          // onMouseDown={this.onMouseDown}
+          // onMouseUp={this.onMouseUp}
+          // onMouseMove={this.onMouseMove}
           onContextMenu={this.onContextMenu}
         />
-        <DrawCanvas
-          ref={ref => (this.drawCanvas = ref)}
-          getCanvas={() => this.canvas}
-          graphic={this.props.graphic}
-        />
+        <DrawCanvas getCanvas={() => this.canvas} />
         <Autoconnection />
-        <Interaction
-          getCanvas={() => this.canvas}
-          getState={() => this.props.state}
-        />
+        <Interaction getCanvas={() => this.canvas} />
       </div>
     );
   }
@@ -151,9 +143,7 @@ class GraphicView extends Component<IProps> {
 
 const mapStateToProps = (state: IGlobalState) => {
   return {
-    state: state,
     graphic: state.graphic,
-    page: state.project.page,
   };
 };
 

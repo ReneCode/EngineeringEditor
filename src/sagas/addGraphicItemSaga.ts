@@ -7,16 +7,16 @@ import { selectGraphicSymbols } from "../reducers/selectors";
 import GraphicSymbolRef from "../model/graphic/GraphicSymbolRef";
 import { updateOneSymbolRef } from "./updateSymbolRef";
 
-function* updatePlacement(placement: Placement) {
-  const graphic = placement.graphic;
-  if (graphic) {
-    if (graphic.type == "symbolref") {
-      const symbolRef = <GraphicSymbolRef>graphic;
-      const symbols = yield selectGraphicSymbols();
-      updateOneSymbolRef(symbolRef, symbols);
-    }
-  }
-}
+// function* updatePlacement(placement: Placement) {
+//   const graphic = placement.graphic;
+//   if (graphic) {
+//     if (graphic.type == "symbolref") {
+//       const symbolRef = <GraphicSymbolRef>graphic;
+//       const symbols = yield selectGraphicSymbols();
+//       updateOneSymbolRef(symbolRef, symbols);
+//     }
+//   }
+// }
 
 const a = 34;
 

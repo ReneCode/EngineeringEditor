@@ -27,53 +27,61 @@ class IaConnectionPoint extends IaBase {
           this.context.dispatch(actions.setTempItem());
           return;
         }
-        if (nPoints === 0) {
-          firstPoint = result.pointWc;
-          connectionPoint.pt = firstPoint;
-          switch (result.type) {
-            case IaEventType.mouseDown:
-              nPoints++;
-              break;
-          }
-          this.context.dispatch(actions.setTempItem(connectionPoint));
-        } else {
-          const nextPoint = result.pointWc;
-
-          if (
-            result.type === IaEventType.mouseDown ||
-            result.type === IaEventType.mouseUp
-          ) {
-            if (!nextPoint.equal(firstPoint)) {
-              this.saveGraphic(connectionPoint);
-              run = false;
-            }
-          } else {
-            // mouse move
-            const dir = firstPoint.relativeDirection(nextPoint);
-            switch (dir) {
-              case RelativeDirection.Right:
-                connectionPoint.direction =
-                  ConnectionPointDirection.RIGHT;
+        if (
+          result.type === IaEventType.mouseUp ||
+          result.type === IaEventType.mouseDown ||
+          result.type === IaEventType.mouseMove
+        ) {
+          if (nPoints === 0) {
+            firstPoint = result.pointWc;
+            connectionPoint.pt = firstPoint;
+            switch (result.type) {
+              case IaEventType.mouseDown:
+                nPoints++;
                 break;
-              case RelativeDirection.Up:
-                connectionPoint.direction =
-                  ConnectionPointDirection.UP;
-                break;
-              case RelativeDirection.Left:
-                connectionPoint.direction =
-                  ConnectionPointDirection.LEFT;
-                break;
-              case RelativeDirection.Down:
-                connectionPoint.direction =
-                  ConnectionPointDirection.DOWN;
             }
             this.context.dispatch(
               actions.setTempItem(connectionPoint),
             );
+          } else {
+            const nextPoint = result.pointWc;
+
+            if (
+              result.type === IaEventType.mouseDown ||
+              result.type === IaEventType.mouseUp
+            ) {
+              if (!nextPoint.equal(firstPoint)) {
+                this.saveGraphic(connectionPoint);
+                run = false;
+              }
+            } else {
+              // mouse move
+              const dir = firstPoint.relativeDirection(nextPoint);
+              switch (dir) {
+                case RelativeDirection.Right:
+                  connectionPoint.direction =
+                    ConnectionPointDirection.RIGHT;
+                  break;
+                case RelativeDirection.Up:
+                  connectionPoint.direction =
+                    ConnectionPointDirection.UP;
+                  break;
+                case RelativeDirection.Left:
+                  connectionPoint.direction =
+                    ConnectionPointDirection.LEFT;
+                  break;
+                case RelativeDirection.Down:
+                  connectionPoint.direction =
+                    ConnectionPointDirection.DOWN;
+              }
+              this.context.dispatch(
+                actions.setTempItem(connectionPoint),
+              );
+            }
           }
         }
       }
-      return true;
+      return { restart: true };
     } catch (ex) {}
   };
 }

@@ -4,8 +4,9 @@ import Line from "../../common/line";
 import TransformCoordinate from "../../common/transformCoordinate";
 import deepClone from "../../common/deepClone";
 import Box from "../../common/box";
+import Placement from "../Placement";
 
-class GraphicLine extends GraphicBase {
+class GraphicLine extends Placement {
   p1: Point;
   p2: Point;
   constructor(p1: Point, p2: Point) {
@@ -15,10 +16,13 @@ class GraphicLine extends GraphicBase {
   }
 
   toJSON(): object {
-    const result = (<any>Object).assign({}, this, {
-      p1: this.p1.toJSON(),
-      p2: this.p2.toJSON(),
-    });
+    const result = (<any>Object).assign(
+      {},
+      {
+        p1: this.p1.toJSON(),
+        p2: this.p2.toJSON(),
+      },
+    );
     return result;
   }
 

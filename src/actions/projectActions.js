@@ -38,10 +38,3 @@ export const setPages = pages => {
     payload: pages,
   };
 };
-
-export const setPageId = pageId => {
-  return {
-    type: actionTypes.SET_PAGE_ID,
-    payload: pageId,
-  };
-};

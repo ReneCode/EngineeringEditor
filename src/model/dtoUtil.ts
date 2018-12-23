@@ -1,18 +1,19 @@
 import { IdType, GraphicType } from "./types";
 
 export interface DtoPlacement {
+  id: IdType;
+  type: GraphicType;
   projectId: IdType;
   pageId: IdType;
-  id: IdType;
-  graphic: string;
+  content: string;
 }
 
 export interface DtoElement {
-  projectId: IdType;
+  id: IdType;
   type: GraphicType;
+  projectId: IdType;
   name: string;
   content: string;
-  id: IdType;
 }
 
 // this could be zipped / crypted later

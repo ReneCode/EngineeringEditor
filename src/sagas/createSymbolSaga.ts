@@ -32,7 +32,7 @@ function* createSymbolSaga() {
     );
     const symbolName = "symbol-" + Math.floor(1000 * Math.random());
     const symbol = new GraphicSymbol(projectId, symbolName);
-    symbol.items = selectedItems.map((p: Placement) => p.graphic);
+    symbol.items = selectedItems.map((p: Placement) => p);
     symbol.insertPt = result.point;
 
     const newSymbol = yield call(apiSaveSymbolSaga, symbol);
@@ -49,7 +49,7 @@ function* createSymbolSaga() {
       apiCreatePlacementSaga,
       symbolRef,
     );
-    const newSymbolRef = <GraphicSymbolRef>placement.graphic;
+    const newSymbolRef = <GraphicSymbolRef>placement;
     newSymbolRef.symbol = newSymbol;
     yield put(actions.addItem(placement));
     yield call(apiDeletePlacementsSaga, selectedItems);

@@ -2,8 +2,10 @@ import GraphicBase from "./GraphicBase";
 import Point from "../../common/point";
 import TransformCoordinate from "../../common/transformCoordinate";
 import GraphicSymbol from "./GraphicSymbol";
+import Box from "../../common/box";
+import Placement from "../Placement";
 
-class GraphicSymbolRef extends GraphicBase {
+class GraphicSymbolRef extends Placement {
   name: string = "";
   symbol: GraphicSymbol | null = null;
   pt: Point = new Point();
@@ -59,6 +61,10 @@ class GraphicSymbolRef extends GraphicBase {
     // on draw() we use addTranslateWc(this.pt) -
     // so we have to sub this.pt for picking
     return this.symbol.nearPoint(pt.sub(this.pt), radius);
+  }
+
+  insideBox(box: Box): boolean {
+    return box.isPointInside(this.pt);
   }
 
   translate(pt: Point): GraphicBase {

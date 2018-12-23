@@ -9,7 +9,7 @@ import IaDelete from "./IaDelete";
 import IaBase, { IaContext } from "./IaBase";
 import IaSelect from "./IaSelect";
 import IaMove from "./IaMove";
-import { IA_SELECT } from "../../actions/interactionTypes";
+import IaCreateSymol from "./IaCreateSymbol";
 
 const iaMap: { [key: string]: any } = {
   IA_DELETE_ITEM: IaDelete,
@@ -18,6 +18,7 @@ const iaMap: { [key: string]: any } = {
   IA_CREATE_POLYGON: IaPolygon,
   IA_CREATE_CONNECTION_POINT: IaConnectionPoint,
   IA_CREATE_SYMBOLREF: IaSymbolRef,
+  IA_CREATE_SYMBOL: IaCreateSymol,
   IA_ZOOM_WINDOW: IaZoomWindow,
   IA_SELECT: IaSelect,
   IA_MOVE: IaMove,
@@ -36,12 +37,12 @@ class InteractionStarter {
     let startIaSelect = true;
     if (iaClass) {
       this.interaction = new iaClass(iaConfig);
-      console.log("start:", type);
+      // console.log("start:", type);
       if (this.interaction) {
         const result = await this.interaction.start(
           action.payload.args,
         );
-        console.log("finished:", type, result);
+        // console.log("finished:", type, result);
         if (result) {
           const { restart } = result;
           if (restart) {

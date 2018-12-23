@@ -1,11 +1,11 @@
 import * as actions from "../../actions";
 import IaBase, { IaContext, IaEventType } from "./IaBase";
-import IaPickItem from "./IaPickItem";
 import IaRectRubberband, {
   IaRectRubberbandResult,
 } from "./IaRectRubberband";
 import Box from "../../common/box";
 import IaMove from "./IaMove";
+import * as actionTypes from "../../actions/actionTypes";
 
 class IaSelect extends IaBase {
   constructor(context: IaContext) {
@@ -13,6 +13,10 @@ class IaSelect extends IaBase {
   }
 
   selectFromRect({ p1, p2 }: IaRectRubberbandResult) {
+    // null-size box is invalid
+    if (p1.equal(p2)) {
+      return;
+    }
     const box = new Box(p1, p2);
     const items = this.context
       .getState()
@@ -38,16 +42,17 @@ class IaSelect extends IaBase {
           .selectedItems;
         if (itemsToDelete.length > 0) {
           if ((result.event as KeyboardEvent).key === "Backspace") {
-            await this.context.dispatch(
-              actions.removeItem(itemsToDelete),
-            );
-            await this.context.dispatch(
-              actions.removeSelectedItem(itemsToDelete),
-            );
+            await this.context.dispatch({
+              type: actionTypes.REMOVE_PLACEMENT,
+              payload: itemsToDelete,
+            });
+            // await this.context.dispatch(
+            //   actions.removeSelectedItem(itemsToDelete),
+            // );
 
-            await this.context.dispatch(
-              actions.apiDeletePlacement(itemsToDelete),
-            );
+            // await this.context.dispatch(
+            //   actions.apiDeletePlacement(itemsToDelete),
+            // );
           }
         }
       }

@@ -26,7 +26,7 @@ export type GetEventResult = Promise<{
 export interface IaContext {
   getEvent(types: IaEventType[] | IaEventType): GetEventResult;
   dispatch: Function;
-  getState(): IGlobalState;
+  getState: () => IGlobalState;
 }
 
 class IaBase {
@@ -49,6 +49,15 @@ class IaBase {
     );
   };
 
+  isMouseEvent = (result: any) => {
+    return (
+      result &&
+      (result.type === IaEventType.mouseDown ||
+        result.type === IaEventType.mouseMove ||
+        result.type === IaEventType.mouseUp)
+    );
+  };
+
   getEvent = async () => {
     const result = await this.context.getEvent([
       IaEventType.mouseUp,
@@ -64,6 +73,13 @@ class IaBase {
 
   selectItems = () => {
     return this.context.getState().graphic.items;
+  };
+
+  getProjectId = () => {
+    return this.context.getState().project.projectId;
+  };
+  getPageId = () => {
+    return this.context.getState().project.pageId;
   };
 
   pickItems(pt: Point): Placement[] {
@@ -99,14 +115,14 @@ class IaBase {
   };
 
   updatePlacement(placement: Placement) {
-    const graphic = placement.graphic;
-    if (graphic) {
-      if (graphic.type === "symbolref") {
-        const symbolRef = graphic as GraphicSymbolRef;
-        const symbols = this.context.getState().graphic.symbols;
-        updateOneSymbolRef(symbolRef, symbols);
-      }
-    }
+    // const graphic = placement.graphic;
+    // if (graphic) {
+    //   if (graphic.type === "symbolref") {
+    //     const symbolRef = graphic as GraphicSymbolRef;
+    //     const symbols = this.context.getState().graphic.symbols;
+    //     updateOneSymbolRef(symbolRef, symbols);
+    //   }
+    // }
   }
 }
 

@@ -66,10 +66,12 @@ export const setGraphicItems = (items: GraphicBase[]) => {
 };
 
 export const addItem = (item: GraphicBase | Placement) => {
-  return {
-    type: actionTypes.ADD_ITEM,
-    payload: item,
-  };
+  throw new Error("use addPlacement");
+
+  // return {
+  //   type: actionTypes.ADD_ITEM,
+  //   payload: item,
+  // };
 };
 
 export const removeItem = (item: Placement | Placement[]) => {

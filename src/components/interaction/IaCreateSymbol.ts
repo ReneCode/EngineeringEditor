@@ -4,6 +4,11 @@ import GraphicSymbolRef from "../../model/graphic/GraphicSymbolRef";
 import Point from "../../common/point";
 import GraphicSymbol from "../../model/graphic/GraphicSymbol";
 import { updateGraphicsSymbolRef } from "../../sagas/updateSymbolRef";
+import Placement from "../../model/Placement";
+import apiSavePlacement from "../../common/api/apiSavePlacement";
+import apiDeletePlacements from "../../common/api/apiDeletePlacements";
+import GraphicBase from "../../model/graphic/GraphicBase";
+import apiSaveSymbol from "../../common/api/apiSaveSymbol";
 
 class IaCreateSymbol extends IaBase {
   constructor(config: IaContext) {
@@ -15,6 +20,7 @@ class IaCreateSymbol extends IaBase {
       const selectedItems = this.context.getState().graphic
         .selectedItems;
       if (selectedItems.length === 0) {
+        console.log("please select items for the symbol");
         return;
       }
       console.log(
@@ -22,23 +28,53 @@ class IaCreateSymbol extends IaBase {
       );
       const result = await this.context.getEvent([
         IaEventType.mouseDown,
-        IaEventType.mouseMove,
         IaEventType.keyDown,
       ]);
       if (this.isEscape(result)) {
         return;
       }
-      const projectId = this.context.getState().project.projectId;
-      const symbolName = "symbol-" + Math.floor(1000 * Math.random());
-      const newSymbol = new GraphicSymbol(projectId, symbolName);
-      // if there are symbolRef in ths new symbol
-      // the GraphicSymbol .symbol property is no more set
-      // we have to update it
-      const symbols = this.context.getState().graphic.symbols;
-      updateGraphicsSymbolRef(newSymbol.items, symbols);
+      if (this.isMouseEvent(result)) {
+        const { projectId, pageId } = this.context.getState().project;
+        const symbolName =
+          "symbol-" + Math.floor(1000 * Math.random());
+        const symbol = new GraphicSymbol(projectId, symbolName);
+        symbol.items = selectedItems as any;
+        symbol.insertPt = result.pointWc;
+        console.log(":", symbol);
+        const newSymbol = await apiSaveSymbol(symbol);
+        console.log("::", newSymbol);
 
-      this.context.dispatch(actions.addSymbol(newSymbol));
-    } catch (ex) {}
+        // if there are symbolRef in ths new symbol
+        // the GraphicSymbol .symbol property is no more set
+        // we have to update it
+        const symbols = this.context.getState().graphic.symbols;
+        updateGraphicsSymbolRef(newSymbol.items, symbols);
+
+        this.context.dispatch(actions.addSymbol(newSymbol));
+
+        // transform current items to symbolRef
+        const symbolRef = new GraphicSymbolRef(
+          newSymbol.name,
+          result.pointWc,
+        );
+
+        // const placement = new Placement(projectId, pageId, symbolRef);
+        // const newPlacement = await apiSavePlacement(placement);
+        // if (newPlacement) {
+        //   const newSymbolRef = placement.graphic as GraphicSymbolRef;
+        //   newSymbolRef.symbol = newSymbol;
+        //   this.context.dispatch(actions.addItem(placement));
+        //   await apiDeletePlacements(selectedItems);
+
+        //   this.context.dispatch(actions.removeItem(selectedItems));
+        //   this.context.dispatch(
+        //     actions.removeSelectedItem(selectedItems),
+        //   );
+        // }
+      }
+    } catch (ex) {
+      console.log("Exception:", ex);
+    }
   };
 }
 

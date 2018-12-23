@@ -71,33 +71,25 @@ class AutoConnectionUtil {
 
   getSortedConnectionPoints() {
     return this.placements
-      .map(p => {
-        return { placement: p, graphic: p.graphic };
-      })
-      .filter((s: any) => s.graphic.type === "symbolref")
-      .map((s: any) => {
-        return {
-          placement: s.placement,
-          symbolRef: s.graphic as GraphicSymbolRef,
-        };
-      })
+      .filter((p: Placement) => p.type === "symbolref")
+      .map((p: Placement) => p as GraphicSymbolRef)
       .reduce(this.reduceSymbolRefToCpWithSymbolRef, [])
       .sort(this.sortConnectionPoints);
   }
 
   private reduceSymbolRefToCpWithSymbolRef = (
     acc: IPlacementAndConnectionPoint[],
-    s: { placement: Placement; symbolRef: GraphicSymbolRef },
+    symbolRef: GraphicSymbolRef,
   ): IPlacementAndConnectionPoint[] => {
-    if (s.symbolRef && s.symbolRef.symbol) {
-      const symbol = s.symbolRef.symbol;
-      const symbolPt = s.symbolRef.pt.sub(symbol.insertPt);
+    if (symbolRef && symbolRef.symbol) {
+      const symbol = symbolRef.symbol;
+      const symbolPt = symbolRef.pt.sub(symbol.insertPt);
       const cpsWithSymbolRef = symbol.items
         .filter(g => g.type === "connectionpoint")
         .map(g => g as GraphicConnectionPoint)
         .map((cp, index) => {
           return {
-            placement: s.placement,
+            placement: symbolRef,
             index: index,
             pt: symbolPt.add(cp.pt),
             direction: cp.direction,
