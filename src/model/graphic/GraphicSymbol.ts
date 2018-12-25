@@ -2,6 +2,8 @@ import Point from "../../common/point";
 import TransformCoordinate from "../../common/transformCoordinate";
 import { IdType, GraphicType } from "../types";
 import Placement from "../Placement";
+import PlacementFactory from "../PlacementFactory";
+import ObjectFactory from "../ObjectFactory";
 
 class GraphicSymbol {
   projectId: IdType;
@@ -20,6 +22,9 @@ class GraphicSymbol {
     const line = Object.create(GraphicSymbol.prototype);
     return (<any>Object).assign(line, json, {
       insertPt: Point.fromJSON(json.insertPt),
+      items: json.items.map((i: Placement) =>
+        ObjectFactory.fromJSON(i),
+      ),
     });
   }
 

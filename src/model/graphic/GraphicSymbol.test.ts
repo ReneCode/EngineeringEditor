@@ -61,7 +61,9 @@ describe("GraphicSymbol", () => {
     expect(gotDto).toHaveProperty("id", symbol.id);
     expect(gotDto).toHaveProperty("projectId", symbol.projectId);
     expect(gotDto).not.toHaveProperty("items");
-    const newSymbol = ElementFactory.fromDTO(gotDto);
+    const newSymbol = ElementFactory.fromDTO(gotDto) as GraphicSymbol;
     expect(newSymbol).toEqual(symbol);
+    expect(newSymbol.items[0] instanceof GraphicLine).toBeTruthy();
+    expect(newSymbol.items[1] instanceof GraphicCircle).toBeTruthy();
   });
 });
