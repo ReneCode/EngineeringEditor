@@ -7,13 +7,13 @@ import Placement from "../Placement";
 
 class GraphicSymbolRef extends Placement {
   name: string = "";
-  symbol: GraphicSymbol | null = null;
+  symbol: GraphicSymbol | undefined = undefined;
   pt: Point = new Point();
 
   constructor(
     name: string,
     pt: Point = new Point(),
-    symbol: GraphicSymbol | null = null,
+    symbol: GraphicSymbol | undefined = undefined,
   ) {
     super("symbolref");
     this.name = name;
@@ -22,17 +22,20 @@ class GraphicSymbolRef extends Placement {
   }
 
   toJSON(): object {
-    return (<any>Object).assign({}, this, {
-      pt: this.pt.toJSON(),
-      symbol: undefined,
-    });
+    return (<any>Object).assign(
+      {},
+      {
+        pt: this.pt.toJSON(),
+        name: this.name,
+      },
+    );
   }
 
   static fromJSON(json: any): GraphicSymbolRef {
     const group = Object.create(GraphicSymbolRef.prototype);
     return (<any>Object).assign(group, json, {
       pt: Point.fromJSON(json.pt),
-      symbol: undefined,
+      name: json.name,
     });
   }
 

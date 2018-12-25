@@ -4,8 +4,9 @@ import Arc from "../../common/arc";
 import TransformCoordinate from "../../common/transformCoordinate";
 import deepClone from "../../common/deepClone";
 import Box from "../../common/box";
+import Placement from "../Placement";
 
-class GraphicCircle extends GraphicBase {
+class GraphicCircle extends Placement {
   pt: Point;
   radius: number;
 
@@ -16,9 +17,13 @@ class GraphicCircle extends GraphicBase {
   }
 
   toJSON(asContent: boolean = false): object {
-    const result = (<any>Object).assign({}, this, {
-      pt: this.pt.toJSON(),
-    });
+    const result = (<any>Object).assign(
+      {},
+      {
+        pt: this.pt.toJSON(),
+        radius: this.radius,
+      },
+    );
     return result;
   }
 

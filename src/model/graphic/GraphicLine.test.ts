@@ -26,7 +26,7 @@ describe("GraphicLine", () => {
       projectId: line.projectId,
       pageId: line.pageId,
       type: "line",
-      content: JSON.stringify({ p1, p2 }),
+      content: JSON.stringify(json),
     };
   });
 

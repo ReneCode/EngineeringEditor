@@ -2,31 +2,46 @@ import GraphicBase from "./GraphicBase";
 import Point from "../../common/point";
 import GraphicFactory from "./GraphicFactory";
 import TransformCoordinate from "../../common/transformCoordinate";
-import { IdType } from "../types";
+import { IdType, GraphicType } from "../types";
 import { encodeJson, decodeJson, DtoElement } from "../dtoUtil";
+import Placement from "../Placement";
+import PlacementFactory from "../PlacementFactory";
 
-class GraphicSymbol extends GraphicBase {
-  projecId: IdType;
-  name: string = "name";
+class GraphicSymbol {
+  projectId: IdType;
+  name: string;
   insertPt: Point = new Point();
-  items: GraphicBase[] = [];
+  items: Placement[] = [];
   id: IdType = "";
+  type: GraphicType = "symbol";
 
   constructor(projectId: IdType, name: string) {
-    super("symbol");
-    this.projecId = projectId;
+    this.projectId = projectId;
     this.name = name;
   }
 
-  toDTO(): DtoElement {
-    const content = {
-      items: this.items.map((i: GraphicBase) => {
+  toJSON(): object {
+    const result = {
+      items: this.items.map((i: Placement) => {
         return i.toJSON();
       }),
       insertPt: this.insertPt.toJSON(),
     };
+    return result;
+  }
+
+  static fromJSON(json: any): GraphicSymbol {
+    const symbol = Object.create(GraphicSymbol.prototype);
+    return (<any>Object).assign(symbol, {
+      insertPt: Point.fromJSON(json.insertPt),
+      items: PlacementFactory.fromJSON(json.items),
+    });
+  }
+
+  toDTO(): DtoElement {
+    const content = this.toJSON();
     return {
-      projectId: this.projecId,
+      projectId: this.projectId,
       type: this.type,
       name: this.name,
       content: encodeJson(content),
@@ -35,16 +50,13 @@ class GraphicSymbol extends GraphicBase {
   }
 
   static fromDTO(dto: DtoElement): GraphicSymbol {
-    if (dto.type !== "symbol") {
-      throw Error("wrong dto-type:" + dto.type);
-    }
-    const symbol = new GraphicSymbol(dto.projectId, dto.name);
+    const json = decodeJson(dto.content);
+    const symbol = GraphicSymbol.fromJSON(json);
+
     symbol.id = dto.id;
-    const content = decodeJson(dto.content);
-    symbol.items = <GraphicBase[]>(
-      GraphicFactory.fromJSON(content.items)
-    );
-    symbol.insertPt = Point.fromJSON(content.insertPt);
+    symbol.type = dto.type;
+    symbol.projectId = dto.projectId;
+    symbol.name = dto.name;
     return symbol;
   }
 
@@ -53,7 +65,7 @@ class GraphicSymbol extends GraphicBase {
     transform: TransformCoordinate,
   ) {
     transform.addTranslateWc(this.insertPt.invert());
-    this.items.forEach((item: GraphicBase) => {
+    this.items.forEach((item: Placement) => {
       item.draw(context, transform);
     });
   }
@@ -62,7 +74,7 @@ class GraphicSymbol extends GraphicBase {
     // on draw() we use addTranslateWc(inverted this.pt) -
     // so we have to add this.pt for picking
 
-    return this.items.some((item: GraphicBase) =>
+    return this.items.some((item: Placement) =>
       item.nearPoint(pt.add(this.insertPt), radius),
     );
   }

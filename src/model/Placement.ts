@@ -1,9 +1,7 @@
-import GraphicBase from "./graphic/GraphicBase";
 import { IdType, GraphicType } from "./types";
-import GraphicFactory from "./graphic/GraphicFactory";
 import TransformCoordinate from "../common/transformCoordinate";
 import Point from "../common/point";
-import { decodeJson, encodeJson, DtoPlacement } from "./dtoUtil";
+import { encodeJson, DtoPlacement } from "./dtoUtil";
 import Box from "../common/box";
 
 class Placement {

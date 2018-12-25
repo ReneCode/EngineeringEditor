@@ -65,12 +65,17 @@ class IaPolygon extends IaBase {
 
       const len = polygon.points.length;
       if (len > 0) {
+        // last point it the temp-rubberband-point remove it
         polygon.points.splice(len - 1);
       }
       // remove last dynamic point
       this.context.dispatch(actions.setTempItem(polygon));
       if (polygon.points.length >= 2) {
-        this.saveGraphic(polygon);
+        console.log("A");
+        await this.context.dispatch(actions.createPlacement(polygon));
+        console.log("B");
+        this.context.dispatch(actions.setTempItem());
+        console.log("C");
         return { restart: true };
       }
     } catch (ex) {}

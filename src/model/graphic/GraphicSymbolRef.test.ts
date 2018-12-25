@@ -3,10 +3,52 @@ import GraphicLine from "./GraphicLine";
 import Point from "../../common/point";
 import GraphicSymbolRef from "./GraphicSymbolRef";
 import TransformCoordinate from "../../common/transformCoordinate";
+import { DtoPlacement } from "../dtoUtil";
+import PlacementFactory from "../PlacementFactory";
 
-describe("ItemSymbolRef", () => {
+describe("GraphicSymbolRef", () => {
+  let symbolRef: GraphicSymbolRef;
+  let json: any;
+  let dto: DtoPlacement;
+
+  beforeEach(() => {
+    const symbolName = "symbolName";
+    const pt = new Point(7, 8);
+    symbolRef = new GraphicSymbolRef(symbolName, pt);
+    symbolRef.projectId = "projectId";
+    symbolRef.pageId = "pageId";
+    symbolRef.id = "id";
+
+    json = {
+      pt: { x: 7, y: 8 },
+      name: symbolName,
+    };
+
+    dto = {
+      id: symbolRef.id,
+      projectId: symbolRef.projectId,
+      pageId: symbolRef.pageId,
+      type: "symbolref",
+      content: JSON.stringify(json),
+    };
+  });
+
+  it("toDTO", () => {
+    const gotDto = symbolRef.toDTO();
+    expect(gotDto).toEqual(dto);
+  });
+
+  it("fromDTO", () => {
+    const gotSymbolRef = PlacementFactory.fromDTO(dto);
+    expect(gotSymbolRef instanceof GraphicSymbolRef).toBeTruthy();
+    expect(gotSymbolRef).toEqual(symbolRef);
+  });
+
   it("draw with insertPoint", () => {
-    const symbol = new GraphicSymbol("symbol-Name");
+    const projectId = "projectId";
+    const name = "name";
+
+    const symbol = new GraphicSymbol(projectId, name);
     symbol.items = [
       new GraphicLine(new Point(100, 50), new Point(200, 50)),
     ];

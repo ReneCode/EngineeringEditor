@@ -3,14 +3,16 @@ import Point from "../../common/point";
 import GraphicCircle from "./GraphicCircle";
 import GraphicLine from "./GraphicLine";
 import GraphicFactory from "./GraphicFactory";
+import { DtoElement } from "../dtoUtil";
 
-describe("GraphicSymbol", () => {
+describe.only("GraphicSymbol", () => {
   let symbol: GraphicSymbol;
-  const projectId = "prjId";
-  const symbolName = "mySymbol";
   let json: any;
+  let dto: DtoElement;
 
   beforeEach(() => {
+    const projectId = "prjId";
+    const symbolName = "mySymbol";
     symbol = new GraphicSymbol(projectId, symbolName);
     symbol.id = "4321";
     symbol.insertPt = new Point(10, 10);
@@ -20,10 +22,9 @@ describe("GraphicSymbol", () => {
     ];
 
     json = {
-      type: "symbol",
       name: symbolName,
       insertPt: { x: 10, y: 10 },
-      items: [
+      items: JSON.stringify([
         {
           type: "line",
           p1: { x: 2, y: 3 },
@@ -34,15 +35,28 @@ describe("GraphicSymbol", () => {
           pt: { x: 10, y: 20 },
           radius: 15,
         },
-      ],
+      ]),
+    };
+
+    dto = {
+      id: symbol.id,
+      projectId: symbol.projectId,
+      type: "symbol",
+      name: symbolName,
+      content: JSON.stringify(json),
     };
   });
 
   it("toDTO - fromDTO", () => {
-    const dto = symbol.toDTO();
-    expect(dto).toHaveProperty("content");
-    expect(dto).not.toHaveProperty("items");
-    const newSymbol = GraphicSymbol.fromDTO(dto);
+    const gotDto = symbol.toDTO();
+    console.log("**", gotDto, "##");
+    expect(gotDto).toHaveProperty("content");
+    expect(gotDto).toHaveProperty("type", symbol.type);
+    expect(gotDto).toHaveProperty("name", symbol.name);
+    expect(gotDto).toHaveProperty("id", symbol.id);
+    expect(gotDto).toHaveProperty("projectId", symbol.projectId);
+    expect(gotDto).not.toHaveProperty("items");
+    const newSymbol = GraphicSymbol.fromDTO(gotDto);
     expect(newSymbol).toEqual(symbol);
   });
 });

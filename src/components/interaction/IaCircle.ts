@@ -46,7 +46,8 @@ class IaCircle extends IaBase {
           ) {
             // finish
             if (!secondPoint.equal(middlePoint)) {
-              this.saveGraphic(circle);
+              this.context.dispatch(actions.createPlacement(circle));
+              this.context.dispatch(actions.setTempItem());
               run = false;
             }
           }

@@ -5,14 +5,14 @@ import IaConnectionPoint from "./IaConnectionPoint";
 import IaCircle from "./IaCircle";
 import IaSymbolRef from "./IaSymbolRef";
 import IaZoomWindow from "./IaZoomWindow";
-import IaDelete from "./IaDelete";
+// import IaDelete from "./IaDelete";
 import IaBase, { IaContext } from "./IaBase";
 import IaSelect from "./IaSelect";
 import IaMove from "./IaMove";
 import IaCreateSymol from "./IaCreateSymbol";
 
 const iaMap: { [key: string]: any } = {
-  IA_DELETE_ITEM: IaDelete,
+  // IA_DELETE_ITEM: IaDelete,
   IA_CREATE_LINE: IaLine,
   IA_CREATE_CIRCLE: IaCircle,
   IA_CREATE_POLYGON: IaPolygon,

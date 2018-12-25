@@ -4,23 +4,27 @@ import Line from "../../common/line";
 import TransformCoordinate from "../../common/transformCoordinate";
 import deepClone from "../../common/deepClone";
 import Box from "../../common/box";
+import Placement from "../Placement";
 
-class GraphicPolygon extends GraphicBase {
+class GraphicPolygon extends Placement {
   points: Point[] = [];
   constructor() {
     super("polygon");
   }
 
   toJSON(): object {
-    const result = (<any>Object).assign({}, this, {
-      points: this.points.map(p => p.toJSON()),
-    });
+    const result = (<any>Object).assign(
+      {},
+      {
+        points: this.points.map(p => p.toJSON()),
+      },
+    );
     return result;
   }
 
   static fromJSON(json: any): GraphicPolygon {
-    const line = Object.create(GraphicPolygon.prototype);
-    return (<any>Object).assign(line, json, {
+    const polygon = Object.create(GraphicPolygon.prototype);
+    return (<any>Object).assign(polygon, json, {
       points: json.points.map((p: any) => Point.fromJSON(p)),
     });
   }
