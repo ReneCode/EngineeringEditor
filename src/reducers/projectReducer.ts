@@ -6,14 +6,14 @@ import { Page } from "csstype";
 interface IProjectState {
   projectId: IdType;
   pageId: IdType;
-  // pages: Page[];
+  pages: Page[];
   showModalId: ModalId;
 }
 
 const initialState: IProjectState = {
   projectId: "",
   pageId: "",
-  // pages: [],
+  pages: [],
   showModalId: "",
 };
 
@@ -28,11 +28,11 @@ const projectReducer = (
         showModalId: action.payload,
       };
     }
-    // case actionTypes.SET_PAGES:
-    //   return {
-    //     ...state,
-    //     pages: action.payload,
-    //   };
+    case actionTypes.SET_PAGES:
+      return {
+        ...state,
+        pages: action.payload,
+      };
 
     case actionTypes.SET_PAGE_ID:
       return {

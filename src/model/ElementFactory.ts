@@ -19,7 +19,15 @@ class ElementFactory {
     };
   }
 
-  static fromDTO(dto: DtoElement): GraphicSymbol {
+  static fromDTO(
+    dto: DtoElement | DtoElement[],
+  ): GraphicSymbol | GraphicSymbol[] {
+    if (Array.isArray(dto)) {
+      return dto.map((item: any) => {
+        return <GraphicSymbol>ElementFactory.fromDTO(item);
+      });
+    }
+
     const json = decodeJson(dto.content);
     json.type = dto.type;
     let symbol = ObjectFactory.fromJSON(json) as GraphicSymbol;

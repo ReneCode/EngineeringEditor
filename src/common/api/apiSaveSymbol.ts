@@ -26,7 +26,7 @@ const apiSaveSymbol = async (
   console.log("3:", data);
 
   const newSymbol = ElementFactory.fromDTO(data.createElement);
-  return newSymbol;
+  return newSymbol as GraphicSymbol;
 };
 
 export default apiSaveSymbol;

@@ -73,35 +73,36 @@ function* apiSaveSymbolSaga(symbol: GraphicSymbol) {
   }
 }
 
-function* apiLoadSymbols(projectId: IdType) {
-  try {
-    const query = `query Q($projectId: ID!) {
-      project(id: $projectId) {
-        elements { projectId id name type content }
-      }
-    }`;
-    const variables = {
-      projectId,
-    };
-    const data = yield graphql(query, variables);
-    if (data.project) {
-      const dtoElements = data.project.elements;
-      const symbols = dtoElements.map((e: DtoElement) => {
-        const symbol = ElementFactory.fromDTO(e);
-        return symbol;
-      });
+// function* apiLoadSymbols(projectId: IdType) {
+//   try {
+//     console.log("*****");
+//     const query = `query Q($projectId: ID!) {
+//       project(id: $projectId) {
+//         elements { projectId id name type content }
+//       }
+//     }`;
+//     const variables = {
+//       projectId,
+//     };
+//     const data = yield graphql(query, variables);
+//     if (data.project) {
+//       const dtoElements = data.project.elements;
+//       const symbols = dtoElements.map((e: DtoElement) => {
+//         const symbol = ElementFactory.fromDTO(e);
+//         return symbol;
+//       });
 
-      // update the .symbol property of all SymbolRef items - recursive
-      symbols.forEach((symbol: GraphicSymbol) => {
-        updateGraphicsSymbolRef(symbol.items, symbols, true);
-      });
+//       // update the .symbol property of all SymbolRef items - recursive
+//       symbols.forEach((symbol: GraphicSymbol) => {
+//         updateGraphicsSymbolRef(symbol.items, symbols, true);
+//       });
 
-      yield put(actions.setSymbols(symbols));
-    }
-  } catch (ex) {
-    console.log(ex);
-  }
-}
+//       // yield put(actions.setSymbols(symbols));
+//     }
+//   } catch (ex) {
+//     console.log(ex);
+//   }
+// }
 
 // -> Placement
 function* apiCreatePlacementSaga(graphic: GraphicBase) {
@@ -153,24 +154,24 @@ function* apiDeletePlacementsSaga(items: Placement[]) {
   yield graphql(mutation, variables);
 }
 
-function* loadPagesSaga(action: any) {
-  try {
-    const projectId = action.payload;
-    const query: string = `query project($id: ID!) {
-      project(id: $id) {
-        pages { id name }
-      }
-    }`;
-    const variables = {
-      id: projectId,
-    };
-    const result = yield graphql(query, variables);
-    const json = result.project.pages;
-    yield put(actions.setPages(json));
-  } catch (ex) {
-    console.log(ex);
-  }
-}
+// function* loadPagesSaga(action: any) {
+//   try {
+//     const projectId = action.payload;
+//     const query: string = `query project($id: ID!) {
+//       project(id: $id) {
+//         pages { id name }
+//       }
+//     }`;
+//     const variables = {
+//       id: projectId,
+//     };
+//     const result = yield graphql(query, variables);
+//     const json = result.project.pages;
+//     yield put(actions.setPages(json));
+//   } catch (ex) {
+//     console.log(ex);
+//   }
+// }
 
 function* createPageSaga(action: any) {
   try {
@@ -206,8 +207,8 @@ export {
   apiSaveSymbolSaga,
   setPageIdSaga,
   apiCreatePlacementSaga,
-  apiLoadSymbols,
-  loadPagesSaga,
+  // apiLoadSymbols,
+  // loadPagesSaga,
   createPageSaga,
   apiDeletePlacementsSaga,
 };

@@ -10,12 +10,12 @@ export const addSymbol = (symbol: GraphicSymbol) => {
   };
 };
 
-export const setSymbols = (symbols: GraphicSymbol[]) => {
-  return {
-    type: actionTypes.SET_SYMBOLS,
-    payload: symbols,
-  };
-};
+// export const setSymbols = (symbols: GraphicSymbol[]) => {
+//   return {
+//     type: actionTypes.SET_SYMBOLS,
+//     payload: symbols,
+//   };
+// };
 
 // export const saveGraphicItem = item => {
 //   return {
