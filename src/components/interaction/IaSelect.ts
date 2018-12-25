@@ -39,7 +39,6 @@ class IaSelect extends IaBase {
       }
       if (result.type === IaEventType.keyDown) {
         const event = result.event as KeyboardEvent;
-        console.log(result);
         let itemsToDelete = this.context.getState().graphic
           .selectedItems;
         if (itemsToDelete.length > 0) {

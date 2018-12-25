@@ -1,6 +1,5 @@
 import * as actionTypes from "./actionTypes";
 import { IdType } from "../model/types";
-import { IGlobalState } from "../reducers";
 import { Page } from "csstype";
 import { apiLoadSymbol } from "./apiLoadSymbol";
 import { apiLoadPage } from "./apiLoadPage";
@@ -9,12 +8,12 @@ export const setProjectId = (projectId: IdType) => {
   return async (dispatch: any): Promise<any> => {
     const symbols = await apiLoadSymbol(projectId);
 
-    dispatch({
+    await dispatch({
       type: actionTypes.SET_PROJECT_ID,
       payload: projectId,
     });
 
-    dispatch({
+    await dispatch({
       type: actionTypes.SET_SYMBOLS,
       payload: symbols,
     });
@@ -24,7 +23,6 @@ export const setProjectId = (projectId: IdType) => {
 export const loadPages = (projectId: string) => {
   return async (dispatch: any): Promise<any> => {
     const pages = await apiLoadPage(projectId);
-    console.log("::", pages);
 
     dispatch({
       type: actionTypes.SET_PAGES,
@@ -54,10 +52,3 @@ export const addPage = (page: Page) => {
     payload: page,
   };
 };
-
-// export const setPages = (pages: Page[]) => {
-//   return {
-//     type: actionTypes.SET_PAGES,
-//     payload: pages,
-//   };
-// };

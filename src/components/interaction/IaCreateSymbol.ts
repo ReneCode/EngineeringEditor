@@ -1,13 +1,8 @@
 import IaBase, { IaContext, IaEventType } from "./IaBase";
 import * as actions from "../../actions";
 import GraphicSymbolRef from "../../model/graphic/GraphicSymbolRef";
-import Point from "../../common/point";
 import GraphicSymbol from "../../model/graphic/GraphicSymbol";
 import { updateGraphicsSymbolRef } from "../../sagas/updateSymbolRef";
-import Placement from "../../model/Placement";
-import apiSavePlacement from "../../common/api/apiSavePlacement";
-import apiDeletePlacements from "../../common/api/apiDeletePlacements";
-import GraphicBase from "../../model/graphic/GraphicBase";
 import apiSaveSymbol from "../../common/api/apiSaveSymbol";
 
 class IaCreateSymbol extends IaBase {
@@ -15,7 +10,7 @@ class IaCreateSymbol extends IaBase {
     super(config);
   }
 
-  start = async (args: any[]) => {
+  start = async () => {
     try {
       const selectedItems = this.context.getState().graphic
         .selectedItems;
@@ -34,7 +29,7 @@ class IaCreateSymbol extends IaBase {
         return;
       }
       if (this.isMouseEvent(result)) {
-        const { projectId, pageId } = this.context.getState().project;
+        const { projectId } = this.context.getState().project;
         const symbolName =
           "symbol-" + Math.floor(1000 * Math.random());
         const symbol = new GraphicSymbol(projectId, symbolName);
@@ -51,12 +46,6 @@ class IaCreateSymbol extends IaBase {
         updateGraphicsSymbolRef(newSymbol.items, symbols);
 
         this.context.dispatch(actions.addSymbol(newSymbol));
-
-        // transform current items to symbolRef
-        const symbolRef = new GraphicSymbolRef(
-          newSymbol.name,
-          result.pointWc,
-        );
 
         // const placement = new Placement(projectId, pageId, symbolRef);
         // const newPlacement = await apiSavePlacement(placement);

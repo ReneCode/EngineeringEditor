@@ -1,6 +1,7 @@
 import { DtoPlacement, decodeJson, encodeJson } from "./dtoUtil";
 import Placement from "./Placement";
 import ObjectFactory from "./ObjectFactory";
+import GraphicSymbolRef from "./graphic/GraphicSymbolRef";
 
 class PlacementFactory {
   static toDTO(obj: Placement | Placement[]): any {
@@ -15,6 +16,12 @@ class PlacementFactory {
     }
 
     const json = Object.assign({}, obj);
+
+    // special dto
+    if (json.type === "symbolref") {
+      delete (json as GraphicSymbolRef).symbol;
+    }
+
     delete json.id;
     delete json.pageId;
     delete json.projectId;

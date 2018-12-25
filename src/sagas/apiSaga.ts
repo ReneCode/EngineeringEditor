@@ -205,7 +205,7 @@ function* createPageSaga(action: any) {
 
 export {
   apiSaveSymbolSaga,
-  setPageIdSaga,
+  // setPageIdSaga,
   apiCreatePlacementSaga,
   // apiLoadSymbols,
   // loadPagesSaga,

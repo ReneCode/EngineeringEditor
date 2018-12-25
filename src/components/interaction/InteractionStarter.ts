@@ -51,7 +51,7 @@ class InteractionStarter {
           }
         }
         if (startIaSelect) {
-          console.log("start ??");
+          // console.log("start ??");
           // iaConfig.dispatch(actions.startInteraction(IA_SELECT));
         }
       }

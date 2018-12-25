@@ -4,6 +4,12 @@ import * as actionTypes from "./actionTypes";
 import apiCreatePlacement from "./apiCreatePlacement";
 import { IGlobalState } from "../reducers";
 import { apiDeletePlacement } from "./apiDeletePlacement";
+import { updatePlacement } from "./graphicActions";
+import {
+  updateGraphicsSymbolRef,
+  updateOneSymbolRef,
+} from "../sagas/updateSymbolRef";
+import GraphicSymbolRef from "../model/graphic/GraphicSymbolRef";
 
 /*
   add the given placement to the current project/page
@@ -20,13 +26,17 @@ export const createPlacement = (placement: Placement): any => {
 
       const newPlacement = await apiCreatePlacement(placement);
 
+      // on new symbolref we have to update the .symbol property of the symbolref
+      if (newPlacement instanceof GraphicSymbolRef) {
+        const symbols = getState().graphic.symbols;
+        updateOneSymbolRef(newPlacement, symbols);
+      }
+
       const action = {
         type: actionTypes.ADD_PLACEMENT,
         payload: newPlacement,
       };
       await dispatch(action);
-
-      console.log("addPlacement:", newPlacement);
 
       return newPlacement;
     } catch (ex) {
@@ -43,7 +53,6 @@ export const deletePlacement = (
     getState: () => IGlobalState,
   ): Promise<any> => {
     try {
-      console.log("ABC");
       if (!Array.isArray(placement)) {
         placement = [placement];
       }

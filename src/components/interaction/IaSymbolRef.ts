@@ -42,12 +42,12 @@ class IaSymbolRef extends IaBase {
         this.context.dispatch(actions.setTempItem(symbolRef));
         switch (result.type) {
           case IaEventType.mouseDown:
-            this.saveGraphic(symbolRef);
+            this.context.dispatch(actions.createPlacement(symbolRef));
             run = false;
             break;
         }
       } // while (run)
-      return true; // restart
+      return { restart: true };
     } catch (ex) {}
   };
 }

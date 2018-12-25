@@ -29,12 +29,12 @@ class ProjectView extends Component<IProps> {
     this.useRoutingParams();
   }
 
-  useRoutingParams = () => {
+  useRoutingParams = async () => {
     const { match } = this.props;
     const { projectId, pageId } = match.params;
 
     this.props.dispatch(actions.setProjectId(projectId));
-    this.props.dispatch(actions.setPageId(pageId));
+    this.props.dispatch(actions.setPageId(projectId, pageId));
   };
 
   clickSidebar = (sidebarButton: ISidebarButton) => {
