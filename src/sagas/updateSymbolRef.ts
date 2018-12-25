@@ -15,11 +15,11 @@ export const updatePlacementsSymbolRef = (
 };
 
 export const updateGraphicsSymbolRef = (
-  graphics: GraphicBase[],
+  graphics: Placement[],
   symbols: GraphicSymbol[],
   recursive: boolean = false,
 ) => {
-  graphics.forEach((graphic: GraphicBase) => {
+  graphics.forEach((graphic: Placement) => {
     if (graphic.type === "symbolref") {
       const symbol = updateOneSymbolRef(
         <GraphicSymbolRef>graphic,

@@ -3,8 +3,9 @@ import Point from "../../common/point";
 import Line from "../../common/line";
 import TransformCoordinate from "../../common/transformCoordinate";
 import deepClone from "../../common/deepClone";
+import Placement from "../Placement";
 
-class GraphicRect extends GraphicBase {
+class GraphicRect extends Placement {
   p1: Point;
   p2: Point;
   constructor(p1: Point, p2: Point) {

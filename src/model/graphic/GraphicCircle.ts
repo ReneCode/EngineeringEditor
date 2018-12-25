@@ -1,5 +1,4 @@
 import Point from "../../common/point";
-import GraphicBase from "./GraphicBase";
 import Arc from "../../common/arc";
 import TransformCoordinate from "../../common/transformCoordinate";
 import deepClone from "../../common/deepClone";
@@ -14,17 +13,6 @@ class GraphicCircle extends Placement {
     super("circle");
     this.pt = pt || new Point(0, 0);
     this.radius = radius || 0;
-  }
-
-  toJSON(asContent: boolean = false): object {
-    const result = (<any>Object).assign(
-      {},
-      {
-        pt: this.pt.toJSON(),
-        radius: this.radius,
-      },
-    );
-    return result;
   }
 
   static fromJSON(json: any): GraphicCircle {

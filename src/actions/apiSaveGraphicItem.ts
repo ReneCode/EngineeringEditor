@@ -4,6 +4,7 @@ import { IGlobalState } from "../reducers";
 import { IdType } from "../model/types";
 import Placement from "../model/Placement";
 import { graphql } from "../common/graphql-api";
+import PlacementFactory from "../model/PlacementFactory";
 
 // -> Placement
 const apiCreatePlacement = async (
@@ -19,7 +20,7 @@ const apiCreatePlacement = async (
     // save to database
     // const placement = new Placement(projectId, pageId, graphic);
     const placement = new Placement("line");
-    const json: any = placement.toDTO();
+    const json: any = PlacementFactory.toDTO(placement);
     const mutation = `mutation createPlacement($input: CreatePlacementInput!) {
       createPlacement(input: $input) { id, projectId, pageId, graphic }
     }`;

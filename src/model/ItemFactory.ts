@@ -3,7 +3,6 @@ import ItemLine from "./ItemLine";
 import ItemCircle from "./ItemCircle";
 import ItemGroup from "./ItemGroup";
 import ItemSymbol from "./ItemSymbol";
-import ItemSymbolRef from "./ItemSymbolRef";
 
 class ItemFactory {
   static fromJSON(json: any): ItemBase | Array<ItemBase> {
@@ -21,8 +20,8 @@ class ItemFactory {
         return ItemGroup.fromJSON(json);
       case "symbol":
         return ItemSymbol.fromJSON(json);
-      case "symbolref":
-        return ItemSymbolRef.fromJSON(json);
+      // case "symbolref":
+      //   return ItemSymbolRef.fromJSON(json);
       default:
         // console.log("bad item type:", json.type);
         throw new Error("bad item type:" + json.type);

@@ -1,5 +1,6 @@
 import GraphicSymbol from "../../model/graphic/GraphicSymbol";
 import { graphql } from "../graphql-api";
+import ElementFactory from "../../model/ElementFactory";
 
 const apiSaveSymbol = async (
   symbol: GraphicSymbol,
@@ -11,7 +12,7 @@ const apiSaveSymbol = async (
     }`;
   console.log("1:", symbol);
   debugger;
-  const dto = symbol.toDTO();
+  const dto = ElementFactory.toDTO(symbol);
   console.log("2:", dto);
   let variables = {
     input: {
@@ -24,7 +25,7 @@ const apiSaveSymbol = async (
   const data = await graphql(mutation, variables);
   console.log("3:", data);
 
-  const newSymbol = GraphicSymbol.fromDTO(data.createElement);
+  const newSymbol = ElementFactory.fromDTO(data.createElement);
   return newSymbol;
 };
 

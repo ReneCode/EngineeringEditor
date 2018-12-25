@@ -1,4 +1,4 @@
-import { select, put } from "redux-saga/effects";
+import { put } from "redux-saga/effects";
 
 import * as actions from "../actions";
 import { graphql } from "../common/graphql-api";
@@ -6,22 +6,13 @@ import Placement from "../model/Placement";
 import GraphicBase from "../model/graphic/GraphicBase";
 import GraphicSymbol from "../model/graphic/GraphicSymbol";
 import { IdType } from "../model/types";
-import GraphicSymbolRef from "../model/graphic/GraphicSymbolRef";
-import {
-  selectGraphicSymbols,
-  selectProjectId,
-  selectPageId,
-} from "../reducers/selectors";
+import { selectProjectId, selectPageId } from "../reducers/selectors";
 import { DtoElement } from "../model/dtoUtil";
-import {
-  updatePlacementsSymbolRef,
-  updateGraphicsSymbolRef,
-} from "./updateSymbolRef";
+import { updateGraphicsSymbolRef } from "./updateSymbolRef";
 import PlacementFactory from "../model/PlacementFactory";
+import ElementFactory from "../model/ElementFactory";
 
 function* setPageIdSaga(action: any) {
-  // load the graphic of the active page
-  const pageId = action.payload;
   // const items = yield apiLoadPlacement(pageId);
   // yield put(actions.setGraphicItems(items));
   yield put(actions.zoomFull());
@@ -65,7 +56,7 @@ function* apiSaveSymbolSaga(symbol: GraphicSymbol) {
     let mutation = `mutation createElement($input: CreateElementInput!) {
       createElement(input: $input) { projectId id name type content }
     }`;
-    const dto = symbol.toDTO();
+    const dto = ElementFactory.toDTO(symbol);
     let variables = {
       input: {
         projectId: dto.projectId,
@@ -75,7 +66,7 @@ function* apiSaveSymbolSaga(symbol: GraphicSymbol) {
       },
     };
     const data = yield graphql(mutation, variables);
-    const newSymbol = GraphicSymbol.fromDTO(data.createElement);
+    const newSymbol = ElementFactory.fromDTO(data.createElement);
     return newSymbol;
   } catch (ex) {
     console.log(ex);
@@ -96,7 +87,7 @@ function* apiLoadSymbols(projectId: IdType) {
     if (data.project) {
       const dtoElements = data.project.elements;
       const symbols = dtoElements.map((e: DtoElement) => {
-        const symbol = GraphicSymbol.fromDTO(e);
+        const symbol = ElementFactory.fromDTO(e);
         return symbol;
       });
 
@@ -124,7 +115,7 @@ function* apiCreatePlacementSaga(graphic: GraphicBase) {
     const pageId = yield selectPageId();
     // const placement = new Placement(projectId, pageId, graphic);
     const placement = new Placement("line");
-    const json: any = placement.toDTO();
+    const json: any = PlacementFactory.toDTO(placement);
     const mutation = `mutation createPlacement($input: CreatePlacementInput!) {
       createPlacement(input: $input) { id, projectId, pageId, graphic }
     }`;

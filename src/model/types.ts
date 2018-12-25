@@ -1,4 +1,4 @@
-export type IdType = string;
+export type IdType = string | undefined;
 
 export type GraphicType =
   | ""

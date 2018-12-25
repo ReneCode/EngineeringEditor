@@ -5,7 +5,6 @@ import PlacementFactory from "../PlacementFactory";
 
 describe("GraphicLine", () => {
   let line: GraphicLine;
-  let json: any;
   let dto: DtoPlacement;
 
   beforeEach(() => {
@@ -15,10 +14,12 @@ describe("GraphicLine", () => {
     line.projectId = "projectId";
     line.pageId = "pageId";
     line.id = "id";
+    line.color = "red";
 
-    json = {
+    const json = {
       p1: { x: 4, y: 5 },
       p2: { x: 7, y: 8 },
+      color: "red",
     };
 
     dto = {
@@ -30,32 +31,18 @@ describe("GraphicLine", () => {
     };
   });
 
-  it("toDTO", () => {
-    const gotDto = line.toDTO();
+  it("toDto & fromDto", () => {
+    const gotDto = PlacementFactory.toDTO(line);
     expect(gotDto).toEqual(dto);
-  });
-
-  it("fromDTO", () => {
-    const gotLine = PlacementFactory.fromDTO(dto);
+    const gotLine = PlacementFactory.fromDTO(gotDto);
     expect(gotLine instanceof GraphicLine).toBeTruthy();
     expect(gotLine).toEqual(line);
   });
 
-  it("toJSON and fromJSON", () => {
-    const item: GraphicLine = new GraphicLine(
-      new Point(-20, 120),
-      new Point(180, 120),
-    );
-
-    const json = item.toJSON();
-    expect(json).toHaveProperty("p1");
-
-    const str: string = JSON.stringify(json);
-    const backJson = JSON.parse(str);
-
-    const newLine = GraphicLine.fromJSON(backJson);
-    expect(newLine.p1).toEqual(item.p1);
-    expect(newLine.p2).toEqual(item.p2);
+  it("fromDTO with array of lines => array of placements", () => {
+    const twoDto = [dto, dto];
+    const gotLines = PlacementFactory.fromDTO(twoDto);
+    expect(gotLines).toHaveLength(2);
   });
 
   it("translate Line", () => {

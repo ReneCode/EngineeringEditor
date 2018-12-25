@@ -12,16 +12,6 @@ class GraphicPolygon extends Placement {
     super("polygon");
   }
 
-  toJSON(): object {
-    const result = (<any>Object).assign(
-      {},
-      {
-        points: this.points.map(p => p.toJSON()),
-      },
-    );
-    return result;
-  }
-
   static fromJSON(json: any): GraphicPolygon {
     const polygon = Object.create(GraphicPolygon.prototype);
     return (<any>Object).assign(polygon, json, {

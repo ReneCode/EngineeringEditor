@@ -14,17 +14,6 @@ class GraphicLine extends Placement {
     this.p2 = p2 || new Point(0, 0);
   }
 
-  toJSON(): object {
-    const result = (<any>Object).assign(
-      {},
-      {
-        p1: this.p1.toJSON(),
-        p2: this.p2.toJSON(),
-      },
-    );
-    return result;
-  }
-
   static fromJSON(json: any): GraphicLine {
     const line = Object.create(GraphicLine.prototype);
     return (<any>Object).assign(line, json, {

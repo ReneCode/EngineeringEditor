@@ -2,6 +2,7 @@ import Placement from "../model/Placement";
 import * as actions from "../actions";
 import { put } from "redux-saga/effects";
 import { graphql } from "../common/graphql-api";
+import PlacementFactory from "../model/PlacementFactory";
 
 /*
   updates the backend and the store
@@ -25,7 +26,7 @@ function* apiUpdatePlacementSaga(placements: Placement[]) {
   }`;
   const variables = {
     input: placements.map((placement: Placement) => {
-      const json: any = placement.toDTO();
+      const json: any = PlacementFactory.toDTO(placement);
       return {
         projectId: placement.projectId,
         pageId: placement.pageId,

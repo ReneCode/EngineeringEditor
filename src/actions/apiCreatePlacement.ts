@@ -9,7 +9,7 @@ const apiCreatePlacement = async (
 ): Promise<Placement> => {
   try {
     // save to database
-    const json: DtoPlacement = placement.toDTO();
+    const json: DtoPlacement = PlacementFactory.toDTO(placement);
 
     const mutation = `mutation createPlacement($input: CreatePlacementInput!) {
       createPlacement(input: $input) { id, type, projectId, pageId, content }

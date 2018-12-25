@@ -3,6 +3,7 @@ import GraphicBase from "./GraphicBase";
 import TransformCoordinate from "../../common/transformCoordinate";
 import deepClone from "../../common/deepClone";
 import Box from "../../common/box";
+import Placement from "../Placement";
 
 // https://www.cadlinecommunity.co.uk/hc/en-us/articles/360000136085-AutoCAD-Electrical-2018-Schematic-Symbol-Wire-Connection-Attributes
 export enum ConnectionPointDirection {
@@ -14,20 +15,13 @@ export enum ConnectionPointDirection {
 
 const RADIUS_CANVAS = 5;
 
-class GraphicConnectionPoint extends GraphicBase {
+class GraphicConnectionPoint extends Placement {
   pt: Point;
   direction: ConnectionPointDirection = ConnectionPointDirection.DOWN;
 
   constructor(pt: Point) {
     super("connectionpoint");
     this.pt = pt || new Point(0, 0);
-  }
-
-  toJSON(): object {
-    const result = (<any>Object).assign({}, this, {
-      pt: this.pt.toJSON(),
-    });
-    return result;
   }
 
   static fromJSON(json: any): GraphicConnectionPoint {

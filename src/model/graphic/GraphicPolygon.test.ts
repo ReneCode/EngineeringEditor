@@ -5,7 +5,6 @@ import PlacementFactory from "../PlacementFactory";
 
 describe("GraphicPolygon", () => {
   let polygon: GraphicPolygon;
-  let json: any;
   let dto: DtoPlacement;
 
   beforeEach(() => {
@@ -15,7 +14,7 @@ describe("GraphicPolygon", () => {
       new Point(7, 8),
       new Point(2, 3),
     ];
-    json = {
+    const json = {
       points: [{ x: 4, y: 5 }, { x: 7, y: 8 }, { x: 2, y: 3 }],
     };
     dto = {
@@ -27,29 +26,15 @@ describe("GraphicPolygon", () => {
     };
   });
 
-  it("toDTO", () => {
-    const gotDto = polygon.toDTO();
+  it("toDTO & fromDTO", () => {
+    const gotDto = PlacementFactory.toDTO(polygon);
     expect(gotDto).toEqual(dto);
-  });
-
-  it("fromDTO", () => {
     const gotPolygon = PlacementFactory.fromDTO(
-      dto,
+      gotDto,
     ) as GraphicPolygon;
     expect(gotPolygon instanceof GraphicPolygon).toBeTruthy();
     expect(gotPolygon.type).toEqual(polygon.type);
     expect(gotPolygon).toEqual(polygon);
-  });
-
-  it("toJSON and fromJSON with content", () => {
-    const myJson = polygon.toJSON();
-    expect(myJson).toHaveProperty("points");
-
-    const str: string = JSON.stringify(json);
-    const backJson = JSON.parse(str);
-
-    const myPolygon = GraphicPolygon.fromJSON(backJson);
-    expect(myPolygon.points).toEqual(polygon.points);
   });
 
   it("translate polygon", () => {

@@ -6,7 +6,6 @@ import PlacementFactory from "../PlacementFactory";
 
 describe("GraphicCircle", () => {
   let circle: GraphicCircle;
-  let json: any;
   let dto: DtoPlacement;
 
   beforeEach(() => {
@@ -15,10 +14,12 @@ describe("GraphicCircle", () => {
     circle.projectId = "projectId";
     circle.pageId = "pageId";
     circle.id = "id";
+    circle.color = "brown";
 
-    json = {
+    const json = {
       pt: { x: 7, y: 8 },
       radius: 14,
+      color: "brown",
     };
 
     dto = {
@@ -30,20 +31,12 @@ describe("GraphicCircle", () => {
     };
   });
 
-  it("toDTO", () => {
-    const gotDto = circle.toDTO();
+  it("toDto & fromDto", () => {
+    const gotDto = PlacementFactory.toDTO(circle);
     expect(gotDto).toEqual(dto);
-  });
-
-  it("fromDTO", () => {
-    const gotCircle = PlacementFactory.fromDTO(dto);
+    const gotCircle = PlacementFactory.fromDTO(gotDto);
     expect(gotCircle instanceof GraphicCircle).toBeTruthy();
     expect(gotCircle).toEqual(circle);
-  });
-
-  it("create json from GraphicCircle", () => {
-    const gotJson = circle.toJSON();
-    expect(gotJson).toEqual(json);
   });
 
   it("translate Circle", () => {

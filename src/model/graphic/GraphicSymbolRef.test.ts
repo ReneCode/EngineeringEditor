@@ -20,8 +20,8 @@ describe("GraphicSymbolRef", () => {
     symbolRef.id = "id";
 
     json = {
-      pt: { x: 7, y: 8 },
       name: symbolName,
+      pt: { x: 7, y: 8 },
     };
 
     dto = {
@@ -33,13 +33,10 @@ describe("GraphicSymbolRef", () => {
     };
   });
 
-  it("toDTO", () => {
-    const gotDto = symbolRef.toDTO();
+  it("toDTO & fromDTO", () => {
+    const gotDto = PlacementFactory.toDTO(symbolRef);
     expect(gotDto).toEqual(dto);
-  });
-
-  it("fromDTO", () => {
-    const gotSymbolRef = PlacementFactory.fromDTO(dto);
+    const gotSymbolRef = PlacementFactory.fromDTO(gotDto);
     expect(gotSymbolRef instanceof GraphicSymbolRef).toBeTruthy();
     expect(gotSymbolRef).toEqual(symbolRef);
   });
