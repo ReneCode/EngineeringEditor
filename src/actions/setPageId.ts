@@ -3,14 +3,16 @@ import { IdType } from "../model/types";
 import { IGlobalState } from "../reducers";
 import { apiLoadPlacement } from "./apiLoadPlacement";
 import { updatePlacementsSymbolRef } from "../sagas/updateSymbolRef";
+import { clearSelectedItem } from "./graphicActions";
 
 export const setPageId = (projectId: IdType, pageId: IdType) => {
   return async (dispatch: any, getState: () => IGlobalState) => {
-    // const projectId = getState().project.projectId;
     if (!projectId) {
       throw new Error("projectId missing on setPageId");
     }
     try {
+      dispatch(clearSelectedItem());
+
       const placements = await apiLoadPlacement(projectId, pageId);
 
       const symbols = getState().graphic.symbols;

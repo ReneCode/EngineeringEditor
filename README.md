@@ -13,11 +13,22 @@ https://github.com/typicode/json-server
 ##svg icons
 http://svgicons.sparkk.fr/
 
+## javascript hints
+
+### check if property exists
+
+```
+  if ( "myprop" in obj) {
+        //  obj.myprop  exists
+  }
+```
+
 ## redux-saga
 
 ## react ref on connected components
 
-    https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26871
+https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26871
+
     ref = { comp => this.myCompRef = (comp as any).getWrappedInstance() }
 
 ### call
