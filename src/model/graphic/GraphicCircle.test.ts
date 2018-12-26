@@ -1,6 +1,5 @@
 import GraphicCircle from "./GraphicCircle";
 import Point from "../../common/point";
-import GraphicFactory from "./GraphicFactory";
 import { DtoPlacement } from "../dtoUtil";
 import PlacementFactory from "../PlacementFactory";
 

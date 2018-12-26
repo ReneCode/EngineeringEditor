@@ -1,4 +1,3 @@
-import GraphicBase from "./GraphicBase";
 import Point from "../../common/point";
 import Line from "../../common/line";
 import TransformCoordinate from "../../common/transformCoordinate";

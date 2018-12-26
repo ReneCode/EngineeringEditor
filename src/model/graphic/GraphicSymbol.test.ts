@@ -2,7 +2,6 @@ import GraphicSymbol from "./GraphicSymbol";
 import Point from "../../common/point";
 import GraphicCircle from "./GraphicCircle";
 import GraphicLine from "./GraphicLine";
-import GraphicFactory from "./GraphicFactory";
 import { DtoElement } from "../dtoUtil";
 import ElementFactory from "../ElementFactory";
 

@@ -1,6 +1,5 @@
 import * as actionTypes from "./actionTypes";
 import GraphicSymbol from "../model/graphic/GraphicSymbol";
-import GraphicBase from "../model/graphic/GraphicBase";
 import Placement from "../model/Placement";
 
 export const addSymbol = (symbol: GraphicSymbol) => {
@@ -35,15 +34,6 @@ export const setViewport = (
       height,
     },
   };
-};
-
-export const addItem = (item: GraphicBase | Placement) => {
-  throw new Error("use addPlacement");
-
-  // return {
-  //   type: actionTypes.ADD_ITEM,
-  //   payload: item,
-  // };
 };
 
 export const addSelectedItem = (item: Placement | Placement[]) => {

@@ -1,5 +1,4 @@
 import Point from "../../common/point";
-import GraphicBase from "./GraphicBase";
 import TransformCoordinate from "../../common/transformCoordinate";
 import deepClone from "../../common/deepClone";
 import Box from "../../common/box";

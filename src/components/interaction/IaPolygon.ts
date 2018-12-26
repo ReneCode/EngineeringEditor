@@ -1,5 +1,5 @@
 import IaBase, { IaContext, IaEventType } from "./IaBase";
-import GraphicBase from "../../model/graphic/GraphicPolygon";
+import GraphicPolygon from "../../model/graphic/GraphicPolygon";
 import * as actions from "../../actions";
 
 class IaPolygon extends IaBase {
@@ -9,7 +9,7 @@ class IaPolygon extends IaBase {
 
   start = async () => {
     try {
-      let polygon = new GraphicBase();
+      let polygon = new GraphicPolygon();
       let run = true;
       while (run) {
         const result = await this.context.getEvent([

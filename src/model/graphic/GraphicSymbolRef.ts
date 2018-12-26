@@ -1,4 +1,3 @@
-import GraphicBase from "./GraphicBase";
 import Point from "../../common/point";
 import TransformCoordinate from "../../common/transformCoordinate";
 import GraphicSymbol from "./GraphicSymbol";
@@ -70,7 +69,7 @@ class GraphicSymbolRef extends Placement {
     return box.isPointInside(this.pt);
   }
 
-  translate(pt: Point): GraphicBase {
+  translate(pt: Point): Placement {
     // do not use deepClone - because symbol has not to be cloned
     const symbolRef = Object.create(GraphicSymbolRef.prototype);
     return (<any>Object).assign(symbolRef, this, {

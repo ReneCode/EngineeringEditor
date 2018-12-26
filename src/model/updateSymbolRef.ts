@@ -1,6 +1,5 @@
 import GraphicSymbol from "./graphic/GraphicSymbol";
 import Placement from "./Placement";
-import GraphicBase from "./graphic/GraphicBase";
 import GraphicSymbolRef from "./graphic/GraphicSymbolRef";
 
 export const updatePlacementsSymbolRef = (

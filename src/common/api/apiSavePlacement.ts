@@ -1,5 +1,4 @@
 import Placement from "../../model/Placement";
-import GraphicBase from "../../model/graphic/GraphicBase";
 import { graphql } from "../graphql-api";
 import PlacementFactory from "../../model/PlacementFactory";
 
