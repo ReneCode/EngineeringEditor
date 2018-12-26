@@ -6,6 +6,7 @@ import { updateOneSymbolRef } from "../../model/updateSymbolRef";
 import GraphicSymbolRef from "../../model/graphic/GraphicSymbolRef";
 import Point from "../../common/point";
 import TransformCoordinate from "../../common/transformCoordinate";
+import { DispatchFunction } from "../../model/types";
 
 export enum IaEventType {
   none = 0,
@@ -25,7 +26,7 @@ export type GetEventResult = Promise<{
 
 export interface IaContext {
   getEvent(types: IaEventType[] | IaEventType): GetEventResult;
-  dispatch: Function;
+  dispatch: DispatchFunction;
   getState: () => IGlobalState;
 }
 

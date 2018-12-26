@@ -42,7 +42,7 @@ class InteractionStarter {
         const result = await this.interaction.start(
           action.payload.args,
         );
-        // console.log("finished:", type, result);
+        console.log("finished:", type, result);
         if (result) {
           const { restart } = result;
           if (restart) {

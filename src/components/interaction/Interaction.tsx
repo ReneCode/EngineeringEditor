@@ -7,10 +7,11 @@ import TransformCoordinate from "../../common/transformCoordinate";
 import InteractionStarter from "./InteractionStarter";
 import { IaContext, GetEventResult, IaEventType } from "./IaBase";
 import { IA_SELECT } from "../../actions/interactionTypes";
+import { DispatchFunction } from "../../model/types";
 
 interface IProps {
   getCanvas(): HTMLCanvasElement;
-  dispatch: Function;
+  dispatch: DispatchFunction;
   state: IGlobalState;
 }
 
@@ -159,13 +160,4 @@ const mapStateToProps = (state: IGlobalState) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    dispatch,
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Interaction);
+export default connect(mapStateToProps)(Interaction);

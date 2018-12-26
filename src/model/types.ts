@@ -12,3 +12,5 @@ export type GraphicType =
   | "rect";
 
 export type ModalId = "" | "selectSymbol";
+
+export type DispatchFunction = (action: any) => any;
