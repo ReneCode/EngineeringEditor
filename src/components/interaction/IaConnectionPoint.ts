@@ -51,7 +51,9 @@ class IaConnectionPoint extends IaBase {
               result.type === IaEventType.mouseUp
             ) {
               if (!nextPoint.equal(firstPoint)) {
-                this.saveGraphic(connectionPoint);
+                this.context.dispatch(
+                  actions.createPlacement(connectionPoint),
+                );
                 run = false;
               }
             } else {
