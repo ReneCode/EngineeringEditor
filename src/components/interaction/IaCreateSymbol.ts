@@ -1,9 +1,7 @@
 import IaBase, { IaContext, IaEventType } from "./IaBase";
 import * as actions from "../../actions";
-import GraphicSymbolRef from "../../model/graphic/GraphicSymbolRef";
 import GraphicSymbol from "../../model/graphic/GraphicSymbol";
-import { updateGraphicsSymbolRef } from "../../model/updateSymbolRef";
-import apiSaveSymbol from "../../common/api/apiSaveSymbol";
+import GraphicSymbolRef from "../../model/graphic/GraphicSymbolRef";
 
 class IaCreateSymbol extends IaBase {
   constructor(config: IaContext) {
@@ -35,31 +33,25 @@ class IaCreateSymbol extends IaBase {
         const symbol = new GraphicSymbol(projectId, symbolName);
         symbol.items = selectedItems as any;
         symbol.insertPt = result.pointWc;
-        console.log(":", symbol);
-        const newSymbol = await apiSaveSymbol(symbol);
-        console.log("::", newSymbol);
 
-        // if there are symbolRef in ths new symbol
-        // the GraphicSymbol .symbol property is no more set
-        // we have to update it
-        const symbols = this.context.getState().graphic.symbols;
-        updateGraphicsSymbolRef(newSymbol.items, symbols);
+        const newSymbol = await this.context.dispatch(
+          actions.createSymbol(symbol),
+        );
 
-        this.context.dispatch(actions.addSymbol(newSymbol));
+        // replace the old selected items with a symbolRef to that new symbol
+        const symbolRef = new GraphicSymbolRef(
+          newSymbol.name,
+          symbol.insertPt,
+          symbol,
+        );
+        await this.context.dispatch(
+          actions.createPlacement(symbolRef),
+        );
 
-        // const placement = new Placement(projectId, pageId, symbolRef);
-        // const newPlacement = await apiSavePlacement(placement);
-        // if (newPlacement) {
-        //   const newSymbolRef = placement.graphic as GraphicSymbolRef;
-        //   newSymbolRef.symbol = newSymbol;
-        //   this.context.dispatch(actions.addItem(placement));
-        //   await apiDeletePlacements(selectedItems);
-
-        //   this.context.dispatch(actions.removeItem(selectedItems));
-        //   this.context.dispatch(
-        //     actions.removeSelectedItem(selectedItems),
-        //   );
-        // }
+        // delete old items
+        await this.context.dispatch(
+          actions.deletePlacement(selectedItems),
+        );
       }
     } catch (ex) {
       console.log("Exception:", ex);
