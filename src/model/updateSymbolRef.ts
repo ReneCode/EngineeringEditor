@@ -1,7 +1,7 @@
-import GraphicSymbol from "../model/graphic/GraphicSymbol";
-import Placement from "../model/Placement";
-import GraphicBase from "../model/graphic/GraphicBase";
-import GraphicSymbolRef from "../model/graphic/GraphicSymbolRef";
+import GraphicSymbol from "./graphic/GraphicSymbol";
+import Placement from "./Placement";
+import GraphicBase from "./graphic/GraphicBase";
+import GraphicSymbolRef from "./graphic/GraphicSymbolRef";
 
 export const updatePlacementsSymbolRef = (
   placements: Placement[],

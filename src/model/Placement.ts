@@ -23,11 +23,15 @@ class Placement {
   }
 
   nearPoint(pt: Point, radius: number): boolean {
-    throw new Error("draw has to be overwritten by:" + this);
+    throw new Error("nearPoint has to be overwritten by:" + this);
   }
 
   insideBox(box: Box): boolean {
-    throw new Error("draw has to be overwritten by:" + this);
+    throw new Error("insideBox has to be overwritten by:" + this);
+  }
+
+  translate(pt: Point) {
+    throw new Error("translate has to be overwritten by:" + this);
   }
 
   // translate(pt: Point) {

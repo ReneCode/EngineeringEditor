@@ -8,7 +8,7 @@ import GraphicSymbol from "../model/graphic/GraphicSymbol";
 import { IdType } from "../model/types";
 import { selectProjectId, selectPageId } from "../reducers/selectors";
 import { DtoElement } from "../model/dtoUtil";
-import { updateGraphicsSymbolRef } from "./updateSymbolRef";
+import { updateGraphicsSymbolRef } from "../model/updateSymbolRef";
 import PlacementFactory from "../model/PlacementFactory";
 import ElementFactory from "../model/ElementFactory";
 

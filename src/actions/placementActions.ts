@@ -8,7 +8,7 @@ import { updatePlacement } from "./graphicActions";
 import {
   updateGraphicsSymbolRef,
   updateOneSymbolRef,
-} from "../sagas/updateSymbolRef";
+} from "../model/updateSymbolRef";
 import GraphicSymbolRef from "../model/graphic/GraphicSymbolRef";
 
 /*

@@ -2,7 +2,7 @@ import * as actionTypes from "./actionTypes";
 import { IdType } from "../model/types";
 import { IGlobalState } from "../reducers";
 import { apiLoadPlacement } from "./apiLoadPlacement";
-import { updatePlacementsSymbolRef } from "../sagas/updateSymbolRef";
+import { updatePlacementsSymbolRef } from "../model/updateSymbolRef";
 import { clearSelectedItem } from "./graphicActions";
 
 export const setPageId = (projectId: IdType, pageId: IdType) => {

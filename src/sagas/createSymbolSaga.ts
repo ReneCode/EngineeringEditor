@@ -1,5 +1,4 @@
 import { call, put, select } from "redux-saga/effects";
-import { getPointSaga } from "./getPointSaga";
 import { MOUSE_DOWN } from "../actions/actionTypes";
 import * as actions from "../actions";
 import {
@@ -11,8 +10,11 @@ import GraphicSymbol from "../model/graphic/GraphicSymbol";
 import GraphicSymbolRef from "../model/graphic/GraphicSymbolRef";
 import Placement from "../model/Placement";
 import { selectGraphicSymbols } from "../reducers/selectors";
-import { updateGraphicsSymbolRef } from "./updateSymbolRef";
+import { updateGraphicsSymbolRef } from "../model/updateSymbolRef";
 
+export default "hallo";
+
+/*
 function* createSymbolSaga() {
   try {
     const selectedItems = yield select(
@@ -60,3 +62,4 @@ function* createSymbolSaga() {
 }
 
 export default createSymbolSaga;
+*/

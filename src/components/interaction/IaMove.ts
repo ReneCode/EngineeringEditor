@@ -2,7 +2,7 @@ import * as actions from "../../actions";
 import IaBase, { IaContext, IaEventType } from "./IaBase";
 import Point from "../../common/point";
 import deepClone from "../../common/deepClone";
-import ItemBase from "../../model/ItemBase";
+import Placement from "../../model/Placement";
 
 class IaMove extends IaBase {
   constructor(config: IaContext) {
@@ -32,7 +32,7 @@ class IaMove extends IaBase {
         }
         const secondPoint = result.pointWc;
         const delta = secondPoint.sub(firstPoint);
-        const movedItems = orginalItems.map((item: ItemBase) =>
+        const movedItems = orginalItems.map((item: Placement) =>
           item.translate(delta),
         );
 

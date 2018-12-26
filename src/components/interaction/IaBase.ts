@@ -2,7 +2,7 @@ import { IGlobalState } from "../../reducers";
 import * as actions from "../../actions";
 import GraphicBase from "../../model/graphic/GraphicBase";
 import Placement from "../../model/Placement";
-import { updateOneSymbolRef } from "../../sagas/updateSymbolRef";
+import { updateOneSymbolRef } from "../../model/updateSymbolRef";
 import GraphicSymbolRef from "../../model/graphic/GraphicSymbolRef";
 import Point from "../../common/point";
 import TransformCoordinate from "../../common/transformCoordinate";

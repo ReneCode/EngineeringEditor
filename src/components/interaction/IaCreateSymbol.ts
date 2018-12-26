@@ -2,7 +2,7 @@ import IaBase, { IaContext, IaEventType } from "./IaBase";
 import * as actions from "../../actions";
 import GraphicSymbolRef from "../../model/graphic/GraphicSymbolRef";
 import GraphicSymbol from "../../model/graphic/GraphicSymbol";
-import { updateGraphicsSymbolRef } from "../../sagas/updateSymbolRef";
+import { updateGraphicsSymbolRef } from "../../model/updateSymbolRef";
 import apiSaveSymbol from "../../common/api/apiSaveSymbol";
 
 class IaCreateSymbol extends IaBase {
