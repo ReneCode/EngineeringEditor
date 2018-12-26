@@ -4,12 +4,9 @@ import * as actionTypes from "./actionTypes";
 import apiCreatePlacement from "./apiCreatePlacement";
 import { IGlobalState } from "../reducers";
 import { apiDeletePlacement } from "./apiDeletePlacement";
-import { updatePlacement } from "./graphicActions";
-import {
-  updateGraphicsSymbolRef,
-  updateOneSymbolRef,
-} from "../model/updateSymbolRef";
+import { updateOneSymbolRef } from "../model/updateSymbolRef";
 import GraphicSymbolRef from "../model/graphic/GraphicSymbolRef";
+import apiUpdatePlacement from "./apiUpdatePlacement";
 
 /*
   add the given placement to the current project/page
@@ -41,6 +38,27 @@ export const createPlacement = (placement: Placement): any => {
       return newPlacement;
     } catch (ex) {
       console.log("EX:", ex);
+    }
+  };
+};
+
+export const updatePlacement = (
+  placement: Placement | Placement[],
+): any => {
+  return async (dispatch: any): Promise<any> => {
+    if (!Array.isArray(placement)) {
+      placement = [placement];
+    }
+    await apiUpdatePlacement(placement);
+
+    dispatch({
+      type: actionTypes.UPDATE_PLACEMENT,
+      payload: placement,
+    });
+
+    try {
+    } catch (ex) {
+      console.log(ex);
     }
   };
 };

@@ -39,6 +39,7 @@ class IaBase {
   start(...args: any): any {
     throw new Error("can't start IaBase");
   }
+
   stop() {}
 
   isEscape = (result: any) => {
@@ -97,32 +98,6 @@ class IaBase {
       p.nearPoint(pt, pickRadius),
     );
     return pickedPlacements;
-  }
-
-  saveGraphic = async (graphic: GraphicBase) => {
-    try {
-      const placement = await this.context.dispatch(
-        actions.apiSaveGraphicItem(graphic),
-      );
-      this.updatePlacement(placement);
-
-      this.context.dispatch(actions.setTempItem());
-      this.context.dispatch(actions.addItem(placement));
-      return placement;
-    } catch (ex) {
-      console.log("Exception on saveGraphic:", ex);
-    }
-  };
-
-  updatePlacement(placement: Placement) {
-    // const graphic = placement.graphic;
-    // if (graphic) {
-    //   if (graphic.type === "symbolref") {
-    //     const symbolRef = graphic as GraphicSymbolRef;
-    //     const symbols = this.context.getState().graphic.symbols;
-    //     updateOneSymbolRef(symbolRef, symbols);
-    //   }
-    // }
   }
 }
 

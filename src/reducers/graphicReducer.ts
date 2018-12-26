@@ -92,18 +92,18 @@ const removePlacement = (state: IGraphicState, action: any) => {
 };
 
 // deprecated
-const removeItem = (state: IGraphicState, action: any) => {
-  let items;
-  if (Array.isArray(action.payload)) {
-    items = state.items.filter(i => !action.payload.includes(i));
-  } else {
-    items = state.items.filter(i => i !== action.payload);
-  }
-  return {
-    ...state,
-    items,
-  };
-};
+// const removeItem = (state: IGraphicState, action: any) => {
+//   let items;
+//   if (Array.isArray(action.payload)) {
+//     items = state.items.filter(i => !action.payload.includes(i));
+//   } else {
+//     items = state.items.filter(i => i !== action.payload);
+//   }
+//   return {
+//     ...state,
+//     items,
+//   };
+// };
 
 const addSelectedItem = (state: IGraphicState, action: any) => {
   let newItems = action.payload;
@@ -195,8 +195,8 @@ const graphicReducer = (state = initialState, action: any) => {
     case actionTypes.DELETE_PLACEMENT:
       return removePlacement(state, action);
 
-    case actionTypes.REMOVE_ITEM:
-      return removeItem(state, action);
+    // case actionTypes.REMOVE_ITEM:
+    //   return removeItem(state, action);
 
     case actionTypes.UPDATE_PLACEMENT:
       return updatePlacements(state, action);

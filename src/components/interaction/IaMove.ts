@@ -39,13 +39,10 @@ class IaMove extends IaBase {
         switch (result.type) {
           case IaEventType.mouseUp:
             if (!firstPoint.equal(secondPoint)) {
-              this.context.dispatch(actions.clearSelectedItem());
-              this.context.dispatch(
+              await this.context.dispatch(
                 actions.updatePlacement(movedItems),
               );
-              this.context.dispatch(
-                actions.apiUpdatePlacement(movedItems),
-              );
+              this.context.dispatch(actions.clearSelectedItem());
             }
             run = false;
             break;

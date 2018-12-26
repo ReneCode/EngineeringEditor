@@ -46,17 +46,6 @@ class IaSelect extends IaBase {
             await this.context.dispatch(
               deletePlacement(itemsToDelete),
             );
-            // await this.context.dispatch({
-            //   type: actionTypes.REMOVE_PLACEMENT,
-            //   payload: itemsToDelete,
-            // });
-            // await this.context.dispatch(
-            //   actions.removeSelectedItem(itemsToDelete),
-            // );
-
-            // await this.context.dispatch(
-            //   actions.apiDeletePlacement(itemsToDelete),
-            // );
           }
         }
       }

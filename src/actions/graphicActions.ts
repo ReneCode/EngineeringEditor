@@ -74,23 +74,6 @@ export const addItem = (item: GraphicBase | Placement) => {
   // };
 };
 
-export const removeItem = (item: Placement | Placement[]) => {
-  return {
-    type: actionTypes.REMOVE_ITEM,
-    payload: item,
-  };
-};
-
-// identify placement to update by .id
-export const updatePlacement = (
-  placements: Placement | Placement[],
-) => {
-  return {
-    type: actionTypes.UPDATE_PLACEMENT,
-    payload: placements,
-  };
-};
-
 export const addSelectedItem = (item: Placement | Placement[]) => {
   return {
     type: actionTypes.ADD_SELECTED_ITEM,

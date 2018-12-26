@@ -16,7 +16,7 @@ export const ADD_PLACEMENT = "ADD_PLACEMENT";
 export const DELETE_PLACEMENT = "DELETE_PLACEMENT";
 
 export const UPDATE_PLACEMENT = "UPDATE_PLACEMENT";
-export const REMOVE_ITEM = "REMOVE_ITEM";
+// export const REMOVE_ITEM = "REMOVE_ITEM";
 export const SET_GRAPHIC_ITEMS = "SET_GRAPHIC_ITEMS";
 
 export const SET_SYMBOLS = "SET_SYMBOLS";
