@@ -39,11 +39,11 @@ const projectReducer = (
         ...state,
         pageId: action.payload,
       };
-    // case actionTypes.ADD_PAGE:
-    //   return {
-    //     ...state,
-    //     pages: state.pages.concat(action.payload),
-    //   };
+    case actionTypes.ADD_PAGE:
+      return {
+        ...state,
+        pages: state.pages.concat(action.payload),
+      };
 
     case actionTypes.SET_PROJECT_ID:
       return {

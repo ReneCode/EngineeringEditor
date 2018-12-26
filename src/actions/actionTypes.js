@@ -16,7 +16,6 @@ export const ADD_PLACEMENT = "ADD_PLACEMENT";
 export const DELETE_PLACEMENT = "DELETE_PLACEMENT";
 
 export const UPDATE_PLACEMENT = "UPDATE_PLACEMENT";
-// export const REMOVE_ITEM = "REMOVE_ITEM";
 export const SET_GRAPHIC_ITEMS = "SET_GRAPHIC_ITEMS";
 
 export const SET_SYMBOLS = "SET_SYMBOLS";
@@ -32,14 +31,11 @@ export const SET_PROJECT_ID = "SET_PROJECT_ID";
 export const SET_PAGE_ID = "SET_PAGE_ID";
 
 export const SET_PAGES = "SET_PAGES";
-export const ADD_PAGE = "ADD_PAGE";
+// export const ADD_PAGE = "ADD_PAGE";
 // api
 export const LOAD_PAGES = "LOAD_PAGES";
-// high-level
-export const CREATE_PAGE = "CREATE_PAGE";
+export const ADD_PAGE = "ADD_PAGE";
 
-// export const LOAD_GRAPHIC = "LOAD_GRAPHIC";
-//export const SAVE_GRAPHIC_ITEM = "SAVE_GRAPHIC_ITEM";
 export const DELETE_GRAPHIC_ITEM = "DELETE_GRAPHIC_ITEM";
 
 export const ZOOM_FULL = "ZOOM_FULL";

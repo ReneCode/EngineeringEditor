@@ -7,6 +7,7 @@ import * as actions from "../../../actions";
 
 import PageList from "./PageList";
 import PageModal from "./PageModal";
+import Page from "../../../model/Page";
 
 class PageNavigator extends Component {
   constructor(props) {
@@ -33,16 +34,15 @@ class PageNavigator extends Component {
     if (!name) {
       return;
     }
-    const page = {
-      projectId: this.props.projectId,
-      name,
-    };
-    this.props.dispatch(
-      actions.createPage(this.props.projectId, page, newPage => {
-        // if page is created then open it
-        this.onClickPage(newPage);
-      }),
+    const page = new Page(name);
+    page.projectId = this.props.projectId;
+
+    const newPage = await this.props.dispatch(
+      actions.createPage(page),
     );
+    console.log("newPage:", newPage);
+    // if page is created then open it
+    this.onClickPage(newPage);
   };
 
   onClickPage = page => {

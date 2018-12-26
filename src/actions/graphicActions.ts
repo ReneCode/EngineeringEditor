@@ -10,27 +10,6 @@ export const addSymbol = (symbol: GraphicSymbol) => {
   };
 };
 
-// export const setSymbols = (symbols: GraphicSymbol[]) => {
-//   return {
-//     type: actionTypes.SET_SYMBOLS,
-//     payload: symbols,
-//   };
-// };
-
-// export const saveGraphicItem = item => {
-//   return {
-//     type: actionTypes.SAVE_GRAPHIC_ITEM,
-//     payload: item,
-//   };
-// };
-
-export const deleteGraphicItem = (item: GraphicBase) => {
-  return {
-    type: actionTypes.DELETE_GRAPHIC_ITEM,
-    payload: item,
-  };
-};
-
 export const setCanvasSize = (width: number, height: number) => {
   return {
     type: actionTypes.SET_CANVAS_SIZE,
@@ -55,13 +34,6 @@ export const setViewport = (
       width,
       height,
     },
-  };
-};
-
-export const setGraphicItems = (items: GraphicBase[]) => {
-  return {
-    type: actionTypes.SET_GRAPHIC_ITEMS,
-    payload: items,
   };
 };
 

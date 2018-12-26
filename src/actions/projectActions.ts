@@ -1,8 +1,9 @@
 import * as actionTypes from "./actionTypes";
 import { IdType } from "../model/types";
-import { Page } from "csstype";
 import { apiLoadSymbol } from "./apiLoadSymbol";
 import { apiLoadPage } from "./apiLoadPage";
+import apiCreatePage from "./apiCreatePage";
+import Page from "../model/Page";
 
 export const setProjectId = (projectId: IdType) => {
   return async (dispatch: any): Promise<any> => {
@@ -31,24 +32,22 @@ export const loadPages = (projectId: string) => {
   };
 };
 
-export const createPage = (
-  projectId: string,
-  page: Page,
-  callback: () => {},
-) => {
-  return {
-    type: actionTypes.CREATE_PAGE,
-    payload: {
-      projectId,
-      page,
-      callback,
-    },
+export const createPage = (page: Page): any => {
+  return async (dispatch: any): Promise<Page> => {
+    const newPage = await apiCreatePage(page);
+
+    const action = {
+      type: actionTypes.ADD_PAGE,
+      payload: newPage,
+    };
+    await dispatch(action);
+    return newPage;
   };
 };
 
-export const addPage = (page: Page) => {
-  return {
-    type: actionTypes.ADD_PAGE,
-    payload: page,
-  };
-};
+// export const addPage = (page: Page) => {
+//   return {
+//     type: actionTypes.ADD_PAGE,
+//     payload: page,
+//   };
+// };
