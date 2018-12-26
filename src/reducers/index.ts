@@ -2,12 +2,12 @@ import { combineReducers } from "redux";
 
 import interaction from "./interactionReducer";
 import workspace, { IWorkspaceState } from "./workspaceReducer";
-import project from "./projectReducer";
+import project, { IProjectState } from "./projectReducer";
 import graphic, { IGraphicState } from "./graphicReducer";
 
 export interface IGlobalState {
   workspace: IWorkspaceState;
-  project: any;
+  project: IProjectState;
   graphic: IGraphicState;
 }
 

@@ -10,9 +10,11 @@ import GraphicView from "./GraphicView";
 import SelectSymbolModal from "./SelectSymbol/SelectSymbolModal";
 import { RouteComponentProps } from "react-router";
 import { IGlobalState } from "../reducers";
+import { IdType } from "../model/types";
 
 interface IProps extends RouteComponentProps<any> {
   showModalId: string;
+  projectId: IdType;
   dispatch: Function;
 }
 class ProjectView extends Component<IProps> {
@@ -33,7 +35,11 @@ class ProjectView extends Component<IProps> {
     const { match } = this.props;
     const { projectId, pageId } = match.params;
 
-    this.props.dispatch(actions.setProjectId(projectId));
+    // set the projectId only it it changed
+    // because e.g. symbol-loading is not needed
+    if (this.props.projectId !== projectId) {
+      this.props.dispatch(actions.setProjectId(projectId));
+    }
     this.props.dispatch(actions.setPageId(projectId, pageId));
   };
 
@@ -89,6 +95,7 @@ class ProjectView extends Component<IProps> {
 const mapStateToProps = (state: IGlobalState) => {
   return {
     showModalId: state.project.showModalId,
+    projectId: state.project.projectId,
   };
 };
 

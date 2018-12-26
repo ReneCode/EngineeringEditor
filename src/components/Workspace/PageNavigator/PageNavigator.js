@@ -40,7 +40,6 @@ class PageNavigator extends Component {
     const newPage = await this.props.dispatch(
       actions.createPage(page),
     );
-    console.log("newPage:", newPage);
     // if page is created then open it
     this.onClickPage(newPage);
   };

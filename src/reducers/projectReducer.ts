@@ -3,7 +3,7 @@ import * as actionTypes from "../actions/actionTypes";
 import { ModalId, IdType } from "../model/types";
 import { Page } from "csstype";
 
-interface IProjectState {
+export interface IProjectState {
   projectId: IdType;
   pageId: IdType;
   pages: Page[];
