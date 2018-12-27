@@ -48,9 +48,8 @@ class IaMove extends IaBase {
             break;
 
           case IaEventType.mouseMove:
-            this.context.dispatch(actions.clearSelectedItem());
             this.context.dispatch(
-              actions.addSelectedItem(movedItems),
+              actions.updateSelectedItem(movedItems),
             );
             break;
         }

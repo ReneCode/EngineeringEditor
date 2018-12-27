@@ -55,3 +55,10 @@ export const clearSelectedItem = () => {
     type: actionTypes.CLEAR_SELECTED_ITEM,
   };
 };
+
+export const updateSelectedItem = (item: Placement | Placement[]) => {
+  return {
+    type: actionTypes.UPDATE_SELECTED_ITEM,
+    payload: item,
+  };
+};

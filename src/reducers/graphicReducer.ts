@@ -53,7 +53,36 @@ const initialState: IGraphicState = {
   },
 };
 
-const removeSelectedItems = (state: IGraphicState, action: any) => {
+/*
+  update the selectedItems if that id is found in the action.payload
+*/
+const updateSelectedItem = (state: IGraphicState, action: any) => {
+  let items: Placement[] = action.payload;
+  if (!Array.isArray(items)) {
+    items = [items];
+  }
+
+  // const toIdObject = (acc: any, item: any)
+  const idToItem = items.reduce((acc: any, item: any) => {
+    acc[item.id] = item;
+    return acc;
+  }, {});
+
+  const newSelectedItems = state.selectedItems.map((item: any) => {
+    const newItem = idToItem[item.id];
+    if (newItem) {
+      return newItem;
+    } else {
+      return item;
+    }
+  });
+  return {
+    ...state,
+    selectedItems: newSelectedItems,
+  };
+};
+
+const removeSelectedItem = (state: IGraphicState, action: any) => {
   let selectedItems;
   if (Array.isArray(action.payload)) {
     selectedItems = state.selectedItems.filter(
@@ -233,7 +262,10 @@ const graphicReducer = (state = initialState, action: any) => {
       return addSelectedItem(state, action);
 
     case actionTypes.REMOVE_SELECTED_ITEM:
-      return removeSelectedItems(state, action);
+      return removeSelectedItem(state, action);
+
+    case actionTypes.UPDATE_SELECTED_ITEM:
+      return updateSelectedItem(state, action);
 
     case actionTypes.MOUSE_MOVE:
       return {
