@@ -105,6 +105,19 @@ class ProjectOverview extends Component {
     }
   };
 
+  onImport = async project => {
+    try {
+      const url = urlPersistence + `/${project.name}`;
+      // GET  - import project into server
+      await fetch(url);
+
+      // imported project has new Id - so reload the project list
+      await this.loadProjects();
+    } catch (ex) {
+      console.log(ex);
+    }
+  };
+
   onClickSelectProject = async project => {
     if (this.state.selectedProjectName === project.name) {
       let id = project.id;
@@ -124,11 +137,18 @@ class ProjectOverview extends Component {
   onClickMoreProject = () => {};
 
   render() {
-    const allProjects = this.state.projects.map(p => p);
+    let allProjects = this.state.projects.map(p => p);
     this.state.projectFileNames.forEach(name => {
       if (!allProjects.find(f => f.name === name)) {
         allProjects.push({ name, id: null });
       }
+    });
+    allProjects = allProjects.sort((p1, p2) => {
+      const name1 = p1.name.toLowerCase();
+      const name2 = p2.name.toLowerCase();
+      if (name1 < name2) return -1;
+      if (name1 > name2) return 1;
+      return 0;
     });
 
     return (
@@ -136,6 +156,9 @@ class ProjectOverview extends Component {
         <div data-testid="projectlist" className="projectlist">
           <ProjectAddCard onClick={this.onClickCreateProject} />
           {allProjects.map((p, index) => {
+            const canImport = this.state.projectFileNames.includes(
+              p.name,
+            );
             return (
               <ProjectCard
                 key={index}
@@ -143,7 +166,7 @@ class ProjectOverview extends Component {
                 active={this.state.selectedProjectName === p.name}
                 onClick={this.onClickSelectProject}
                 onExport={p.id && this.onExport}
-                // onImport={p => this.onImportProject(p.name)}
+                onImport={canImport && this.onImport}
               />
             );
           })}

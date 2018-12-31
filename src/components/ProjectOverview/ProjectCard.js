@@ -3,7 +3,13 @@ import React from "react";
 import "./ProjectCard.scss";
 import IconButton from "../common/IconButton";
 
-const ProjectCard = ({ active, onClick, onExport, project }) => {
+const ProjectCard = ({
+  active,
+  onClick,
+  onImport,
+  onExport,
+  project,
+}) => {
   let className = "projectcard";
   if (active) {
     className += " selected-card";
@@ -19,6 +25,13 @@ const ProjectCard = ({ active, onClick, onExport, project }) => {
             icon="export"
             onClick={() => onExport(project)}
             title="Export"
+          />
+        )}
+        {onImport && (
+          <IconButton
+            icon="import"
+            onClick={() => onImport(project)}
+            title="Import"
           />
         )}
         {/* <IconButton icon="dots" onClick={() => onMore(project)} /> */}

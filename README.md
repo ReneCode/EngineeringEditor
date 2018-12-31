@@ -23,13 +23,13 @@ http://svgicons.sparkk.fr/
   }
 ```
 
-## redux-saga
-
 ## react ref on connected components
 
 https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26871
 
     ref = { comp => this.myCompRef = (comp as any).getWrappedInstance() }
+
+## redux-saga
 
 ### call
 
