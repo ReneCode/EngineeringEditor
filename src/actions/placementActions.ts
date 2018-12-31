@@ -4,7 +4,7 @@ import * as actionTypes from "./actionTypes";
 import apiCreatePlacement from "./apiCreatePlacement";
 import { IGlobalState } from "../reducers";
 import { apiDeletePlacement } from "./apiDeletePlacement";
-import { updateOneSymbolRef } from "../model/updateSymbolRef";
+import { updateAllSymbolRef } from "../model/updateSymbolRef";
 import GraphicSymbolRef from "../model/graphic/GraphicSymbolRef";
 import apiUpdatePlacement from "./apiUpdatePlacement";
 import { makeArray } from "../model/dtoUtil";
@@ -44,9 +44,12 @@ export const createPlacement = (
       const newPlacements = await apiCreatePlacement(placements);
 
       // on new symbolref we have to update the .symbol property of the symbolref
-      if (newPlacements instanceof GraphicSymbolRef) {
+      const newSymbolRefs = newPlacements.filter(
+        (p: Placement) => p instanceof GraphicSymbolRef,
+      );
+      if (newSymbolRefs.length > 0) {
         const symbols = getState().graphic.symbols;
-        updateOneSymbolRef(newPlacements, symbols);
+        updateAllSymbolRef(newPlacements, symbols);
       }
 
       const action = {

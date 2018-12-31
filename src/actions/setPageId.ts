@@ -2,7 +2,7 @@ import * as actionTypes from "./actionTypes";
 import { IdType } from "../model/types";
 import { IGlobalState } from "../reducers";
 import { apiLoadPlacement } from "./apiLoadPlacement";
-import { updatePlacementsSymbolRef } from "../model/updateSymbolRef";
+import { updateAllSymbolRef } from "../model/updateSymbolRef";
 import { clearSelectedItem } from "./graphicActions";
 import updateAutoconnection from "./updateAutoconnection";
 
@@ -17,7 +17,7 @@ export const setPageId = (projectId: IdType, pageId: IdType) => {
       const placements = await apiLoadPlacement(projectId, pageId);
 
       const symbols = getState().graphic.symbols;
-      updatePlacementsSymbolRef(placements, symbols);
+      updateAllSymbolRef(placements, symbols);
 
       await dispatch({
         type: actionTypes.SET_PLACEMENT,

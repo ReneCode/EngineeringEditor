@@ -2,18 +2,7 @@ import GraphicSymbol from "./graphic/GraphicSymbol";
 import Placement from "./Placement";
 import GraphicSymbolRef from "./graphic/GraphicSymbolRef";
 
-export const updatePlacementsSymbolRef = (
-  placements: Placement[],
-  symbols: GraphicSymbol[],
-) => {
-  placements.forEach(p => {
-    if (p && p.type === "symbolref") {
-      updateOneSymbolRef(<GraphicSymbolRef>p, symbols);
-    }
-  });
-};
-
-export const updateGraphicsSymbolRef = (
+export const updateAllSymbolRef = (
   graphics: Placement[],
   symbols: GraphicSymbol[],
   recursive: boolean = false,
@@ -25,13 +14,13 @@ export const updateGraphicsSymbolRef = (
         symbols,
       );
       if (recursive && symbol) {
-        updateGraphicsSymbolRef(symbol.items, symbols);
+        updateAllSymbolRef(symbol.items, symbols);
       }
     }
   });
 };
 
-export const updateOneSymbolRef = (
+const updateOneSymbolRef = (
   symbolRef: GraphicSymbolRef,
   symbols: GraphicSymbol[],
 ): GraphicSymbol | null => {

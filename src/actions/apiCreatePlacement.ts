@@ -5,7 +5,7 @@ import PlacementFactory from "../model/PlacementFactory";
 // -> Placement
 const apiCreatePlacement = async (
   placements: Placement[],
-): Promise<Placement> => {
+): Promise<Placement[]> => {
   try {
     // save to database
     const mutation = `mutation createPlacement($input: [CreatePlacementInput]!) {
@@ -24,10 +24,9 @@ const apiCreatePlacement = async (
         };
       }),
     };
-    console.log(":", variables);
     const result = await graphql(mutation, variables);
     const newItem = PlacementFactory.fromDTO(result.createPlacement);
-    return newItem as Placement;
+    return newItem as Placement[];
   } catch (err) {
     throw new Error(err);
   }
