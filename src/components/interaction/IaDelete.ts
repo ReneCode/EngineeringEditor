@@ -16,7 +16,7 @@ class IaDelete extends IaBase {
         itemsToDelete = result.items;
       }
       await this.context.dispatch(
-        actions.deletePlacement(itemsToDelete),
+        actions.deletePlacementAction(itemsToDelete),
       );
       return { restart: true };
     } catch (ex) {

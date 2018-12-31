@@ -1,4 +1,4 @@
-import { IdType, GraphicType } from "./types";
+import { IdType, GraphicType, LayerType } from "./types";
 import TransformCoordinate from "../common/transformCoordinate";
 import Point from "../common/point";
 import { encodeJson, DtoPlacement } from "./dtoUtil";
@@ -10,6 +10,7 @@ class Placement {
   pageId: IdType;
   projectId: IdType;
   color: string | undefined;
+  layer: LayerType = undefined;
 
   constructor(type: GraphicType) {
     this.type = type;

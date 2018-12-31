@@ -24,3 +24,11 @@ export const encodeJson = (json: object): string => {
 export const decodeJson = (str: string): any => {
   return JSON.parse(str);
 };
+
+export const makeArray = (element: any): any[] => {
+  if (!Array.isArray(element)) {
+    return [element];
+  } else {
+    return element;
+  }
+};

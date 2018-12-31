@@ -1,8 +1,6 @@
 import React, { Component, SyntheticEvent } from "react";
 import { connect } from "react-redux";
 
-import TransformCoordinate from "../common/transformCoordinate";
-
 import DrawCanvas from "./DrawCanvas";
 
 import * as actions from "../actions";
@@ -10,8 +8,6 @@ import Point from "../common/point";
 import { IGlobalState } from "../reducers";
 import { IGraphicState } from "../reducers/graphicReducer";
 import Interaction from "./interaction/Interaction";
-import Autoconnection from "./Autoconnection";
-import CursorPosition from "./CursorPosition";
 
 interface IProps {
   dispatch: Function;
@@ -97,10 +93,6 @@ class GraphicView extends Component<IProps> {
   };
 
   redraw = () => {
-    const transform = new TransformCoordinate(
-      this.props.graphic.viewport,
-      this.props.graphic.canvas,
-    );
     // this.drawCanvas.draw(transform);
   };
 
@@ -134,7 +126,6 @@ class GraphicView extends Component<IProps> {
           onContextMenu={this.onContextMenu}
         />
         <DrawCanvas getCanvas={() => this.canvas} />
-        <Autoconnection />
         <Interaction getCanvas={() => this.canvas} />
       </div>
     );

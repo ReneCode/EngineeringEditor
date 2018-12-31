@@ -7,35 +7,57 @@ import { apiDeletePlacement } from "./apiDeletePlacement";
 import { updateOneSymbolRef } from "../model/updateSymbolRef";
 import GraphicSymbolRef from "../model/graphic/GraphicSymbolRef";
 import apiUpdatePlacement from "./apiUpdatePlacement";
+import { makeArray } from "../model/dtoUtil";
+import updateAutoconnection from "./updateAutoconnection";
+import { GetGlobalStateFunction, LayerType } from "../model/types";
+import { Action } from "./action";
+
+export const deleteLayerAction = (payload: LayerType): Action => {
+  return {
+    type: actionTypes.DELETE_LAYER,
+    payload: payload,
+  };
+};
 
 /*
   add the given placement to the current project/page
   into apiServer and the store
 */
-export const createPlacement = (placement: Placement): any => {
+export const createPlacement = (
+  payload: Placement | Placement[],
+): any => {
   return async (
     dispatch: any,
     getState: () => IGlobalState,
   ): Promise<any> => {
     try {
-      placement.projectId = getState().project.projectId;
-      placement.pageId = getState().project.pageId;
+      let placements = makeArray(payload);
 
-      const newPlacement = await apiCreatePlacement(placement);
+      const projectId = getState().project.projectId;
+      const pageId = getState().project.pageId;
+      placements = placements.map(p => {
+        p.projectId = projectId;
+        p.pageId = pageId;
+        return p;
+      });
+
+      const newPlacements = await apiCreatePlacement(placements);
 
       // on new symbolref we have to update the .symbol property of the symbolref
-      if (newPlacement instanceof GraphicSymbolRef) {
+      if (newPlacements instanceof GraphicSymbolRef) {
         const symbols = getState().graphic.symbols;
-        updateOneSymbolRef(newPlacement, symbols);
+        updateOneSymbolRef(newPlacements, symbols);
       }
 
       const action = {
         type: actionTypes.ADD_PLACEMENT,
-        payload: newPlacement,
+        payload: newPlacements,
       };
       await dispatch(action);
 
-      return newPlacement;
+      await updateAutoconnection(dispatch, getState);
+
+      return newPlacements;
     } catch (ex) {
       console.log("EX:", ex);
     }
@@ -45,16 +67,21 @@ export const createPlacement = (placement: Placement): any => {
 export const updatePlacement = (
   placement: Placement | Placement[],
 ): any => {
-  return async (dispatch: any): Promise<any> => {
+  return async (
+    dispatch: any,
+    getState: GetGlobalStateFunction,
+  ): Promise<any> => {
     if (!Array.isArray(placement)) {
       placement = [placement];
     }
     await apiUpdatePlacement(placement);
 
-    dispatch({
+    await dispatch({
       type: actionTypes.UPDATE_PLACEMENT,
       payload: placement,
     });
+
+    await updateAutoconnection(dispatch, getState);
 
     try {
     } catch (ex) {
@@ -63,7 +90,7 @@ export const updatePlacement = (
   };
 };
 
-export const deletePlacement = (
+export const deletePlacementAction = (
   placement: Placement | Placement[],
 ): any => {
   return async (
@@ -76,10 +103,12 @@ export const deletePlacement = (
       }
 
       await apiDeletePlacement(placement);
-      dispatch({
+      await dispatch({
         type: actionTypes.DELETE_PLACEMENT,
         payload: placement,
       });
+
+      await updateAutoconnection(dispatch, getState);
     } catch (ex) {
       console.log("EX:", ex);
     }

@@ -104,7 +104,7 @@ const removeSelectedItem = (state: IGraphicState, action: any) => {
     .items
     .selectedItems
 */
-const removePlacement = (state: IGraphicState, action: any) => {
+const deletePlacement = (state: IGraphicState, action: any) => {
   if (!Array.isArray(action.payload)) {
     throw new Error("payload has to be array of placements");
   }
@@ -119,20 +119,6 @@ const removePlacement = (state: IGraphicState, action: any) => {
     selectedItems,
   };
 };
-
-// deprecated
-// const removeItem = (state: IGraphicState, action: any) => {
-//   let items;
-//   if (Array.isArray(action.payload)) {
-//     items = state.items.filter(i => !action.payload.includes(i));
-//   } else {
-//     items = state.items.filter(i => i !== action.payload);
-//   }
-//   return {
-//     ...state,
-//     items,
-//   };
-// };
 
 const addSelectedItem = (state: IGraphicState, action: any) => {
   let newItems = action.payload;
@@ -178,6 +164,20 @@ const updatePlacements = (state: IGraphicState, action: any) => {
   };
 };
 
+/*
+  delete .items with .layer in action.payload
+*/
+const deleteLayer = (state: IGraphicState, action: any) => {
+  let layer: any = action.payload;
+  if (!Array.isArray(layer)) {
+    layer = [layer];
+  }
+  const itemsToDelete = state.items.filter((item: Placement) =>
+    layer.includes(item.layer),
+  );
+  return deletePlacement(state, { payload: itemsToDelete });
+};
+
 const graphicReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case actionTypes.USE_GRID: {
@@ -189,6 +189,9 @@ const graphicReducer = (state = initialState, action: any) => {
         },
       };
     }
+
+    case actionTypes.DELETE_LAYER:
+      return deleteLayer(state, action);
 
     case actionTypes.SET_PLACEMENT:
       return setPlacement(state, action);
@@ -222,10 +225,7 @@ const graphicReducer = (state = initialState, action: any) => {
       };
 
     case actionTypes.DELETE_PLACEMENT:
-      return removePlacement(state, action);
-
-    // case actionTypes.REMOVE_ITEM:
-    //   return removeItem(state, action);
+      return deletePlacement(state, action);
 
     case actionTypes.UPDATE_PLACEMENT:
       return updatePlacements(state, action);

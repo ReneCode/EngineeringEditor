@@ -34,6 +34,32 @@ describe("graphicReducer", () => {
     };
   });
 
+  it("DELETE_LAYER", () => {
+    const l1 = new GraphicLine(new Point(1, 2), new Point(3, 4));
+    l1.id = "l1";
+    l1.layer = "Layer-A";
+
+    const l2 = new GraphicLine(new Point(10, 20), new Point(30, 40));
+    l2.id = "l2";
+    l2.layer = "Layer-B";
+
+    const l3 = new GraphicLine(new Point(10, 20), new Point(30, 40));
+    l3.id = "l3";
+
+    initialState.items = [l1, l2, l3];
+
+    const action = {
+      type: actionTypes.DELETE_LAYER,
+      payload: ["Layer-A", "Layer-C"],
+    };
+
+    const newState = graphicReducer(initialState, action);
+    const items = newState.items;
+    expect(items).toHaveLength(2);
+    expect(items[0]).toHaveProperty("id", "l2");
+    expect(items[1]).toHaveProperty("id", "l3");
+  });
+
   it("UPDATE_SELECTED_ITEM", () => {
     const l1 = new GraphicLine(new Point(1, 2), new Point(3, 4));
     l1.id = "l1";

@@ -1,27 +1,30 @@
 import Placement from "../model/Placement";
-import { DtoPlacement } from "../model/dtoUtil";
 import { graphql } from "../common/graphql-api";
 import PlacementFactory from "../model/PlacementFactory";
 
 // -> Placement
 const apiCreatePlacement = async (
-  placement: Placement,
+  placements: Placement[],
 ): Promise<Placement> => {
   try {
     // save to database
-    const json: DtoPlacement = PlacementFactory.toDTO(placement);
-
-    const mutation = `mutation createPlacement($input: CreatePlacementInput!) {
+    const mutation = `mutation createPlacement($input: [CreatePlacementInput]!) {
       createPlacement(input: $input) { id, type, projectId, pageId, content }
     }`;
+
     const variables = {
-      input: {
-        type: json.type,
-        projectId: placement.projectId,
-        pageId: placement.pageId,
-        content: json.content,
-      },
+      input: placements.map((placement: Placement) => {
+        const json: any = PlacementFactory.toDTO(placement);
+
+        return {
+          type: json.type,
+          projectId: placement.projectId,
+          pageId: placement.pageId,
+          content: json.content,
+        };
+      }),
     };
+    console.log(":", variables);
     const result = await graphql(mutation, variables);
     const newItem = PlacementFactory.fromDTO(result.createPlacement);
     return newItem as Placement;

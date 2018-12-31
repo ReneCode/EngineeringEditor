@@ -6,7 +6,7 @@ import IaRectRubberband, {
 import Box from "../../common/box";
 import IaMove from "./IaMove";
 import * as actionTypes from "../../actions/actionTypes";
-import { deletePlacement } from "../../actions";
+import { deletePlacementAction } from "../../actions";
 
 class IaSelect extends IaBase {
   constructor(context: IaContext) {
@@ -44,7 +44,7 @@ class IaSelect extends IaBase {
         if (itemsToDelete.length > 0) {
           if (event.key === "Backspace") {
             await this.context.dispatch(
-              deletePlacement(itemsToDelete),
+              deletePlacementAction(itemsToDelete),
             );
           }
         }

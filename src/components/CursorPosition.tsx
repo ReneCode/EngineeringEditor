@@ -1,24 +1,13 @@
-import React, { Component, SyntheticEvent } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import TransformCoordinate from "../common/transformCoordinate";
 
-import DrawCanvas from "./DrawCanvas";
-
-import * as actions from "../actions";
-import Point from "../common/point";
 import { IGlobalState } from "../reducers";
 import { IGraphicState } from "../reducers/graphicReducer";
-import Interaction from "./interaction/Interaction";
-import Autoconnection from "./Autoconnection";
 
 interface IProps {
   graphic: IGraphicState;
-}
-
-interface IState {
-  width: number;
-  height: number;
 }
 
 class CursorPosition extends Component<IProps> {

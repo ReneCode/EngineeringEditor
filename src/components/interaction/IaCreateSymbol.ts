@@ -50,7 +50,7 @@ class IaCreateSymbol extends IaBase {
 
         // delete old items
         await this.context.dispatch(
-          actions.deletePlacement(selectedItems),
+          actions.deletePlacementAction(selectedItems),
         );
       }
     } catch (ex) {
