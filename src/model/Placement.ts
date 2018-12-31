@@ -23,6 +23,10 @@ class Placement {
     throw new Error("draw has to be overwritten by:" + this);
   }
 
+  pickable(): boolean {
+    return true;
+  }
+
   nearPoint(pt: Point, radius: number): boolean {
     throw new Error("nearPoint has to be overwritten by:" + this);
   }

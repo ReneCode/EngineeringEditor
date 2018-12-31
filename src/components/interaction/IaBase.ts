@@ -91,8 +91,8 @@ class IaBase {
     const pickRadius = transform.canvasLengthToWc(
       cursor.radiusScreen,
     );
-    const pickedPlacements = items.filter(p =>
-      p.nearPoint(pt, pickRadius),
+    const pickedPlacements = items.filter(
+      p => p.pickable() && p.nearPoint(pt, pickRadius),
     );
     return pickedPlacements;
   }

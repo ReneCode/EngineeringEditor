@@ -22,6 +22,10 @@ class GraphicLine extends Placement {
     });
   }
 
+  pickable(): boolean {
+    return this.layer !== "autoconnect";
+  }
+
   nearPoint(pt: Point, radius: number): boolean {
     const line = new Line(this.p1, this.p2);
     return line.nearPoint(pt, radius);
