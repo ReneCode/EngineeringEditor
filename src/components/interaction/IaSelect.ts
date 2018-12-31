@@ -21,7 +21,7 @@ class IaSelect extends IaBase {
     const box = new Box(p1, p2);
     const items = this.context
       .getState()
-      .graphic.items.filter(g => g.insideBox(box));
+      .graphic.items.filter(p => p.pickable() && p.insideBox(box));
     this.context.dispatch(actions.addSelectedItem(items));
   }
 
