@@ -1,7 +1,10 @@
 import { graphql } from "../common/graphql-api";
 import { IdType } from "../model/types";
+import Page from "../model/Page";
 
-export const apiLoadPage = async (projectId: IdType) => {
+export const apiLoadPagesAction = async (
+  projectId: IdType,
+): Promise<Page[]> => {
   const query: string = `query project($id: ID!) {
       project(id: $id) {
         pages { id name }
@@ -12,6 +15,9 @@ export const apiLoadPage = async (projectId: IdType) => {
   };
 
   const data = await graphql(query, variables);
-  const pages = data.project.pages;
-  return pages;
+  if (data && data.project) {
+    const pages = data.project.pages;
+    return pages;
+  }
+  return [];
 };

@@ -71,11 +71,8 @@ class IaPolygon extends IaBase {
       // remove last dynamic point
       this.context.dispatch(actions.setTempItem(polygon));
       if (polygon.points.length >= 2) {
-        console.log("A");
         await this.context.dispatch(actions.createPlacement(polygon));
-        console.log("B");
         this.context.dispatch(actions.setTempItem());
-        console.log("C");
         return { restart: true };
       }
     } catch (ex) {}

@@ -3,7 +3,7 @@ import { graphql } from "../common/graphql-api";
 import { IdType } from "../model/types";
 import PlacementFactory from "../model/PlacementFactory";
 
-export const apiLoadPlacement = async (
+export const apiLoadPlacementAction = async (
   projectId: IdType,
   pageId: IdType,
 ) => {

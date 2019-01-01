@@ -1,7 +1,7 @@
 import Placement from "../model/Placement";
 import { graphql } from "../common/graphql-api";
 
-export const apiDeletePlacement = async (placements: Placement[]) => {
+const apiDeletePlacements = async (placements: Placement[]) => {
   const mutation = `mutation M($input: [DeletePlacementInput]!) {
     deletePlacements(input: $input)
   }`;
@@ -17,3 +17,5 @@ export const apiDeletePlacement = async (placements: Placement[]) => {
   const result = await graphql(mutation, variables);
   return result;
 };
+
+export default apiDeletePlacements;

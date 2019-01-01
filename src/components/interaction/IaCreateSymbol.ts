@@ -1,7 +1,11 @@
 import IaBase, { IaContext, IaEventType } from "./IaBase";
-import * as actions from "../../actions";
 import GraphicSymbol from "../../model/graphic/GraphicSymbol";
 import GraphicSymbolRef from "../../model/graphic/GraphicSymbolRef";
+import {
+  createSymbolAction,
+  createPlacement,
+  deletePlacementAction,
+} from "../../actions";
 
 class IaCreateSymbol extends IaBase {
   constructor(config: IaContext) {
@@ -35,7 +39,7 @@ class IaCreateSymbol extends IaBase {
         symbol.insertPt = result.pointWc;
 
         const newSymbol = await this.context.dispatch(
-          actions.createSymbol(symbol),
+          createSymbolAction(symbol),
         );
 
         // replace the old selected items with a symbolRef to that new symbol
@@ -44,13 +48,11 @@ class IaCreateSymbol extends IaBase {
           symbol.insertPt,
           symbol,
         );
-        await this.context.dispatch(
-          actions.createPlacement(symbolRef),
-        );
+        await this.context.dispatch(createPlacement(symbolRef));
 
         // delete old items
         await this.context.dispatch(
-          actions.deletePlacementAction(selectedItems),
+          deletePlacementAction(selectedItems),
         );
       }
     } catch (ex) {

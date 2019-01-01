@@ -11,6 +11,7 @@ import SelectSymbolModal from "./SelectSymbol/SelectSymbolModal";
 import { RouteComponentProps } from "react-router";
 import { IGlobalState } from "../reducers";
 import { IdType } from "../model/types";
+import setPageId from "../actions/setPageId";
 
 interface IProps extends RouteComponentProps<any> {
   showModalId: string;
@@ -40,7 +41,7 @@ class ProjectView extends Component<IProps> {
     if (this.props.projectId !== projectId) {
       this.props.dispatch(actions.setProjectId(projectId));
     }
-    this.props.dispatch(actions.setPageId(projectId, pageId));
+    this.props.dispatch(setPageId(projectId, pageId));
   };
 
   clickSidebar = (sidebarButton: ISidebarButton) => {

@@ -1,13 +1,13 @@
 import * as actionTypes from "./actionTypes";
 import { IdType } from "../model/types";
-import { apiLoadSymbol } from "./apiLoadSymbol";
-import { apiLoadPage } from "./apiLoadPage";
+import { apiLoadSymbolsAction } from "./apiLoadSymbol";
+import { apiLoadPagesAction } from "./apiLoadPage";
 import apiCreatePage from "./apiCreatePage";
 import Page from "../model/Page";
 
 export const setProjectId = (projectId: IdType) => {
   return async (dispatch: any): Promise<any> => {
-    const symbols = await apiLoadSymbol(projectId);
+    const symbols = await apiLoadSymbolsAction(projectId);
 
     await dispatch({
       type: actionTypes.SET_PROJECT_ID,
@@ -23,7 +23,7 @@ export const setProjectId = (projectId: IdType) => {
 
 export const loadPages = (projectId: string) => {
   return async (dispatch: any): Promise<any> => {
-    const pages = await apiLoadPage(projectId);
+    const pages = await apiLoadPagesAction(projectId);
 
     dispatch({
       type: actionTypes.SET_PAGES,
@@ -44,10 +44,3 @@ export const createPage = (page: Page): any => {
     return newPage;
   };
 };
-
-// export const addPage = (page: Page) => {
-//   return {
-//     type: actionTypes.ADD_PAGE,
-//     payload: page,
-//   };
-// };

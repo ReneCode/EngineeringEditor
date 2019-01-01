@@ -4,10 +4,7 @@ export * from "./graphicActions";
 export * from "./mouseActions";
 export * from "./projectActions";
 export * from "./zoomActions";
-export * from "./apiDeletePlacement";
-export * from "./apiUpdatePlacement";
 export * from "./placementActions";
-export * from "./setPageId";
 export * from "./createSymbol";
 
 export const setTempItem = (item: any = undefined) => {

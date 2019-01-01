@@ -1,10 +1,11 @@
-import Placement from "../model/Placement";
 import { graphql } from "../common/graphql-api";
 import { IdType } from "../model/types";
-import PlacementFactory from "../model/PlacementFactory";
 import ElementFactory from "../model/ElementFactory";
+import GraphicSymbol from "../model/graphic/GraphicSymbol";
 
-export const apiLoadSymbol = async (projectId: IdType) => {
+export const apiLoadSymbolsAction = async (
+  projectId: IdType,
+): Promise<GraphicSymbol[]> => {
   const query = `query Q($projectId: ID!) {
     project(id: $projectId) {
       elements { projectId id name type content }
@@ -14,8 +15,10 @@ export const apiLoadSymbol = async (projectId: IdType) => {
     projectId,
   };
   const data = await graphql(query, variables);
-  const json = data.project.elements;
-  const symbols = ElementFactory.fromDTO(json);
-
-  return symbols;
+  if (data && data.project) {
+    const json = data.project.elements;
+    const symbols = ElementFactory.fromDTO(json);
+    return symbols as GraphicSymbol[];
+  }
+  return [];
 };

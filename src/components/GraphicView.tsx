@@ -109,7 +109,6 @@ class GraphicView extends Component<IProps> {
 
     return (
       <div ref={div => (this.frame = div)} className="GraphicView">
-        {/* <CursorPosition /> */}
         {/* <div className="showtop">
           x:
           {cursorWc.x} y:

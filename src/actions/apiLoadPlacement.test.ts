@@ -1,5 +1,5 @@
 import { FetchMock } from "jest-fetch-mock";
-import { apiLoadPlacement } from "./apiLoadPlacement";
+import { apiLoadPlacementAction } from "./apiLoadPlacement";
 
 import testData from "../utils/test-data";
 import PlacementFactory from "../model/PlacementFactory";
@@ -20,7 +20,7 @@ describe("apiLoadPlacement", () => {
 
     const projectId = "prjId";
     const pageId = "pageId";
-    const placement = await apiLoadPlacement(projectId, pageId);
+    const placement = await apiLoadPlacementAction(projectId, pageId);
     expect(placement).toBeTruthy();
     expect(placement[0]).toEqual(testData.lineA);
   });
@@ -38,7 +38,10 @@ describe("apiLoadPlacement", () => {
 
     const projectId = "prjId";
     const pageId = "pageId";
-    const placements = await apiLoadPlacement(projectId, pageId);
+    const placements = await apiLoadPlacementAction(
+      projectId,
+      pageId,
+    );
     expect(placements).toBeTruthy();
     expect(placements).toHaveLength(2);
     expect(placements[0]).toEqual(testData.lineA);

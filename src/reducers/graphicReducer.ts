@@ -9,7 +9,7 @@ export interface IGraphicState {
   selectedItems: Placement[];
   tempItems: Placement[];
   cursor: {
-    pt: Point;
+    // pt: Point;
     radiusScreen: number;
     mode: string;
   };
@@ -34,7 +34,7 @@ const initialState: IGraphicState = {
   selectedItems: [],
   tempItems: [],
   cursor: {
-    pt: new Point(0, 0),
+    // pt: new Point(0, 0),
     radiusScreen: 10,
     mode: "",
   },
@@ -212,11 +212,11 @@ const graphicReducer = (state = initialState, action: any) => {
         tempItems: [].concat(action.payload ? action.payload : []),
       };
 
-    case actionTypes.SET_GRAPHIC_ITEMS:
-      return {
-        ...state,
-        items: action.payload,
-      };
+    // case actionTypes.SET_GRAPHIC_ITEMS:
+    //   return {
+    //     ...state,
+    //     items: action.payload,
+    //   };
 
     case actionTypes.ADD_PLACEMENT:
       return {
@@ -267,14 +267,6 @@ const graphicReducer = (state = initialState, action: any) => {
     case actionTypes.UPDATE_SELECTED_ITEM:
       return updateSelectedItem(state, action);
 
-    case actionTypes.MOUSE_MOVE:
-      return {
-        ...state,
-        cursor: {
-          ...state.cursor,
-          pt: action.payload,
-        },
-      };
     case actionTypes.SET_CURSOR_MODE:
       return {
         ...state,

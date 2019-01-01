@@ -5,7 +5,6 @@ import IaRectRubberband, {
 } from "./IaRectRubberband";
 import Box from "../../common/box";
 import IaMove from "./IaMove";
-import * as actionTypes from "../../actions/actionTypes";
 import { deletePlacementAction } from "../../actions";
 
 class IaSelect extends IaBase {

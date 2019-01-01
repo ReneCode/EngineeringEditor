@@ -1,14 +1,14 @@
 import Placement from "../model/Placement";
 
 import * as actionTypes from "./actionTypes";
-import apiCreatePlacement from "./apiCreatePlacement";
 import { IGlobalState } from "../reducers";
-import { apiDeletePlacement } from "./apiDeletePlacement";
-import { updateAllSymbolRef } from "../model/updateSymbolRef";
 import GraphicSymbolRef from "../model/graphic/GraphicSymbolRef";
+import apiCreatePlacementsAction from "./apiCreatePlacement";
+import apiDeletePlacements from "./apiDeletePlacements";
 import apiUpdatePlacement from "./apiUpdatePlacement";
-import { makeArray } from "../model/dtoUtil";
 import updateAutoconnection from "./updateAutoconnection";
+import { makeArray } from "../model/dtoUtil";
+import { updateAllSymbolRef } from "../model/updateSymbolRef";
 import { GetGlobalStateFunction, LayerType } from "../model/types";
 import { Action } from "./action";
 
@@ -41,7 +41,9 @@ export const createPlacement = (
         return p;
       });
 
-      const newPlacements = await apiCreatePlacement(placements);
+      const newPlacements = await apiCreatePlacementsAction(
+        placements,
+      );
 
       // on new symbolref we have to update the .symbol property of the symbolref
       const newSymbolRefs = newPlacements.filter(
@@ -105,7 +107,7 @@ export const deletePlacementAction = (
         placement = [placement];
       }
 
-      await apiDeletePlacement(placement);
+      await apiDeletePlacements(placement);
       await dispatch({
         type: actionTypes.DELETE_PLACEMENT,
         payload: placement,
