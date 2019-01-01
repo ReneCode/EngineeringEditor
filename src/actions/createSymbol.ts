@@ -1,16 +1,16 @@
 import * as actionTypes from "./actionTypes";
 import GraphicSymbol from "../model/graphic/GraphicSymbol";
-import { IGlobalState } from "../reducers";
 import { updateAllSymbolRef } from "../model/updateSymbolRef";
-import apiCreateSymbolAction from "./apiCreateSymbol";
+import apiCreateSymbol from "../common/api/apiCreateSymbol";
+import { GetGlobalStateFunction } from "../model/types";
 
 export const createSymbolAction = (symbol: GraphicSymbol): any => {
   return async (
     dispatch: any,
-    getState: () => IGlobalState,
+    getState: GetGlobalStateFunction,
   ): Promise<GraphicSymbol> => {
     try {
-      const newSymbol = await apiCreateSymbolAction(symbol);
+      const newSymbol = await apiCreateSymbol(symbol);
       // if there are symbolRef in ths new symbol
       // the GraphicSymbol .symbol property is no more set
       // we have to update it

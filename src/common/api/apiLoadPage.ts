@@ -1,10 +1,8 @@
-import { graphql } from "../common/graphql-api";
-import { IdType } from "../model/types";
-import Page from "../model/Page";
+import { graphql } from "./graphql-api";
+import { IdType } from "../../model/types";
+import Page from "../../model/Page";
 
-export const apiLoadPagesAction = async (
-  projectId: IdType,
-): Promise<Page[]> => {
+const apiLoadPages = async (projectId: IdType): Promise<Page[]> => {
   const query: string = `query project($id: ID!) {
       project(id: $id) {
         pages { id name }
@@ -21,3 +19,5 @@ export const apiLoadPagesAction = async (
   }
   return [];
 };
+
+export default apiLoadPages;

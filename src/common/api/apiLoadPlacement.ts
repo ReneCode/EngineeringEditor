@@ -1,9 +1,9 @@
-import Placement from "../model/Placement";
-import { graphql } from "../common/graphql-api";
-import { IdType } from "../model/types";
-import PlacementFactory from "../model/PlacementFactory";
+import Placement from "../../model/Placement";
+import { graphql } from "./graphql-api";
+import { IdType } from "../../model/types";
+import PlacementFactory from "../../model/PlacementFactory";
 
-export const apiLoadPlacementAction = async (
+const apiLoadPlacement = async (
   projectId: IdType,
   pageId: IdType,
 ) => {
@@ -19,3 +19,5 @@ export const apiLoadPlacementAction = async (
   const placements = <Placement[]>PlacementFactory.fromDTO(json);
   return placements;
 };
+
+export default apiLoadPlacement;

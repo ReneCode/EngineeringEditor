@@ -1,9 +1,9 @@
-import GraphicSymbol from "../model/graphic/GraphicSymbol";
-import { graphql } from "../common/graphql-api";
-import ElementFactory from "../model/ElementFactory";
+aimport GraphicSymbol from "../../model/graphic/GraphicSymbol";
+import { graphql } from "./graphql-api";
+import ElementFactory from "../../model/ElementFactory";
 
 // save to database
-const apiCreateSymbolAction = async (
+const apiCreateSymbol = async (
   symbol: GraphicSymbol,
 ): Promise<GraphicSymbol> => {
   let mutation = `mutation createElement($input: CreateElementInput!) {
@@ -24,4 +24,4 @@ const apiCreateSymbolAction = async (
   return newSymbol as GraphicSymbol;
 };
 
-export default apiCreateSymbolAction;
+export default apiCreateSymbol;

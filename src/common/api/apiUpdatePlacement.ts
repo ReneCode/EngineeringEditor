@@ -1,11 +1,10 @@
-import Placement from "../model/Placement";
-import { graphql } from "../common/graphql-api";
-import PlacementFactory from "../model/PlacementFactory";
+import Placement from "../../model/Placement";
+import { graphql } from "./graphql-api";
+import PlacementFactory from "../../model/PlacementFactory";
 
 const apiUpdatePlacement = async (
   placements: Placement[],
 ): Promise<Placement[]> => {
-  // redux-thunk
   const mutation = `mutation updatePlacements($input: [UpdatePlacementInput]!) {
       updatePlacements(input: $input) 
     }`;

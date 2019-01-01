@@ -1,9 +1,9 @@
-import Placement from "../model/Placement";
-import { graphql } from "../common/graphql-api";
-import PlacementFactory from "../model/PlacementFactory";
+import Placement from "../../model/Placement";
+import { graphql } from "./graphql-api";
+import PlacementFactory from "../../model/PlacementFactory";
 
 // save to database
-const apiCreatePlacementsAction = async (
+const apiCreatePlacements = async (
   placements: Placement[],
 ): Promise<Placement[]> => {
   const mutation = `mutation createPlacement($input: [CreatePlacementInput]!) {
@@ -27,4 +27,4 @@ const apiCreatePlacementsAction = async (
   return newItem as Placement[];
 };
 
-export default apiCreatePlacementsAction;
+export default apiCreatePlacements;

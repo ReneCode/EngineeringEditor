@@ -1,9 +1,9 @@
-import { graphql } from "../common/graphql-api";
-import { IdType } from "../model/types";
-import ElementFactory from "../model/ElementFactory";
-import GraphicSymbol from "../model/graphic/GraphicSymbol";
+import { graphql } from "./graphql-api";
+import { IdType } from "../../model/types";
+import ElementFactory from "../../model/ElementFactory";
+import GraphicSymbol from "../../model/graphic/GraphicSymbol";
 
-export const apiLoadSymbolsAction = async (
+const apiLoadSymbols = async (
   projectId: IdType,
 ): Promise<GraphicSymbol[]> => {
   const query = `query Q($projectId: ID!) {
@@ -22,3 +22,5 @@ export const apiLoadSymbolsAction = async (
   }
   return [];
 };
+
+export default apiLoadSymbols;

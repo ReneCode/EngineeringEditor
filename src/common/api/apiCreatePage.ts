@@ -1,8 +1,5 @@
-import Placement from "../model/Placement";
-import { DtoPlacement } from "../model/dtoUtil";
-import { graphql } from "../common/graphql-api";
-import PlacementFactory from "../model/PlacementFactory";
-import Page from "../model/Page";
+import { graphql } from "./graphql-api";
+import Page from "../../model/Page";
 
 // -> Page
 const apiCreatePage = async (page: Page): Promise<Page> => {

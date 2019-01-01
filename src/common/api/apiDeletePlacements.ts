@@ -1,5 +1,5 @@
-import Placement from "../model/Placement";
-import { graphql } from "../common/graphql-api";
+import Placement from "../../model/Placement";
+import { graphql } from "./graphql-api";
 
 const apiDeletePlacements = async (placements: Placement[]) => {
   const mutation = `mutation M($input: [DeletePlacementInput]!) {

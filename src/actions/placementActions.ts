@@ -3,9 +3,9 @@ import Placement from "../model/Placement";
 import * as actionTypes from "./actionTypes";
 import { IGlobalState } from "../reducers";
 import GraphicSymbolRef from "../model/graphic/GraphicSymbolRef";
-import apiCreatePlacementsAction from "./apiCreatePlacement";
-import apiDeletePlacements from "./apiDeletePlacements";
-import apiUpdatePlacement from "./apiUpdatePlacement";
+import apiCreatePlacements from "../common/api/apiCreatePlacement";
+import apiDeletePlacements from "../common/api/apiDeletePlacements";
+import apiUpdatePlacement from "../common/api/apiUpdatePlacement";
 import updateAutoconnection from "./updateAutoconnection";
 import { makeArray } from "../model/dtoUtil";
 import { updateAllSymbolRef } from "../model/updateSymbolRef";
@@ -41,9 +41,7 @@ export const createPlacement = (
         return p;
       });
 
-      const newPlacements = await apiCreatePlacementsAction(
-        placements,
-      );
+      const newPlacements = await apiCreatePlacements(placements);
 
       // on new symbolref we have to update the .symbol property of the symbolref
       const newSymbolRefs = newPlacements.filter(
