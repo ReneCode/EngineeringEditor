@@ -1,4 +1,4 @@
-import { graphql } from "./graphql-api";
+import graphql from "./graphql";
 import { IdType } from "../../model/types";
 import ElementFactory from "../../model/ElementFactory";
 import GraphicSymbol from "../../model/graphic/GraphicSymbol";

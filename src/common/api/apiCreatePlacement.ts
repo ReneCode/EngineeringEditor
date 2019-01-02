@@ -1,5 +1,5 @@
 import Placement from "../../model/Placement";
-import { graphql } from "./graphql-api";
+import graphql from "./graphql";
 import PlacementFactory from "../../model/PlacementFactory";
 
 // save to database

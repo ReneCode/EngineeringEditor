@@ -1,5 +1,5 @@
 import Placement from "../../model/Placement";
-import { graphql } from "./graphql-api";
+import graphql from "./graphql";
 import { IdType } from "../../model/types";
 import PlacementFactory from "../../model/PlacementFactory";
 

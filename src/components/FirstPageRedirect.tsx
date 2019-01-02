@@ -4,7 +4,7 @@ import {
   Redirect,
   RouteComponentProps,
 } from "react-router";
-import { graphql } from "../common/api/graphql-api";
+import graphql from "../common/api/graphql";
 
 class FirstPageRedirect extends Component<RouteComponentProps<any>> {
   state = {

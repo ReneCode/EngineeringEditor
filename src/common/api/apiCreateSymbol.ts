@@ -1,5 +1,5 @@
 import GraphicSymbol from "../../model/graphic/GraphicSymbol";
-import { graphql } from "./graphql-api";
+import graphql from "./graphql";
 import ElementFactory from "../../model/ElementFactory";
 
 // save to database

@@ -33,4 +33,4 @@ const graphql = async (
   return await post(cmd);
 };
 
-export { graphql };
+export default graphql;

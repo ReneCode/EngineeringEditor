@@ -1,4 +1,4 @@
-import { graphql } from "./graphql-api";
+import graphql from "./graphql";
 import Page from "../../model/Page";
 
 // -> Page

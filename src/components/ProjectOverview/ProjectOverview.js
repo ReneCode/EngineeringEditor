@@ -3,7 +3,7 @@ import { withRouter } from "react-router";
 import ProjectCard from "./ProjectCard";
 import ProjectAddCard from "./ProjectAddCard";
 import NewProjectModal from "./NewProjectModal";
-import { graphql } from "../../common/api/graphql-api";
+import graphql from "../../common/api/graphql";
 
 import "./ProjectOverview.scss";
 
