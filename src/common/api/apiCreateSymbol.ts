@@ -1,4 +1,4 @@
-aimport GraphicSymbol from "../../model/graphic/GraphicSymbol";
+import GraphicSymbol from "../../model/graphic/GraphicSymbol";
 import { graphql } from "./graphql-api";
 import ElementFactory from "../../model/ElementFactory";
 
