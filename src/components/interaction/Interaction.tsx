@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { Component, SyntheticEvent } from "react";
 import Point from "../../common/point";
 import { connect } from "react-redux";
 import * as actions from "../../actions";
@@ -7,7 +7,7 @@ import TransformCoordinate from "../../common/transformCoordinate";
 import InteractionStarter from "./InteractionStarter";
 import { IaContext, GetEventResult, IaEventType } from "./IaBase";
 import { IA_SELECT } from "../../actions/interactionTypes";
-import { DispatchFunction } from "../../model/types";
+import { DispatchFunction, IIaEvent } from "../../model/types";
 
 interface IProps {
   getCanvas(): HTMLCanvasElement;
@@ -37,7 +37,7 @@ class Interaction extends Component<IProps> {
     }
 
     this.props.dispatch(
-      actions.setStartInteractionHandler(this.startInteraction),
+      actions.setDoInteractionHandler(this.doInteraction),
     );
 
     this.props.dispatch(actions.startInteraction(IA_SELECT));
@@ -51,24 +51,70 @@ class Interaction extends Component<IProps> {
       canvas.removeEventListener("mouseup", this.onMouseUp);
       document.removeEventListener("keydown", this.onKeyDown);
     }
-    this.props.dispatch(actions.setStartInteractionHandler(() => {}));
+    this.props.dispatch(actions.setDoInteractionHandler(() => {}));
   }
 
   onKeyDown = (ev: KeyboardEvent) => {
+    this.fireEvent(IaEventType.keyDown, ev);
     this.resolveEvent(IaEventType.keyDown, ev);
   };
 
   onMouseDown = (ev: MouseEvent) => {
+    this.fireEvent(IaEventType.mouseDown, ev);
     this.resolveEvent(IaEventType.mouseDown, ev);
   };
 
   onMouseMove = (ev: MouseEvent) => {
+    this.fireEvent(IaEventType.mouseMove, ev);
     this.resolveEvent(IaEventType.mouseMove, ev);
   };
 
   onMouseUp = (ev: MouseEvent) => {
+    this.fireEvent(IaEventType.mouseUp, ev);
     this.resolveEvent(IaEventType.mouseUp, ev);
   };
+
+  fireEvent(type: IaEventType, ev: MouseEvent | KeyboardEvent) {
+    this.props.state.interaction.eventHandler.forEach(eh => {
+      try {
+        if (eh.eventType === type) {
+          const iaEvent = this.createEvent(type, ev);
+          eh.handler(iaEvent);
+        }
+      } catch (ex) {
+        console.log(ex);
+      }
+    });
+  }
+
+  createEvent(type: IaEventType, event: any): IIaEvent {
+    let iaEvent: IIaEvent = {
+      type: type,
+      event: event,
+    };
+    if (event instanceof MouseEvent) {
+      const pointCanvas = this.getCursor(event as MouseEvent);
+
+      const { canvas, viewport } = this.props.state.graphic;
+      const transform = new TransformCoordinate(viewport, canvas);
+
+      // transform canvas point to world-coordinate point
+      let pointWc = transform.canvasToWc(pointCanvas);
+      if (canvas.useGrid) {
+        // snap to grid
+        pointWc = pointWc.snap(canvas.gridX, canvas.gridY);
+      }
+
+      iaEvent = {
+        ...iaEvent,
+        pointWc,
+        pointCanvas,
+        transform,
+      };
+    }
+
+    return iaEvent;
+  }
 
   getCursor = (ev: MouseEvent) => {
     const {
@@ -132,7 +178,7 @@ class Interaction extends Component<IProps> {
     });
   };
 
-  startInteraction = (action: any) => {
+  doInteraction = (action: any) => {
     // finish current promise
     if (this.promiseResolve) {
       this.promiseResolve(null);

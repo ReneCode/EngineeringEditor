@@ -14,7 +14,6 @@ describe("graphicReducer", () => {
       selectedItems: [],
       tempItems: [],
       cursor: {
-        pt: new Point(0, 0),
         radiusScreen: 10,
         mode: "",
       },
@@ -37,11 +36,11 @@ describe("graphicReducer", () => {
   it("DELETE_LAYER", () => {
     const l1 = new GraphicLine(new Point(1, 2), new Point(3, 4));
     l1.id = "l1";
-    l1.layer = "Layer-A";
+    l1.layer = "autoconnect";
 
     const l2 = new GraphicLine(new Point(10, 20), new Point(30, 40));
     l2.id = "l2";
-    l2.layer = "Layer-B";
+    l2.layer = undefined;
 
     const l3 = new GraphicLine(new Point(10, 20), new Point(30, 40));
     l3.id = "l3";
@@ -50,7 +49,7 @@ describe("graphicReducer", () => {
 
     const action = {
       type: actionTypes.DELETE_LAYER,
-      payload: ["Layer-A", "Layer-C"],
+      payload: ["autoconnect"],
     };
 
     const newState = graphicReducer(initialState, action);

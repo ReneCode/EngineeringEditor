@@ -8,6 +8,8 @@ import Point from "../common/point";
 import { IGlobalState } from "../reducers";
 import { IGraphicState } from "../reducers/graphicReducer";
 import Interaction from "./interaction/Interaction";
+import Statusbar from "./Statusbar";
+import TransformCoordinate from "../common/transformCoordinate";
 
 interface IProps {
   dispatch: Function;
@@ -36,15 +38,10 @@ class GraphicView extends Component<IProps> {
   componentDidMount() {
     window.addEventListener("resize", this.onResize);
     this.onResize();
-    this.redraw();
   }
 
   componentWillUnmount() {
     window.removeEventListener("resize", this.onResize);
-  }
-
-  componentDidUpdate() {
-    this.redraw();
   }
 
   onResize = () => {
@@ -63,26 +60,7 @@ class GraphicView extends Component<IProps> {
       actions.setCanvasSize(rect.width, rect.height),
     );
   };
-  /*
-  onMouseUp = (ev: SyntheticEvent) => {
-    const pt = this.getCursor(ev as any);
-    this.props.dispatch(actions.mouseUp(pt));
-  };
 
-  onMouseDown = (event: SyntheticEvent) => {
-    const ev: MouseEvent = event as any;
-    if (ev.button === 0) {
-      // left button
-      const pt = this.getCursor(ev);
-      this.props.dispatch(actions.mouseDown(pt));
-    }
-  };
-
-  onMouseMove = (ev: SyntheticEvent) => {
-    const pt = this.getCursor(ev as any);
-    this.props.dispatch(actions.mouseMove(pt));
-  };
-*/
   onContextMenu = (ev: SyntheticEvent) => {
     console.log("onContextMenu:", ev);
   };
@@ -90,10 +68,6 @@ class GraphicView extends Component<IProps> {
   getCursor = (ev: MouseEvent) => {
     const { top, left } = this.canvas.getBoundingClientRect();
     return new Point(ev.clientX - left, ev.clientY - top);
-  };
-
-  redraw = () => {
-    // this.drawCanvas.draw(transform);
   };
 
   render() {
@@ -108,24 +82,24 @@ class GraphicView extends Component<IProps> {
     //   .snap(gridX, gridY);
 
     return (
-      <div ref={div => (this.frame = div)} className="GraphicView">
-        {/* <div className="showtop">
+      <div className="middle-content">
+        <div ref={div => (this.frame = div)} className="GraphicView">
+          {/* <div className="showtop">
           x:
           {cursorWc.x} y:
           {cursorWc.y}
         </div> */}
-        <canvas
-          className="canvas"
-          ref={canvas => (this.canvas = canvas)}
-          width={this.state.width}
-          height={this.state.height}
-          // onMouseDown={this.onMouseDown}
-          // onMouseUp={this.onMouseUp}
-          // onMouseMove={this.onMouseMove}
-          onContextMenu={this.onContextMenu}
-        />
-        <DrawCanvas getCanvas={() => this.canvas} />
-        <Interaction getCanvas={() => this.canvas} />
+          <canvas
+            className="canvas"
+            ref={canvas => (this.canvas = canvas)}
+            width={this.state.width}
+            height={this.state.height}
+            onContextMenu={this.onContextMenu}
+          />
+          <DrawCanvas getCanvas={() => this.canvas} />
+          <Interaction getCanvas={() => this.canvas} />
+        </div>
+        <Statusbar cursor={"cursorWc"} />
       </div>
     );
   }

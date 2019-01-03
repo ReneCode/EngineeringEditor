@@ -1,5 +1,7 @@
 import * as actionTypes from "./actionTypes";
 import { ModalId } from "../model/types";
+import { IAction } from "./action";
+import { IaEventType } from "../components/interaction/IaBase";
 export * from "./graphicActions";
 export * from "./mouseActions";
 export * from "./projectActions";
@@ -16,10 +18,37 @@ export const setTempItem = (item: any = undefined) => {
 
 export const startInteraction = (iaType: string, ...args: any) => {
   return {
-    type: actionTypes.START_INTERACTION,
+    type: actionTypes.DO_INTERACTION,
     payload: {
+      mode: "start",
       type: iaType,
       args: args,
+    },
+  };
+};
+
+export const addEventHandlerAction = (
+  eventType: IaEventType,
+  handler: any,
+): IAction => {
+  return {
+    type: actionTypes.ADD_EVENT_HANDLER,
+    payload: {
+      eventType: eventType,
+      handler: handler,
+    },
+  };
+};
+
+export const removeEventHandlerAction = (
+  eventType: IaEventType,
+  handler: any,
+): IAction => {
+  return {
+    type: actionTypes.REMOVE_EVENT_HANDLER,
+    payload: {
+      eventType: eventType,
+      handler: handler,
     },
   };
 };
@@ -38,9 +67,9 @@ export const useGrid = (useGrid: boolean) => {
   };
 };
 
-export const setStartInteractionHandler = (handler: Function) => {
+export const setDoInteractionHandler = (handler: Function) => {
   return {
-    type: actionTypes.SET_START_INTERACTION_HANDLER,
+    type: actionTypes.SET_DO_INTERACTION_HANDLER,
     payload: handler,
   };
 };

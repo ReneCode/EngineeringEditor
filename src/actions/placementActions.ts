@@ -10,9 +10,9 @@ import updateAutoconnection from "./updateAutoconnection";
 import { makeArray } from "../model/dtoUtil";
 import { updateAllSymbolRef } from "../model/updateSymbolRef";
 import { GetGlobalStateFunction, LayerType } from "../model/types";
-import { Action } from "./action";
+import { IAction } from "./action";
 
-export const deleteLayerAction = (payload: LayerType): Action => {
+export const deleteLayerAction = (payload: LayerType): IAction => {
   return {
     type: actionTypes.DELETE_LAYER,
     payload: payload,
