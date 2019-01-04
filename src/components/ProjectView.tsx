@@ -6,7 +6,7 @@ import * as actions from "../actions";
 
 import Sidebar, { ISidebarButton } from "./Sidebar";
 import Workspace from "./Workspace/Workspace";
-import GraphicView from "./GraphicView";
+import GraphicView from "./GraphicView/GraphicView";
 import SelectSymbolModal from "./SelectSymbol/SelectSymbolModal";
 import { RouteComponentProps } from "react-router";
 import { IGlobalState } from "../reducers";

@@ -3,13 +3,12 @@ import { connect } from "react-redux";
 
 import DrawCanvas from "./DrawCanvas";
 
-import * as actions from "../actions";
-import Point from "../common/point";
-import { IGlobalState } from "../reducers";
-import { IGraphicState } from "../reducers/graphicReducer";
-import Interaction from "./interaction/Interaction";
+import Point from "../../common/point";
+import { IGlobalState } from "../../reducers";
+import { IGraphicState } from "../../reducers/graphicReducer";
+import Interaction from "../interaction/Interaction";
 import Statusbar from "./Statusbar";
-import TransformCoordinate from "../common/transformCoordinate";
+import { setCanvasSize } from "../../actions/graphicActions";
 
 interface IProps {
   dispatch: Function;
@@ -56,9 +55,7 @@ class GraphicView extends Component<IProps> {
       width: rect.width,
       height: rect.height,
     });
-    this.props.dispatch(
-      actions.setCanvasSize(rect.width, rect.height),
-    );
+    this.props.dispatch(setCanvasSize(rect.width, rect.height));
   };
 
   onContextMenu = (ev: SyntheticEvent) => {
@@ -71,24 +68,9 @@ class GraphicView extends Component<IProps> {
   };
 
   render() {
-    // const transform = new TransformCoordinate(
-    //   this.props.graphic.viewport,
-    //   this.props.graphic.canvas,
-    // );
-
-    // const { gridX, gridY } = this.props.graphic.canvas;
-    // const cursorWc = transform
-    //   .canvasToWc(this.props.graphic.cursor.pt)
-    //   .snap(gridX, gridY);
-
     return (
       <div className="middle-content">
         <div ref={div => (this.frame = div)} className="GraphicView">
-          {/* <div className="showtop">
-          x:
-          {cursorWc.x} y:
-          {cursorWc.y}
-        </div> */}
           <canvas
             className="canvas"
             ref={canvas => (this.canvas = canvas)}

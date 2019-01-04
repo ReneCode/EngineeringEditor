@@ -23,7 +23,7 @@ export const deleteLayerAction = (payload: LayerType): IAction => {
   add the given placement to the current project/page
   into apiServer and the store
 */
-export const createPlacement = (
+export const createPlacementAction = (
   payload: Placement | Placement[],
 ): any => {
   return async (
@@ -67,7 +67,7 @@ export const createPlacement = (
   };
 };
 
-export const updatePlacement = (
+export const updatePlacementAction = (
   placement: Placement | Placement[],
 ): any => {
   return async (

@@ -1,7 +1,8 @@
-import * as actions from "../../actions";
 import IaBase, { IaContext, IaEventType } from "./IaBase";
 import Point from "../../common/point";
 import GraphicCircle from "../../model/graphic/GraphicCircle";
+import { setTempItem } from "../../actions";
+import { createPlacementAction } from "../../actions/placementActions";
 
 class IaCircle extends IaBase {
   constructor(config: IaContext) {
@@ -22,7 +23,7 @@ class IaCircle extends IaBase {
           IaEventType.keyDown,
         ]);
         if (this.isEscape(result)) {
-          this.context.dispatch(actions.setTempItem());
+          this.context.dispatch(setTempItem());
           return;
         }
         if (nPoints === 0) {
@@ -38,7 +39,7 @@ class IaCircle extends IaBase {
           const secondPoint = result.pointWc;
           const radius = secondPoint.sub(middlePoint).length();
           circle.radius = radius;
-          this.context.dispatch(actions.setTempItem(circle));
+          this.context.dispatch(setTempItem(circle));
 
           if (
             result.type === IaEventType.mouseUp ||
@@ -46,8 +47,8 @@ class IaCircle extends IaBase {
           ) {
             // finish
             if (!secondPoint.equal(middlePoint)) {
-              this.context.dispatch(actions.createPlacement(circle));
-              this.context.dispatch(actions.setTempItem());
+              this.context.dispatch(createPlacementAction(circle));
+              this.context.dispatch(setTempItem());
               run = false;
             }
           }

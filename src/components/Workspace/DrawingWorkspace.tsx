@@ -8,7 +8,6 @@ import {
   IA_CREATE_LINE,
   IA_ZOOM_WINDOW,
   IA_DELETE_ITEM,
-  IA_CREATE_GROUP,
   IA_CREATE_SYMBOL,
   IA_CREATE_POLYGON,
   IA_CREATE_CONNECTION_POINT,
@@ -24,9 +23,6 @@ class DrawingWorkspace extends Component<IProps> {
     this.state = {};
   }
 
-  onGroup = () => {
-    this.props.dispatch(actions.startInteraction(IA_CREATE_GROUP));
-  };
   onSelectSymbol = () => {
     this.props.dispatch(actions.showModal("selectSymbol"));
   };

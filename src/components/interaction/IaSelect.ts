@@ -5,7 +5,12 @@ import IaRectRubberband, {
 } from "./IaRectRubberband";
 import Box from "../../common/box";
 import IaMove from "./IaMove";
-import { deletePlacementAction } from "../../actions";
+import { deletePlacementAction } from "../../actions/placementActions";
+import {
+  addSelectedItem,
+  clearSelectedItem,
+} from "../../actions/graphicActions";
+import { setCursorModeAction } from "../../actions";
 
 class IaSelect extends IaBase {
   constructor(context: IaContext) {
@@ -21,19 +26,19 @@ class IaSelect extends IaBase {
     const items = this.context
       .getState()
       .graphic.items.filter(p => p.pickable() && p.insideBox(box));
-    this.context.dispatch(actions.addSelectedItem(items));
+    this.context.dispatch(addSelectedItem(items));
   }
 
   async start() {
     try {
-      this.context.dispatch(actions.setCursorMode("select"));
+      this.context.dispatch(setCursorModeAction("select"));
 
       const result = await this.context.getEvent([
         IaEventType.mouseDown,
         IaEventType.keyDown,
       ]);
       if (this.isEscape(result)) {
-        this.context.dispatch(actions.setCursorMode());
+        this.context.dispatch(setCursorModeAction());
         return;
       }
       if (result.type === IaEventType.keyDown) {
@@ -53,7 +58,7 @@ class IaSelect extends IaBase {
         const firstPoint = result.pointWc;
         if (items.length === 0) {
           // no item picked => select by rect-rubberband
-          this.context.dispatch(actions.clearSelectedItem());
+          this.context.dispatch(clearSelectedItem());
 
           const iaRectRubberband = new IaRectRubberband(this.context);
           const result = await iaRectRubberband.start(firstPoint);
@@ -62,12 +67,12 @@ class IaSelect extends IaBase {
           }
         } else {
           // items selected => start moving
-          this.context.dispatch(actions.addSelectedItem(items));
+          this.context.dispatch(addSelectedItem(items));
           const iaMove = new IaMove(this.context);
           await iaMove.start(firstPoint);
         }
       }
-      this.context.dispatch(actions.setCursorMode());
+      this.context.dispatch(setCursorModeAction());
 
       return { restart: true };
     } finally {

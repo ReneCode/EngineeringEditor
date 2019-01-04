@@ -1,11 +1,11 @@
 import IaBase, { IaContext, IaEventType } from "./IaBase";
 import GraphicSymbol from "../../model/graphic/GraphicSymbol";
 import GraphicSymbolRef from "../../model/graphic/GraphicSymbolRef";
+import { createSymbolAction } from "../../actions/createSymbol";
 import {
-  createSymbolAction,
-  createPlacement,
+  createPlacementAction,
   deletePlacementAction,
-} from "../../actions";
+} from "../../actions/placementActions";
 
 class IaCreateSymbol extends IaBase {
   constructor(config: IaContext) {
@@ -48,7 +48,7 @@ class IaCreateSymbol extends IaBase {
           symbol.insertPt,
           symbol,
         );
-        await this.context.dispatch(createPlacement(symbolRef));
+        await this.context.dispatch(createPlacementAction(symbolRef));
 
         // delete old items
         await this.context.dispatch(

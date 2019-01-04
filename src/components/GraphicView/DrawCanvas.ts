@@ -1,10 +1,10 @@
 import { Component } from "react";
-import TransformCoordinate from "../common/transformCoordinate";
-import { IGraphicState } from "../reducers/graphicReducer";
-import Placement from "../model/Placement";
+import TransformCoordinate from "../../common/transformCoordinate";
+import { IGraphicState } from "../../reducers/graphicReducer";
+import Placement from "../../model/Placement";
 import { connect } from "react-redux";
-import { IGlobalState } from "../reducers";
-import Point from "../common/point";
+import { IGlobalState } from "../../reducers";
+import Point from "../../common/point";
 
 interface IProps {
   getCanvas(): HTMLCanvasElement;

@@ -1,6 +1,7 @@
 import IaBase, { IaContext, IaEventType } from "./IaBase";
 import GraphicPolygon from "../../model/graphic/GraphicPolygon";
-import * as actions from "../../actions";
+import { setTempItem } from "../../actions";
+import { createPlacementAction } from "../../actions/placementActions";
 
 class IaPolygon extends IaBase {
   constructor(config: IaContext) {
@@ -19,7 +20,7 @@ class IaPolygon extends IaBase {
           IaEventType.keyDown,
         ]);
         if (!result) {
-          this.context.dispatch(actions.setTempItem());
+          this.context.dispatch(setTempItem());
           return;
         }
         if (this.isEscape(result)) {
@@ -59,7 +60,7 @@ class IaPolygon extends IaBase {
                 break;
             }
           }
-          this.context.dispatch(actions.setTempItem(polygon));
+          this.context.dispatch(setTempItem(polygon));
         }
       } // while (run)
 
@@ -69,10 +70,10 @@ class IaPolygon extends IaBase {
         polygon.points.splice(len - 1);
       }
       // remove last dynamic point
-      this.context.dispatch(actions.setTempItem(polygon));
+      this.context.dispatch(setTempItem(polygon));
       if (polygon.points.length >= 2) {
-        await this.context.dispatch(actions.createPlacement(polygon));
-        this.context.dispatch(actions.setTempItem());
+        await this.context.dispatch(createPlacementAction(polygon));
+        this.context.dispatch(setTempItem());
         return { restart: true };
       }
     } catch (ex) {}

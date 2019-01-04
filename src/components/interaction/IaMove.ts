@@ -1,8 +1,12 @@
-import * as actions from "../../actions";
 import IaBase, { IaContext, IaEventType } from "./IaBase";
 import Point from "../../common/point";
 import deepClone from "../../common/deepClone";
 import Placement from "../../model/Placement";
+import {
+  clearSelectedItem,
+  updateSelectedItem,
+} from "../../actions/graphicActions";
+import { updatePlacementAction } from "../../actions/placementActions";
 
 class IaMove extends IaBase {
   constructor(config: IaContext) {
@@ -27,7 +31,7 @@ class IaMove extends IaBase {
           IaEventType.keyDown,
         ]);
         if (this.isEscape(result)) {
-          this.context.dispatch(actions.clearSelectedItem());
+          this.context.dispatch(clearSelectedItem());
           return;
         }
         const secondPoint = result.pointWc;
@@ -40,17 +44,15 @@ class IaMove extends IaBase {
           case IaEventType.mouseUp:
             if (!firstPoint.equal(secondPoint)) {
               await this.context.dispatch(
-                actions.updatePlacement(movedItems),
+                updatePlacementAction(movedItems),
               );
-              this.context.dispatch(actions.clearSelectedItem());
+              this.context.dispatch(clearSelectedItem());
             }
             run = false;
             break;
 
           case IaEventType.mouseMove:
-            this.context.dispatch(
-              actions.updateSelectedItem(movedItems),
-            );
+            this.context.dispatch(updateSelectedItem(movedItems));
             break;
         }
       }

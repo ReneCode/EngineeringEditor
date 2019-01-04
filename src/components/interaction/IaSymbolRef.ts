@@ -1,7 +1,8 @@
 import IaBase, { IaContext, IaEventType } from "./IaBase";
-import * as actions from "../../actions";
 import GraphicSymbolRef from "../../model/graphic/GraphicSymbolRef";
 import Point from "../../common/point";
+import { setTempItem } from "../../actions";
+import { createPlacementAction } from "../../actions/placementActions";
 
 class IaSymbolRef extends IaBase {
   constructor(config: IaContext) {
@@ -34,15 +35,15 @@ class IaSymbolRef extends IaBase {
           IaEventType.keyDown,
         ]);
         if (this.isEscape(result)) {
-          this.context.dispatch(actions.setTempItem());
+          this.context.dispatch(setTempItem());
           return;
         }
 
         symbolRef.pt = result.pointWc;
-        this.context.dispatch(actions.setTempItem(symbolRef));
+        this.context.dispatch(setTempItem(symbolRef));
         switch (result.type) {
           case IaEventType.mouseDown:
-            this.context.dispatch(actions.createPlacement(symbolRef));
+            this.context.dispatch(createPlacementAction(symbolRef));
             run = false;
             break;
         }

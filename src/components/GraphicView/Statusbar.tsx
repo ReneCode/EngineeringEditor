@@ -3,10 +3,10 @@ import { connect } from "react-redux";
 import {
   addEventHandlerAction,
   removeEventHandlerAction,
-} from "../actions";
-import { IaEventType } from "./interaction/IaBase";
-import Point from "../common/point";
-import { IIaEvent } from "../model/types";
+} from "./../../actions";
+import { IaEventType } from "./../interaction/IaBase";
+import Point from "./../../common/point";
+import { IIaEvent } from "./../../model/types";
 
 interface IProps {
   dispatch: Function;

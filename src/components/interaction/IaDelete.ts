@@ -1,6 +1,6 @@
-import * as actions from "../../actions";
 import IaBase from "./IaBase";
 import IaPickItem from "./IaPickItem";
+import { deletePlacementAction } from "../../actions/placementActions";
 
 class IaDelete extends IaBase {
   start = async () => {
@@ -16,7 +16,7 @@ class IaDelete extends IaBase {
         itemsToDelete = result.items;
       }
       await this.context.dispatch(
-        actions.deletePlacementAction(itemsToDelete),
+        deletePlacementAction(itemsToDelete),
       );
       return { restart: true };
     } catch (ex) {

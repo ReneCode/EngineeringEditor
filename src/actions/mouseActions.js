@@ -1,6 +1,6 @@
 import * as actionTypes from "./actionTypes";
 
-export const setCursorMode = mode => {
+export const setCursorModeAction = mode => {
   return {
     type: actionTypes.SET_CURSOR_MODE,
     payload: mode,

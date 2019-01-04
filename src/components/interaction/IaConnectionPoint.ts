@@ -1,9 +1,10 @@
 import IaBase, { IaContext, IaEventType } from "./IaBase";
-import * as actions from "../../actions";
 import GraphicConnectionPoint, {
   ConnectionPointDirection,
 } from "../../model/graphic/GraphicConnectionPoint";
 import Point, { RelativeDirection } from "../../common/point";
+import { setTempItem } from "../../actions";
+import { createPlacementAction } from "../../actions/placementActions";
 
 class IaConnectionPoint extends IaBase {
   constructor(config: IaContext) {
@@ -24,7 +25,7 @@ class IaConnectionPoint extends IaBase {
           IaEventType.keyDown,
         ]);
         if (this.isEscape(result)) {
-          this.context.dispatch(actions.setTempItem());
+          this.context.dispatch(setTempItem());
           return;
         }
         if (
@@ -40,9 +41,7 @@ class IaConnectionPoint extends IaBase {
                 nPoints++;
                 break;
             }
-            this.context.dispatch(
-              actions.setTempItem(connectionPoint),
-            );
+            this.context.dispatch(setTempItem(connectionPoint));
           } else {
             const nextPoint = result.pointWc;
 
@@ -52,7 +51,7 @@ class IaConnectionPoint extends IaBase {
             ) {
               if (!nextPoint.equal(firstPoint)) {
                 this.context.dispatch(
-                  actions.createPlacement(connectionPoint),
+                  createPlacementAction(connectionPoint),
                 );
                 run = false;
               }
@@ -76,9 +75,7 @@ class IaConnectionPoint extends IaBase {
                   connectionPoint.direction =
                     ConnectionPointDirection.DOWN;
               }
-              this.context.dispatch(
-                actions.setTempItem(connectionPoint),
-              );
+              this.context.dispatch(setTempItem(connectionPoint));
             }
           }
         }

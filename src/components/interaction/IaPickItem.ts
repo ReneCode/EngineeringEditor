@@ -13,7 +13,7 @@ class IaPickItem extends IaBase {
   ): Promise<null | { items: Placement[]; point: Point }> => {
     try {
       if (args && args.length > 0) {
-        this.context.dispatch(actions.setCursorMode(args[0]));
+        this.context.dispatch(actions.setCursorModeAction(args[0]));
       }
       const result = await this.context.getEvent([
         IaEventType.mouseDown,
@@ -24,7 +24,7 @@ class IaPickItem extends IaBase {
       }
       const point = result.pointWc;
       const items = this.pickItems(point);
-      this.context.dispatch(actions.setCursorMode());
+      this.context.dispatch(actions.setCursorModeAction());
 
       return { items, point };
     } finally {

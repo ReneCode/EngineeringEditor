@@ -1,7 +1,8 @@
 import GraphicLine from "../../model/graphic/GraphicLine";
-import * as actions from "../../actions";
 import IaBase, { IaContext, IaEventType } from "./IaBase";
 import Point from "../../common/point";
+import { setTempItem } from "../../actions";
+import { createPlacementAction } from "../../actions/placementActions";
 
 class IaLine extends IaBase {
   constructor(config: IaContext) {
@@ -22,7 +23,7 @@ class IaLine extends IaBase {
           IaEventType.keyDown,
         ]);
         if (this.isEscape(result)) {
-          this.context.dispatch(actions.setTempItem());
+          this.context.dispatch(setTempItem());
           return;
         }
         if (result.type === IaEventType.keyDown) {
@@ -41,7 +42,7 @@ class IaLine extends IaBase {
           } else {
             const secondPoint = result.pointWc;
             line.p2 = secondPoint;
-            await this.context.dispatch(actions.setTempItem(line));
+            await this.context.dispatch(setTempItem(line));
 
             if (
               result.type === IaEventType.mouseUp ||
@@ -50,9 +51,9 @@ class IaLine extends IaBase {
               // finish
               if (!secondPoint.equal(startPoint)) {
                 await this.context.dispatch(
-                  actions.createPlacement(line),
+                  createPlacementAction(line),
                 );
-                this.context.dispatch(actions.setTempItem());
+                this.context.dispatch(setTempItem());
                 run = false;
               }
             }
