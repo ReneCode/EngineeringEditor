@@ -70,7 +70,7 @@ nav.menu .text {
   background: #333;
   color: #aee;
   padding: 6px;
-  margin: 10px;
+  margin: 4px;
   border: 1px solid #777;
   cursor: pointer;
 }
@@ -97,7 +97,7 @@ nav.menu .text {
 
 .Workspace {
   flex-grow: 0;
-  width: 300px;
+  width: 200px;
   background-color: #222;
   color: #ddd;
 }
@@ -213,4 +213,26 @@ nav.menu .text {
 
 .symbollist-canvas {
   cursor: pointer;
+}
+
+.ObjectView {
+  width: 180px;
+  background-color: #222;
+  color: #bbb;
+  padding: 0px;
+}
+
+.PropertyView {
+  font-size: 12px;
+  display: flex;
+  flex-direction: row;
+}
+
+.prop-name {
+  width: 80px;
+  font-weight: 300;
+}
+
+.prop-value {
+  color: #aee;
 }

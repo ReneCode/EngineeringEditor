@@ -12,12 +12,14 @@ import { RouteComponentProps } from "react-router";
 import { IGlobalState } from "../reducers";
 import { IdType } from "../model/types";
 import setPageId from "../actions/setPageId";
+import ObjectView from "./ObjectView/ObjectView";
 
 interface IProps extends RouteComponentProps<any> {
   showModalId: string;
   projectId: IdType;
   dispatch: Function;
 }
+
 class ProjectView extends Component<IProps> {
   private graphicViewRef: any;
   state = {
@@ -85,6 +87,7 @@ class ProjectView extends Component<IProps> {
         />
         <Workspace workspace={this.state.activeWorkspaceId} />
         <GraphicView ref={ref => (this.graphicViewRef = ref)} />
+        <ObjectView />
         <SelectSymbolModal
           show={this.props.showModalId === "selectSymbol"}
         />
