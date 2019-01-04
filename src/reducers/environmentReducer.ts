@@ -1,13 +1,11 @@
 import * as actionTypes from "../actions/actionTypes";
 
 export interface IEnvironmentState {
-  selectedObjectType: string;
-  // workspaceId: string;
+  viewObject: any[];
 }
 
 const initialState: IEnvironmentState = {
-  selectedObjectType: "",
-  // workspaceId: "",
+  viewObject: [],
 };
 
 const environmentReducer = (
@@ -15,10 +13,10 @@ const environmentReducer = (
   action: { type: string; payload: any },
 ): IEnvironmentState => {
   switch (action.type) {
-    case actionTypes.SET_SELECTED_OBJECT_TYPE:
+    case actionTypes.SET_VIEW_OBJECT:
       return {
         ...state,
-        selectedObjectType: action.payload,
+        viewObject: action.payload,
       };
     default:
       return state;

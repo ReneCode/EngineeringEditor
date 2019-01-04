@@ -21,7 +21,7 @@ export const setProjectId = (projectId: IdType) => {
   };
 };
 
-export const loadPages = (projectId: string) => {
+export const loadPagesAction = (projectId: string) => {
   return async (dispatch: any): Promise<any> => {
     const pages = await apiLoadPages(projectId);
 
@@ -32,7 +32,7 @@ export const loadPages = (projectId: string) => {
   };
 };
 
-export const createPage = (page: Page): any => {
+export const createPageAction = (page: Page): any => {
   return async (dispatch: any): Promise<Page> => {
     const newPage = await apiCreatePage(page);
 

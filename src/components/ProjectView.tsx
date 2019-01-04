@@ -12,7 +12,8 @@ import { RouteComponentProps } from "react-router";
 import { IGlobalState } from "../reducers";
 import { IdType } from "../model/types";
 import setPageId from "../actions/setPageId";
-import ObjectView from "./ObjectView/ObjectView";
+import { setProjectId } from "../actions/projectActions";
+import DetailView from "./DetailView/DetailView";
 
 interface IProps extends RouteComponentProps<any> {
   showModalId: string;
@@ -41,9 +42,9 @@ class ProjectView extends Component<IProps> {
     // set the projectId only it it changed
     // because e.g. symbol-loading is not needed
     if (this.props.projectId !== projectId) {
-      this.props.dispatch(actions.setProjectId(projectId));
+      this.props.dispatch(setProjectId(projectId));
     }
-    this.props.dispatch(setPageId(projectId, pageId));
+    await this.props.dispatch(setPageId(projectId, pageId));
   };
 
   clickSidebar = (sidebarButton: ISidebarButton) => {
@@ -87,7 +88,7 @@ class ProjectView extends Component<IProps> {
         />
         <Workspace workspace={this.state.activeWorkspaceId} />
         <GraphicView ref={ref => (this.graphicViewRef = ref)} />
-        <ObjectView />
+        <DetailView />
         <SelectSymbolModal
           show={this.props.showModalId === "selectSymbol"}
         />

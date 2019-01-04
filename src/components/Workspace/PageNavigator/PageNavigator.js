@@ -3,11 +3,14 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 
-import * as actions from "../../../actions";
-
 import PageList from "./PageList";
 import PageModal from "./PageModal";
 import Page from "../../../model/Page";
+import { setViewObjectAction } from "../../../actions/environmentActions";
+import {
+  loadPagesAction,
+  createPageAction,
+} from "../../../actions/projectActions";
 
 class PageNavigator extends Component {
   constructor(props) {
@@ -18,7 +21,7 @@ class PageNavigator extends Component {
   }
 
   async componentDidMount() {
-    this.props.dispatch(actions.loadPages(this.props.projectId));
+    this.props.dispatch(loadPagesAction(this.props.projectId));
   }
 
   onClickCreatePage = () => {
@@ -37,9 +40,7 @@ class PageNavigator extends Component {
     const page = new Page(name);
     page.projectId = this.props.projectId;
 
-    const newPage = await this.props.dispatch(
-      actions.createPage(page),
-    );
+    const newPage = await this.props.dispatch(createPageAction(page));
     // if page is created then open it
     this.onClickPage(newPage);
   };

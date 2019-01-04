@@ -44,4 +44,4 @@ export const SHOW_MODAL = "SHOW_MODAL";
 
 export const SET_ERROR = "SET_ERROR";
 
-export const SET_SELECTED_OBJECT_TYPE = "SET_SELECTED_OBJECT_TYPE";
+export const SET_VIEW_OBJECT = "SET_VIEW_OBJECT";
