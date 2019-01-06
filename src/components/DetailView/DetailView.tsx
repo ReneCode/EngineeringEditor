@@ -6,14 +6,20 @@ import PlacementDetailView from "./PlacementDetailView";
 import Placement from "../../model/Placement";
 import { IdType } from "../../model/types";
 import Page from "../../model/Page";
+import updatePageAction from "../../actions/updatePage";
 
 interface IProps {
   selectedItems: Placement[];
   pageId: IdType;
   pages: Page[];
+  dispatch: Function;
 }
 
 class DetailView extends Component<IProps> {
+  onPageChange = (page: Page, property: string, value: string) => {
+    this.props.dispatch(updatePageAction(page, property, value));
+  };
+
   render() {
     let component = null;
 
@@ -25,7 +31,9 @@ class DetailView extends Component<IProps> {
         (p: Page) => p.id === this.props.pageId,
       );
       if (page) {
-        component = <PageDetailView page={page} />;
+        component = (
+          <PageDetailView page={page} onChange={this.onPageChange} />
+        );
       } else {
         console.log(
           ": cant find page:",
