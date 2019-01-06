@@ -35,6 +35,7 @@ export const SET_PAGE_ID = "SET_PAGE_ID";
 export const SET_PAGES = "SET_PAGES";
 // export const LOAD_PAGES = "LOAD_PAGES";
 export const ADD_PAGE = "ADD_PAGE";
+export const UPDATE_PAGE = "UPDATE_PAGE";
 
 export const ZOOM_FULL = "ZOOM_FULL";
 

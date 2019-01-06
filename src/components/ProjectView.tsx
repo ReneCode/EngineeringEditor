@@ -42,7 +42,7 @@ class ProjectView extends Component<IProps> {
     // set the projectId only it it changed
     // because e.g. symbol-loading is not needed
     if (this.props.projectId !== projectId) {
-      this.props.dispatch(setProjectId(projectId));
+      await this.props.dispatch(setProjectId(projectId));
     }
     await this.props.dispatch(setPageId(projectId, pageId));
   };

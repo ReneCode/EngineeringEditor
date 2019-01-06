@@ -216,7 +216,7 @@ nav.menu .text {
 }
 
 .ObjectView {
-  width: 180px;
+  width: 200px;
   background-color: #222;
   color: #bbb;
   padding: 0px;
@@ -226,13 +226,22 @@ nav.menu .text {
   font-size: 12px;
   display: flex;
   flex-direction: row;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-top: 8px;
 }
 
 .prop-name {
-  width: 80px;
+  width: 50px;
   font-weight: 300;
+  flex-grow: 0;
 }
 
 .prop-value {
-  color: #aee;
+  color: #333;
+  flex-grow: 1;
+}
+
+.prop-value:blur {
+  color: #333;
 }

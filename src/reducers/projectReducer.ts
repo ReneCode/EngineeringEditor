@@ -2,6 +2,7 @@ import * as actionTypes from "../actions/actionTypes";
 
 import { ModalId, IdType } from "../model/types";
 import Page from "../model/Page";
+import { IAction } from "../actions/action";
 
 export interface IProjectState {
   projectId: IdType;
@@ -17,10 +18,19 @@ const initialState: IProjectState = {
   showModalId: "",
 };
 
-const projectReducer = (
-  state = initialState,
-  action: { type: string; payload: any },
-) => {
+const updatePage = (state: IProjectState, action: IAction) => {
+  return {
+    ...state,
+    pages: state.pages.map(p => {
+      if (p === action.payload.page) {
+        (p as any)[action.payload.property] = action.payload.value;
+      }
+      return p;
+    }),
+  };
+};
+
+const projectReducer = (state = initialState, action: IAction) => {
   switch (action.type) {
     case actionTypes.SHOW_MODAL: {
       return {
@@ -44,6 +54,9 @@ const projectReducer = (
         ...state,
         pages: state.pages.concat(action.payload),
       };
+
+    case actionTypes.UPDATE_PAGE:
+      return updatePage(state, action);
 
     case actionTypes.SET_PROJECT_ID:
       return {

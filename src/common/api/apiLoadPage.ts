@@ -5,7 +5,7 @@ import Page from "../../model/Page";
 const apiLoadPages = async (projectId: IdType): Promise<Page[]> => {
   const query: string = `query project($id: ID!) {
       project(id: $id) {
-        pages { id name }
+        pages { projectId id name }
       }
     }`;
   const variables = {

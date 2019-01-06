@@ -6,7 +6,6 @@ import PropTypes from "prop-types";
 import PageList from "./PageList";
 import PageModal from "./PageModal";
 import Page from "../../../model/Page";
-import { setViewObjectAction } from "../../../actions/environmentActions";
 import {
   loadPagesAction,
   createPageAction,
