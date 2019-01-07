@@ -7,6 +7,7 @@ import Placement from "../../model/Placement";
 import { IdType } from "../../model/types";
 import Page from "../../model/Page";
 import updatePageAction from "../../actions/updatePage";
+import { updateOnePlacementAction } from "../../actions/placementActions";
 
 interface IProps {
   selectedItems: Placement[];
@@ -20,12 +21,27 @@ class DetailView extends Component<IProps> {
     this.props.dispatch(updatePageAction(page, property, value));
   };
 
+  onPlacementChange = (
+    placement: Placement,
+    property: string,
+    value: string,
+  ) => {
+    this.props.dispatch(
+      updateOnePlacementAction(placement, property, value),
+    );
+  };
+
   render() {
     let component = null;
 
     if (this.props.selectedItems.length > 0) {
       const placement = this.props.selectedItems[0];
-      component = <PlacementDetailView placement={placement} />;
+      component = (
+        <PlacementDetailView
+          placement={placement}
+          onChange={this.onPlacementChange}
+        />
+      );
     } else if (this.props.pageId) {
       const page = this.props.pages.find(
         (p: Page) => p.id === this.props.pageId,

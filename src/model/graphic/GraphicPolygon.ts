@@ -45,6 +45,10 @@ class GraphicPolygon extends Placement {
     context: CanvasRenderingContext2D,
     transform: TransformCoordinate,
   ): void {
+    if (this.color) {
+      context.strokeStyle = this.color;
+    }
+
     context.beginPath();
     const len = this.points.length;
     for (let i = 0; i < len; i++) {

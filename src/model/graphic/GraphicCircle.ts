@@ -43,6 +43,10 @@ class GraphicCircle extends Placement {
     context: CanvasRenderingContext2D,
     transform: TransformCoordinate,
   ): void {
+    if (this.color) {
+      context.strokeStyle = this.color;
+    }
+
     context.beginPath();
     // context.fillStyle = "rgba(50,100,50,0.9)";
     const pt = transform.wcToCanvas(this.pt);

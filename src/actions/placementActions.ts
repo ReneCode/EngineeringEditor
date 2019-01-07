@@ -93,6 +93,28 @@ export const updatePlacementAction = (
   };
 };
 
+export const updateOnePlacementAction = (
+  placement: Placement,
+  property: string,
+  value: string,
+): any => {
+  return async (
+    dispatch: any,
+    getState: GetGlobalStateFunction,
+  ): Promise<any> => {
+    // TODO apiUpdateOnePlacement
+
+    await dispatch({
+      type: actionTypes.UPDATE_PLACEMENT_PROPERTY,
+      payload: {
+        placement,
+        property,
+        value,
+      },
+    });
+  };
+};
+
 export const deletePlacementAction = (
   placement: Placement | Placement[],
 ): any => {

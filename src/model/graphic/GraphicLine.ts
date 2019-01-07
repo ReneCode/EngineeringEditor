@@ -40,7 +40,17 @@ class GraphicLine extends Placement {
     context: CanvasRenderingContext2D,
     transform: TransformCoordinate,
   ): void {
+    if (this.color) {
+      context.strokeStyle = this.color;
+    }
+
     context.beginPath();
+    if (this.layer === "autoconnect") {
+      context.strokeStyle = "#e11";
+    } else if (this.color) {
+      console.log(":", this.color);
+      context.strokeStyle = this.color;
+    }
     const p1 = transform.wcToCanvas(this.p1);
     context.moveTo(p1.x, p1.y);
     const p2 = transform.wcToCanvas(this.p2);

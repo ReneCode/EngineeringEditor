@@ -24,7 +24,7 @@ class AutoConnectionUtil {
     this.placements = placements;
   }
 
-  getConnectionPairs(): IPlacementAndConnectionPointPair[] {
+  public getConnectionPairs(): IPlacementAndConnectionPointPair[] {
     const connectionPoints = this.getSortedConnectionPoints();
 
     const pairs = [];
@@ -47,7 +47,7 @@ class AutoConnectionUtil {
     return pairs;
   }
 
-  match(
+  private match(
     source: IPlacementAndConnectionPoint,
     dest: IPlacementAndConnectionPoint,
   ): boolean {
@@ -69,7 +69,7 @@ class AutoConnectionUtil {
     return false;
   }
 
-  getSortedConnectionPoints() {
+  private getSortedConnectionPoints() {
     return this.placements
       .filter((p: Placement) => p.type === "symbolref")
       .map((p: Placement) => p as GraphicSymbolRef)

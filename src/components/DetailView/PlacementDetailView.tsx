@@ -4,6 +4,7 @@ import PropertyView from "./PropertyView";
 
 interface IProps {
   placement: Placement;
+  onChange: Function;
 }
 
 const PageDetailView = (props: IProps) => {
@@ -13,7 +14,11 @@ const PageDetailView = (props: IProps) => {
       <div>Placement</div>
       <PropertyView item={placement} property={"id"} />
       <PropertyView item={placement} property={"projectId"} />
-      <PropertyView item={placement} property={"color"} />
+      <PropertyView
+        item={placement}
+        property={"color"}
+        onChange={props.onChange}
+      />
     </React.Fragment>
   );
 };

@@ -2,6 +2,7 @@ import * as actionTypes from "../actions/actionTypes";
 import Point from "../common/point";
 import Placement from "../model/Placement";
 import GraphicSymbol from "../model/graphic/GraphicSymbol";
+import { IAction } from "../actions/action";
 
 export interface IGraphicState {
   symbols: GraphicSymbol[];
@@ -164,6 +165,21 @@ const updatePlacements = (state: IGraphicState, action: any) => {
   };
 };
 
+const updatePlacementProperty = (
+  state: IGraphicState,
+  action: IAction,
+) => {
+  return {
+    ...state,
+    items: state.items.map(p => {
+      if (p === action.payload.placement) {
+        (p as any)[action.payload.property] = action.payload.value;
+      }
+      return p;
+    }),
+  };
+};
+
 /*
   delete .items with .layer in action.payload
 */
@@ -229,6 +245,9 @@ const graphicReducer = (state = initialState, action: any) => {
 
     case actionTypes.UPDATE_PLACEMENT:
       return updatePlacements(state, action);
+
+    case actionTypes.UPDATE_PLACEMENT_PROPERTY:
+      return updatePlacementProperty(state, action);
 
     case actionTypes.SET_CANVAS_SIZE:
       return {
