@@ -19,7 +19,13 @@ interface IProps {
 
 class DetailView extends Component<IProps> {
   onPageChange = (page: Page, property: string, value: string) => {
-    this.props.dispatch(updatePageAction(page, property, value));
+    if (property !== "name") {
+      throw new Error("bad property onPageChange");
+    }
+    const newPage = deepClone(page);
+    newPage[property] = value;
+
+    this.props.dispatch(updatePageAction(newPage));
   };
 
   onPlacementChange = (

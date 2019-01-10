@@ -1,11 +1,7 @@
 import Page from "../../model/Page";
 import graphql from "./graphql";
 
-const apiUpdatePage = async (
-  page: Page,
-  property: string,
-  value: string,
-) => {
+const apiUpdatePage = async (page: Page) => {
   const query = `mutation updatePage($input: UpdatePageInput!) {
     updatePage(input: $input)
   }`;
@@ -13,8 +9,7 @@ const apiUpdatePage = async (
     input: {
       projectId: page.projectId,
       id: page.id,
-      property,
-      value,
+      name: page.name,
     },
   };
 

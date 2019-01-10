@@ -3,24 +3,16 @@ import Page from "../model/Page";
 import { GetGlobalStateFunction } from "../model/types";
 import apiUpdatePage from "../common/api/apiUpdatePage";
 
-const updatePageAction = (
-  page: Page,
-  property: string,
-  value: string,
-) => {
+const updatePageAction = (page: Page) => {
   return async (
     dispatch: any,
     getState: GetGlobalStateFunction,
   ): Promise<any> => {
-    await apiUpdatePage(page, property, value);
+    await apiUpdatePage(page);
 
     await dispatch({
       type: actionTypes.UPDATE_PAGE,
-      payload: {
-        page,
-        property,
-        value,
-      },
+      payload: page,
     });
 
     try {

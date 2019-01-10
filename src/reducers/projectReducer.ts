@@ -19,13 +19,15 @@ const initialState: IProjectState = {
 };
 
 const updatePage = (state: IProjectState, action: IAction) => {
+  const newPage = action.payload;
   return {
     ...state,
     pages: state.pages.map(p => {
-      if (p === action.payload.page) {
-        (p as any)[action.payload.property] = action.payload.value;
+      if (p.id === newPage.id) {
+        return newPage;
+      } else {
+        return p;
       }
-      return p;
     }),
   };
 };
