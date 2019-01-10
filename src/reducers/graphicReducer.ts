@@ -41,7 +41,7 @@ const initialState: IGraphicState = {
   },
   viewport: {
     x: -500,
-    y: -500,
+    y: 200,
     width: 1000,
     height: 1000,
   },

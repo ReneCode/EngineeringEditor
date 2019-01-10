@@ -12,6 +12,7 @@ import {
   IA_CREATE_POLYGON,
   IA_CREATE_CONNECTION_POINT,
 } from "../../actions/interactionTypes";
+import { zoomFullAction } from "../../actions/zoomFull";
 
 interface IProps {
   dispatch: Function;
@@ -22,6 +23,10 @@ class DrawingWorkspace extends Component<IProps> {
     super(props);
     this.state = {};
   }
+
+  onZoomFull = () => {
+    this.props.dispatch(zoomFullAction());
+  };
 
   onSelectSymbol = () => {
     this.props.dispatch(actions.showModal("selectSymbol"));
@@ -66,6 +71,9 @@ class DrawingWorkspace extends Component<IProps> {
         </button>
         <button className="button" onClick={this.onSelectSymbol}>
           Place Symbol
+        </button>
+        <button className="button" onClick={this.onZoomFull}>
+          Zoom full
         </button>
         <button
           className="button"

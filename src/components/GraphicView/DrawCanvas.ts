@@ -5,6 +5,7 @@ import Placement from "../../model/Placement";
 import { connect } from "react-redux";
 import { IGlobalState } from "../../reducers";
 import Point from "../../common/point";
+import GraphicRect from "../../model/graphic/GraphicRect";
 
 interface IProps {
   getCanvas(): HTMLCanvasElement;
@@ -97,8 +98,26 @@ class DrawCanvas extends Component<IProps> {
     });
     context.restore();
 
+    // this.drawViewport(context, transform);
+
     this.drawCursor(context, transform);
   };
+
+  drawViewport(
+    context: CanvasRenderingContext2D,
+    transform: TransformCoordinate,
+  ) {
+    const { viewport } = this.props.graphic;
+    const rect = new GraphicRect(
+      new Point(viewport.x, viewport.y),
+      new Point(
+        viewport.x + viewport.width,
+        viewport.y + viewport.height,
+      ),
+    );
+    rect.color = "red";
+    rect.draw(context, transform);
+  }
 
   drawCursor(
     context: CanvasRenderingContext2D,

@@ -26,6 +26,8 @@ const setPageId = (projectId: IdType, pageId: IdType) => {
 
       await updateAutoconnection(dispatch, getState);
 
+      // if there is no viewport for this page start with full-screen
+
       await dispatch({
         type: actionTypes.SET_PAGE_ID,
         payload: pageId,

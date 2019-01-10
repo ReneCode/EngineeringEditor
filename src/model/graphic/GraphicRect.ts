@@ -38,6 +38,10 @@ class GraphicRect extends Placement {
     context: CanvasRenderingContext2D,
     transform: TransformCoordinate,
   ): void {
+    if (this.color) {
+      context.strokeStyle = this.color;
+    }
+
     context.beginPath();
     const p1 = transform.wcToCanvas(this.p1);
     const p2 = transform.wcToCanvas(this.p2);

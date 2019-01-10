@@ -37,12 +37,8 @@ export const SET_PAGES = "SET_PAGES";
 export const ADD_PAGE = "ADD_PAGE";
 export const UPDATE_PAGE = "UPDATE_PAGE";
 
-export const ZOOM_FULL = "ZOOM_FULL";
-
 export const USE_GRID = "USE_GRID";
 
 export const SHOW_MODAL = "SHOW_MODAL";
 
 export const SET_ERROR = "SET_ERROR";
-
-export const SET_VIEW_OBJECT = "SET_VIEW_OBJECT";

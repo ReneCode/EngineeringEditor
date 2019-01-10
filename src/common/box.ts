@@ -20,6 +20,41 @@ export default class Box {
     return this.p2;
   }
 
+  x(): number {
+    return this.p1.x;
+  }
+  y(): number {
+    return this.p1.y;
+  }
+
+  width(): number {
+    return this.p2.x - this.p1.x;
+  }
+
+  height(): number {
+    return this.p2.y - this.p1.y;
+  }
+
+  expandByPoint(pt: Point): Box {
+    return new Box(
+      new Point(Math.min(this.p1.x, pt.x), Math.min(this.p1.y, pt.y)),
+      new Point(Math.max(this.p2.x, pt.x), Math.max(this.p2.y, pt.y)),
+    );
+  }
+
+  expandByBox(box: Box): Box {
+    return new Box(
+      new Point(
+        Math.min(this.p1.x, box.p1.x),
+        Math.min(this.p1.y, box.p1.y),
+      ),
+      new Point(
+        Math.max(this.p2.x, box.p2.x),
+        Math.max(this.p2.y, box.p2.y),
+      ),
+    );
+  }
+
   // box is inside or partly inside this
   intersect(box: Box): boolean {
     return (

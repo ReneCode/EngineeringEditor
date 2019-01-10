@@ -61,3 +61,8 @@ https://github.com/Microsoft/TypeScript-React-Starter#typescript-react-starter
 ### toJSON / fromJSON
 
 http://choly.ca/post/typescript-json/
+
+## coding rules
+
+UPDATE*... Actions => payload is the new object that will exchange the old object with the same .id.
+So before dispatch(UPDATE*...Action ) a new object has to be created by `deepClone(currentObject)`

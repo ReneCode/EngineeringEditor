@@ -3,7 +3,6 @@ import { ModalId } from "../model/types";
 import { IAction } from "./action";
 import { IaEventType } from "../components/interaction/IaBase";
 export * from "./mouseActions";
-export * from "./zoomActions";
 export * from "./createSymbol";
 
 export const setTempItem = (item: any = undefined) => {

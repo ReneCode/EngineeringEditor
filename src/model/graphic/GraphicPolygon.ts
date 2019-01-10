@@ -68,6 +68,14 @@ class GraphicPolygon extends Placement {
     return polygon;
   }
 
+  getBoundingBox(): Box {
+    let box = new Box(this.points[0], this.points[0]);
+    this.points.forEach(pt => {
+      box = box.expandByPoint(pt);
+    });
+    return box;
+  }
+
   // first and last point are equal
   closed(): boolean {
     const len = this.points.length;

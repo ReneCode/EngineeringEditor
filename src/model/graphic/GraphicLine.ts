@@ -63,6 +63,10 @@ class GraphicLine extends Placement {
     line.p2 = line.p2.add(pt);
     return line;
   }
+
+  getBoundingBox(): Box {
+    return new Box(this.p1, this.p2);
+  }
 }
 
 export default GraphicLine;

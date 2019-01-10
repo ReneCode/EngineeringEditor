@@ -39,6 +39,12 @@ class Placement {
     throw new Error("translate has to be overwritten by:" + this);
   }
 
+  getBoundingBox(): Box {
+    throw new Error(
+      "getBoundingBox has to be overwritten by:" + this,
+    );
+  }
+
   // translate(pt: Point) {
   //   const placement = new Placement(
   //     this.projectId,
