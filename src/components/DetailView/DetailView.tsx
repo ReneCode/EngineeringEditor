@@ -7,7 +7,8 @@ import Placement from "../../model/Placement";
 import { IdType } from "../../model/types";
 import Page from "../../model/Page";
 import updatePageAction from "../../actions/updatePage";
-import { updateOnePlacementAction } from "../../actions/placementActions";
+import { updatePlacementAction } from "../../actions/placementActions";
+import deepClone from "../../common/deepClone";
 
 interface IProps {
   selectedItems: Placement[];
@@ -26,9 +27,11 @@ class DetailView extends Component<IProps> {
     property: string,
     value: string,
   ) => {
-    this.props.dispatch(
-      updateOnePlacementAction(placement, property, value),
-    );
+    const newPlacement = deepClone(placement);
+    // todo validate property & value
+    newPlacement[property] = value;
+
+    this.props.dispatch(updatePlacementAction(newPlacement));
   };
 
   render() {

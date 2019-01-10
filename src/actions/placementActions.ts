@@ -11,6 +11,7 @@ import { makeArray } from "../model/dtoUtil";
 import { updateAllSymbolRef } from "../model/updateSymbolRef";
 import { GetGlobalStateFunction, LayerType } from "../model/types";
 import { IAction } from "./action";
+import deepClone from "../common/deepClone";
 
 export const deleteLayerAction = (payload: LayerType): IAction => {
   return {
@@ -90,28 +91,6 @@ export const updatePlacementAction = (
     } catch (ex) {
       console.log(ex);
     }
-  };
-};
-
-export const updateOnePlacementAction = (
-  placement: Placement,
-  property: string,
-  value: string,
-): any => {
-  return async (
-    dispatch: any,
-    getState: GetGlobalStateFunction,
-  ): Promise<any> => {
-    // TODO apiUpdateOnePlacement
-
-    await dispatch({
-      type: actionTypes.UPDATE_PLACEMENT_PROPERTY,
-      payload: {
-        placement,
-        property,
-        value,
-      },
-    });
   };
 };
 
