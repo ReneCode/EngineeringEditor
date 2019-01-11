@@ -56,20 +56,26 @@ class SelectSymbolModal extends Component<IProps> {
     if (context) {
       context.clearRect(0, 0, width, height);
 
-      // TODO calc bounding-box of symbol
-      const viewport: IViewport = {
-        x: -400,
-        y: -400,
-        width: 800,
-        height: 800,
-      };
-
-      const transform = new TransformCoordinate(viewport, {
-        width,
-        height,
-      });
       if (this.state.activeSymbol) {
-        this.state.activeSymbol.draw(context, transform);
+        let box = this.state.activeSymbol.getBoundingBox();
+
+        // 10% margin on each side
+        const dx = box.width() * 0.1;
+        const dy = box.height() * 0.1;
+        const viewport: IViewport = {
+          x: box.x() - dx,
+          y: box.y() - dy,
+          width: box.width() + 2 * dx,
+          height: box.height() + 2 * dy,
+        };
+
+        const transform = new TransformCoordinate(viewport, {
+          width,
+          height,
+        });
+        if (this.state.activeSymbol) {
+          this.state.activeSymbol.draw(context, transform);
+        }
       }
     }
   };
