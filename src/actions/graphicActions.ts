@@ -19,7 +19,7 @@ export const setCanvasSize = (width: number, height: number) => {
   };
 };
 
-export const setViewport = (
+export const setViewportAction = (
   x: number,
   y: number,
   width: number,

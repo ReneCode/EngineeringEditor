@@ -9,6 +9,7 @@ export interface IProjectState {
   pageId: IdType;
   pages: Page[];
   showModalId: ModalId;
+  pageViewports: {};
 }
 
 const initialState: IProjectState = {
@@ -16,6 +17,7 @@ const initialState: IProjectState = {
   pageId: "",
   pages: [],
   showModalId: "",
+  pageViewports: {},
 };
 
 const updatePage = (state: IProjectState, action: IAction) => {
@@ -30,6 +32,23 @@ const updatePage = (state: IProjectState, action: IAction) => {
       }
     }),
   };
+};
+
+// save viewport for each pageId
+const setViewport = (
+  state: IProjectState,
+  action: IAction,
+): IProjectState => {
+  if (state.pageId) {
+    const pageViewports = state.pageViewports;
+    (pageViewports as any)[state.pageId] = action.payload;
+    return {
+      ...state,
+      pageViewports,
+    };
+  } else {
+    return state;
+  }
 };
 
 const projectReducer = (state = initialState, action: IAction) => {
@@ -65,6 +84,9 @@ const projectReducer = (state = initialState, action: IAction) => {
         ...state,
         projectId: action.payload,
       };
+
+    case actionTypes.SET_VIEWPORT:
+      return setViewport(state, action);
 
     default:
       return state;

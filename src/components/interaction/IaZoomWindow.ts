@@ -3,7 +3,7 @@ import Point from "../../common/point";
 import GraphicRect from "../../model/graphic/GraphicRect";
 import TransformCoordinate from "../../common/transformCoordinate";
 import { setTempItem } from "../../actions";
-import { setViewport } from "../../actions/graphicActions";
+import { setViewportAction } from "../../actions/graphicActions";
 
 class IaZoomWindow extends IaBase {
   constructor(config: IaContext) {
@@ -76,7 +76,7 @@ class IaZoomWindow extends IaBase {
     const tc = new TransformCoordinate(viewport, canvas);
     const correctedViewport = tc.viewport;
     this.context.dispatch(
-      setViewport(
+      setViewportAction(
         correctedViewport.x,
         correctedViewport.y,
         correctedViewport.width,
