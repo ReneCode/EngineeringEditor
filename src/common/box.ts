@@ -35,6 +35,14 @@ export default class Box {
     return this.p2.y - this.p1.y;
   }
 
+  add(pt: Point): Box {
+    return new Box(this.p1.add(pt), this.p2.add(pt));
+  }
+
+  sub(pt: Point): Box {
+    return new Box(this.p1.sub(pt), this.p2.sub(pt));
+  }
+
   expandByPoint(pt: Point): Box {
     return new Box(
       new Point(Math.min(this.p1.x, pt.x), Math.min(this.p1.y, pt.y)),

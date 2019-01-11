@@ -83,6 +83,10 @@ class GraphicConnectionPoint extends Placement {
     connectionPoint.pt = connectionPoint.pt.add(pt);
     return connectionPoint;
   }
+
+  getBoundingBox(): Box {
+    return new Box(this.pt, this.pt);
+  }
 }
 
 export default GraphicConnectionPoint;

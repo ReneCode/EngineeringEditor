@@ -3,6 +3,7 @@ import TransformCoordinate from "../../common/transformCoordinate";
 import { IdType, GraphicType } from "../types";
 import Placement from "../Placement";
 import ObjectFactory from "../ObjectFactory";
+import Box from "../../common/box";
 
 class GraphicSymbol {
   projectId: IdType;
@@ -44,6 +45,17 @@ class GraphicSymbol {
     return this.items.some((item: Placement) =>
       item.nearPoint(pt.add(this.insertPt), radius),
     );
+  }
+
+  getBoundingBox(): Box {
+    if (this.items.length === 0) {
+      return new Box(new Point(), new Point());
+    }
+    let box = this.items[0].getBoundingBox();
+    this.items.forEach(item => {
+      box = box.expandByBox(item.getBoundingBox());
+    });
+    return box.sub(this.insertPt);
   }
 }
 

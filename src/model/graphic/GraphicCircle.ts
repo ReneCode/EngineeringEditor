@@ -28,11 +28,11 @@ class GraphicCircle extends Placement {
   }
 
   insideBox(box: Box): boolean {
-    const bbox = this.boundingBox();
+    const bbox = this.getBoundingBox();
     return box.intersect(bbox);
   }
 
-  boundingBox(): Box {
+  getBoundingBox(): Box {
     return new Box(
       new Point(this.pt.x - this.radius, this.pt.y - this.radius),
       new Point(this.pt.x + this.radius, this.pt.y + this.radius),

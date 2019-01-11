@@ -76,6 +76,14 @@ class GraphicSymbolRef extends Placement {
       pt: this.pt.add(pt),
     });
   }
+
+  getBoundingBox(): Box {
+    if (!this.symbol) {
+      throw Error("symbol not found");
+    }
+    let box = this.symbol.getBoundingBox();
+    return box.add(this.pt);
+  }
 }
 
 export default GraphicSymbolRef;

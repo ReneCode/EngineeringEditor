@@ -54,4 +54,20 @@ describe("box", () => {
     expect(box.x()).toEqual(20);
     expect(box.y()).toEqual(100);
   });
+
+  it("add", () => {
+    let box = new Box(new Point(20, 170), new Point(80, 100));
+    box = box.add(new Point(100, 200));
+    expect(box).toEqual(
+      new Box(new Point(120, 300), new Point(180, 370)),
+    );
+  });
+
+  it("sub", () => {
+    let box = new Box(new Point(20, 170), new Point(80, 100));
+    box = box.sub(new Point(100, 200));
+    expect(box).toEqual(
+      new Box(new Point(-80, -100), new Point(-20, -30)),
+    );
+  });
 });
