@@ -1,3 +1,5 @@
+@import "./variables.scss";
+
 html,
 body {
   font-family: arial, sans-serif;
@@ -57,11 +59,6 @@ nav.menu .text {
   text-align: center;
 }
 
-.active {
-  background: #455;
-  color: #ddd;
-}
-
 .SidebarButton:hover {
   background: #666;
 }
@@ -98,8 +95,8 @@ nav.menu .text {
 .Workspace {
   flex-grow: 0;
   width: 200px;
-  background-color: #222;
-  color: #ddd;
+  background-color: $bk-color;
+  color: $text-color;
 }
 
 .scrolling {
@@ -184,12 +181,16 @@ nav.menu .text {
 }
 
 .list-item {
+  color: $text-color-dimmed;
   padding: 5px;
 }
-
 .list-item:hover {
+  background-color: $bk-color-hover;
   cursor: pointer;
-  background-color: #666;
+}
+.active {
+  background: $bk-color-selected;
+  color: $text-color;
 }
 
 .showtop {
@@ -217,12 +218,13 @@ nav.menu .text {
 
 .ObjectView {
   width: 200px;
-  background-color: #222;
-  color: #bbb;
+  background-color: $bk-color;
+  color: $text-color;
   padding: 0px;
 }
 
 .PropertyView {
+  height: 20px;
   font-size: 12px;
   display: flex;
   flex-direction: row;
@@ -232,16 +234,24 @@ nav.menu .text {
 }
 
 .prop-name {
-  width: 50px;
+  color: $text-color-dimmed;
+  width: 70px;
   font-weight: 300;
   flex-grow: 0;
 }
 
 .prop-value {
-  color: #333;
+  background-color: $bk-color;
+  color: $text-color;
   flex-grow: 1;
+  outline: none;
+  border: 1px solid $text-color-dimmed;
+  padding: 3px;
+  box-sizing: border-box;
 }
 
-.prop-value:blur {
-  color: #333;
+.prop-value:focus {
+  border: 2px solid $bk-color-selected;
+}
+.prop-value:read-only {
 }

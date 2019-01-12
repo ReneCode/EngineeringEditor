@@ -36,13 +36,14 @@ class PropertyView extends Component<IProps> {
   };
 
   render() {
-    // const value = this.props.item[this.props.property];
+    const readonly = !this.props.onChange;
     return (
       <div className="PropertyView">
         <div className="prop-name">{this.props.property}</div>
         <input
           className="prop-value"
           type="text"
+          readOnly={readonly}
           value={this.state.value}
           onChange={this.onChange}
         />

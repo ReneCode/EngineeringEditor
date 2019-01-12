@@ -7,7 +7,7 @@ import AppFrame from "./components/AppFrame";
 
 import store from "./store";
 
-import "./styles.css";
+import "./styles.scss";
 import "./split-pane.css";
 
 function Main() {
