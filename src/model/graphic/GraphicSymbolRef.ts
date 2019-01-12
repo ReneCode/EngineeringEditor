@@ -20,16 +20,6 @@ class GraphicSymbolRef extends Placement {
     this.symbol = symbol;
   }
 
-  toJSON(): object {
-    return (<any>Object).assign(
-      {},
-      {
-        pt: this.pt.toJSON(),
-        name: this.name,
-      },
-    );
-  }
-
   static fromJSON(json: any): GraphicSymbolRef {
     const group = Object.create(GraphicSymbolRef.prototype);
     return (<any>Object).assign(group, json, {

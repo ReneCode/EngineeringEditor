@@ -4,15 +4,15 @@ import ObjectFactory from "./ObjectFactory";
 import GraphicSymbolRef from "./graphic/GraphicSymbolRef";
 
 class PlacementFactory {
-  static toDTO(obj: Placement | Placement[]): any {
+  static toDTO(
+    obj: Placement | Placement[],
+  ): DtoPlacement | DtoPlacement[] {
     if (!obj) {
       throw new Error("placement missing");
     }
 
     if (Array.isArray(obj)) {
-      return obj.map((o: any) => {
-        return <Placement>PlacementFactory.toDTO(o);
-      });
+      return obj.map(o => <DtoPlacement>PlacementFactory.toDTO(o));
     }
 
     const json = Object.assign({}, obj);

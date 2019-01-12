@@ -4,10 +4,16 @@ import apiLoadPages from "../common/api/apiLoadPage";
 import apiCreatePage from "../common/api/apiCreatePage";
 import Page from "../model/Page";
 import apiLoadSymbols from "../common/api/apiLoadSymbol";
+import { updateAllSymbolRef } from "../model/updateSymbolRef";
 
 export const setProjectId = (projectId: IdType) => {
   return async (dispatch: any): Promise<any> => {
     const symbols = await apiLoadSymbols(projectId);
+    // symbol-items can be SymbolRef - that has to be connected
+    // to the right symbol
+    symbols.forEach(symbol => {
+      updateAllSymbolRef(symbol.items, symbols, true);
+    });
 
     await dispatch({
       type: actionTypes.SET_PROJECT_ID,

@@ -25,7 +25,10 @@ class ObjectFactory {
       case "connectionpoint":
         return GraphicConnectionPoint.fromJSON(json);
       default:
-        throw new Error("bad json type:" + json.type);
+        // throw new Error("bad json type:" + json.type);
+        console.log("bad type:", json.type);
+        debugger;
+        return {};
     }
   }
 
