@@ -4,7 +4,21 @@ import GraphicSymbol from "./graphic/GraphicSymbol";
 
 class ElementFactory {
   static toDTO(obj: GraphicSymbol): DtoElement {
-    const json = Object.assign({}, obj);
+    const rawItems = obj.items.map(p => {
+      return {
+        ...p,
+        projectId: undefined,
+        pageId: undefined,
+        id: undefined,
+        symbol:
+          p.type === "symbolref" ? undefined : (p as any).symbol,
+      };
+    });
+    const modifiedObject = {
+      ...obj,
+      items: rawItems,
+    };
+    const json = Object.assign({}, modifiedObject);
     delete json.id;
     delete json.name;
     delete json.projectId;

@@ -27,6 +27,16 @@ describe("ElementFactory", () => {
     const newSymbol = <GraphicSymbol>ElementFactory.fromDTO(dto);
     expect(newSymbol).toBeInstanceOf(GraphicSymbol);
     expect(newSymbol.items[0]).toBeInstanceOf(GraphicLine);
+    const newLine = <GraphicLine>newSymbol.items[0];
+
+    expect(newLine.p1).toEqual(line.p1);
+    expect(newLine.id).toBeFalsy();
+
+    // delete the properties that are not needed inside a symbol
+    delete line.pageId;
+    delete line.projectId;
+    delete line.id;
+
     expect(newSymbol).toEqual(symbol);
   });
 
@@ -66,6 +76,13 @@ describe("ElementFactory", () => {
     const newSymbolRef = newSymbol.items[0] as GraphicSymbolRef;
     expect(newSymbolRef.name).toEqual(symbolRef.name);
     expect(newSymbolRef.pt).toEqual(symbolRef.pt);
+    expect(newSymbolRef.symbol).toBeFalsy();
+
+    // delete properties that are not expected to be set
+    delete symbolRef.symbol;
+    delete symbolRef.pageId;
+    delete symbolRef.projectId;
+    delete symbolRef.id;
 
     expect(newSymbol).toEqual(symbol);
   });

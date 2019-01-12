@@ -19,8 +19,10 @@ describe("GraphicSymbol", () => {
       new Point(2, 3),
       new Point(4, 5),
     );
+    itemLine.id = "id-line";
     itemLine.color = "blue";
     const itemCircle = new GraphicCircle(new Point(10, 20), 15);
+    itemCircle.id = "id-circle";
     itemCircle.color = "red";
     symbol.items = [itemLine, itemCircle];
 
@@ -61,8 +63,18 @@ describe("GraphicSymbol", () => {
     expect(gotDto).toHaveProperty("projectId", symbol.projectId);
     expect(gotDto).not.toHaveProperty("items");
     const newSymbol = ElementFactory.fromDTO(gotDto) as GraphicSymbol;
+    expect(newSymbol.items[0]).toBeInstanceOf(GraphicLine);
+    expect(newSymbol.items[1]).toBeInstanceOf(GraphicCircle);
+    expect(newSymbol.items[0].id).toBeFalsy();
+    expect(newSymbol.items[1].pageId).toBeFalsy();
+
+    // remove .id .projectId, .pageId from items to compare
+    symbol.items = symbol.items.map(p => {
+      delete p.pageId;
+      delete p.projectId;
+      delete p.id;
+      return p;
+    });
     expect(newSymbol).toEqual(symbol);
-    expect(newSymbol.items[0] instanceof GraphicLine).toBeTruthy();
-    expect(newSymbol.items[1] instanceof GraphicCircle).toBeTruthy();
   });
 });
