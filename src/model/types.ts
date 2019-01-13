@@ -15,7 +15,8 @@ export type GraphicType =
   | "polygon"
   | "circle"
   | "connectionpoint"
-  | "rect";
+  | "rect"
+  | "text";
 
 export type ModalId = "" | "selectSymbol";
 

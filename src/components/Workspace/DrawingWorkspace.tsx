@@ -11,6 +11,7 @@ import {
   IA_CREATE_SYMBOL,
   IA_CREATE_POLYGON,
   IA_CREATE_CONNECTION_POINT,
+  IA_CREATE_TEXT,
 } from "../../actions/interactionTypes";
 import { zoomFullAction } from "../../actions/zoomFull";
 
@@ -63,6 +64,11 @@ class DrawingWorkspace extends Component<IProps> {
           className="button"
           onClick={() => this.startIa(IA_CREATE_POLYGON)}>
           Polygon
+        </button>
+        <button
+          className="button"
+          onClick={() => this.startIa(IA_CREATE_TEXT)}>
+          Text
         </button>
         <button
           className="button"

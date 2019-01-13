@@ -10,6 +10,7 @@ import IaBase, { IaContext } from "./IaBase";
 import IaSelect from "./IaSelect";
 import IaMove from "./IaMove";
 import IaCreateSymol from "./IaCreateSymbol";
+import IaText from "./IaText";
 
 const iaMap: { [key: string]: any } = {
   IA_DELETE_ITEM: IaDelete,
@@ -22,6 +23,7 @@ const iaMap: { [key: string]: any } = {
   IA_ZOOM_WINDOW: IaZoomWindow,
   IA_SELECT: IaSelect,
   IA_MOVE: IaMove,
+  IA_CREATE_TEXT: IaText,
 };
 
 class InteractionStarter {

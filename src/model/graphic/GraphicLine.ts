@@ -47,8 +47,6 @@ class GraphicLine extends Placement {
     context.beginPath();
     if (this.layer === "autoconnect") {
       context.strokeStyle = "#e11";
-    } else if (this.color) {
-      context.strokeStyle = this.color;
     }
     const p1 = transform.wcToCanvas(this.p1);
     context.moveTo(p1.x, p1.y);

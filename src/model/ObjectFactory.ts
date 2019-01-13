@@ -4,6 +4,7 @@ import GraphicCircle from "./graphic/GraphicCircle";
 import GraphicSymbolRef from "./graphic/GraphicSymbolRef";
 import GraphicSymbol from "./graphic/GraphicSymbol";
 import GraphicConnectionPoint from "./graphic/GraphicConnectionPoint";
+import GraphicText from "./graphic/GraphicText";
 
 class ObjectFactory {
   static fromJSON(json: any): object | object[] {
@@ -24,6 +25,8 @@ class ObjectFactory {
         return GraphicSymbol.fromJSON(json);
       case "connectionpoint":
         return GraphicConnectionPoint.fromJSON(json);
+      case "text":
+        return GraphicText.fromJSON(json);
       default:
         throw new Error("bad json type:" + json.type);
     }

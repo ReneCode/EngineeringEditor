@@ -2,6 +2,7 @@ import React from "react";
 import Placement from "../../model/Placement";
 import PropertyView from "./PropertyView";
 import GraphicConnectionPoint from "../../model/graphic/GraphicConnectionPoint";
+import GraphicText from "../../model/graphic/GraphicText";
 
 interface IProps {
   placement: Placement;
@@ -20,6 +21,27 @@ const PageDetailView = (props: IProps) => {
         property={"index"}
         onChange={props.onChange}
       />
+    );
+  } else if (placement instanceof GraphicText) {
+    title = "Text";
+    moreComponent = (
+      <React.Fragment>
+        <PropertyView
+          item={placement}
+          property={"text"}
+          onChange={props.onChange}
+        />
+        <PropertyView
+          item={placement}
+          property={"fontSize"}
+          onChange={props.onChange}
+        />
+        <PropertyView
+          item={placement}
+          property={"font"}
+          onChange={props.onChange}
+        />
+      </React.Fragment>
     );
   }
   return (
