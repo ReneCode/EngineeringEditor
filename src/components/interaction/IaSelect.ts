@@ -1,4 +1,3 @@
-import * as actions from "../../actions";
 import IaBase, { IaContext, IaEventType } from "./IaBase";
 import IaRectRubberband, {
   IaRectRubberbandResult,
@@ -7,26 +6,28 @@ import Box from "../../common/box";
 import IaMove from "./IaMove";
 import { deletePlacementAction } from "../../actions/placementActions";
 import {
-  addSelectedItem,
+  addSelectedItemAction,
   clearSelectedItem,
+  setSelectedItemAction,
 } from "../../actions/graphicActions";
 import { setCursorModeAction } from "../../actions";
+import Placement from "../../model/Placement";
 
 class IaSelect extends IaBase {
   constructor(context: IaContext) {
     super(context);
   }
 
-  selectFromRect({ p1, p2 }: IaRectRubberbandResult) {
+  getItemsFromRect({ p1, p2 }: IaRectRubberbandResult): Placement[] {
     // null-size box is invalid
     if (p1.equal(p2)) {
-      return;
+      return [];
     }
     const box = new Box(p1, p2);
     const items = this.context
       .getState()
       .graphic.items.filter(p => p.pickable() && p.insideBox(box));
-    this.context.dispatch(addSelectedItem(items));
+    return items;
   }
 
   async start() {
@@ -54,20 +55,37 @@ class IaSelect extends IaBase {
         }
       }
       if (result.type === IaEventType.mouseDown) {
+        const event = result.event as MouseEvent;
         const items = this.pickItems(result.pointWc);
         const firstPoint = result.pointWc;
         if (items.length === 0) {
           // no item picked => select by rect-rubberband
-          this.context.dispatch(clearSelectedItem());
+          if (!event.metaKey && !event.ctrlKey) {
+            // will add seleted item , so do not clear the old selected items
+            this.context.dispatch(clearSelectedItem());
+          }
 
           const iaRectRubberband = new IaRectRubberband(this.context);
           const result = await iaRectRubberband.start(firstPoint);
           if (result) {
-            this.selectFromRect(result);
+            const itemsInRect = this.getItemsFromRect(result);
+            if (event.metaKey || event.ctrlKey) {
+              this.context.dispatch(
+                addSelectedItemAction(itemsInRect),
+              );
+            } else {
+              this.context.dispatch(
+                setSelectedItemAction(itemsInRect),
+              );
+            }
           }
         } else {
           // items selected => start moving
-          this.context.dispatch(addSelectedItem(items));
+          if (event.metaKey || event.ctrlKey) {
+            this.context.dispatch(addSelectedItemAction(items));
+          } else {
+            this.context.dispatch(setSelectedItemAction(items));
+          }
           const iaMove = new IaMove(this.context);
           await iaMove.start(firstPoint);
         }

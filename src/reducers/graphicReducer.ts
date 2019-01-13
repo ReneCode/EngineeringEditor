@@ -121,6 +121,16 @@ const deletePlacement = (state: IGraphicState, action: any) => {
   };
 };
 
+const setSelectedItem = (state: IGraphicState, action: any) => {
+  let newItems = action.payload;
+  if (!Array.isArray(newItems)) {
+    newItems = [newItems];
+  }
+  return {
+    ...state,
+    selectedItems: newItems,
+  };
+};
 const addSelectedItem = (state: IGraphicState, action: any) => {
   let newItems = action.payload;
   if (!Array.isArray(newItems)) {
@@ -259,12 +269,12 @@ const graphicReducer = (state = initialState, action: any) => {
         selectedItems: [],
       };
 
+    case actionTypes.SET_SELECTED_ITEM:
+      return setSelectedItem(state, action);
     case actionTypes.ADD_SELECTED_ITEM:
       return addSelectedItem(state, action);
-
     case actionTypes.REMOVE_SELECTED_ITEM:
       return removeSelectedItem(state, action);
-
     case actionTypes.UPDATE_SELECTED_ITEM:
       return updateSelectedItem(state, action);
 

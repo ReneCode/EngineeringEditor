@@ -36,7 +36,17 @@ export const setViewportAction = (
   };
 };
 
-export const addSelectedItem = (item: Placement | Placement[]) => {
+export const setSelectedItemAction = (
+  item: Placement | Placement[],
+) => {
+  return {
+    type: actionTypes.SET_SELECTED_ITEM,
+    payload: item,
+  };
+};
+export const addSelectedItemAction = (
+  item: Placement | Placement[],
+) => {
   return {
     type: actionTypes.ADD_SELECTED_ITEM,
     payload: item,

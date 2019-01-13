@@ -22,6 +22,7 @@ describe("GraphicConnectionPoint", () => {
     const content = {
       direction: connectionPoint.direction,
       pt: { x: 4, y: 5 },
+      index: 0,
     };
 
     dto = {

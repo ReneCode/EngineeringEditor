@@ -47,6 +47,7 @@ class DetailView extends Component<IProps> {
       const placement = this.props.selectedItems[0];
       component = (
         <PlacementDetailView
+          key={placement.id}
           placement={placement}
           onChange={this.onPlacementChange}
         />

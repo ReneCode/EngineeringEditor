@@ -17,10 +17,12 @@ const RADIUS_CANVAS = 5;
 class GraphicConnectionPoint extends Placement {
   pt: Point;
   direction: ConnectionPointDirection = ConnectionPointDirection.DOWN;
+  index: number;
 
   constructor(pt: Point) {
     super("connectionpoint");
     this.pt = pt || new Point(0, 0);
+    this.index = 0;
   }
 
   static fromJSON(json: any): GraphicConnectionPoint {
