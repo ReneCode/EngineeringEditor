@@ -33,3 +33,5 @@ export interface IIaEvent {
   pointCanvas?: Point;
   transform?: TransformCoordinate;
 }
+
+export type IIaEventHandler = (ev: IIaEvent) => {};

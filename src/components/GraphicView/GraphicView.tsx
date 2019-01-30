@@ -72,6 +72,7 @@ class GraphicView extends Component<IProps> {
       <div className="middle-content">
         <div ref={div => (this.frame = div)} className="GraphicView">
           <canvas
+            tabIndex={0}
             className="canvas"
             ref={canvas => (this.canvas = canvas)}
             width={this.state.width}

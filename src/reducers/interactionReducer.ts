@@ -1,10 +1,11 @@
 import * as actionTypes from "../actions/actionTypes";
 import { IAction } from "../actions/action";
 import { IaEventType } from "../components/interaction/IaBase";
+import { IIaEvent, IIaEventHandler } from "../model/types";
 
 interface EventHandler {
   eventType: IaEventType;
-  handler: Function;
+  handler: IIaEventHandler;
 }
 
 export interface IInteractionState {
