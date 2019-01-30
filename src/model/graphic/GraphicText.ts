@@ -9,6 +9,7 @@ class GraphicText extends Placement {
   text: string;
   font: string = "Arial";
   fontSize: number = 12;
+  ref: string = "";
 
   constructor(text: string, pt: Point) {
     super("text");
@@ -30,6 +31,7 @@ class GraphicText extends Placement {
   draw(
     context: CanvasRenderingContext2D,
     transform: TransformCoordinate,
+    options: any,
   ) {
     context.save();
     context.fillStyle = "black";
@@ -39,10 +41,24 @@ class GraphicText extends Placement {
     context.beginPath();
 
     const sizeCanvas = transform.wcLengthToCanvas(this.fontSize);
-
-    context.font = `${sizeCanvas}px ${this.font}`;
     const ptCanvas = transform.wcToCanvas(this.pt);
-    context.fillText(this.text, ptCanvas.x, ptCanvas.y);
+    let italic = "";
+    let text = this.text;
+    if (this.ref) {
+      if (options && options.parent) {
+        try {
+          const obj = options.parent;
+          text = obj[this.ref];
+        } catch (e) {
+          console.log(e);
+        }
+      } else {
+        text = `ref#${this.ref}`;
+        // italic = "italic";
+      }
+    }
+    context.font = `${italic} ${sizeCanvas}px ${this.font}`;
+    context.fillText(text, ptCanvas.x, ptCanvas.y);
     context.stroke();
     context.restore();
   }
@@ -55,6 +71,10 @@ class GraphicText extends Placement {
 
   getBoundingBox(): Box {
     return new Box(this.pt, this.pt);
+  }
+
+  insideBox(box: Box): boolean {
+    return box.isPointInside(this.pt);
   }
 }
 

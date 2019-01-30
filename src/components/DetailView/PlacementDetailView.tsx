@@ -41,6 +41,11 @@ const PageDetailView = (props: IProps) => {
           property={"font"}
           onChange={props.onChange}
         />
+        <PropertyView
+          item={placement}
+          property={"ref"}
+          onChange={props.onChange}
+        />
       </React.Fragment>
     );
   }

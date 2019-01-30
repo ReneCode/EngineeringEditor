@@ -19,6 +19,7 @@ class Placement {
   draw(
     context: CanvasRenderingContext2D,
     transform: TransformCoordinate,
+    option: any = null,
   ) {
     throw new Error("draw has to be overwritten by:" + this);
   }

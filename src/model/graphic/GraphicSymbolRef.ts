@@ -40,7 +40,7 @@ class GraphicSymbolRef extends Placement {
     const symbol = <GraphicSymbol>this.symbol;
     transform.save();
     transform.addTranslateWc(this.pt);
-    symbol.draw(context, transform);
+    symbol.draw(context, transform, { parent: this });
     transform.restore();
   }
 

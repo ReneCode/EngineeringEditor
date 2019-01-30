@@ -31,10 +31,11 @@ class GraphicSymbol {
   draw(
     context: CanvasRenderingContext2D,
     transform: TransformCoordinate,
+    options: any = null,
   ) {
     transform.addTranslateWc(this.insertPt.invert());
     this.items.forEach((item: Placement) => {
-      item.draw(context, transform);
+      item.draw(context, transform, options);
     });
   }
 
