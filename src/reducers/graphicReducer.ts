@@ -160,6 +160,25 @@ const setPlacement = (state: IGraphicState, action: any) => {
 
 const updatePlacements = (state: IGraphicState, action: any) => {
   let placements = action.payload;
+  let selectedItems = state.selectedItems;
+
+  // check if selectedItems are also changed
+  let updateSelectedItems = false;
+  let newSelectedItems = selectedItems.map(oneSelectedItem => {
+    const newPlacement = placements.find(
+      (p: Placement) => p.id === oneSelectedItem.id,
+    );
+    if (newPlacement) {
+      updateSelectedItems = true;
+      return newPlacement;
+    } else {
+      return oneSelectedItem;
+    }
+  });
+  if (!updateSelectedItems) {
+    // no changes
+    newSelectedItems = selectedItems;
+  }
   return {
     ...state,
     items: state.items.map(currentPlacement => {
@@ -172,6 +191,7 @@ const updatePlacements = (state: IGraphicState, action: any) => {
         return currentPlacement;
       }
     }),
+    selectedItems: newSelectedItems,
   };
 };
 
