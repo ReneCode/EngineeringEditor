@@ -28,9 +28,15 @@ class FirstPageRedirect extends Component<RouteComponentProps<any>> {
         pageId: "first",
       };
       const result = await graphql(query, variables);
-      const pageId = result.project.page.id;
-      const url = `/p/${projectId}/s/${pageId}`;
-      this.setState({ redirect: url });
+      if (result && result.project && result.project.page) {
+        const pageId = result.project.page.id;
+        const url = `/p/${projectId}/s/${pageId}`;
+        this.setState({ redirect: url });
+      } else {
+        // no first page
+        const url = `/p/${projectId}/nopage`;
+        this.setState({ redirect: url });
+      }
     }
   }
 

@@ -1,7 +1,7 @@
 import { wait } from "react-testing-library";
 
 describe("first test", () => {
-  it("start", () => {
+  it.skip("start", () => {
     cy.visit("/");
     cy.contains("Projects").click();
     cy.url().should("include", "/project");

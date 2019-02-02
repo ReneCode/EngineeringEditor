@@ -14,7 +14,7 @@ class ProjectOverview extends Component {
   state = {
     projects: [],
     projectFileNames: [],
-    selectedProjectName: "",
+    selectedProjectId: "",
     showNewProjectModal: false,
   };
 
@@ -118,8 +118,21 @@ class ProjectOverview extends Component {
     }
   };
 
+  onDelete = async project => {
+    const query = `mutation DeleteProject($input: DeleteProjectInput!) {
+      deleteProject(input: $input)
+    }`;
+    const variables = {
+      input: {
+        id: project.id,
+      },
+    };
+    const result = await graphql(query, variables);
+    await this.loadProjects();
+  };
+
   onClickSelectProject = async project => {
-    if (this.state.selectedProjectName === project.name) {
+    if (this.state.selectedProjectId === project.id) {
       let id = project.id;
       if (!id) {
         id = await this.importProject(project.name);
@@ -127,7 +140,7 @@ class ProjectOverview extends Component {
       this.props.history.push(`/p/${id}/firstpage`);
     } else {
       this.setState({
-        selectedProjectName: project.name,
+        selectedProjectId: project.id,
       });
     }
   };
@@ -150,7 +163,6 @@ class ProjectOverview extends Component {
       if (name1 > name2) return 1;
       return 0;
     });
-
     return (
       <div>
         <div data-testid="projectlist" className="projectlist">
@@ -163,10 +175,11 @@ class ProjectOverview extends Component {
               <ProjectCard
                 key={index}
                 project={p}
-                active={this.state.selectedProjectName === p.name}
+                active={this.state.selectedProjectId === p.id}
                 onClick={this.onClickSelectProject}
                 onExport={p.id && this.onExport}
                 onImport={canImport && this.onImport}
+                onDelete={p.id && this.onDelete}
               />
             );
           })}

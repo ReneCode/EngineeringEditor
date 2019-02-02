@@ -155,6 +155,7 @@ const setPlacement = (state: IGraphicState, action: any) => {
   return {
     ...state,
     items: [].concat(newItems),
+    selectedItems: [],
   };
 };
 
@@ -242,12 +243,6 @@ const graphicReducer = (state = initialState, action: any) => {
         ...state,
         tempItems: [].concat(action.payload ? action.payload : []),
       };
-
-    // case actionTypes.SET_GRAPHIC_ITEMS:
-    //   return {
-    //     ...state,
-    //     items: action.payload,
-    //   };
 
     case actionTypes.ADD_PLACEMENT:
       return {

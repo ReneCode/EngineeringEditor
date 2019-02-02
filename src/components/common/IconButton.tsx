@@ -5,6 +5,11 @@ import SvgExport from "./SvgExport";
 import SvgImport from "./SvgImport";
 import SvgDots from "./SvgDots";
 
+import { ReactComponent as Upload } from "./svg/icon-upload.svg";
+import { ReactComponent as Download } from "./svg/icon-download.svg";
+import { ReactComponent as Trash } from "./svg/trash.svg";
+import { ReactComponent as Close } from "./svg/close.svg";
+
 interface IProps {
   onClick: Function;
   icon: string;
@@ -13,16 +18,25 @@ interface IProps {
 
 const IconButton = (props: IProps) => {
   let svg;
-  switch (props.icon) {
+  switch (props.icon.toLowerCase()) {
     case "export":
-      svg = <SvgExport />;
+      svg = <Upload />;
       break;
     case "import":
-      svg = <SvgImport />;
+      svg = <Download />;
+      break;
+
+    case "trash":
+      svg = <Trash />;
+      break;
+    case "close":
+      svg = <Close />;
       break;
     case "dots":
       svg = <SvgDots />;
       break;
+    default:
+      return null;
   }
 
   return (
@@ -30,9 +44,7 @@ const IconButton = (props: IProps) => {
       className="icon-btn"
       onClick={() => props.onClick()}
       title={props.title}>
-      <svg className="svg-icon" viewBox="0 0 20 20">
-        {svg}
-      </svg>
+      <div className="svg-icon">{svg}</div>
     </div>
   );
 };

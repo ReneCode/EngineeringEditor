@@ -2,12 +2,14 @@ import React from "react";
 
 import "./ProjectCard.scss";
 import IconButton from "../common/IconButton";
+import SvgIcon from "../common/SvgIcon";
 
 const ProjectCard = ({
   active,
   onClick,
   onImport,
   onExport,
+  onDelete,
   project,
 }) => {
   let className = "projectcard";
@@ -20,6 +22,14 @@ const ProjectCard = ({
         <div className="name">{project.name}</div>
       </div>
       <div className="actions">
+        {onDelete && (
+          <IconButton
+            icon="trash"
+            onClick={() => onDelete(project)}
+            title="Delete"
+          />
+        )}
+
         {onExport && (
           <IconButton
             icon="export"
