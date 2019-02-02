@@ -2,7 +2,6 @@ import React from "react";
 
 import "./ProjectCard.scss";
 import IconButton from "../common/IconButton";
-import SvgIcon from "../common/SvgIcon";
 
 const ProjectCard = ({
   active,

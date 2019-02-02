@@ -127,7 +127,7 @@ class ProjectOverview extends Component {
         id: project.id,
       },
     };
-    const result = await graphql(query, variables);
+    await graphql(query, variables);
     await this.loadProjects();
   };
 
