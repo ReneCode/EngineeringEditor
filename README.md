@@ -12,6 +12,12 @@ https://github.com/typicode/json-server
 
 ##svg icons
 http://svgicons.sparkk.fr/
+http://www.zondicons.com/icons.html
+http://www.steveschoger.com/2018/01/04/introducing-heroicons-ui/
+
+# show svg as react-component
+
+https://facebook.github.io/create-react-app/docs/adding-images-fonts-and-files
 
 ## javascript hints
 
