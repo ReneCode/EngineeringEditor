@@ -14,6 +14,7 @@ import {
   IA_CREATE_TEXT,
 } from "../../actions/interactionTypes";
 import { zoomFullAction } from "../../actions/zoomFull";
+import { undoAction, redoAction } from "../../actions/undo";
 
 interface IProps {
   dispatch: Function;
@@ -27,6 +28,13 @@ class DrawingWorkspace extends Component<IProps> {
 
   onZoomFull = () => {
     this.props.dispatch(zoomFullAction());
+  };
+
+  onUndo = () => {
+    this.props.dispatch(undoAction());
+  };
+  onRedo = () => {
+    this.props.dispatch(redoAction());
   };
 
   onSelectSymbol = () => {
@@ -90,6 +98,12 @@ class DrawingWorkspace extends Component<IProps> {
           className="button"
           onClick={() => this.startIa(IA_CREATE_CONNECTION_POINT)}>
           Connection Point
+        </button>
+        <button className="button" onClick={this.onUndo}>
+          Undo
+        </button>
+        <button className="button" onClick={this.onRedo}>
+          Redo
         </button>
       </div>
     );
