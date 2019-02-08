@@ -54,6 +54,10 @@ const initialState: IGraphicState = {
   },
 };
 
+const containsWithSameId = (items: Placement[], item: Placement) => {
+  return items.findIndex(i => i.id === item.id) >= 0;
+};
+
 /*
   update the selectedItems if that id is found in the action.payload
 */
@@ -87,11 +91,11 @@ const removeSelectedItem = (state: IGraphicState, action: any) => {
   let selectedItems;
   if (Array.isArray(action.payload)) {
     selectedItems = state.selectedItems.filter(
-      i => !action.payload.includes(i),
+      i => !containsWithSameId(action.payload, i),
     );
   } else {
     selectedItems = state.selectedItems.filter(
-      i => i !== action.payload,
+      i => i.id !== action.payload.id,
     );
   }
   return {
@@ -109,9 +113,11 @@ const deletePlacement = (state: IGraphicState, action: any) => {
   if (!Array.isArray(action.payload)) {
     throw new Error("payload has to be array of placements");
   }
-  const items = state.items.filter(i => !action.payload.includes(i));
+  const items = state.items.filter(
+    i => !containsWithSameId(action.payload, i),
+  );
   const selectedItems = state.selectedItems.filter(
-    i => !action.payload.includes(i),
+    i => !containsWithSameId(action.payload, i),
   );
 
   return {

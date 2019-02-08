@@ -2,7 +2,7 @@ import IaBase, { IaContext, IaEventType } from "./IaBase";
 import Point from "../../common/point";
 import GraphicCircle from "../../model/graphic/GraphicCircle";
 import { setTempItem } from "../../actions";
-import { createPlacementAction } from "../../actions/placementActions";
+import { createElementAction } from "../../actions/createElement";
 
 class IaCircle extends IaBase {
   constructor(config: IaContext) {
@@ -47,7 +47,9 @@ class IaCircle extends IaBase {
           ) {
             // finish
             if (!secondPoint.equal(middlePoint)) {
-              this.context.dispatch(createPlacementAction(circle));
+              this.context.dispatch(
+                createElementAction("placement", circle),
+              );
               this.context.dispatch(setTempItem());
               run = false;
             }
