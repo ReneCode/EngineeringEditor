@@ -4,6 +4,7 @@ import GraphicCircle from "../../model/graphic/GraphicCircle";
 import { setTempItem } from "../../actions";
 import { createPlacementAction } from "../../actions/placementActions";
 import GraphicText from "../../model/graphic/GraphicText";
+import { createElementAction } from "../../actions/createElement";
 
 class IaText extends IaBase {
   constructor(config: IaContext) {
@@ -32,7 +33,9 @@ class IaText extends IaBase {
           result.type === IaEventType.mouseDown
         ) {
           // finish
-          this.context.dispatch(createPlacementAction(text));
+          this.context.dispatch(
+            createElementAction("placement", text),
+          );
           this.context.dispatch(setTempItem());
           run = false;
         }

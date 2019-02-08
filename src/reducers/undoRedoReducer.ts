@@ -77,6 +77,7 @@ const undoRedoReducer = (
       }
       return {
         ...state,
+        currentIndex,
         canRedo,
         canUndo,
       };

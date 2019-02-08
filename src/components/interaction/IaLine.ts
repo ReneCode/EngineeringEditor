@@ -53,7 +53,6 @@ class IaLine extends IaBase {
               if (!secondPoint.equal(startPoint)) {
                 await this.context.dispatch(
                   createElementAction("placement", line),
-                  // createPlacementAction(line),
                 );
                 this.context.dispatch(setTempItem());
                 run = false;

@@ -37,8 +37,8 @@ export const createPlacementAction = (
       const projectId = getState().project.projectId;
       const pageId = getState().project.pageId;
       placements = placements.map(p => {
-        p.projectId = projectId;
-        p.pageId = pageId;
+        p.projectId = p.projectId || projectId;
+        p.pageId = p.pageId || pageId;
         return p;
       });
 

@@ -2,6 +2,7 @@ import IaBase, { IaContext, IaEventType } from "./IaBase";
 import GraphicPolygon from "../../model/graphic/GraphicPolygon";
 import { setTempItem } from "../../actions";
 import { createPlacementAction } from "../../actions/placementActions";
+import { createElementAction } from "../../actions/createElement";
 
 class IaPolygon extends IaBase {
   constructor(config: IaContext) {
@@ -72,7 +73,9 @@ class IaPolygon extends IaBase {
       // remove last dynamic point
       this.context.dispatch(setTempItem(polygon));
       if (polygon.points.length >= 2) {
-        await this.context.dispatch(createPlacementAction(polygon));
+        await this.context.dispatch(
+          createElementAction("placement", polygon),
+        );
         this.context.dispatch(setTempItem());
         return { restart: true };
       }

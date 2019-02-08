@@ -9,7 +9,10 @@ import {
   UndoRedoEntry,
   UndoRedoListType,
 } from "../reducers/undoRedoReducer";
-import { deletePlacementAction } from "./placementActions";
+import {
+  deletePlacementAction,
+  createPlacementAction,
+} from "./placementActions";
 
 export const undoRedoAddStartMarkerCommit = () => {
   return {
@@ -36,6 +39,7 @@ export const undoAction = () => {
   return async (dispatch: any, getState: () => IGlobalState) => {
     try {
       const undoRedo = getState().undoredo;
+      console.log("undo:", undoRedo);
       if (!undoRedo.canUndo) {
         return false;
       }
@@ -54,6 +58,7 @@ export const undoAction = () => {
         type: UNDO_REDO_SET_INDEX,
         payload: index,
       });
+      return true;
     } catch (execption) {
       console.log(execption);
     }
@@ -63,6 +68,29 @@ export const undoAction = () => {
 export const redoAction = () => {
   return async (dispatch: any, getState: () => IGlobalState) => {
     try {
+      const undoRedo = getState().undoredo;
+      console.log("redo:", undoRedo);
+      if (!undoRedo.canRedo) {
+        return false;
+      }
+      let index = undoRedo.currentIndex;
+      index++;
+      if (undoRedo.urList[index] !== "START") {
+        throw new Error("bad redo list");
+      }
+
+      while (
+        index + 1 < undoRedo.urList.length &&
+        undoRedo.urList[index + 1] !== "START"
+      ) {
+        index++;
+        const urEntry = undoRedo.urList[index];
+        await dispatch(redoEntryAction(urEntry));
+      }
+      await dispatch({
+        type: UNDO_REDO_SET_INDEX,
+        payload: index,
+      });
     } catch (execption) {
       console.log(execption);
     }
@@ -74,10 +102,24 @@ export const undoEntryAction = (entry: UndoRedoListType) => {
     if (entry === "START") {
       throw new Error("bad call undoEntryAction");
     }
-
+    console.log("undoEntry", entry);
     if (!entry.oldData) {
       // undo 'create' => remove
       dispatch(deletePlacementAction(entry.newData));
+    }
+  };
+};
+
+export const redoEntryAction = (entry: UndoRedoListType) => {
+  return async (dispatch: any, getState: () => IGlobalState) => {
+    if (entry === "START") {
+      throw new Error("bad call undoEntryAction");
+    }
+    console.log("redoEntry", entry);
+
+    if (!entry.oldData) {
+      // redo 'create' => create
+      dispatch(createPlacementAction(entry.newData));
     }
   };
 };

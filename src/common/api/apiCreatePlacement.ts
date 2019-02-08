@@ -16,6 +16,7 @@ const apiCreatePlacements = async (
 
       return {
         type: json.type,
+        id: placement.id,
         projectId: placement.projectId,
         pageId: placement.pageId,
         content: json.content,
