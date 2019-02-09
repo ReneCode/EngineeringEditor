@@ -3,6 +3,7 @@ import Point from "../common/point";
 import Placement from "../model/Placement";
 import GraphicSymbol from "../model/graphic/GraphicSymbol";
 import { IAction } from "../actions/action";
+import { makeArray } from "../model/dtoUtil";
 
 export interface IGraphicState {
   symbols: GraphicSymbol[];
@@ -65,10 +66,7 @@ export const containsWithSameId = (
   update the selectedItems if that id is found in the action.payload
 */
 const updateSelectedItem = (state: IGraphicState, action: any) => {
-  let items: Placement[] = action.payload;
-  if (!Array.isArray(items)) {
-    items = [items];
-  }
+  let items: Placement[] = makeArray(action.payload);
 
   // const toIdObject = (acc: any, item: any)
   const idToItem = items.reduce((acc: any, item: any) => {
@@ -92,15 +90,10 @@ const updateSelectedItem = (state: IGraphicState, action: any) => {
 
 const removeSelectedItem = (state: IGraphicState, action: any) => {
   let selectedItems;
-  if (Array.isArray(action.payload)) {
-    selectedItems = state.selectedItems.filter(
-      i => !containsWithSameId(action.payload, i),
-    );
-  } else {
-    selectedItems = state.selectedItems.filter(
-      i => i.id !== action.payload.id,
-    );
-  }
+  const items = makeArray(action.payload);
+  selectedItems = items.filter(
+    i => !containsWithSameId(action.payload, i),
+  );
   return {
     ...state,
     selectedItems,

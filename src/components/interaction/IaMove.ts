@@ -7,6 +7,7 @@ import {
   updateSelectedItem,
 } from "../../actions/graphicActions";
 import { updatePlacementAction } from "../../actions/placementActions";
+import { updateElementAction } from "../../actions/createElement";
 
 class IaMove extends IaBase {
   constructor(config: IaContext) {
@@ -44,7 +45,7 @@ class IaMove extends IaBase {
           case IaEventType.mouseUp:
             if (!firstPoint.equal(secondPoint)) {
               await this.context.dispatch(
-                updatePlacementAction(movedItems),
+                updateElementAction("placement", movedItems),
               );
               this.context.dispatch(clearSelectedItem());
             }

@@ -14,7 +14,7 @@ import {
   IA_CREATE_TEXT,
 } from "../../actions/interactionTypes";
 import { zoomFullAction } from "../../actions/zoomFull";
-import { undoAction, redoAction } from "../../actions/undo";
+import { undoAction, redoAction } from "../../actions/undoRedo";
 
 interface IProps {
   dispatch: Function;

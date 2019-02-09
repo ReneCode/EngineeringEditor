@@ -1,6 +1,6 @@
 import * as actionTypes from "../actions/actionTypes";
 import { IAction } from "../actions/action";
-import { RefType } from "../actions/createElement";
+import { RefType } from "../model/types";
 
 export type IUndoRedoState = {
   urList: UndoRedoListType[];
@@ -9,14 +9,16 @@ export type IUndoRedoState = {
   canRedo: boolean;
 };
 
-export type UndoRedoEntry = {
+export type UndoRedoListEntry = {
   ref: RefType;
   oldData: any;
   newData: any;
 };
 
 type UndoRedoStartMarker = "START";
-export type UndoRedoListType = UndoRedoEntry | UndoRedoStartMarker;
+export type UndoRedoListType =
+  | UndoRedoListEntry
+  | UndoRedoStartMarker;
 
 const initialState: IUndoRedoState = {
   urList: [],

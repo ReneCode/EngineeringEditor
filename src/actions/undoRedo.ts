@@ -4,15 +4,19 @@ import {
   UNDO_REDO_ADD,
   UNDO_REDO_SET_INDEX,
 } from "./actionTypes";
-import { RefType } from "./createElement";
+
 import {
-  UndoRedoEntry,
+  UndoRedoListEntry,
   UndoRedoListType,
 } from "../reducers/undoRedoReducer";
+
 import {
   deletePlacementAction,
   createPlacementAction,
+  updatePlacementAction,
 } from "./placementActions";
+
+import { RefType } from "../model/types";
 
 export const undoRedoAddStartMarkerCommit = () => {
   return {
@@ -24,7 +28,7 @@ export const undoRedoAddCommit = (
   ref: RefType,
   oldData: any,
   newData: any,
-): { type: string; payload: UndoRedoEntry } => {
+): { type: string; payload: UndoRedoListEntry } => {
   return {
     type: UNDO_REDO_ADD,
     payload: {
@@ -39,7 +43,6 @@ export const undoAction = () => {
   return async (dispatch: any, getState: () => IGlobalState) => {
     try {
       const undoRedo = getState().undoredo;
-      console.log("undo:", undoRedo);
       if (!undoRedo.canUndo) {
         return false;
       }
@@ -47,7 +50,7 @@ export const undoAction = () => {
       let index = undoRedo.currentIndex;
       while (index >= 0 && undoRedo.urList[index] != "START") {
         const urEntry = undoRedo.urList[index];
-        await dispatch(undoEntryAction(urEntry));
+        await dispatch(undoOneEntryAction(urEntry));
         index--;
       }
       if (undoRedo.urList[index] !== "START") {
@@ -69,7 +72,6 @@ export const redoAction = () => {
   return async (dispatch: any, getState: () => IGlobalState) => {
     try {
       const undoRedo = getState().undoredo;
-      console.log("redo:", undoRedo);
       if (!undoRedo.canRedo) {
         return false;
       }
@@ -85,7 +87,7 @@ export const redoAction = () => {
       ) {
         index++;
         const urEntry = undoRedo.urList[index];
-        await dispatch(redoEntryAction(urEntry));
+        await dispatch(redoOneEntryAction(urEntry));
       }
       await dispatch({
         type: UNDO_REDO_SET_INDEX,
@@ -97,35 +99,39 @@ export const redoAction = () => {
   };
 };
 
-export const undoEntryAction = (entry: UndoRedoListType) => {
+export const undoOneEntryAction = (entry: UndoRedoListType) => {
   return async (dispatch: any, getState: () => IGlobalState) => {
     if (entry === "START") {
       throw new Error("bad call undoEntryAction");
     }
-    console.log("undoEntry", entry);
     if (!entry.oldData) {
-      // undo 'create' => remove
+      // undo 'create' => delete
       dispatch(deletePlacementAction(entry.newData));
     } else if (!entry.newData) {
-      // undo 'remove' => create
+      // undo 'delete' => create
       dispatch(createPlacementAction(entry.oldData));
+    } else {
+      // undo 'update' => update(old)
+      dispatch(updatePlacementAction(entry.oldData));
     }
   };
 };
 
-export const redoEntryAction = (entry: UndoRedoListType) => {
+export const redoOneEntryAction = (entry: UndoRedoListType) => {
   return async (dispatch: any, getState: () => IGlobalState) => {
     if (entry === "START") {
       throw new Error("bad call undoEntryAction");
     }
-    console.log("redoEntry", entry);
 
     if (!entry.oldData) {
       // redo 'create' => create
       dispatch(createPlacementAction(entry.newData));
     } else if (!entry.newData) {
-      // redo 'remove' => remove
+      // redo 'delete' => delete
       dispatch(deletePlacementAction(entry.oldData));
+    } else {
+      // redo 'update' => update(new)
+      dispatch(updatePlacementAction(entry.newData));
     }
   };
 };

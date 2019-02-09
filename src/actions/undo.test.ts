@@ -2,7 +2,7 @@ import undoRedoReducer from "../reducers/undoRedoReducer";
 import {
   undoRedoAddStartMarkerCommit,
   undoRedoAddCommit,
-} from "./undo";
+} from "./undoRedo";
 import { UNDO_REDO_SET_INDEX } from "./actionTypes";
 
 describe("undoredo", () => {
