@@ -6,7 +6,6 @@ import {
   clearSelectedItem,
   updateSelectedItem,
 } from "../../actions/graphicActions";
-import { updatePlacementAction } from "../../actions/placementActions";
 import { updateElementAction } from "../../actions/createElement";
 
 class IaMove extends IaBase {

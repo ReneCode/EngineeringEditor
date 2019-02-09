@@ -75,9 +75,7 @@ export const updatePlacementAction = (
     dispatch: any,
     getState: GetGlobalStateFunction,
   ): Promise<any> => {
-    if (!Array.isArray(placement)) {
-      placement = [placement];
-    }
+    placement = makeArray(placement);
     await apiUpdatePlacement(placement);
 
     await dispatch({
@@ -102,9 +100,7 @@ export const deletePlacementAction = (
     getState: () => IGlobalState,
   ): Promise<any> => {
     try {
-      if (!Array.isArray(placement)) {
-        placement = [placement];
-      }
+      placement = makeArray(placement);
 
       await apiDeletePlacements(placement);
       await dispatch({

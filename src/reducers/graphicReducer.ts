@@ -124,20 +124,14 @@ const deletePlacement = (state: IGraphicState, action: any) => {
 };
 
 const setSelectedItem = (state: IGraphicState, action: any) => {
-  let newItems = action.payload;
-  if (!Array.isArray(newItems)) {
-    newItems = [newItems];
-  }
+  let newItems = makeArray(action.payload);
   return {
     ...state,
     selectedItems: newItems,
   };
 };
 const addSelectedItem = (state: IGraphicState, action: any) => {
-  let newItems = action.payload;
-  if (!Array.isArray(newItems)) {
-    newItems = [newItems];
-  }
+  let newItems = makeArray(action.payload);
   // remove items, that are allready in state.selectedItems
   newItems = newItems.filter(
     (i: Placement) => state.selectedItems.indexOf(i) < 0,
@@ -150,13 +144,10 @@ const addSelectedItem = (state: IGraphicState, action: any) => {
 };
 
 const setPlacement = (state: IGraphicState, action: any) => {
-  let newItems = action.payload;
-  if (!Array.isArray(newItems)) {
-    newItems = [newItems];
-  }
+  let newItems: Placement[] = makeArray(action.payload).map(p => p);
   return {
     ...state,
-    items: [].concat(newItems),
+    items: newItems,
     selectedItems: [],
   };
 };
@@ -202,10 +193,7 @@ const updatePlacements = (state: IGraphicState, action: any) => {
   delete .items with .layer in action.payload
 */
 const deleteLayer = (state: IGraphicState, action: any) => {
-  let layer: any = action.payload;
-  if (!Array.isArray(layer)) {
-    layer = [layer];
-  }
+  let layer = makeArray(action.payload);
   const itemsToDelete = state.items.filter((item: Placement) =>
     layer.includes(item.layer),
   );

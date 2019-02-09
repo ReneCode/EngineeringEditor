@@ -10,9 +10,9 @@ import {
   clearSelectedItem,
   setSelectedItemAction,
 } from "../../actions/graphicActions";
-import { setCursorModeAction } from "../../actions";
 import Placement from "../../model/Placement";
 import { deleteElementAction } from "../../actions/createElement";
+import { setCursorModeAction } from "../../actions/setCursorMode";
 
 class IaSelect extends IaBase {
   constructor(context: IaContext) {

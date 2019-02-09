@@ -8,6 +8,7 @@ import InteractionStarter from "./InteractionStarter";
 import { IaContext, GetEventResult, IaEventType } from "./IaBase";
 import { IA_SELECT } from "../../actions/interactionTypes";
 import { DispatchFunction, IIaEvent } from "../../model/types";
+import { makeArray } from "../../model/dtoUtil";
 
 interface IProps {
   getCanvas(): HTMLCanvasElement;
@@ -168,9 +169,7 @@ class Interaction extends Component<IProps> {
   };
 
   getEvent = (types: IaEventType[] | IaEventType): GetEventResult => {
-    if (!Array.isArray(types)) {
-      types = [types];
-    }
+    types = makeArray(types);
     this.waitTypes = types;
     return new Promise((resolve, reject) => {
       this.promiseResolve = resolve;
