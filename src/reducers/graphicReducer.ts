@@ -54,7 +54,10 @@ const initialState: IGraphicState = {
   },
 };
 
-const containsWithSameId = (items: Placement[], item: Placement) => {
+export const containsWithSameId = (
+  items: Placement[],
+  item: Placement,
+) => {
   return items.findIndex(i => i.id === item.id) >= 0;
 };
 

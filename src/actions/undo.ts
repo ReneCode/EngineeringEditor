@@ -106,6 +106,9 @@ export const undoEntryAction = (entry: UndoRedoListType) => {
     if (!entry.oldData) {
       // undo 'create' => remove
       dispatch(deletePlacementAction(entry.newData));
+    } else if (!entry.newData) {
+      // undo 'remove' => create
+      dispatch(createPlacementAction(entry.oldData));
     }
   };
 };
@@ -120,6 +123,9 @@ export const redoEntryAction = (entry: UndoRedoListType) => {
     if (!entry.oldData) {
       // redo 'create' => create
       dispatch(createPlacementAction(entry.newData));
+    } else if (!entry.newData) {
+      // redo 'remove' => remove
+      dispatch(deletePlacementAction(entry.oldData));
     }
   };
 };

@@ -12,6 +12,7 @@ import {
 } from "../../actions/graphicActions";
 import { setCursorModeAction } from "../../actions";
 import Placement from "../../model/Placement";
+import { removeElementAction } from "../../actions/createElement";
 
 class IaSelect extends IaBase {
   constructor(context: IaContext) {
@@ -49,7 +50,7 @@ class IaSelect extends IaBase {
         if (itemsToDelete.length > 0) {
           if (event.key === "Backspace") {
             await this.context.dispatch(
-              deletePlacementAction(itemsToDelete),
+              removeElementAction("placement", itemsToDelete),
             );
           }
         }

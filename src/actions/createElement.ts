@@ -6,7 +6,12 @@ import {
 } from "./undo";
 import apiCreatePlacements from "../common/api/apiCreatePlacement";
 import Placement from "../model/Placement";
-import { createPlacementAction } from "./placementActions";
+import {
+  createPlacementAction,
+  deletePlacementAction,
+} from "./placementActions";
+import { makeArray } from "../model/dtoUtil";
+import { containsWithSameId } from "../reducers/graphicReducer";
 
 interface Element {
   ref: string;
@@ -14,23 +19,7 @@ interface Element {
 }
 
 export type RefType = "placement";
-
-export const dbCreateElement = (ref: RefType, element: any) => {
-  return async (dispatch: any, getState: GetGlobalStateFunction) => {
-    if (element instanceof Placement) {
-      let placements = [element];
-      const projectId = getState().project.projectId;
-      const pageId = getState().project.pageId;
-      placements = placements.map(p => {
-        p.projectId = projectId;
-        p.pageId = pageId;
-        return p;
-      });
-
-      const newPlacements = await apiCreatePlacements(placements);
-    }
-  };
-};
+export type ElementType = Placement | Placement[];
 
 export const createElementAction = (
   ref: RefType,
@@ -49,7 +38,27 @@ export const createElementAction = (
       await dispatch(undoRedoAddCommit(ref, null, newPlacement));
       return newPlacement;
     } catch (ex) {
-      throw new Error("Exception:" + ex);
+      console.log(ex);
+    }
+  };
+};
+
+export const removeElementAction = (
+  ref: RefType,
+  element: ElementType,
+) => {
+  return async (dispatch: any, getState: GetGlobalStateFunction) => {
+    try {
+      const elements: Placement[] = makeArray(element);
+
+      const oldPlacements = getState().graphic.items.filter(i =>
+        containsWithSameId(elements, i),
+      );
+      await dispatch(undoRedoAddStartMarkerCommit());
+      await dispatch(undoRedoAddCommit(ref, oldPlacements, null));
+      await dispatch(deletePlacementAction(elements));
+    } catch (ex) {
+      console.log(ex);
     }
   };
 };
