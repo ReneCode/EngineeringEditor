@@ -22,6 +22,7 @@ class KeyboardHandler extends Component<IProps> {
       } else {
         this.props.dispatch(redoAction());
       }
+      ev.preventDefault();
     }
   };
 
