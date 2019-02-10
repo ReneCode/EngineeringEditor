@@ -3,7 +3,7 @@ import Line from "../../common/line";
 import TransformCoordinate from "../../common/transformCoordinate";
 import deepClone from "../../common/deepClone";
 import Box from "../../common/box";
-import Placement from "../Placement";
+import Placement, { DrawOptions } from "../Placement";
 
 class GraphicLine extends Placement {
   p1: Point;
@@ -39,11 +39,9 @@ class GraphicLine extends Placement {
   draw(
     context: CanvasRenderingContext2D,
     transform: TransformCoordinate,
+    options: DrawOptions,
   ): void {
-    if (this.color) {
-      context.strokeStyle = this.color;
-    }
-
+    this.drawWithOptions(context, options);
     context.beginPath();
     if (this.layer === "autoconnect") {
       context.strokeStyle = "#e11";

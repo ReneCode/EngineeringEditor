@@ -4,6 +4,11 @@ import Point from "../common/point";
 import { encodeJson, DtoPlacement } from "./dtoUtil";
 import Box from "../common/box";
 
+export type DrawOptions = {
+  mode?: "selected" | "temp";
+  parent?: any;
+};
+
 class Placement {
   type: GraphicType;
   id: IdType;
@@ -19,7 +24,7 @@ class Placement {
   draw(
     context: CanvasRenderingContext2D,
     transform: TransformCoordinate,
-    option: any = null,
+    option: DrawOptions = {},
   ) {
     throw new Error("draw has to be overwritten by:" + this);
   }
@@ -44,6 +49,21 @@ class Placement {
     throw new Error(
       "getBoundingBox has to be overwritten by:" + this,
     );
+  }
+
+  protected drawWithOptions(
+    context: CanvasRenderingContext2D,
+    options: DrawOptions,
+  ) {
+    if (this.color) {
+      context.strokeStyle = this.color;
+      context.fillStyle = this.color;
+    }
+    if (options) {
+      if (options.mode === "selected") {
+        context.setLineDash([3, 3]);
+      }
+    }
   }
 
   // translate(pt: Point) {

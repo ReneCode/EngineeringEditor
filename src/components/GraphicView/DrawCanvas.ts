@@ -71,7 +71,7 @@ class DrawCanvas extends Component<IProps> {
 
     // only draw such itmes that are NOT in the selected list
     items.forEach(item => {
-      if (!selectedItems.find((i: any) => i.id === item.id)) {
+      if (!selectedItems.find((i: Placement) => i.id === item.id)) {
         context.save();
         item.draw(context, transform);
         context.restore();
@@ -82,18 +82,18 @@ class DrawCanvas extends Component<IProps> {
     selectedItems.forEach((item: Placement) => {
       context.save();
       context.setLineDash([5, 5]);
-      item.draw(context, transform);
+      item.draw(context, transform, { mode: "selected" });
       context.restore();
     });
 
-    // selected items
+    // temp items
     context.save();
-    context.strokeStyle = "rgba(0,0,0,0.8)";
-    context.fillStyle = "rgba(0,0,0,0.1)";
+    context.strokeStyle = "rgba(20,20,20,0.6)";
+    context.fillStyle = "rgba(20,20,20,0.1)";
     context.lineWidth = 1;
     tempItems.forEach(item => {
       context.save();
-      item.draw(context, transform);
+      item.draw(context, transform, { mode: "temp" });
       context.restore();
     });
     context.restore();

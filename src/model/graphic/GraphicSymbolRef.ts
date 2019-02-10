@@ -2,7 +2,7 @@ import Point from "../../common/point";
 import TransformCoordinate from "../../common/transformCoordinate";
 import GraphicSymbol from "./GraphicSymbol";
 import Box from "../../common/box";
-import Placement from "../Placement";
+import Placement, { DrawOptions } from "../Placement";
 
 class GraphicSymbolRef extends Placement {
   name: string = "";
@@ -31,6 +31,7 @@ class GraphicSymbolRef extends Placement {
   draw(
     context: CanvasRenderingContext2D,
     transform: TransformCoordinate,
+    options: DrawOptions = {},
   ) {
     if (!this.symbol) {
       // throw new Error("symbol not set / " + this.symbolName);
@@ -40,7 +41,10 @@ class GraphicSymbolRef extends Placement {
     const symbol = <GraphicSymbol>this.symbol;
     transform.save();
     transform.addTranslateWc(this.pt);
-    symbol.draw(context, transform, { parent: this });
+    symbol.draw(context, transform, {
+      ...options,
+      parent: this,
+    });
     transform.restore();
   }
 

@@ -16,7 +16,9 @@ class KeyboardHandler extends Component<IProps> {
   }
 
   onKeyDown = (ev: KeyboardEvent) => {
-    if (ev.metaKey && ev.key === "z") {
+    // TODO decide if mac or windows user
+    // mac => metaKey,  windows => ctrlKey
+    if ((ev.metaKey || ev.ctrlKey) && ev.key === "z") {
       if (!ev.shiftKey) {
         this.props.dispatch(undoAction());
       } else {

@@ -3,7 +3,7 @@ import Arc from "../../common/arc";
 import TransformCoordinate from "../../common/transformCoordinate";
 import deepClone from "../../common/deepClone";
 import Box from "../../common/box";
-import Placement from "../Placement";
+import Placement, { DrawOptions } from "../Placement";
 
 class GraphicCircle extends Placement {
   pt: Point;
@@ -42,10 +42,9 @@ class GraphicCircle extends Placement {
   draw(
     context: CanvasRenderingContext2D,
     transform: TransformCoordinate,
+    options: DrawOptions,
   ): void {
-    if (this.color) {
-      context.strokeStyle = this.color;
-    }
+    this.drawWithOptions(context, options);
 
     context.beginPath();
     // context.fillStyle = "rgba(50,100,50,0.9)";

@@ -4,7 +4,6 @@ import IaRectRubberband, {
 } from "./IaRectRubberband";
 import Box from "../../common/box";
 import IaMove from "./IaMove";
-import { deletePlacementAction } from "../../actions/placementActions";
 import {
   addSelectedItemAction,
   clearSelectedItem,
@@ -56,12 +55,15 @@ class IaSelect extends IaBase {
         }
       }
       if (result.type === IaEventType.mouseDown) {
+        // if shift-key is pressed, than the new selection
+        // will be added to the old selection
+        // otherwise the new selection will replace the old selection
         const event = result.event as MouseEvent;
         const items = this.pickItems(result.pointWc);
         const firstPoint = result.pointWc;
         if (items.length === 0) {
           // no item picked => select by rect-rubberband
-          if (!event.metaKey && !event.ctrlKey) {
+          if (!event.shiftKey) {
             // will add seleted item , so do not clear the old selected items
             this.context.dispatch(clearSelectedItem());
           }
@@ -70,7 +72,7 @@ class IaSelect extends IaBase {
           const result = await iaRectRubberband.start(firstPoint);
           if (result) {
             const itemsInRect = this.getItemsFromRect(result);
-            if (event.metaKey || event.ctrlKey) {
+            if (event.shiftKey) {
               this.context.dispatch(
                 addSelectedItemAction(itemsInRect),
               );
@@ -82,7 +84,7 @@ class IaSelect extends IaBase {
           }
         } else {
           // items selected => start moving
-          if (event.metaKey || event.ctrlKey) {
+          if (event.shiftKey) {
             this.context.dispatch(addSelectedItemAction(items));
           } else {
             this.context.dispatch(setSelectedItemAction(items));

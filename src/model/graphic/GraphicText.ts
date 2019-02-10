@@ -1,4 +1,4 @@
-import Placement from "../Placement";
+import Placement, { DrawOptions } from "../Placement";
 import Point from "../../common/point";
 import TransformCoordinate from "../../common/transformCoordinate";
 import Box from "../../common/box";
@@ -31,13 +31,11 @@ class GraphicText extends Placement {
   draw(
     context: CanvasRenderingContext2D,
     transform: TransformCoordinate,
-    options: any,
+    options: DrawOptions = {},
   ) {
     context.save();
     context.fillStyle = "black";
-    if (this.color) {
-      context.fillStyle = this.color;
-    }
+    this.drawWithOptions(context, options);
     context.beginPath();
 
     const sizeCanvas = transform.wcLengthToCanvas(this.fontSize);
@@ -60,6 +58,15 @@ class GraphicText extends Placement {
     context.font = `${italic} ${sizeCanvas}px ${this.font}`;
     context.fillText(text, ptCanvas.x, ptCanvas.y);
     context.stroke();
+
+    if (options.mode === "selected") {
+      const textMetrics = context.measureText(this.text);
+      context.beginPath();
+      context.moveTo(ptCanvas.x, ptCanvas.y);
+      context.lineTo(ptCanvas.x + textMetrics.width, ptCanvas.y);
+      context.stroke();
+    }
+
     context.restore();
   }
 

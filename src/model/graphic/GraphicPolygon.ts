@@ -3,7 +3,7 @@ import Line from "../../common/line";
 import TransformCoordinate from "../../common/transformCoordinate";
 import deepClone from "../../common/deepClone";
 import Box from "../../common/box";
-import Placement from "../Placement";
+import Placement, { DrawOptions } from "../Placement";
 
 class GraphicPolygon extends Placement {
   points: Point[] = [];
@@ -44,10 +44,9 @@ class GraphicPolygon extends Placement {
   draw(
     context: CanvasRenderingContext2D,
     transform: TransformCoordinate,
+    options: DrawOptions,
   ): void {
-    if (this.color) {
-      context.strokeStyle = this.color;
-    }
+    this.drawWithOptions(context, options);
 
     context.beginPath();
     const len = this.points.length;
