@@ -3,6 +3,7 @@ import TransformCoordinate from "../common/transformCoordinate";
 import Point from "../common/point";
 import { encodeJson, DtoPlacement } from "./dtoUtil";
 import Box from "../common/box";
+import GraphicGrip from "./graphic/GraphicGrip";
 
 export type DrawOptions = {
   mode?: "selected" | "temp";
@@ -27,6 +28,10 @@ class Placement {
     option: DrawOptions = {},
   ) {
     throw new Error("draw has to be overwritten by:" + this);
+  }
+
+  getGrips(): GraphicGrip[] {
+    return [];
   }
 
   pickable(): boolean {

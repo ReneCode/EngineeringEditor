@@ -88,18 +88,6 @@ const updateSelectedItem = (state: IGraphicState, action: any) => {
   };
 };
 
-const removeSelectedItem = (state: IGraphicState, action: any) => {
-  let selectedItems;
-  const items = makeArray(action.payload);
-  selectedItems = items.filter(
-    i => !containsWithSameId(action.payload, i),
-  );
-  return {
-    ...state,
-    selectedItems,
-  };
-};
-
 /*
   remove placements from 
     .items
@@ -278,8 +266,6 @@ const graphicReducer = (state = initialState, action: any) => {
       return setSelectedItem(state, action);
     case actionTypes.ADD_SELECTED_ITEM:
       return addSelectedItem(state, action);
-    case actionTypes.REMOVE_SELECTED_ITEM:
-      return removeSelectedItem(state, action);
     case actionTypes.UPDATE_SELECTED_ITEM:
       return updateSelectedItem(state, action);
 

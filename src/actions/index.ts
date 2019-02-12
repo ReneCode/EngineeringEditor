@@ -2,7 +2,6 @@ import * as actionTypes from "./actionTypes";
 import { ModalId } from "../model/types";
 import { IAction } from "./action";
 import { IaEventType } from "../components/interaction/IaBase";
-export * from "./createSymbol";
 
 export const setTempItem = (item: any = undefined) => {
   return {

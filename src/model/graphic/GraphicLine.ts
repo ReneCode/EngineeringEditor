@@ -4,6 +4,7 @@ import TransformCoordinate from "../../common/transformCoordinate";
 import deepClone from "../../common/deepClone";
 import Box from "../../common/box";
 import Placement, { DrawOptions } from "../Placement";
+import GraphicGrip from "./GraphicGrip";
 
 class GraphicLine extends Placement {
   p1: Point;
@@ -41,6 +42,7 @@ class GraphicLine extends Placement {
     transform: TransformCoordinate,
     options: DrawOptions,
   ): void {
+    context.save();
     this.drawWithOptions(context, options);
     context.beginPath();
     if (this.layer === "autoconnect") {
@@ -51,6 +53,13 @@ class GraphicLine extends Placement {
     const p2 = transform.wcToCanvas(this.p2);
     context.lineTo(p2.x, p2.y);
     context.stroke();
+    context.restore();
+  }
+
+  getGrips(): GraphicGrip[] {
+    const g1 = new GraphicGrip(this.p1);
+    const g2 = new GraphicGrip(this.p2);
+    return [g1, g2];
   }
 
   translate(pt: Point) {

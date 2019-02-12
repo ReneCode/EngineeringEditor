@@ -59,7 +59,7 @@ class GraphicText extends Placement {
     context.fillText(text, ptCanvas.x, ptCanvas.y);
     context.stroke();
 
-    if (options.mode === "selected") {
+    if (options && options.mode === "selected") {
       const textMetrics = context.measureText(this.text);
       context.beginPath();
       context.moveTo(ptCanvas.x, ptCanvas.y);

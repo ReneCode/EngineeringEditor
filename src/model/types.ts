@@ -23,7 +23,7 @@ export type ModalId = "" | "selectSymbol";
 
 export type DispatchFunction = (action: any) => any;
 
-export type LayerType = undefined | "autoconnect";
+export type LayerType = undefined | "autoconnect" | "grip";
 
 export type GetGlobalStateFunction = () => IGlobalState;
 

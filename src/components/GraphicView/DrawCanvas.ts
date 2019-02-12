@@ -81,7 +81,7 @@ class DrawCanvas extends Component<IProps> {
     // selected items
     selectedItems.forEach((item: Placement) => {
       context.save();
-      context.setLineDash([5, 5]);
+      // context.setLineDash([5, 5]);
       item.draw(context, transform, { mode: "selected" });
       context.restore();
     });
