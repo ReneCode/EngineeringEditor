@@ -7,7 +7,11 @@ import Placement from "../Placement";
 const SIZE = 10;
 
 class GraphicGrip extends Placement {
-  constructor(private pt: Point) {
+  constructor(
+    public pt: Point,
+    public parent: Placement,
+    public payload: any = undefined,
+  ) {
     super("connectionpoint");
     this.layer = "grip";
   }
@@ -42,13 +46,17 @@ class GraphicGrip extends Placement {
   }
 
   translate(pt: Point): GraphicGrip {
-    const connectionPoint = deepClone(this);
-    connectionPoint.pt = connectionPoint.pt.add(pt);
-    return connectionPoint;
+    const grip = deepClone(this);
+    grip.pt = grip.pt.add(pt);
+    return grip;
   }
 
   getBoundingBox(): Box {
-    return new Box(this.pt, this.pt);
+    const halfSizePoint = new Point(SIZE / 2, SIZE / 2);
+    return new Box(
+      this.pt.sub(halfSizePoint),
+      this.pt.add(halfSizePoint),
+    );
   }
 }
 

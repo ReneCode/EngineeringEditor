@@ -6,12 +6,20 @@ import Box from "../../common/box";
 import IaMove from "./IaMove";
 import {
   addSelectedItemAction,
-  clearSelectedItem,
   setSelectedItemAction,
 } from "../../actions/graphicActions";
 import Placement from "../../model/Placement";
-import { deleteElementAction } from "../../actions/createElement";
+import {
+  deleteElementAction,
+  updateElementAction,
+} from "../../actions/createElement";
 import { setCursorModeAction } from "../../actions/setCursorMode";
+import GraphicGrip from "../../model/graphic/GraphicGrip";
+import Point from "../../common/point";
+import { setTempItem } from "../../actions";
+import { updatePlacementAction } from "../../actions/placementActions";
+
+type MoveGripCallback = (grip: GraphicGrip) => void;
 
 class IaSelect extends IaBase {
   constructor(context: IaContext) {
@@ -55,42 +63,29 @@ class IaSelect extends IaBase {
         }
       }
       if (result.type === IaEventType.mouseDown) {
-        // if shift-key is pressed, than the new selection
-        // will be added to the old selection
-        // otherwise the new selection will replace the old selection
-        const event = result.event as MouseEvent;
-        const items = this.pickItems(result.pointWc);
         const firstPoint = result.pointWc;
-        if (items.length === 0) {
-          // no item picked => select by rect-rubberband
-          if (!event.shiftKey) {
-            // will add seleted item , so do not clear the old selected items
-            this.context.dispatch(clearSelectedItem());
-          }
+        let items = this.pickItems(firstPoint);
 
-          const iaRectRubberband = new IaRectRubberband(this.context);
-          const result = await iaRectRubberband.start(firstPoint);
-          if (result) {
-            const itemsInRect = this.getItemsFromRect(result);
-            if (event.shiftKey) {
-              this.context.dispatch(
-                addSelectedItemAction(itemsInRect),
-              );
-            } else {
-              this.context.dispatch(
-                setSelectedItemAction(itemsInRect),
-              );
-            }
-          }
+        const grips = items.filter(i => i instanceof GraphicGrip);
+        if (grips.length > 0) {
+          await this.moveGrip(grips as GraphicGrip[], firstPoint);
         } else {
-          // items selected => start moving
-          if (event.shiftKey) {
-            this.context.dispatch(addSelectedItemAction(items));
+          // if shift-key is pressed, than the new selection
+          // will be added to the old selection
+          // otherwise the new selection will replace the old selection
+          const event = result.event as MouseEvent;
+          const addSelection = event.shiftKey;
+
+          if (items.length === 0) {
+            // no item picked => select by rect-rubberband
+            await this.selectItemsWithRubberband(
+              addSelection,
+              firstPoint,
+            );
           } else {
-            this.context.dispatch(setSelectedItemAction(items));
+            // some items selected
+            await this.moveItems(items, addSelection, firstPoint);
           }
-          const iaMove = new IaMove(this.context);
-          await iaMove.start(firstPoint);
         }
       }
       this.context.dispatch(setCursorModeAction());
@@ -99,6 +94,73 @@ class IaSelect extends IaBase {
     } finally {
     }
   }
+
+  moveGrip = async (grips: GraphicGrip[], firstPoint: Point) => {
+    let run = true;
+    while (run) {
+      const result = await this.context.getEvent([
+        IaEventType.mouseMove,
+        IaEventType.mouseUp,
+      ]);
+      const pt = result.pointWc;
+      const delta = pt.sub(firstPoint);
+
+      const movedGrips = grips.map(g => g.translate(delta));
+
+      const changedPlacements = movedGrips.map(g =>
+        g.parent.gripChanged(g.pt, g.payload),
+      );
+
+      await this.context.dispatch(
+        setTempItem(changedPlacements.concat(movedGrips)),
+      );
+      if (result.type === IaEventType.mouseUp) {
+        await this.context.dispatch(setTempItem());
+        await this.context.dispatch(
+          updateElementAction("placement", changedPlacements),
+        );
+        await this.context.dispatch(
+          setSelectedItemAction(changedPlacements),
+        );
+        run = false;
+      }
+    }
+  };
+
+  selectItemsWithRubberband = async (
+    addSelection: boolean,
+    firstPoint: Point,
+  ) => {
+    if (!addSelection) {
+      // create new selection - so clear the old selection before
+      this.context.dispatch(setSelectedItemAction([]));
+    }
+
+    const iaRectRubberband = new IaRectRubberband(this.context);
+    const result = await iaRectRubberband.start(firstPoint);
+    if (result) {
+      const itemsInRect = this.getItemsFromRect(result);
+      if (addSelection) {
+        this.context.dispatch(addSelectedItemAction(itemsInRect));
+      } else {
+        this.context.dispatch(setSelectedItemAction(itemsInRect));
+      }
+    }
+  };
+
+  moveItems = async (
+    items: Placement[],
+    addSelection: boolean,
+    firstPoint: Point,
+  ) => {
+    if (addSelection) {
+      await this.context.dispatch(addSelectedItemAction(items));
+    } else {
+      await this.context.dispatch(setSelectedItemAction(items));
+    }
+    const iaMove = new IaMove(this.context);
+    await iaMove.start(firstPoint);
+  };
 }
 
 export default IaSelect;

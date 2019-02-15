@@ -4,6 +4,7 @@ import TransformCoordinate from "../../common/transformCoordinate";
 import deepClone from "../../common/deepClone";
 import Box from "../../common/box";
 import Placement, { DrawOptions } from "../Placement";
+import GraphicGrip from "./GraphicGrip";
 
 class GraphicPolygon extends Placement {
   points: Point[] = [];
@@ -59,6 +60,16 @@ class GraphicPolygon extends Placement {
       }
     }
     context.stroke();
+  }
+
+  getGrips(): GraphicGrip[] {
+    const len = this.points.length;
+    const grips = [];
+    for (let i = 0; i < len; i++) {
+      const g = new GraphicGrip(this.points[i], this, i);
+      grips.push(g);
+    }
+    return grips;
   }
 
   translate(pt: Point) {

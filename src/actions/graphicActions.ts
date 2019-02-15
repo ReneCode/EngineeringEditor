@@ -39,17 +39,30 @@ export const setViewportAction = (
   };
 };
 
+const getGripsFromPlacements = (
+  items: Placement[],
+): GraphicGrip[] => {
+  return items.reduce((acc: GraphicGrip[], p) => {
+    const myGrips = p.getGrips();
+    return acc.concat(myGrips);
+  }, []);
+};
+
 export const setSelectedItemAction = (
   items: Placement | Placement[],
 ) => {
   return async (dispatch: any) => {
     try {
-      items = makeArray(items);
+      // clear old selected items
+      const action = {
+        type: actionTypes.CLEAR_SELECTED_ITEM,
+      };
+      await dispatch(action);
+      // clear the grips
+      await dispatch(deleteLayerAction("grip"));
 
-      const grips = items.reduce((acc: GraphicGrip[], p) => {
-        const myGrips = p.getGrips();
-        return acc.concat(myGrips);
-      }, []);
+      items = makeArray(items);
+      const grips = getGripsFromPlacements(items);
       const actionAddGrips = {
         type: actionTypes.ADD_PLACEMENT,
         payload: grips,
@@ -68,22 +81,22 @@ export const setSelectedItemAction = (
 };
 
 export const addSelectedItemAction = (
-  item: Placement | Placement[],
+  items: Placement | Placement[],
 ) => {
   return async (dispatch: any) => {
     try {
-      if (item instanceof Placement) {
-        const grips = item.getGrips();
-        const action = {
-          type: actionTypes.ADD_PLACEMENT,
-          payload: grips,
-        };
-        await dispatch(action);
-      }
+      items = makeArray(items);
+
+      const grips = getGripsFromPlacements(items);
+      const actionAddGrips = {
+        type: actionTypes.ADD_PLACEMENT,
+        payload: grips,
+      };
+      await dispatch(actionAddGrips);
 
       const action = {
         type: actionTypes.ADD_SELECTED_ITEM,
-        payload: item,
+        payload: items,
       };
       await dispatch(action);
     } catch (ex) {
@@ -92,7 +105,7 @@ export const addSelectedItemAction = (
   };
 };
 
-export const clearSelectedItem = () => {
+const clearSelectedItem = () => {
   return async (dispatch: any) => {
     try {
       await dispatch(deleteLayerAction("grip"));

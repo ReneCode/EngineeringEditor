@@ -4,8 +4,8 @@ import { IGlobalState } from "../reducers";
 import apiLoadPlacement from "../common/api/apiLoadPlacement";
 import { updateAllSymbolRef } from "../model/updateSymbolRef";
 import {
-  clearSelectedItem,
   setViewportAction,
+  setSelectedItemAction,
 } from "./graphicActions";
 import updateAutoconnection from "./updateAutoconnection";
 import { zoomFullAction } from "./zoomFull";
@@ -16,7 +16,7 @@ const setPageId = (projectId: IdType, pageId: IdType) => {
       throw new Error("projectId missing on setPageId");
     }
     try {
-      dispatch(clearSelectedItem());
+      dispatch(setSelectedItemAction([]));
 
       const placements = await apiLoadPlacement(projectId, pageId);
 

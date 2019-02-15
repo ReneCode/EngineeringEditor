@@ -34,6 +34,10 @@ class Placement {
     return [];
   }
 
+  gripChanged(pt: Point, payload: any): Placement {
+    return this;
+  }
+
   pickable(): boolean {
     return true;
   }

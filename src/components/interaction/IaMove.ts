@@ -3,8 +3,8 @@ import Point from "../../common/point";
 import deepClone from "../../common/deepClone";
 import Placement from "../../model/Placement";
 import {
-  clearSelectedItem,
   updateSelectedItem,
+  setSelectedItemAction,
 } from "../../actions/graphicActions";
 import { updateElementAction } from "../../actions/createElement";
 
@@ -31,7 +31,7 @@ class IaMove extends IaBase {
           IaEventType.keyDown,
         ]);
         if (this.isEscape(result)) {
-          this.context.dispatch(clearSelectedItem());
+          this.context.dispatch(setSelectedItemAction([]));
           return;
         }
         const secondPoint = result.pointWc;
@@ -46,7 +46,6 @@ class IaMove extends IaBase {
               await this.context.dispatch(
                 updateElementAction("placement", movedItems),
               );
-              this.context.dispatch(clearSelectedItem());
             }
             run = false;
             break;

@@ -57,9 +57,20 @@ class GraphicLine extends Placement {
   }
 
   getGrips(): GraphicGrip[] {
-    const g1 = new GraphicGrip(this.p1);
-    const g2 = new GraphicGrip(this.p2);
+    const g1 = new GraphicGrip(this.p1, this, 1);
+    const g2 = new GraphicGrip(this.p2, this, 2);
     return [g1, g2];
+  }
+
+  gripChanged(pt: Point, payload: any): Placement {
+    const line = deepClone(this);
+    if (payload === 1) {
+      line.p1 = pt;
+    } else {
+      line.p2 = pt;
+    }
+
+    return line;
   }
 
   translate(pt: Point) {
