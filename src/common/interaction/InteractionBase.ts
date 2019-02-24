@@ -1,8 +1,13 @@
 import Paper from "paper";
 import { IAction } from "../../actions/action";
+import { ThunkAction } from "redux-thunk";
+import { GetGlobalStateFunction } from "../../model/types";
+
+type ReduxAction = (event: IAction) => any;
+type ReduxThunkAction = (func: any) => Promise<any>;
 
 export type InteractionContext = {
-  dispatch: (ev: IAction) => {};
+  dispatch: any; // ReduxAction | ReduxThunkAction;
 };
 
 class InteractionBase {
