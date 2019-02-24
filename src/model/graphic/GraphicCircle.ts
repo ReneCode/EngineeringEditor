@@ -40,12 +40,13 @@ class GraphicCircle extends Placement {
     );
   }
 
-  paperDraw() {
+  paperDraw(): Paper.Item {
     const circle = new Paper.Path.Circle(
       new Paper.Point([this.pt.x, this.pt.y]),
       this.radius,
     );
-    circle.strokeColor = "black";
+    this.paperSetStyle(circle);
+    return circle;
   }
 
   draw(

@@ -1,6 +1,7 @@
 import { IdType, GraphicType, LayerType } from "./types";
 import TransformCoordinate from "../common/transformCoordinate";
 import Point from "../common/point";
+import Paper from "paper";
 import { encodeJson, DtoPlacement } from "./dtoUtil";
 import Box from "../common/box";
 import GraphicGrip from "./graphic/GraphicGrip";
@@ -22,7 +23,13 @@ class Placement {
     this.type = type;
   }
 
-  paperDraw() {}
+  paperDraw(): Paper.Item | null {
+    return null;
+  }
+  paperSetStyle(item: Paper.Item) {
+    item.strokeColor = "black";
+    item.strokeWidth = 1;
+  }
 
   draw(
     context: CanvasRenderingContext2D,

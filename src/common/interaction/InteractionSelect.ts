@@ -1,17 +1,36 @@
-import InteractionBase from "./InteractionBase";
+import InteractionBase, {
+  InteractionContext,
+} from "./InteractionBase";
 
-import Paper from "paper";
+import Paper, { IHitTestOptions, Key } from "paper";
+import Placement from "../../model/Placement";
 
 class InteractionSelect extends InteractionBase {
   items: Paper.Item[] = [];
+  tempItem: Paper.Item = new Paper.Item();
+  hitTestOptions: IHitTestOptions = {
+    tolerance: 4,
+    segments: true,
+    stroke: true,
+    fill: true,
+  };
+
+  constructor(context: InteractionContext) {
+    super(context);
+  }
 
   onMouseDown = (event: Paper.MouseEvent) => {
     const project = Paper.project;
-    const result = project.hitTest(event.point);
+    const result = project.hitTest(event.point, this.hitTestOptions);
     if (result) {
-      console.log(result.type);
+      console.log(event.modifiers);
       const item = result.item;
-      this.items.push(item);
+      if (event.modifiers.shift) {
+        this.items.push(item);
+      } else {
+        project.deselectAll();
+        this.items = [item];
+      }
       item.selected = true;
     } else {
       project.deselectAll();
@@ -19,12 +38,20 @@ class InteractionSelect extends InteractionBase {
     }
   };
 
-  // onMouseMove = (event: Paper.MouseEvent) => {
-  //   Paper.project.activeLayer.selected = false;
-  //   if (event.item) {
-  //     event.item.selected = true;
-  //   }
-  // };
+  onMouseMove = (event: Paper.MouseEvent) => {
+    const result = Paper.project.hitTest(
+      event.point,
+      this.hitTestOptions,
+    );
+    if (this.tempItem.data instanceof Placement) {
+      this.tempItem.data.paperSetStyle(this.tempItem);
+    }
+    if (result && result.item) {
+      this.tempItem = result.item;
+      this.tempItem.strokeColor = "#b2b";
+      this.tempItem.strokeWidth = 3;
+    }
+  };
 
   onMouseDrag = (event: Paper.MouseEvent) => {
     this.items.forEach(i => {

@@ -3,11 +3,9 @@ import { connect } from "react-redux";
 
 import Point from "../../common/point";
 import { IGlobalState } from "../../reducers";
-import { setCanvasSize } from "../../actions/graphicActions";
 import Paper from "paper";
 import Placement from "../../model/Placement";
 import drawCanvas from "../../common/drawCanvas";
-import EventDispatcher from "../../common/AppEventDispatcher";
 import InteractionEventDispatcher from "../../common/InteractionEventDispatcher";
 import eventDispatcher from "../../common/AppEventDispatcher";
 
@@ -54,7 +52,7 @@ class GraphicView extends Component<IProps> {
 
   componentDidUpdate(prevProps: any, prevState: any) {
     if (prevProps.items !== this.props.items) {
-      drawCanvas(Paper.view, this.props.items);
+      drawCanvas(Paper.project, this.props.items);
     }
   }
 
@@ -68,12 +66,10 @@ class GraphicView extends Component<IProps> {
 
   onMouseDrag = (event: Paper.MouseEvent) => {
     eventDispatcher.dispatch({ type: "mouseDrag", payload: event });
-    // this.dispatchToInteractions(ia => ia.onMouseDrag(event));
   };
 
   onMouseMove = (event: Paper.MouseEvent) => {
     eventDispatcher.dispatch({ type: "mouseMove", payload: event });
-    // this.dispatchToInteractions(ia => ia.onMouseMove(event));
   };
 
   onResize = () => {

@@ -23,6 +23,11 @@ class InteractionEventDispatcher extends Component<IProps>
   constructor(props: any) {
     super(props);
     appEventDispatcher.subscribe(this);
+
+    this.startInteraction({
+      type: "startInteraction",
+      payload: "Select",
+    });
   }
 
   receiveEvent(event: AppEvent): void {

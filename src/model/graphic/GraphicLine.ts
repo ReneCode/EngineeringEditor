@@ -5,7 +5,7 @@ import deepClone from "../../common/deepClone";
 import Box from "../../common/box";
 import Placement, { DrawOptions } from "../Placement";
 import GraphicGrip from "./GraphicGrip";
-import Paper from "paper";
+import Paper, { Item } from "paper";
 
 class GraphicLine extends Placement {
   p1: Point;
@@ -38,12 +38,13 @@ class GraphicLine extends Placement {
     return box.isLineInside(line);
   }
 
-  paperDraw() {
+  paperDraw(): Paper.Item {
     const line = new Paper.Path.Line(
       new Paper.Point(this.p1.x, this.p1.y),
       new Paper.Point(this.p2.x, this.p2.y),
     );
-    line.strokeColor = "black";
+    this.paperSetStyle(line);
+    return line;
   }
 
   draw(
