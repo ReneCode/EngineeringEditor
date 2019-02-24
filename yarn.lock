@@ -929,6 +929,11 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.15.tgz#20e85651b62fd86656e57c9c9bc771ab1570bc59"
   integrity sha512-9kROxduaN98QghwwHmxXO2Xz3MaWf+I1sLVAA6KJDF5xix+IyXVhds0MAfdNwtcpSrzhaTsNB0/jnL86fgUhqA==
 
+"@types/paper@^0.11.9":
+  version "0.11.9"
+  resolved "https://registry.yarnpkg.com/@types/paper/-/paper-0.11.9.tgz#3769365f7cffff3eb73d8182c2c8033f7c20ba9a"
+  integrity sha512-RrNyWBb/4IBYYtMW8IVCGmSeEYjBQXRPdqkp5EN6RiwaYZBDdLJqSPfQRKNFMWSVd+PkTnU0MgUQsxh5rw+vgg==
+
 "@types/prop-types@*":
   version "15.5.6"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.5.6.tgz#9c03d3fed70a8d517c191b7734da2879b50ca26c"
@@ -7665,6 +7670,11 @@ pako@~1.0.5:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/pako/-/pako-1.0.6.tgz#0101211baa70c4bca4a0f63f2206e97b7dfaf258"
   integrity sha512-lQe48YPsMJAig+yngZ87Lus+NF+3mtu7DVOBu6b/gHO1YpKwIj5AWjZ/TOS7i46HD/UixzWb1zeWDZfGZ3iYcg==
+
+paper@^0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/paper/-/paper-0.12.0.tgz#37397312fda5d0aca057a5735e5eeb631ff5baa4"
+  integrity sha512-J4IgSo9g5hdwqEWJOIrl5l0wu2D4JgJmQ/8c/SO7rLKB5POrT5yxWJmXJJ13s2aIQf/Mx9mlCa866BEpvN+gKw==
 
 parallel-transform@^1.1.0:
   version "1.1.0"

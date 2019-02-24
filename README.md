@@ -21,6 +21,8 @@ https://facebook.github.io/create-react-app/docs/adding-images-fonts-and-files
 
 ## javascript hints
 
+https://itnext.io/advanced-react-redux-techniques-how-to-use-refs-on-connected-components-e27b55c06e34
+
 ### check if property exists
 
 ```

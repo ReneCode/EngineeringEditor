@@ -15,6 +15,7 @@ import setPageId from "../actions/setPageId";
 import { setProjectId } from "../actions/projectActions";
 import DetailView from "./DetailView/DetailView";
 import KeyboardHandler from "./KeyboardHandler";
+import GraphicFrame from "./GraphicView/GraphicFrame";
 
 interface IProps extends RouteComponentProps<any> {
   showModalId: string;
@@ -23,7 +24,7 @@ interface IProps extends RouteComponentProps<any> {
 }
 
 class ProjectView extends Component<IProps> {
-  private graphicViewRef: any;
+  private graphicFrameRef: any;
   state = {
     activeWorkspaceId: "",
   };
@@ -57,14 +58,12 @@ class ProjectView extends Component<IProps> {
         // click on active workspace will remove it
         workspaceId = null;
       }
-      const resizeGraphicView =
+      const resizeGraphicFrame =
         !workspaceId || !this.state.activeWorkspaceId;
 
       this.setState({ activeWorkspaceId: workspaceId }, () => {
-        if (resizeGraphicView) {
-          // https://itnext.io/advanced-react-redux-techniques-how-to-use-refs-on-connected-components-e27b55c06e34
-          // graphicView is wrapped from redux connect()
-          this.graphicViewRef.getWrappedInstance().onResize();
+        if (resizeGraphicFrame) {
+          window.dispatchEvent(new Event("resize"));
         }
       });
     }
@@ -88,7 +87,7 @@ class ProjectView extends Component<IProps> {
           onClick={this.clickSidebar}
         />
         <Workspace workspace={this.state.activeWorkspaceId} />
-        <GraphicView ref={ref => (this.graphicViewRef = ref)} />
+        <GraphicFrame />
         <DetailView />
         <KeyboardHandler />
         <SelectSymbolModal

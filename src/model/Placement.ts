@@ -22,6 +22,8 @@ class Placement {
     this.type = type;
   }
 
+  paperDraw() {}
+
   draw(
     context: CanvasRenderingContext2D,
     transform: TransformCoordinate,

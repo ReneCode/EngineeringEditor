@@ -4,6 +4,7 @@ import TransformCoordinate from "../../common/transformCoordinate";
 import deepClone from "../../common/deepClone";
 import Box from "../../common/box";
 import Placement, { DrawOptions } from "../Placement";
+import Paper from "paper";
 
 class GraphicCircle extends Placement {
   pt: Point;
@@ -37,6 +38,14 @@ class GraphicCircle extends Placement {
       new Point(this.pt.x - this.radius, this.pt.y - this.radius),
       new Point(this.pt.x + this.radius, this.pt.y + this.radius),
     );
+  }
+
+  paperDraw() {
+    const circle = new Paper.Path.Circle(
+      new Paper.Point([this.pt.x, this.pt.y]),
+      this.radius,
+    );
+    circle.strokeColor = "black";
   }
 
   draw(

@@ -1,18 +1,19 @@
 import React, { Component, SyntheticEvent } from "react";
 import { connect } from "react-redux";
 
-import DrawCanvas from "./DrawCanvas";
-
 import Point from "../../common/point";
 import { IGlobalState } from "../../reducers";
-import { IGraphicState } from "../../reducers/graphicReducer";
-import Interaction from "../interaction/Interaction";
-import Statusbar from "./Statusbar";
 import { setCanvasSize } from "../../actions/graphicActions";
+import Paper from "paper";
+import Placement from "../../model/Placement";
+import drawCanvas from "../../common/drawCanvas";
+import EventDispatcher from "../../common/AppEventDispatcher";
+import InteractionEventDispatcher from "../../common/InteractionEventDispatcher";
+import eventDispatcher from "../../common/AppEventDispatcher";
 
 interface IProps {
   dispatch: Function;
-  graphic: IGraphicState;
+  items: Placement[];
 }
 
 interface IState {
@@ -22,7 +23,7 @@ interface IState {
 
 class GraphicView extends Component<IProps> {
   frame: any;
-  canvas: any;
+  canvas: HTMLCanvasElement | null = null;
   state: IState;
 
   constructor(props: IProps) {
@@ -31,10 +32,18 @@ class GraphicView extends Component<IProps> {
       width: 100,
       height: 100,
     };
-    this.frame = React.createRef();
-    this.canvas = React.createRef();
   }
   componentDidMount() {
+    if (this.canvas) {
+      Paper.setup(this.canvas);
+      Paper.settings.handleSize = 8;
+
+      Paper.view.onMouseDown = this.onMouseDown;
+      Paper.view.onMouseUp = this.onMouseUp;
+      Paper.view.onMouseMove = this.onMouseMove;
+      Paper.view.onMouseDrag = this.onMouseDrag;
+    }
+
     window.addEventListener("resize", this.onResize);
     this.onResize();
   }
@@ -43,46 +52,83 @@ class GraphicView extends Component<IProps> {
     window.removeEventListener("resize", this.onResize);
   }
 
+  componentDidUpdate(prevProps: any, prevState: any) {
+    if (prevProps.items !== this.props.items) {
+      drawCanvas(Paper.view, this.props.items);
+    }
+  }
+
+  onMouseDown = (event: Paper.MouseEvent) => {
+    eventDispatcher.dispatch({ type: "mouseDown", payload: event });
+  };
+
+  onMouseUp = (event: Paper.MouseEvent) => {
+    eventDispatcher.dispatch({ type: "mouseUp", payload: event });
+  };
+
+  onMouseDrag = (event: Paper.MouseEvent) => {
+    eventDispatcher.dispatch({ type: "mouseDrag", payload: event });
+    // this.dispatchToInteractions(ia => ia.onMouseDrag(event));
+  };
+
+  onMouseMove = (event: Paper.MouseEvent) => {
+    eventDispatcher.dispatch({ type: "mouseMove", payload: event });
+    // this.dispatchToInteractions(ia => ia.onMouseMove(event));
+  };
+
   onResize = () => {
     // https://stackoverflow.com/questions/32230690/resize-div-containing-a-canvas/33558386#33558386
     // hide the canvas to get the correct parent size
-    const displayBackup = this.canvas.style.display;
-    this.canvas.style.display = "none";
-    const rect = this.frame.getBoundingClientRect();
-    this.canvas.style.display = displayBackup;
 
-    this.setState({
-      width: rect.width,
-      height: rect.height,
-    });
-    this.props.dispatch(setCanvasSize(rect.width, rect.height));
+    if (this.canvas) {
+      const displayBackup = this.canvas.style.display;
+      this.canvas.style.display = "none";
+      const { width, height } = this.frame.getBoundingClientRect();
+      this.canvas.style.display = displayBackup;
+
+      this.setState({
+        width: width,
+        height: height,
+      });
+      Paper.view.viewSize = new Paper.Size(width, height);
+
+      // 0,0 point in left,bottom
+      Paper.view.matrix = new Paper.Matrix(1, 0, 0, -1, 0, height);
+
+      // this.props.dispatch(setCanvasSize(rect.width, rect.height));
+    }
   };
 
   onContextMenu = (ev: SyntheticEvent) => {
     console.log("onContextMenu:", ev);
   };
 
-  getCursor = (ev: MouseEvent) => {
-    const { top, left } = this.canvas.getBoundingClientRect();
-    return new Point(ev.clientX - left, ev.clientY - top);
+  getCursor = (ev: MouseEvent): Point => {
+    if (this.canvas) {
+      const { top, left } = this.canvas.getBoundingClientRect();
+      return new Point(ev.clientX - left, ev.clientY - top);
+    }
+    return new Point();
   };
 
   render() {
     return (
-      <div className="middle-content">
-        <div ref={div => (this.frame = div)} className="GraphicView">
-          <canvas
-            tabIndex={0}
-            className="canvas"
-            ref={canvas => (this.canvas = canvas)}
-            width={this.state.width}
-            height={this.state.height}
-            onContextMenu={this.onContextMenu}
-          />
-          <DrawCanvas getCanvas={() => this.canvas} />
-          <Interaction getCanvas={() => this.canvas} />
-        </div>
-        <Statusbar cursor={"cursorWc"} />
+      <div ref={div => (this.frame = div)} className="GraphicView">
+        <canvas
+          tabIndex={0}
+          className="canvas"
+          ref={canvas => (this.canvas = canvas)}
+          width={this.state.width}
+          height={this.state.height}
+          onContextMenu={this.onContextMenu}
+        />
+        <InteractionEventDispatcher />
+        {/* <DrawCanvas
+          getCanvas={() => this.canvas as HTMLCanvasElement}
+        /> */}
+        {/* <Interaction
+          getCanvas={() => this.canvas as HTMLCanvasElement}
+        /> */}
       </div>
     );
   }
@@ -90,41 +136,10 @@ class GraphicView extends Component<IProps> {
 
 const mapStateToProps = (state: IGlobalState) => {
   return {
-    graphic: state.graphic,
+    items: state.graphic.items,
   };
 };
 
-const ConnectedComponent = connect(
-  mapStateToProps,
-  null,
-  null,
-  { withRef: true },
-)(GraphicView);
+const ConnectedComponent = connect(mapStateToProps)(GraphicView);
 
 export default ConnectedComponent;
-
-/*
-export type Instance<T> = T extends { new (...args: any[]): infer U }
-  ? U
-  : never;
-
-export type GetProps<T> = T extends React.ComponentType<infer P>
-  ? P
-  : never;
-
-export type GetWrappedComponent<T> = T extends {
-  WrappedComponent: infer C;
-}
-  ? C
-  : never;
-
-export type ConnectWithRef<T> = {
-  new (props: GetProps<T>): Instance<T> & {
-    getWrappedInstance?: () => Instance<GetWrappedComponent<T>>;
-  };
-};
-
-export default ConnectedComponent as ConnectWithRef<
-  typeof ConnectedComponent
->;
-*/

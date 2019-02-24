@@ -5,6 +5,8 @@ import ProjectOverview from "./ProjectOverview/ProjectOverview";
 import ProjectView from "./ProjectView";
 import FirstPageRedirect from "./FirstPageRedirect";
 
+import Test from "./Test";
+
 const Routing = () => {
   return (
     <div
@@ -25,6 +27,7 @@ const Routing = () => {
         path="/p/:projectId/s/:pageId"
         component={ProjectView}
       />
+      <Route path="/test" component={Test} />
     </div>
   );
 };

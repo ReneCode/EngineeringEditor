@@ -132,6 +132,7 @@ const addSelectedItem = (state: IGraphicState, action: any) => {
 };
 
 const setPlacement = (state: IGraphicState, action: any) => {
+  console.log("SET placement");
   let newItems: Placement[] = makeArray(action.payload).map(p => p);
   return {
     ...state,
@@ -161,6 +162,7 @@ const updatePlacements = (state: IGraphicState, action: any) => {
     // no changes
     newSelectedItems = selectedItems;
   }
+  console.log("UPDATE placement");
   return {
     ...state,
     items: state.items.map(currentPlacement => {

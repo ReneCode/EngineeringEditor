@@ -15,6 +15,12 @@ import {
 } from "../../actions/interactionTypes";
 import { zoomFullAction } from "../../actions/zoomFull";
 import { undoAction, redoAction } from "../../actions/undoRedo";
+import appEventDispatcher from "../../common/AppEventDispatcher";
+import InteractionBase from "../../common/interaction/InteractionBase";
+import InteractionSelect from "../../common/interaction/InteractionSelect";
+import InteractionZoom from "../../common/interaction/InteractionZoom";
+import InteractionLine from "../../common/interaction/InteractionLine";
+import InteractionName from "../../common/interaction/InteractionName";
 
 interface IProps {
   dispatch: Function;
@@ -43,6 +49,29 @@ class DrawingWorkspace extends Component<IProps> {
 
   startIa = (ia: string) => {
     this.props.dispatch(actions.startInteraction(ia));
+
+    // switch (ia) {
+    //   case IA_ZOOM_WINDOW:
+    //     appEventDispatcher.dispatch({
+    //       type: "startInteraction",
+    //       payload: new IaZoom(),
+    //     });
+    //     break;
+
+    //   case IA_SELECT:
+    //     appEventDispatcher.dispatch({
+    //       type: "startInteraction",
+    //       payload: new IaSelect(),
+    //     });
+    //     break;
+    // }
+  };
+
+  startInteraction = (name: InteractionName) => {
+    appEventDispatcher.dispatch({
+      type: "startInteraction",
+      payload: name,
+    });
   };
 
   render() {
@@ -50,7 +79,7 @@ class DrawingWorkspace extends Component<IProps> {
       <div className="drawingworkspace">
         <button
           className="button"
-          onClick={() => this.startIa(IA_SELECT)}>
+          onClick={() => this.startInteraction("Select")}>
           Select
         </button>
         <button
@@ -60,7 +89,7 @@ class DrawingWorkspace extends Component<IProps> {
         </button>
         <button
           className="button"
-          onClick={() => this.startIa(IA_CREATE_LINE)}>
+          onClick={() => this.startInteraction("Line")}>
           Line
         </button>
         <button
@@ -91,7 +120,7 @@ class DrawingWorkspace extends Component<IProps> {
         </button>
         <button
           className="button"
-          onClick={() => this.startIa(IA_ZOOM_WINDOW)}>
+          onClick={() => this.startInteraction("Zoom")}>
           Zoom window
         </button>
         <button
