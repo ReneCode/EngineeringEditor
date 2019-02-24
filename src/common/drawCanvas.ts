@@ -7,6 +7,7 @@ const drawCanvas = (project: Paper.Project, items: Placement[]) => {
   // circle.strokeColor = "red";
   // circle.fillColor = "blue";
 
+  console.log("drawCanvas");
   items.forEach(p => {
     const paperItem = p.paperDraw();
     if (paperItem) {

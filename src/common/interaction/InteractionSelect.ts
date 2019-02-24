@@ -2,7 +2,7 @@ import InteractionBase, {
   InteractionContext,
 } from "./InteractionBase";
 
-import Paper, { IHitTestOptions, Key } from "paper";
+import Paper, { IHitTestOptions, Key, HitResult } from "paper";
 import Placement from "../../model/Placement";
 import { updateElementAction } from "../../actions/createElement";
 import Point from "../point";
@@ -12,11 +12,13 @@ class InteractionSelect extends InteractionBase {
   firstPoint: Paper.Point = new Paper.Point(0, 0);
   items: Paper.Item[] = [];
   tempItem: Paper.Item = new Paper.Item();
+  segments: Paper.Segment[] = [];
   hitTestOptions: IHitTestOptions = {
     tolerance: 4,
     segments: true,
     stroke: true,
     fill: true,
+    handles: true,
   };
 
   constructor(context: InteractionContext) {
@@ -25,6 +27,28 @@ class InteractionSelect extends InteractionBase {
 
   onMouseDown = (event: Paper.MouseEvent) => {
     const project = Paper.project;
+
+    if (this.items.length > 0) {
+      // check hit on resize-handle ?
+      let results: HitResult[] = [];
+      // only check on the selected items
+      this.items.forEach(i => {
+        results = results.concat(
+          i.hitTestAll(event.point, {
+            segments: true,
+            tolerance: this.hitTestOptions.tolerance,
+          }),
+        );
+      });
+      if (results.length > 0) {
+        this.segments = results.map(r => r.segment);
+        return;
+      } else {
+        this.segments = [];
+      }
+    }
+
+    // item select
     const result = project.hitTest(event.point, this.hitTestOptions);
     this.firstPoint = event.point;
 
@@ -66,6 +90,15 @@ class InteractionSelect extends InteractionBase {
   };
 
   onMouseDrag = (event: Paper.MouseEvent) => {
+    if (this.segments.length > 0) {
+      // resize
+      this.segments.forEach(s => {
+        s.point.x = s.point.x + event.delta.x;
+        s.point.y = s.point.y + event.delta.y;
+      });
+      return;
+    }
+
     this.moved = true;
     this.items.forEach(i => {
       i.position = i.position.add(event.delta);
@@ -76,10 +109,10 @@ class InteractionSelect extends InteractionBase {
     if (this.moved) {
       this.moved = false;
       const paperDelta = event.point.subtract(this.firstPoint);
-      const delta = new Point(paperDelta.x, paperDelta.y);
+      const completeDelta = new Point(paperDelta.x, paperDelta.y);
       const placements: Placement[] = this.items.map(i => {
         const placement: Placement = i.data;
-        return placement.translate(delta);
+        return placement.translate(completeDelta);
       });
 
       await this.context.dispatch(
