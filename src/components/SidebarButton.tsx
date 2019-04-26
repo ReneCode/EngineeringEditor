@@ -1,7 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const SidebarButton = props => {
+interface IProps {
+  onClick: any;
+  text: string;
+  active: boolean;
+}
+const SidebarButton = (props: IProps) => {
   let className = "SidebarButton";
   if (props.active) {
     className += " active";

@@ -79,3 +79,9 @@ So before dispatch(UPDATE*...Action ) a new object has to be created by `deepClo
 
 keyboard commands of whimsical.co
 https://help.whimsical.co/faqs/keyboard-shortcuts
+
+# install
+
+create ''.env'' file:
+
+REACT_APP_GRAPHQL_SERVER=http://localhost:8080
