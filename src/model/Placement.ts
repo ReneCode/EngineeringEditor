@@ -17,6 +17,7 @@ class Placement {
   pageId: IdType;
   projectId: IdType;
   color: string | undefined;
+  fill: string | undefined;
   layer: LayerType = undefined;
 
   constructor(type: GraphicType) {
@@ -26,8 +27,10 @@ class Placement {
   paperDraw(): Paper.Item | null {
     return null;
   }
+
   paperSetStyle(item: Paper.Item) {
-    item.strokeColor = "black";
+    item.strokeColor = this.color || "#221111";
+    item.fillColor = this.fill || "#ddddddee";
     item.strokeWidth = 1;
   }
 

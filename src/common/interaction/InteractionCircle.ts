@@ -5,6 +5,9 @@ import GraphicCircle from "../../model/graphic/GraphicCircle";
 import Point from "../point";
 import { createElementAction } from "../../actions/createElement";
 
+const FILL_COLOR = "#339933cc";
+const COLOR = "#335511";
+
 class InteractionCircle extends InteractionBase {
   circle: Paper.Path | null = null;
   start: Paper.Point = new Paper.Point(0, 0);
@@ -41,6 +44,8 @@ class InteractionCircle extends InteractionBase {
       new Point(this.start.x, this.start.y),
       this.radius,
     );
+    circle.fill = FILL_COLOR;
+    circle.color = COLOR;
     await this.context.dispatch(
       createElementAction("placement", circle),
     );
@@ -51,8 +56,8 @@ class InteractionCircle extends InteractionBase {
       this.circle.remove();
     }
     this.circle = new Paper.Path.Circle(center, radius);
-    this.circle.strokeColor = "blue";
-    this.circle.fillColor = "#ee225599";
+    this.circle.strokeColor = COLOR;
+    this.circle.fillColor = FILL_COLOR;
   }
 }
 
