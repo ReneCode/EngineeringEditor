@@ -15,12 +15,11 @@ import {
 } from "../../actions/interactionTypes";
 import { zoomFullAction } from "../../actions/zoomFull";
 import { undoAction, redoAction } from "../../actions/undoRedo";
-import appEventDispatcher from "../../common/AppEventDispatcher";
+import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 import InteractionBase from "../../common/interaction/InteractionBase";
 import InteractionSelect from "../../common/interaction/InteractionSelect";
 import InteractionZoom from "../../common/interaction/InteractionZoom";
 import InteractionLine from "../../common/interaction/InteractionLine";
-import InteractionName from "../../common/interaction/InteractionName";
 
 interface IProps {
   dispatch: Function;
@@ -67,7 +66,7 @@ class DrawingWorkspace extends Component<IProps> {
     // }
   };
 
-  startInteraction = (name: InteractionName) => {
+  startInteraction = (name: string) => {
     appEventDispatcher.dispatch({
       type: "startInteraction",
       payload: name,
@@ -94,7 +93,7 @@ class DrawingWorkspace extends Component<IProps> {
         </button>
         <button
           className="button"
-          onClick={() => this.startIa(IA_CREATE_CIRCLE)}>
+          onClick={() => this.startInteraction("Circle")}>
           Circle
         </button>
         <button

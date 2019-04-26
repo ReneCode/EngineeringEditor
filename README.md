@@ -74,3 +74,8 @@ http://choly.ca/post/typescript-json/
 
 UPDATE*... Actions => payload is the new object that will exchange the old object with the same .id.
 So before dispatch(UPDATE*...Action ) a new object has to be created by `deepClone(currentObject)`
+
+# other stuff
+
+keyboard commands of whimsical.co
+https://help.whimsical.co/faqs/keyboard-shortcuts

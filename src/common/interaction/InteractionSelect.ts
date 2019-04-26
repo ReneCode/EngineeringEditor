@@ -6,9 +6,11 @@ import Paper, { IHitTestOptions, Key, HitResult } from "paper";
 import Placement from "../../model/Placement";
 import { updateElementAction } from "../../actions/createElement";
 import Point from "../point";
+import GraphicLine from "../../model/graphic/GraphicLine";
+import deepClone from "../deepClone";
 
 class InteractionSelect extends InteractionBase {
-  moved: boolean = false;
+  change: null | "moved" | "resize" = null;
   firstPoint: Paper.Point = new Paper.Point(0, 0);
   items: Paper.Item[] = [];
   tempItem: Paper.Item = new Paper.Item();
@@ -29,7 +31,7 @@ class InteractionSelect extends InteractionBase {
     const project = Paper.project;
 
     if (this.items.length > 0) {
-      // check hit on resize-handle ?
+      // check hit on resize-handle  (segments) ?
       let results: HitResult[] = [];
       // only check on the selected items
       this.items.forEach(i => {
@@ -79,13 +81,14 @@ class InteractionSelect extends InteractionBase {
       event.point,
       this.hitTestOptions,
     );
+    // reset style from current tempItem
     if (this.tempItem.data instanceof Placement) {
       this.tempItem.data.paperSetStyle(this.tempItem);
     }
     if (result && result.item) {
       this.tempItem = result.item;
       this.tempItem.strokeColor = "#b2b";
-      this.tempItem.strokeWidth = 3;
+      this.tempItem.strokeWidth = 2;
     }
   };
 
@@ -96,25 +99,42 @@ class InteractionSelect extends InteractionBase {
         s.point.x = s.point.x + event.delta.x;
         s.point.y = s.point.y + event.delta.y;
       });
+      this.change = "resize";
       return;
     }
 
-    this.moved = true;
     this.items.forEach(i => {
       i.position = i.position.add(event.delta);
     });
+    this.change = "moved";
   };
 
   onMouseUp = async (event: Paper.MouseEvent) => {
-    if (this.moved) {
-      this.moved = false;
+    let placements: Placement[] = [];
+
+    if (this.change === "resize") {
+      placements = this.segments.map(segment => {
+        const path = segment.path;
+        const points = path.segments.map(s => {
+          return new Point(s.point.x, s.point.y);
+        });
+        const placement = path.data as Placement;
+        return placement.changeAfterResize(points);
+      });
+      return;
+    }
+
+    if (this.change === "moved") {
       const paperDelta = event.point.subtract(this.firstPoint);
       const completeDelta = new Point(paperDelta.x, paperDelta.y);
-      const placements: Placement[] = this.items.map(i => {
+      placements = this.items.map(i => {
         const placement: Placement = i.data;
         return placement.translate(completeDelta);
       });
+    }
 
+    this.change = null;
+    if (placements.length > 0) {
       await this.context.dispatch(
         updateElementAction("placement", placements),
       );

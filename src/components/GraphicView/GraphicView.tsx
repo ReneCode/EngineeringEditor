@@ -6,8 +6,8 @@ import { IGlobalState } from "../../reducers";
 import Paper from "paper";
 import Placement from "../../model/Placement";
 import drawCanvas from "../../common/drawCanvas";
-import InteractionEventDispatcher from "../../common/InteractionEventDispatcher";
-import eventDispatcher from "../../common/AppEventDispatcher";
+import EventHandlerInteraction from "../../common/Event/EventHandlerInteraction";
+import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 
 interface IProps {
   dispatch: Function;
@@ -57,19 +57,28 @@ class GraphicView extends Component<IProps> {
   }
 
   onMouseDown = (event: Paper.MouseEvent) => {
-    eventDispatcher.dispatch({ type: "mouseDown", payload: event });
+    appEventDispatcher.dispatch({
+      type: "mouseDown",
+      payload: event,
+    });
   };
 
   onMouseUp = (event: Paper.MouseEvent) => {
-    eventDispatcher.dispatch({ type: "mouseUp", payload: event });
+    appEventDispatcher.dispatch({ type: "mouseUp", payload: event });
   };
 
   onMouseDrag = (event: Paper.MouseEvent) => {
-    eventDispatcher.dispatch({ type: "mouseDrag", payload: event });
+    appEventDispatcher.dispatch({
+      type: "mouseDrag",
+      payload: event,
+    });
   };
 
   onMouseMove = (event: Paper.MouseEvent) => {
-    eventDispatcher.dispatch({ type: "mouseMove", payload: event });
+    appEventDispatcher.dispatch({
+      type: "mouseMove",
+      payload: event,
+    });
   };
 
   onResize = () => {
@@ -118,13 +127,7 @@ class GraphicView extends Component<IProps> {
           height={this.state.height}
           onContextMenu={this.onContextMenu}
         />
-        <InteractionEventDispatcher />
-        {/* <DrawCanvas
-          getCanvas={() => this.canvas as HTMLCanvasElement}
-        /> */}
-        {/* <Interaction
-          getCanvas={() => this.canvas as HTMLCanvasElement}
-        /> */}
+        <EventHandlerInteraction />
       </div>
     );
   }

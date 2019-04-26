@@ -8,10 +8,10 @@ const drawCanvas = (project: Paper.Project, items: Placement[]) => {
   // circle.fillColor = "blue";
 
   console.log("drawCanvas");
-  items.forEach(p => {
-    const paperItem = p.paperDraw();
+  items.forEach(placement => {
+    const paperItem = placement.paperDraw();
     if (paperItem) {
-      paperItem.data = p;
+      paperItem.data = placement;
     }
   });
 };

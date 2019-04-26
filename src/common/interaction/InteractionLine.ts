@@ -28,20 +28,21 @@ class InteractionLine extends InteractionBase {
   }
 
   async finish() {
-    if (this.line) {
-      const p1 = new Point(
-        this.line.segments[0].point.x,
-        this.line.segments[0].point.y,
-      );
-      const p2 = new Point(
-        this.line.segments[1].point.x,
-        this.line.segments[1].point.y,
-      );
-      const line = new GraphicLine(p1, p2);
-      await this.context.dispatch(
-        createElementAction("placement", line),
-      );
+    if (!this.line) {
+      throw new Error("line not set.");
     }
+    const p1 = new Point(
+      this.line.segments[0].point.x,
+      this.line.segments[0].point.y,
+    );
+    const p2 = new Point(
+      this.line.segments[1].point.x,
+      this.line.segments[1].point.y,
+    );
+    const line = new GraphicLine(p1, p2);
+    await this.context.dispatch(
+      createElementAction("placement", line),
+    );
   }
 }
 

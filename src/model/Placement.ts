@@ -63,6 +63,12 @@ class Placement {
     throw new Error("translate has to be overwritten by:" + this);
   }
 
+  changeAfterResize(points: Point[]): Placement {
+    throw new Error(
+      "changeAfterResize has to be overwritten by:" + this,
+    );
+  }
+
   getBoundingBox(): Box {
     throw new Error(
       "getBoundingBox has to be overwritten by:" + this,
