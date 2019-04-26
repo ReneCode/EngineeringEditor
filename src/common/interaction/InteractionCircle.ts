@@ -21,7 +21,7 @@ class InteractionCircle extends InteractionBase {
   onMouseDrag(event: Paper.MouseEvent) {
     if (this.circle) {
       // typescript-disable-next-line
-      const diff = PaperUtil.PointDiff(event.point, this.start);
+      const diff = event.point.subtract(this.start);
       this.radius = diff.length;
       this.createCircle(this.start, this.radius);
     }
