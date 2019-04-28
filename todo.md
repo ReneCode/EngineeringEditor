@@ -5,6 +5,8 @@
 
 - do not move the resize-box
 
+- hover-color on resize-handle
+
 ## Selection
 
 ### selection with window like autocad

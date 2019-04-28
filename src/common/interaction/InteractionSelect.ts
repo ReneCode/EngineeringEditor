@@ -93,6 +93,11 @@ class InteractionSelect extends InteractionBase {
       this.tempItem.strokeColor = "#b2b";
       this.tempItem.strokeWidth = 2;
     }
+
+    const hitHandle = this.getHitHandleItem(result);
+    if (hitHandle) {
+      hitHandle.fillColor = "red";
+    }
   };
 
   onMouseDrag = (event: Paper.MouseEvent) => {
@@ -175,7 +180,12 @@ class InteractionSelect extends InteractionBase {
   private getHitItem(result: any): Paper.Item | null {
     // do not mark a selected item
     let canSelect = false;
-    if (result && result.item && result.item.name != "bbox") {
+    if (
+      result &&
+      result.item &&
+      result.item.name != "bbox" &&
+      result.item.name != "handle"
+    ) {
       canSelect = true;
       if (this.selectedItems.find(i => i === result.item)) {
         canSelect = false;
@@ -185,6 +195,28 @@ class InteractionSelect extends InteractionBase {
       return result.item;
     }
     return null;
+  }
+
+  private getHitHandleItem(result: any): Paper.Item | undefined {
+    let foundHandle = undefined;
+    if (result && result.item) {
+      const testItem = result.item;
+      this.selectedItems.find(item => {
+        const metaData = itemGetMetaData(item);
+        if (metaData.resizeBox) {
+          const group = metaData.resizeBox;
+          const found = group.children.find(
+            i => i.name === "handle" && i == testItem,
+          );
+          if (found) {
+            foundHandle = found;
+          }
+          return found !== undefined;
+        }
+        return false;
+      });
+    }
+    return foundHandle;
   }
 }
 
