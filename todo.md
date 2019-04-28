@@ -1,5 +1,10 @@
 # TODO
 
+- Undo => changes the items in the state => no more subscription on redux-store.
+  update the view on the changed placements. (do not use redux-store)
+
+- do not move the resize-box
+
 ## Selection
 
 ### selection with window like autocad

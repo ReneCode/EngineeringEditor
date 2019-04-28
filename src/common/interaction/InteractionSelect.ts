@@ -8,11 +8,12 @@ import { updateElementAction } from "../../actions/createElement";
 import Point from "../point";
 import ResizeBox from "./ResizeBox";
 import { itemGetMetaData } from "../ItemMetaData";
+import { containsWithSameId } from "../../reducers/graphicReducer";
 
 class InteractionSelect extends InteractionBase {
   change: null | "moving" | "resize" = null;
   firstPoint: Paper.Point = new Paper.Point(0, 0);
-  items: Paper.Item[] = [];
+  selectedItems: Paper.Item[] = [];
   tempItem: Paper.Item = new Paper.Item();
   segments: Paper.Segment[] = [];
   hitTestOptions: IHitTestOptions = {
@@ -29,13 +30,19 @@ class InteractionSelect extends InteractionBase {
   onMouseDown = (event: Paper.MouseEvent) => {
     const project = Paper.project;
 
-    if (this.items.length > 0) {
+    // reset style from current tempItem
+    const metaData = itemGetMetaData(this.tempItem);
+    if (metaData.placement) {
+      metaData.placement.paperSetStyle(this.tempItem);
+    }
+
+    if (this.selectedItems.length > 0) {
       // check hit on resize-handle  (segments) ?
       let results: HitResult[] = [];
       // only check on the selected items
-      this.items.forEach(i => {
+      this.selectedItems.forEach(item => {
         results = results.concat(
-          i.hitTestAll(event.point, {
+          item.hitTestAll(event.point, {
             segments: true,
             tolerance: this.hitTestOptions.tolerance,
           }),
@@ -79,9 +86,10 @@ class InteractionSelect extends InteractionBase {
     if (metaData.placement) {
       metaData.placement.paperSetStyle(this.tempItem);
     }
-    if (result && result.item && result.item.name != "bbox") {
-      console.log(":", result.item.className);
-      this.tempItem = result.item;
+
+    const hitItem = this.getHitItem(result);
+    if (hitItem) {
+      this.tempItem = hitItem;
       this.tempItem.strokeColor = "#b2b";
       this.tempItem.strokeWidth = 2;
     }
@@ -98,7 +106,7 @@ class InteractionSelect extends InteractionBase {
       return;
     }
 
-    this.items.forEach(item => {
+    this.selectedItems.forEach(item => {
       item.position = item.position.add(event.delta);
       const metaData = itemGetMetaData(item);
       if (metaData.resizeBox) {
@@ -128,7 +136,7 @@ class InteractionSelect extends InteractionBase {
     if (this.change === "moving") {
       const paperDelta = event.point.subtract(this.firstPoint);
       const completeDelta = new Point(paperDelta.x, paperDelta.y);
-      placements = this.items.map(item => {
+      placements = this.selectedItems.map(item => {
         const metaData = itemGetMetaData(item);
         return metaData.placement.translate(completeDelta);
       });
@@ -143,25 +151,40 @@ class InteractionSelect extends InteractionBase {
   };
 
   deselectAll() {
-    this.items.forEach(item => {
+    this.selectedItems.forEach(item => {
       const metaData = itemGetMetaData(item);
       if (metaData.resizeBox) {
         metaData.resizeBox.remove();
         metaData.resizeBox = undefined;
       }
     });
-    this.items = [];
+    this.selectedItems = [];
   }
 
   selectItem(item: Paper.Item) {
-    if (this.items.includes(item)) {
+    if (this.selectedItems.includes(item)) {
       return;
     }
-    this.items.push(item);
+    this.selectedItems.push(item);
 
     const resizeBox = ResizeBox.create(item);
     const metaData = itemGetMetaData(item);
     metaData.resizeBox = resizeBox;
+  }
+
+  private getHitItem(result: any): Paper.Item | null {
+    // do not mark a selected item
+    let canSelect = false;
+    if (result && result.item && result.item.name != "bbox") {
+      canSelect = true;
+      if (this.selectedItems.find(i => i === result.item)) {
+        canSelect = false;
+      }
+    }
+    if (canSelect) {
+      return result.item;
+    }
+    return null;
   }
 }
 

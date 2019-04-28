@@ -8,10 +8,14 @@ import Placement from "../../model/Placement";
 import drawCanvas from "../../common/drawCanvas";
 import EventHandlerInteraction from "../../common/Event/EventHandlerInteraction";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
+import { IdType } from "../../model/types";
+import apiLoadPlacement from "../../common/api/apiLoadPlacement";
 
 interface IProps {
   dispatch: Function;
-  items: Placement[];
+  // items: Placement[];
+  pageId: IdType;
+  projectId: IdType;
 }
 
 interface IState {
@@ -50,9 +54,16 @@ class GraphicView extends Component<IProps> {
     window.removeEventListener("resize", this.onResize);
   }
 
-  componentDidUpdate(prevProps: any, prevState: any) {
-    if (prevProps.items !== this.props.items) {
-      drawCanvas(Paper.project, this.props.items);
+  async componentDidUpdate(prevProps: any, prevState: any) {
+    if (
+      prevProps.pageId !== this.props.pageId ||
+      prevProps.projectId !== this.props.projectId
+    ) {
+      const items = await apiLoadPlacement(
+        this.props.projectId,
+        this.props.pageId,
+      );
+      drawCanvas(Paper.project, items);
     }
   }
 
@@ -135,7 +146,9 @@ class GraphicView extends Component<IProps> {
 
 const mapStateToProps = (state: IGlobalState) => {
   return {
-    items: state.graphic.items,
+    // items: state.graphic.items,
+    pageId: state.project.pageId,
+    projectId: state.project.projectId,
   };
 };
 
