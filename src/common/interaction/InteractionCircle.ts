@@ -5,8 +5,8 @@ import GraphicCircle from "../../model/graphic/GraphicCircle";
 import Point from "../point";
 import { createElementAction } from "../../actions/createElement";
 
-const FILL_COLOR = "#339933cc";
-const COLOR = "#335511";
+const FILL_COLOR = "#339933Ec";
+const COLOR = "#332111";
 
 class InteractionCircle extends InteractionBase {
   circle: Paper.Path | null = null;

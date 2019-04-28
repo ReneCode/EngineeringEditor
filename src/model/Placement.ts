@@ -30,7 +30,7 @@ class Placement {
 
   paperSetStyle(item: Paper.Item) {
     item.strokeColor = this.color || "#221111";
-    item.fillColor = this.fill || "#ddddddee";
+    item.fillColor = this.fill || "#ddddddfe";
     item.strokeWidth = 1;
   }
 

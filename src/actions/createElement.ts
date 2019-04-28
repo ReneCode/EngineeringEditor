@@ -75,7 +75,7 @@ export const updateElementAction = (
       await dispatch(undoRedoAddCommit(ref, oldPlacements, elements));
       await dispatch(updatePlacementAction(elements));
     } catch (ex) {
-      console.log(ex);
+      console.error(ex);
     }
   };
 };

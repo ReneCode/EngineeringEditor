@@ -1,5 +1,6 @@
 import Paper from "paper";
 import Placement from "../model/Placement";
+import { ItemMetaData } from "./ItemMetaData";
 
 const drawCanvas = (project: Paper.Project, items: Placement[]) => {
   project.activeLayer.removeChildren();
@@ -11,7 +12,11 @@ const drawCanvas = (project: Paper.Project, items: Placement[]) => {
   items.forEach(placement => {
     const paperItem = placement.paperDraw();
     if (paperItem) {
-      paperItem.data = placement;
+      const metaData: ItemMetaData = {
+        placement: placement,
+        rev: 1,
+      };
+      paperItem.data = metaData;
     }
   });
 };

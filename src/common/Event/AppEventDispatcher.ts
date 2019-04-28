@@ -18,7 +18,7 @@ class AppEventDispatcher {
       try {
         s.receiveEvent(event);
       } catch (ex) {
-        console.log(
+        console.error(
           `Exception on dispatching Event: ${event} to ${s}`,
         );
       }
