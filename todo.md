@@ -1,14 +1,20 @@
 # TODO
 
-- Undo / Redo: after Undo/Redo select the "undo-ed" items
+- no separate interactions.
+  handleMouse... on the component where it starts.
+- redraw after store.items change
+- undo -> dispatch(setSelection) with last changed item
+- store.interaction new member.
+
+* Undo / Redo: after Undo/Redo select the "undo-ed" items
   remove the current selection
 
-- Undo => changes the items in the state => no more subscription on redux-store.
+* Undo => changes the items in the state => no more subscription on redux-store.
   update the view on the changed placements. (do not use redux-store)
 
-- do not move the resize-box
+* do not move the resize-box
 
-- hover-color on resize-handle
+* hover-color on resize-handle
 
 ## Selection
 
