@@ -9,9 +9,11 @@ import InteractionSelect from "../interaction/InteractionSelect";
 import InteractionZoom from "../interaction/InteractionZoom";
 import InteractionLine from "../interaction/InteractionLine";
 import InteractionCircle from "../interaction/InteractionCircle";
+import { IGlobalState } from "../../reducers";
 
 interface IProps {
   dispatch: any;
+  state: IGlobalState;
 }
 
 class EventHandlerInteraction extends Component<IProps>
@@ -50,8 +52,13 @@ class EventHandlerInteraction extends Component<IProps>
   }
 
   startInteraction = (event: AppEvent) => {
+    this.stopCurrentInteraction();
+
     const name: string = event.payload;
-    const context = { dispatch: this.props.dispatch };
+    const context = {
+      dispatch: this.props.dispatch,
+      getState: () => this.props.state,
+    };
     let interaction: InteractionBase;
     switch (name) {
       case "Select":
@@ -71,6 +78,12 @@ class EventHandlerInteraction extends Component<IProps>
     }
     this.interaction = interaction;
   };
+
+  private stopCurrentInteraction() {
+    if (this.interaction) {
+      this.interaction.stop();
+    }
+  }
 
   dispatchToInteractions(callback: (ia: InteractionBase) => void) {
     if (this.interaction) {
@@ -99,4 +112,10 @@ class EventHandlerInteraction extends Component<IProps>
   }
 }
 
-export default connect()(EventHandlerInteraction);
+const mapStateToProps = (state: IGlobalState) => {
+  return {
+    state: state,
+  };
+};
+
+export default connect(mapStateToProps)(EventHandlerInteraction);

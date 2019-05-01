@@ -5,6 +5,8 @@ import { makeArray } from "../model/dtoUtil";
 import GraphicGrip from "../model/graphic/GraphicGrip";
 import { deleteLayerAction } from "./placementActions";
 
+import Paper from "paper";
+
 export const addSymbol = (symbol: GraphicSymbol) => {
   return {
     type: actionTypes.ADD_SYMBOL,
@@ -124,5 +126,14 @@ export const updateSelectedItem = (item: Placement | Placement[]) => {
   return {
     type: actionTypes.UPDATE_SELECTED_ITEM,
     payload: item,
+  };
+};
+
+export const setSelectedPaperItems = (
+  items: Paper.Item | Paper.Item[],
+) => {
+  return {
+    type: actionTypes.SET_SELECTED_PAPER_ITEMS,
+    payload: makeArray(items),
   };
 };

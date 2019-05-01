@@ -20,8 +20,8 @@ import { containsWithSameId } from "../reducers/graphicReducer";
 
 export const createElementAction = (
   ref: RefType,
-  element: any,
-): any => {
+  element: Placement,
+) => {
   return async (
     dispatch: any,
     getState: GetGlobalStateFunction,
@@ -30,7 +30,6 @@ export const createElementAction = (
       const newPlacement = await dispatch(
         createPlacementAction(element),
       );
-      // await dispatch(dbCreateElement(ref, element));
       await dispatch(undoRedoAddStartMarkerCommit());
       await dispatch(undoRedoAddCommit(ref, null, newPlacement));
       return newPlacement;

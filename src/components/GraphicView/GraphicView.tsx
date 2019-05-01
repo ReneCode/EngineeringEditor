@@ -5,17 +5,22 @@ import Point from "../../common/point";
 import { IGlobalState } from "../../reducers";
 import Paper from "paper";
 import Placement from "../../model/Placement";
-import drawCanvas from "../../common/drawCanvas";
+import drawCanvas, { createPaperItem } from "../../common/drawCanvas";
 import EventHandlerInteraction from "../../common/Event/EventHandlerInteraction";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 import { IdType } from "../../model/types";
-import apiLoadPlacement from "../../common/api/apiLoadPlacement";
+import {
+  ItemMetaData,
+  itemGetMetaData,
+} from "../../common/ItemMetaData";
+import ResizeBox from "../../common/interaction/ResizeBox";
 
 interface IProps {
   dispatch: Function;
-  // items: Placement[];
+  items: Placement[];
   pageId: IdType;
   projectId: IdType;
+  changes: any;
 }
 
 interface IState {
@@ -59,11 +64,35 @@ class GraphicView extends Component<IProps> {
       prevProps.pageId !== this.props.pageId ||
       prevProps.projectId !== this.props.projectId
     ) {
-      const items = await apiLoadPlacement(
-        this.props.projectId,
-        this.props.pageId,
-      );
-      drawCanvas(Paper.project, items);
+      drawCanvas(Paper.project, this.props.items);
+    }
+
+    if (prevProps.changes !== this.props.changes) {
+      const { type, data } = this.props.changes;
+      const placement = data[0];
+      const layer = Paper.project.activeLayer;
+      if (type === "update") {
+        for (let i = 0; i < layer.children.length; i++) {
+          const metaData = layer.children[i].data as ItemMetaData;
+          if (metaData.placement.id === placement.id) {
+            // this data should be replaced
+            layer.children[i].remove();
+
+            const item = createPaperItem(metaData.placement);
+
+            if (item) {
+              if (metaData.resizeBox) {
+                const resizeBox = ResizeBox.create(item);
+                const metaData = itemGetMetaData(item);
+                metaData.resizeBox = resizeBox;
+              }
+              layer.insertChild(i, item);
+            }
+            break;
+          }
+        }
+      }
+      // deltaChangeView(this.props.items)
     }
   }
 
@@ -128,6 +157,7 @@ class GraphicView extends Component<IProps> {
   };
 
   render() {
+    console.log("render");
     return (
       <div ref={div => (this.frame = div)} className="GraphicView">
         <canvas
@@ -149,6 +179,8 @@ const mapStateToProps = (state: IGlobalState) => {
     // items: state.graphic.items,
     pageId: state.project.pageId,
     projectId: state.project.projectId,
+    items: state.graphic.items,
+    changes: state.changeView.changes,
   };
 };
 

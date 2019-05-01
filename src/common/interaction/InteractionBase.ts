@@ -3,9 +3,6 @@ import { IAction } from "../../actions/action";
 import { ThunkAction } from "redux-thunk";
 import { GetGlobalStateFunction } from "../../model/types";
 
-type ReduxAction = (event: IAction) => any;
-type ReduxThunkAction = (func: any) => Promise<any>;
-
 export type InteractionContext = {
   dispatch: any; // ReduxAction | ReduxThunkAction;
 };
@@ -17,6 +14,7 @@ class InteractionBase {
     this.context = context;
   }
 
+  stop() {}
   onMouseDown(event: Paper.MouseEvent) {}
   onMouseUp(event: Paper.MouseEvent) {}
   onMouseMove(event: Paper.MouseEvent) {}

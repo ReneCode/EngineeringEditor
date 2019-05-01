@@ -1,3 +1,4 @@
+import * as actionTypes from "./actionTypes";
 import { IGlobalState } from "../reducers";
 import {
   UNDO_REDO_ADD_START_MARKER,
@@ -99,25 +100,39 @@ export const redoAction = () => {
   };
 };
 
-export const undoOneEntryAction = (entry: UndoRedoListType) => {
+const undoOneEntryAction = (entry: UndoRedoListType) => {
   return async (dispatch: any, getState: () => IGlobalState) => {
     if (entry === "START") {
       throw new Error("bad call undoEntryAction");
     }
     if (!entry.oldData) {
       // undo 'create' => delete
+      dispatch({
+        type: actionTypes.CHANGE_VIEW,
+        payload: {
+          type: "delete",
+          data: entry.newData,
+        },
+      });
       dispatch(deletePlacementAction(entry.newData));
     } else if (!entry.newData) {
       // undo 'delete' => create
       dispatch(createPlacementAction(entry.oldData));
     } else {
       // undo 'update' => update(old)
+      dispatch({
+        type: actionTypes.CHANGE_VIEW,
+        payload: {
+          type: "update",
+          data: entry.oldData,
+        },
+      });
       dispatch(updatePlacementAction(entry.oldData));
     }
   };
 };
 
-export const redoOneEntryAction = (entry: UndoRedoListType) => {
+const redoOneEntryAction = (entry: UndoRedoListType) => {
   return async (dispatch: any, getState: () => IGlobalState) => {
     if (entry === "START") {
       throw new Error("bad call undoEntryAction");

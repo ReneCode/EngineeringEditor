@@ -1,5 +1,6 @@
 import Paper, { Path, Point } from "paper";
 import configuration from "../configuration";
+import { ItemName } from "../ItemMetaData";
 
 let symbolHandle: Paper.Symbol | null = null;
 
@@ -34,7 +35,7 @@ class ResizeBox {
       item.bounds.topLeft,
       item.bounds.bottomRight,
     );
-    rect.name = "bbox";
+    rect.name = ItemName.resizeBox;
     items.push(rect);
     rect.strokeColor = configuration.boundingBoxStrokeColor;
     [
@@ -55,7 +56,7 @@ class ResizeBox {
       );
       handle.strokeColor = configuration.handleStrokeColor;
       handle.fillColor = configuration.handleFillColor;
-      handle.name = "handle";
+      handle.name = ItemName.resizeHandle;
 
       items.push(handle);
     });

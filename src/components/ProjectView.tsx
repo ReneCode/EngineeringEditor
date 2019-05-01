@@ -88,7 +88,7 @@ class ProjectView extends Component<IProps> {
         />
         <Workspace workspace={this.state.activeWorkspaceId} />
         <GraphicFrame />
-        <DetailView />
+        {/* <DetailView /> */}
         <KeyboardHandler />
         <SelectSymbolModal
           show={this.props.showModalId === "selectSymbol"}

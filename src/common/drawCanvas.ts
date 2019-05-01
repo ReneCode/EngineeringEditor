@@ -10,15 +10,22 @@ const drawCanvas = (project: Paper.Project, items: Placement[]) => {
 
   console.log("drawCanvas");
   items.forEach(placement => {
-    const paperItem = placement.paperDraw();
-    if (paperItem) {
-      const metaData: ItemMetaData = {
-        placement: placement,
-        rev: 1,
-      };
-      paperItem.data = metaData;
-    }
+    const paperItem = createPaperItem(placement);
   });
+};
+
+export const createPaperItem = (
+  placement: Placement,
+): Paper.Item | null => {
+  const paperItem = placement.paperDraw();
+  if (paperItem) {
+    const metaData: ItemMetaData = {
+      placement: placement,
+      rev: 1,
+    };
+    paperItem.data = metaData;
+  }
+  return paperItem;
 };
 
 export default drawCanvas;

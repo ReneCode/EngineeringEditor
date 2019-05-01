@@ -2,7 +2,7 @@ import IaBase, { IaContext, IaEventType } from "./IaBase";
 import Point from "../../common/point";
 import GraphicCircle from "../../model/graphic/GraphicCircle";
 import { setTempItem } from "../../actions";
-import { createElementAction } from "../../actions/createElement";
+import { createElementAction } from "../../actions/changeElementActions";
 
 class IaCircle extends IaBase {
   constructor(config: IaContext) {

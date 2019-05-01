@@ -3,7 +3,7 @@ import IaBase, { IaContext, IaEventType } from "./IaBase";
 import Point from "../../common/point";
 import { setTempItem } from "../../actions";
 import { createPlacementAction } from "../../actions/placementActions";
-import { createElementAction } from "../../actions/createElement";
+import { createElementAction } from "../../actions/changeElementActions";
 
 class IaLine extends IaBase {
   constructor(config: IaContext) {

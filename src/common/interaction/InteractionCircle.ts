@@ -3,7 +3,7 @@ import InteractionBase from "./InteractionBase";
 import PaperUtil from "../../utils/PaperUtil";
 import GraphicCircle from "../../model/graphic/GraphicCircle";
 import Point from "../point";
-import { createElementAction } from "../../actions/createElement";
+import { createElementAction } from "../../actions/changeElementActions";
 
 const FILL_COLOR = "#ee33F0Ee";
 const COLOR = "#00EE11";

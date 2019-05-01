@@ -12,7 +12,7 @@ import Placement from "../../model/Placement";
 import {
   deleteElementAction,
   updateElementAction,
-} from "../../actions/createElement";
+} from "../../actions/changeElementActions";
 import { setCursorModeAction } from "../../actions/setCursorMode";
 import GraphicGrip from "../../model/graphic/GraphicGrip";
 import Point from "../../common/point";

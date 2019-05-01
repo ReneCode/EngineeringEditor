@@ -1,5 +1,8 @@
 # TODO
 
+- Undo / Redo: after Undo/Redo select the "undo-ed" items
+  remove the current selection
+
 - Undo => changes the items in the state => no more subscription on redux-store.
   update the view on the changed placements. (do not use redux-store)
 

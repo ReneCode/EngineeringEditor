@@ -4,7 +4,7 @@ import GraphicCircle from "../../model/graphic/GraphicCircle";
 import { setTempItem } from "../../actions";
 import { createPlacementAction } from "../../actions/placementActions";
 import GraphicText from "../../model/graphic/GraphicText";
-import { createElementAction } from "../../actions/createElement";
+import { createElementAction } from "../../actions/changeElementActions";
 
 class IaText extends IaBase {
   constructor(config: IaContext) {

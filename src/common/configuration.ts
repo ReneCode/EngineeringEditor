@@ -3,6 +3,7 @@ class Configuration {
   boundingBoxHandleSize = 10;
   handleStrokeColor = "#222222";
   handleFillColor = "#eeeeee";
+  itemHoverColor = "#bb22bb";
 }
 
 const configuration = new Configuration();

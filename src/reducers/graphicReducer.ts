@@ -4,8 +4,10 @@ import Placement from "../model/Placement";
 import GraphicSymbol from "../model/graphic/GraphicSymbol";
 import { IAction } from "../actions/action";
 import { makeArray } from "../model/dtoUtil";
+import Paper from "paper";
 
 export interface IGraphicState {
+  selectedPaperItems: Paper.Item[];
   symbols: GraphicSymbol[];
   items: Placement[];
   selectedItems: Placement[];
@@ -31,6 +33,7 @@ export interface IGraphicState {
 }
 
 const initialState: IGraphicState = {
+  selectedPaperItems: [],
   symbols: [],
   items: [],
   selectedItems: [],
@@ -132,7 +135,7 @@ const addSelectedItem = (state: IGraphicState, action: any) => {
 };
 
 const setPlacement = (state: IGraphicState, action: any) => {
-  console.log("SET placement");
+  // console.log("SET placement");
   let newItems: Placement[] = makeArray(action.payload).map(p => p);
   return {
     ...state,
@@ -162,7 +165,7 @@ const updatePlacements = (state: IGraphicState, action: any) => {
     // no changes
     newSelectedItems = selectedItems;
   }
-  console.log("UPDATE placement");
+  // console.log("UPDATE placement");
   return {
     ...state,
     items: state.items.map(currentPlacement => {
@@ -278,6 +281,13 @@ const graphicReducer = (state = initialState, action: any) => {
           ...state.cursor,
           mode: action.payload,
         },
+      };
+
+    case actionTypes.SET_SELECTED_PAPER_ITEMS:
+      console.log("change selected paper items");
+      return {
+        ...state,
+        selectedPaperItems: action.payload,
       };
 
     default:

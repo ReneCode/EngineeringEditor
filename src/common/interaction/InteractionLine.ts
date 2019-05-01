@@ -1,7 +1,7 @@
 import InteractionBase from "./InteractionBase";
 
 import Paper from "paper";
-import { createElementAction } from "../../actions/createElement";
+import { createElementAction } from "../../actions/changeElementActions";
 import GraphicLine from "../../model/graphic/GraphicLine";
 import Point from "../point";
 

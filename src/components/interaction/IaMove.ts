@@ -6,7 +6,7 @@ import {
   updateSelectedItem,
   setSelectedItemAction,
 } from "../../actions/graphicActions";
-import { updateElementAction } from "../../actions/createElement";
+import { updateElementAction } from "../../actions/changeElementActions";
 
 class IaMove extends IaBase {
   constructor(config: IaContext) {

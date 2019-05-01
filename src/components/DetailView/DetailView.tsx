@@ -8,7 +8,7 @@ import { IdType } from "../../model/types";
 import Page from "../../model/Page";
 import updatePageAction from "../../actions/updatePage";
 import deepClone from "../../common/deepClone";
-import { updateElementAction } from "../../actions/createElement";
+import { updateElementAction } from "../../actions/changeElementActions";
 
 interface IProps {
   selectedItems: Placement[];

@@ -10,9 +10,9 @@ const updateAutoconnection = async (
   dispatch: any,
   getState: GetGlobalStateFunction,
 ) => {
-  console.log(
-    "autoconnect lines disabled. create them none-persistent (without redux)",
-  );
+  // console.log(
+  //   "autoconnect lines disabled. create them none-persistent (without redux)",
+  // );
   return;
   await dispatch(deleteLayerAction("autoconnect"));
 

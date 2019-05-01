@@ -4,16 +4,25 @@ import InteractionBase, {
 
 import Paper, { IHitTestOptions, HitResult } from "paper";
 import Placement from "../../model/Placement";
-import { updateElementAction } from "../../actions/createElement";
+import { updateElementAction } from "../../actions/changeElementActions";
 import Point from "../point";
 import ResizeBox from "./ResizeBox";
-import { itemGetMetaData } from "../ItemMetaData";
-import { containsWithSameId } from "../../reducers/graphicReducer";
+import {
+  itemGetMetaData,
+  ItemName,
+  itemUnselect,
+  itemSelect,
+} from "../ItemMetaData";
+import configuration from "../configuration";
+import store from "../../store";
+import { IGlobalState } from "../../reducers";
+import { setSelectedPaperItems } from "../../actions/graphicActions";
 
 class InteractionSelect extends InteractionBase {
+  hoverItem: Paper.Item | null = null;
   change: null | "moving" | "resize" = null;
   firstPoint: Paper.Point = new Paper.Point(0, 0);
-  selectedItems: Paper.Item[] = [];
+  selectedPaperItems: Paper.Item[] = [];
   tempItem: Paper.Item = new Paper.Item();
   segments: Paper.Segment[] = [];
   hitTestOptions: IHitTestOptions = {
@@ -22,9 +31,32 @@ class InteractionSelect extends InteractionBase {
     stroke: true,
     fill: true,
   };
+  unsubscribeListnerFn: any = null;
 
   constructor(context: InteractionContext) {
     super(context);
+    this.subscribeListener();
+  }
+
+  subscribeListener() {
+    this.unsubscribeListnerFn = store.subscribe(() => {
+      const state: IGlobalState = store.getState();
+      const newSelectedPaperItems = state.graphic.selectedPaperItems;
+      if (newSelectedPaperItems !== this.selectedPaperItems) {
+        this.changeSelectedPaperItems(
+          newSelectedPaperItems,
+          this.selectedPaperItems,
+        );
+        this.selectedPaperItems = newSelectedPaperItems;
+      }
+    });
+  }
+
+  stop() {
+    this.selectPaperItem(null);
+    if (this.unsubscribeListnerFn) {
+      this.unsubscribeListnerFn();
+    }
   }
 
   onMouseDown = (event: Paper.MouseEvent) => {
@@ -35,7 +67,7 @@ class InteractionSelect extends InteractionBase {
     if (metaData.placement) {
       metaData.placement.paperSetStyle(this.tempItem);
     }
-
+    /*
     if (this.selectedItems.length > 0) {
       // check hit on resize-handle  (segments) ?
       let results: HitResult[] = [];
@@ -55,24 +87,26 @@ class InteractionSelect extends InteractionBase {
         this.segments = [];
       }
     }
+*/
 
     // item select
     const result = project.hitTest(event.point, this.hitTestOptions);
     this.firstPoint = event.point;
 
-    if (event.modifiers.shift) {
-      // add to selection
-      if (result && result.item) {
-        const item = result.item;
-        this.selectItem(item);
-      }
+    const handleItem = this.getHitHandleItem(result);
+    if (handleItem) {
+      this.change = "resize";
+      this.tempItem = handleItem;
+      return;
+    }
+
+    // add to selection
+    if (result && result.item) {
+      const append = event.modifiers.shift;
+      const item = result.item;
+      this.selectPaperItem(item, append);
     } else {
-      // replace selection
-      this.deselectAll();
-      if (result && result.item) {
-        const item = result.item;
-        this.selectItem(item);
-      }
+      this.selectPaperItem(null);
     }
   };
 
@@ -90,29 +124,48 @@ class InteractionSelect extends InteractionBase {
     const hitItem = this.getHitItem(result);
     if (hitItem) {
       this.tempItem = hitItem;
-      this.tempItem.strokeColor = "#b2b";
+      this.tempItem.strokeColor = configuration.itemHoverColor;
       this.tempItem.strokeWidth = 2;
     }
 
+    // reset hoverItem
+    if (this.hoverItem) {
+      switch (this.hoverItem.name) {
+        case ItemName.resizeHandle:
+          this.hoverItem.fillColor = "white";
+          break;
+      }
+    }
+    // paint hoverItem
     const hitHandle = this.getHitHandleItem(result);
     if (hitHandle) {
-      hitHandle.fillColor = "red";
+      this.hoverItem = hitHandle;
+      hitHandle.fillColor = configuration.itemHoverColor;
     }
   };
 
   onMouseDrag = (event: Paper.MouseEvent) => {
-    if (this.segments.length > 0) {
-      // resize
-      this.segments.forEach(s => {
-        s.point.x = s.point.x + event.delta.x;
-        s.point.y = s.point.y + event.delta.y;
-      });
-      this.change = "resize";
+    if (this.change == "resize") {
+      this.tempItem.position = this.tempItem.position.add(
+        event.delta,
+      );
       return;
     }
+    // if (this.segments.length > 0) {
+    //   // resize
+    //   this.segments.forEach(s => {
+    //     s.point.x = s.point.x + event.delta.x;
+    //     s.point.y = s.point.y + event.delta.y;
+    //   });
+    //   this.change = "resize";
+    //   return;
+    // }
 
-    this.selectedItems.forEach(item => {
+    // move all items
+    this.selectedPaperItems.forEach(item => {
       item.position = item.position.add(event.delta);
+
+      // move also the resizeBox if there is any
       const metaData = itemGetMetaData(item);
       if (metaData.resizeBox) {
         metaData.resizeBox.position = metaData.resizeBox.position.add(
@@ -141,7 +194,7 @@ class InteractionSelect extends InteractionBase {
     if (this.change === "moving") {
       const paperDelta = event.point.subtract(this.firstPoint);
       const completeDelta = new Point(paperDelta.x, paperDelta.y);
-      placements = this.selectedItems.map(item => {
+      placements = this.selectedPaperItems.map(item => {
         const metaData = itemGetMetaData(item);
         return metaData.placement.translate(completeDelta);
       });
@@ -155,26 +208,32 @@ class InteractionSelect extends InteractionBase {
     }
   };
 
-  deselectAll() {
-    this.selectedItems.forEach(item => {
-      const metaData = itemGetMetaData(item);
-      if (metaData.resizeBox) {
-        metaData.resizeBox.remove();
-        metaData.resizeBox = undefined;
-      }
+  changeSelectedPaperItems(
+    items: Paper.Item[],
+    prevItems: Paper.Item[],
+  ) {
+    prevItems.forEach(item => {
+      itemUnselect(item);
     });
-    this.selectedItems = [];
+    items.forEach(item => {
+      itemSelect(item);
+    });
   }
 
-  selectItem(item: Paper.Item) {
-    if (this.selectedItems.includes(item)) {
+  selectPaperItem(item: Paper.Item | null, append: boolean = false) {
+    if (!item) {
+      this.context.dispatch(setSelectedPaperItems([]));
       return;
     }
-    this.selectedItems.push(item);
-
-    const resizeBox = ResizeBox.create(item);
-    const metaData = itemGetMetaData(item);
-    metaData.resizeBox = resizeBox;
+    if (this.selectedPaperItems.includes(item)) {
+      return;
+    }
+    if (append) {
+      const payload = [...this.selectedPaperItems, item];
+      this.context.dispatch(setSelectedPaperItems(payload));
+    } else {
+      this.context.dispatch(setSelectedPaperItems(item));
+    }
   }
 
   private getHitItem(result: any): Paper.Item | null {
@@ -183,11 +242,11 @@ class InteractionSelect extends InteractionBase {
     if (
       result &&
       result.item &&
-      result.item.name != "bbox" &&
-      result.item.name != "handle"
+      result.item.name != ItemName.resizeBox &&
+      result.item.name != ItemName.resizeHandle
     ) {
       canSelect = true;
-      if (this.selectedItems.find(i => i === result.item)) {
+      if (this.selectedPaperItems.find(i => i === result.item)) {
         canSelect = false;
       }
     }
@@ -197,26 +256,14 @@ class InteractionSelect extends InteractionBase {
     return null;
   }
 
-  private getHitHandleItem(result: any): Paper.Item | undefined {
+  private getHitHandleItem(result: any): Paper.Item | null {
     let foundHandle = undefined;
     if (result && result.item) {
-      const testItem = result.item;
-      this.selectedItems.find(item => {
-        const metaData = itemGetMetaData(item);
-        if (metaData.resizeBox) {
-          const group = metaData.resizeBox;
-          const found = group.children.find(
-            i => i.name === "handle" && i == testItem,
-          );
-          if (found) {
-            foundHandle = found;
-          }
-          return found !== undefined;
-        }
-        return false;
-      });
+      if (result.item.name == ItemName.resizeHandle) {
+        return result.item;
+      }
     }
-    return foundHandle;
+    return null;
   }
 }
 
