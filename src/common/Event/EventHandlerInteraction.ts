@@ -4,16 +4,13 @@ import { IAppEventHandler } from "./IAppEventHandler";
 import InteractionBase from "../interaction/InteractionBase";
 import { Component } from "react";
 import { connect } from "react-redux";
-import IaSelect from "../../components/interaction/IaSelect";
 import InteractionSelect from "../interaction/InteractionSelect";
 import InteractionZoom from "../interaction/InteractionZoom";
 import InteractionLine from "../interaction/InteractionLine";
 import InteractionCircle from "../interaction/InteractionCircle";
-import { IGlobalState } from "../../reducers";
 
 interface IProps {
   dispatch: any;
-  state: IGlobalState;
 }
 
 class EventHandlerInteraction extends Component<IProps>
@@ -57,7 +54,6 @@ class EventHandlerInteraction extends Component<IProps>
     const name: string = event.payload;
     const context = {
       dispatch: this.props.dispatch,
-      getState: () => this.props.state,
     };
     let interaction: InteractionBase;
     switch (name) {
@@ -112,10 +108,4 @@ class EventHandlerInteraction extends Component<IProps>
   }
 }
 
-const mapStateToProps = (state: IGlobalState) => {
-  return {
-    state: state,
-  };
-};
-
-export default connect(mapStateToProps)(EventHandlerInteraction);
+export default connect()(EventHandlerInteraction);

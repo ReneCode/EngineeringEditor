@@ -20,8 +20,6 @@ class AppEventDispatcher {
       } catch (ex) {
         console.error(
           `Exception on dispatching Event: ${event} to ${s}`,
-          event,
-          ex,
         );
       }
     });
