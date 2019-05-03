@@ -17,11 +17,12 @@ class GraphicLine extends Placement {
   }
 
   static fromJSON(json: any): GraphicLine {
-    const line = Object.create(GraphicLine.prototype);
-    return (<any>Object).assign(line, json, {
-      p1: Point.fromJSON(json.p1),
-      p2: Point.fromJSON(json.p2),
-    });
+    // const line = Object.create(GraphicLine.prototype);
+    // return (<any>Object).assign(line, json, {
+    //   p1: Point.fromJSON(json.p1),
+    //   p2: Point.fromJSON(json.p2),
+    // });
+    return new GraphicLine(new Point(1, 2), new Point(3, 4));
   }
 
   pickable(): boolean {

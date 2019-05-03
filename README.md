@@ -80,6 +80,14 @@ So before dispatch(UPDATE*...Action ) a new object has to be created by `deepClo
 keyboard commands of whimsical.co
 https://help.whimsical.co/faqs/keyboard-shortcuts
 
+# Jest & PaperJs
+
+yarn add -D jest-canvas-mock
+
+in the jest setup file:
+
+`import "jest-canvas-mock"`
+
 # install
 
 create ''.env'' file:

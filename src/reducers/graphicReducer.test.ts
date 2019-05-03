@@ -9,6 +9,7 @@ describe("graphicReducer", () => {
 
   beforeEach(() => {
     initialState = {
+      selectedPaperItems: [],
       symbols: [],
       items: [],
       selectedItems: [],

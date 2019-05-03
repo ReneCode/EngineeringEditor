@@ -24,9 +24,6 @@ import {
 interface IProps {
   dispatch: Function;
   items: Placement[];
-  pageId: IdType;
-  projectId: IdType;
-  selectedPaperItems: Paper.Item[];
 }
 
 interface IState {
@@ -75,20 +72,7 @@ class GraphicView extends Component<IProps> {
   }
 
   async componentDidUpdate(prevProps: any, prevState: any) {
-    if (
-      prevProps.selectedPaperItems !== this.props.selectedPaperItems
-    ) {
-      if (this.paperCanvas) {
-        this.paperCanvas.setSelectedPaperItems(
-          this.props.selectedPaperItems,
-        );
-      }
-    }
-    if (
-      // prevProps.pageId !== this.props.pageId ||
-      // prevProps.projectId !== this.props.projectId
-      prevProps.items != this.props.items
-    ) {
+    if (prevProps.items != this.props.items) {
       drawCanvas(Paper.project, this.props.items);
     }
     /*
@@ -175,7 +159,13 @@ class GraphicView extends Component<IProps> {
 
   render() {
     const interactionComponent = (
-      <IacSelect ref={(e: any) => (this.iacRef = e)} />
+      <IacSelect
+        ref={(e: any) => {
+          if (e) {
+            this.iac = e.getWrappedInstance();
+          }
+        }}
+      />
       // <IacSelect
       //   ref={(iac: any) =>
       //     (this.iac = iac.getWrappedInstance() as IIacComponent)
@@ -203,9 +193,6 @@ class GraphicView extends Component<IProps> {
 
 const mapStateToProps = (state: IGlobalState) => {
   return {
-    // items: state.graphic.items,
-    pageId: state.project.pageId,
-    projectId: state.project.projectId,
     items: state.graphic.items,
     selectedPaperItems: state.graphic.selectedPaperItems,
   };

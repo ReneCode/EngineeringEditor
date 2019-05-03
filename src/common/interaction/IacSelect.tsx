@@ -16,11 +16,16 @@ import configuration from "../configuration";
 import { connect } from "react-redux";
 import { IGlobalState } from "../../reducers";
 
-class IacSelect extends React.Component implements IIacComponent {
+interface IProps {
+  dispatch: Function;
+  selectedPaperItems: Paper.Item[];
+}
+
+class IacSelect extends React.Component<IProps>
+  implements IIacComponent {
   hoverItem: Paper.Item | null = null;
   change: null | "moving" | "resize" = null;
   firstPoint: Paper.Point = new Paper.Point(0, 0);
-  selectedPaperItems: Paper.Item[] = [];
   tempItem: Paper.Item = new Paper.Item();
   segments: Paper.Segment[] = [];
   hitTestOptions: IHitTestOptions = {
@@ -137,7 +142,7 @@ class IacSelect extends React.Component implements IIacComponent {
     // }
 
     // move all items
-    this.selectedPaperItems.forEach(item => {
+    this.props.selectedPaperItems.forEach(item => {
       item.position = item.position.add(event.delta);
 
       // move also the resizeBox if there is any
@@ -169,7 +174,7 @@ class IacSelect extends React.Component implements IIacComponent {
     if (this.change === "moving") {
       const paperDelta = event.point.subtract(this.firstPoint);
       const completeDelta = new Point(paperDelta.x, paperDelta.y);
-      placements = this.selectedPaperItems.map(item => {
+      placements = this.props.selectedPaperItems.map(item => {
         const metaData = itemGetMetaData(item);
         return metaData.placement.translate(completeDelta);
       });
@@ -177,7 +182,7 @@ class IacSelect extends React.Component implements IIacComponent {
 
     this.change = null;
     if (placements.length > 0) {
-      await this.context.dispatch(
+      await this.props.dispatch(
         updateElementAction("placement", placements),
       );
     }
@@ -197,17 +202,17 @@ class IacSelect extends React.Component implements IIacComponent {
 
   selectPaperItem(item: Paper.Item | null, append: boolean = false) {
     if (!item) {
-      this.context.dispatch(setSelectedPaperItems([]));
+      this.props.dispatch(setSelectedPaperItems([]));
       return;
     }
-    if (this.selectedPaperItems.includes(item)) {
+    if (this.props.selectedPaperItems.includes(item)) {
       return;
     }
     if (append) {
-      const payload = [...this.selectedPaperItems, item];
-      this.context.dispatch(setSelectedPaperItems(payload));
+      const payload = [...this.props.selectedPaperItems, item];
+      this.props.dispatch(setSelectedPaperItems(payload));
     } else {
-      this.context.dispatch(setSelectedPaperItems(item));
+      this.props.dispatch(setSelectedPaperItems(item));
     }
   }
 
@@ -221,7 +226,9 @@ class IacSelect extends React.Component implements IIacComponent {
       result.item.name != ItemName.resizeHandle
     ) {
       canSelect = true;
-      if (this.selectedPaperItems.find(i => i === result.item)) {
+      if (
+        this.props.selectedPaperItems.find(i => i === result.item)
+      ) {
         canSelect = false;
       }
     }
@@ -242,18 +249,25 @@ class IacSelect extends React.Component implements IIacComponent {
   }
 
   render() {
-    return <div>hallo</div>;
+    return null;
   }
 }
 
-// export default IacSelect;
-const mapStateToProps = (stage: IGlobalState) => {
-  return {};
+const mapStateToProps = (state: IGlobalState) => {
+  return {
+    selectedPaperItems: state.graphic.selectedPaperItems,
+  };
+};
+
+const mapDispatchToProps = (dispatch: Function) => {
+  return {
+    dispatch: (e: any) => dispatch(e),
+  };
 };
 
 export default connect(
   mapStateToProps,
+  mapDispatchToProps,
   null,
-  null,
-  { forwardRef: true },
+  { withRef: true }, // to get reference in GraphicView   this.ref = com.getWrappedInstance()
 )(IacSelect);
