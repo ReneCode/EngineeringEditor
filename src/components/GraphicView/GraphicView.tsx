@@ -1,4 +1,4 @@
-import React, { Component, SyntheticEvent } from "react";
+import React, { Component, SyntheticEvent, createRef } from "react";
 import { connect } from "react-redux";
 
 import Point from "../../common/point";
@@ -14,13 +14,19 @@ import {
   itemGetMetaData,
 } from "../../common/ItemMetaData";
 import ResizeBox from "../../common/interaction/ResizeBox";
+import PaperCanvas from "./PaperCanvas";
+import IacSelect from "../../common/interaction/IacSelect";
+import {
+  IIacComponent,
+  IIacNull,
+} from "../../common/interaction/IIacComponent";
 
 interface IProps {
   dispatch: Function;
   items: Placement[];
   pageId: IdType;
   projectId: IdType;
-  changes: any;
+  selectedPaperItems: Paper.Item[];
 }
 
 interface IState {
@@ -32,6 +38,9 @@ class GraphicView extends Component<IProps> {
   frame: any;
   canvas: HTMLCanvasElement | null = null;
   state: IState;
+  paperCanvas: PaperCanvas | null = null;
+  iac: IIacComponent = new IIacNull();
+  private iacRef = createRef<IIacComponent>();
 
   constructor(props: IProps) {
     super(props);
@@ -42,6 +51,12 @@ class GraphicView extends Component<IProps> {
   }
   componentDidMount() {
     if (this.canvas) {
+      // this.paperCanvas = new PaperCanvas(
+      //   this.canvas,
+      //   this.props.dispatch,
+      // );
+      // this.paperCanvas.startInteraction("select");
+
       Paper.setup(this.canvas);
       Paper.settings.handleSize = 8;
 
@@ -61,12 +76,22 @@ class GraphicView extends Component<IProps> {
 
   async componentDidUpdate(prevProps: any, prevState: any) {
     if (
-      prevProps.pageId !== this.props.pageId ||
-      prevProps.projectId !== this.props.projectId
+      prevProps.selectedPaperItems !== this.props.selectedPaperItems
+    ) {
+      if (this.paperCanvas) {
+        this.paperCanvas.setSelectedPaperItems(
+          this.props.selectedPaperItems,
+        );
+      }
+    }
+    if (
+      // prevProps.pageId !== this.props.pageId ||
+      // prevProps.projectId !== this.props.projectId
+      prevProps.items != this.props.items
     ) {
       drawCanvas(Paper.project, this.props.items);
     }
-
+    /*
     if (prevProps.changes !== this.props.changes) {
       const { type, data } = this.props.changes;
       const placement = data[0];
@@ -94,31 +119,23 @@ class GraphicView extends Component<IProps> {
       }
       // deltaChangeView(this.props.items)
     }
+    */
   }
 
-  onMouseDown = (event: Paper.MouseEvent) => {
-    appEventDispatcher.dispatch({
-      type: "mouseDown",
-      payload: event,
-    });
+  private onMouseDown = (event: Paper.MouseEvent) => {
+    this.iac.onMouseDown(event);
   };
 
-  onMouseUp = (event: Paper.MouseEvent) => {
-    appEventDispatcher.dispatch({ type: "mouseUp", payload: event });
+  private onMouseUp = (event: Paper.MouseEvent) => {
+    this.iac.onMouseUp(event);
   };
 
   onMouseDrag = (event: Paper.MouseEvent) => {
-    appEventDispatcher.dispatch({
-      type: "mouseDrag",
-      payload: event,
-    });
+    this.iac.onMouseDrag(event);
   };
 
   onMouseMove = (event: Paper.MouseEvent) => {
-    appEventDispatcher.dispatch({
-      type: "mouseMove",
-      payload: event,
-    });
+    this.iac.onMouseMove(event);
   };
 
   onResize = () => {
@@ -157,6 +174,15 @@ class GraphicView extends Component<IProps> {
   };
 
   render() {
+    const interactionComponent = (
+      <IacSelect ref={(e: any) => (this.iacRef = e)} />
+      // <IacSelect
+      //   ref={(iac: any) =>
+      //     (this.iac = iac.getWrappedInstance() as IIacComponent)
+      //   }
+      // />
+    );
+
     console.log("render");
     return (
       <div ref={div => (this.frame = div)} className="GraphicView">
@@ -169,6 +195,7 @@ class GraphicView extends Component<IProps> {
           onContextMenu={this.onContextMenu}
         />
         <EventHandlerInteraction />
+        {interactionComponent}
       </div>
     );
   }
@@ -180,7 +207,7 @@ const mapStateToProps = (state: IGlobalState) => {
     pageId: state.project.pageId,
     projectId: state.project.projectId,
     items: state.graphic.items,
-    changes: state.changeView.changes,
+    selectedPaperItems: state.graphic.selectedPaperItems,
   };
 };
 
