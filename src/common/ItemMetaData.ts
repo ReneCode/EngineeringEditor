@@ -13,10 +13,16 @@ export enum ItemName {
   resizeHandle = "resizeHandle",
 }
 
-export const itemGetMetaData = (item: Paper.Item) => {
+export const itemGetMetaData = (
+  item: Paper.Item,
+): ItemMetaData | null => {
+  if (!item) {
+    return null;
+  }
   const metaData = item.data as ItemMetaData;
   if (!metaData) {
-    throw new Error(`MetaData missing on item:"${item}`);
+    return null;
+    // throw new Error(`MetaData missing on item:"${item}`);
   }
   return metaData;
 };
@@ -32,12 +38,14 @@ export const itemIncRev = (item: Paper.Item) => {
 export const itemSelect = (item: Paper.Item) => {
   const resizeBox = ResizeBox.create(item);
   const metaData = itemGetMetaData(item);
-  metaData.resizeBox = resizeBox;
+  if (metaData) {
+    metaData.resizeBox = resizeBox;
+  }
 };
 
 export const itemUnselect = (item: Paper.Item) => {
   const metaData = itemGetMetaData(item);
-  if (metaData.resizeBox) {
+  if (metaData && metaData.resizeBox) {
     metaData.resizeBox.remove();
     metaData.resizeBox = undefined;
   }

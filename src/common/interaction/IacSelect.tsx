@@ -7,6 +7,7 @@ import {
   itemUnselect,
   itemSelect,
   itemGetMetaData,
+  ItemMetaData,
 } from "../ItemMetaData";
 import { setSelectedPaperItems } from "../../actions/graphicActions";
 import { updateElementAction } from "../../actions/changeElementActions";
@@ -23,11 +24,10 @@ interface IProps {
 
 class IacSelect extends React.Component<IProps>
   implements IIacComponent {
-  hoverItem: Paper.Item | null = null;
   change: null | "moving" | "resize" = null;
   firstPoint: Paper.Point = new Paper.Point(0, 0);
-  tempItem: Paper.Item = new Paper.Item();
-  segments: Paper.Segment[] = [];
+  hoverItem: Paper.Item = new Paper.Item();
+  handleItem: Paper.Item = new Paper.Item();
   hitTestOptions: IHitTestOptions = {
     tolerance: 4,
     segments: true,
@@ -42,10 +42,10 @@ class IacSelect extends React.Component<IProps>
   onMouseDown = (event: Paper.MouseEvent) => {
     const project = Paper.project;
 
-    // reset style from current tempItem
-    const metaData = itemGetMetaData(this.tempItem);
-    if (metaData.placement) {
-      metaData.placement.paperSetStyle(this.tempItem);
+    // reset hover style
+    const metaData = itemGetMetaData(this.hoverItem);
+    if (metaData && metaData.placement) {
+      metaData.placement.paperSetStyle(this.hoverItem);
     }
     /*
     if (this.selectedItems.length > 0) {
@@ -73,17 +73,20 @@ class IacSelect extends React.Component<IProps>
     const result = project.hitTest(event.point, this.hitTestOptions);
     this.firstPoint = event.point;
 
-    const handleItem = this.getHitHandleItem(result);
+    const handleItem = this.getHitTestItem(
+      result,
+      ItemName.resizeHandle,
+    );
     if (handleItem) {
       this.change = "resize";
-      this.tempItem = handleItem;
+      this.handleItem = handleItem;
       return;
     }
 
+    const item = this.getHitTestItem(result, null);
     // add to selection
-    if (result && result.item) {
+    if (item) {
       const append = event.modifiers.shift;
-      const item = result.item;
       this.selectPaperItem(item, append);
     } else {
       this.selectPaperItem(null);
@@ -95,17 +98,10 @@ class IacSelect extends React.Component<IProps>
       event.point,
       this.hitTestOptions,
     );
-    // reset style from current tempItem
-    const metaData = itemGetMetaData(this.tempItem);
-    if (metaData.placement) {
-      metaData.placement.paperSetStyle(this.tempItem);
-    }
-
-    const hitItem = this.getHitItem(result);
-    if (hitItem) {
-      this.tempItem = hitItem;
-      this.tempItem.strokeColor = configuration.itemHoverColor;
-      this.tempItem.strokeWidth = 2;
+    // reset style from current hoverItem
+    const metaData = itemGetMetaData(this.hoverItem);
+    if (metaData && metaData.placement) {
+      metaData.placement.paperSetStyle(this.hoverItem);
     }
 
     // reset hoverItem
@@ -116,6 +112,14 @@ class IacSelect extends React.Component<IProps>
           break;
       }
     }
+
+    const hitItem = this.getHitItem(result);
+    if (hitItem) {
+      this.hoverItem = hitItem;
+      this.hoverItem.strokeColor = configuration.itemHoverColor;
+      this.hoverItem.strokeWidth = 2;
+    }
+
     // paint hoverItem
     const hitHandle = this.getHitHandleItem(result);
     if (hitHandle) {
@@ -126,7 +130,7 @@ class IacSelect extends React.Component<IProps>
 
   onMouseDrag = (event: Paper.MouseEvent) => {
     if (this.change == "resize") {
-      this.tempItem.position = this.tempItem.position.add(
+      this.hoverItem.position = this.hoverItem.position.add(
         event.delta,
       );
       return;
@@ -147,7 +151,7 @@ class IacSelect extends React.Component<IProps>
 
       // move also the resizeBox if there is any
       const metaData = itemGetMetaData(item);
-      if (metaData.resizeBox) {
+      if (metaData && metaData.resizeBox) {
         metaData.resizeBox.position = metaData.resizeBox.position.add(
           event.delta,
         );
@@ -159,23 +163,23 @@ class IacSelect extends React.Component<IProps>
   onMouseUp = async (event: Paper.MouseEvent) => {
     let placements: Placement[] = [];
 
-    if (this.change === "resize") {
-      placements = this.segments.map(segment => {
-        const path = segment.path;
-        const points = path.segments.map(s => {
-          return new Point(s.point.x, s.point.y);
-        });
-        const metaData = itemGetMetaData(path);
-        return metaData.placement.changeAfterResize(points);
-      });
-      return;
-    }
+    // if (this.change === "resize") {
+    //   placements = this.segments.map(segment => {
+    //     const path = segment.path;
+    //     const points = path.segments.map(s => {
+    //       return new Point(s.point.x, s.point.y);
+    //     });
+    //     const metaData = itemGetMetaData(path);
+    //     return metaData.placement.changeAfterResize(points);
+    //   });
+    //   return;
+    // }
 
     if (this.change === "moving") {
       const paperDelta = event.point.subtract(this.firstPoint);
       const completeDelta = new Point(paperDelta.x, paperDelta.y);
       placements = this.props.selectedPaperItems.map(item => {
-        const metaData = itemGetMetaData(item);
+        const metaData = itemGetMetaData(item) as ItemMetaData;
         return metaData.placement.translate(completeDelta);
       });
     }
@@ -216,6 +220,10 @@ class IacSelect extends React.Component<IProps>
     }
   }
 
+  /**
+   * @summary returns the hit item, if it is not resizeBox or resizeHandle
+   * @param result
+   */
   private getHitItem(result: any): Paper.Item | null {
     // do not mark a selected item
     let canSelect = false;
@@ -238,6 +246,30 @@ class IacSelect extends React.Component<IProps>
     return null;
   }
 
+  private getHitTestItem(
+    result: any,
+    itemName: string | null,
+  ): Paper.Item | null {
+    if (result && result.item) {
+      if (itemName) {
+        if (result.item.name == itemName) {
+          return result.item;
+        }
+      } else {
+        console.log(":", result.item.name);
+        if (!result.item.name) {
+          return result.item;
+        }
+      }
+    }
+    return null;
+  }
+
+  /**
+   *
+   * @param result result of Paper.project.hitTest
+   * @returns handle (Paper.Item) if some handle was hit, otherwise null
+   */
   private getHitHandleItem(result: any): Paper.Item | null {
     let foundHandle = undefined;
     if (result && result.item) {
