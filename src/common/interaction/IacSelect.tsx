@@ -24,7 +24,7 @@ interface IProps {
 
 class IacSelect extends React.Component<IProps>
   implements IIacComponent {
-  change: null | "moving" | "resize" = null;
+  modus: null | "moving" | "resize" = null;
   firstPoint: Paper.Point = new Paper.Point(0, 0);
   hoverItem: Paper.Item = new Paper.Item();
   handleItem: Paper.Item = new Paper.Item();
@@ -42,32 +42,7 @@ class IacSelect extends React.Component<IProps>
   onMouseDown = (event: Paper.MouseEvent) => {
     const project = Paper.project;
 
-    // reset hover style
-    const metaData = itemGetMetaData(this.hoverItem);
-    if (metaData && metaData.placement) {
-      metaData.placement.paperSetStyle(this.hoverItem);
-    }
-    /*
-    if (this.selectedItems.length > 0) {
-      // check hit on resize-handle  (segments) ?
-      let results: HitResult[] = [];
-      // only check on the selected items
-      this.selectedItems.forEach(item => {
-        results = results.concat(
-          item.hitTestAll(event.point, {
-            segments: true,
-            tolerance: this.hitTestOptions.tolerance,
-          }),
-        );
-      });
-      if (results.length > 0) {
-        this.segments = results.map(r => r.segment);
-        return;
-      } else {
-        this.segments = [];
-      }
-    }
-*/
+    this.resetHover();
 
     // item select
     const result = project.hitTest(event.point, this.hitTestOptions);
@@ -78,7 +53,7 @@ class IacSelect extends React.Component<IProps>
       ItemName.resizeHandle,
     );
     if (handleItem) {
-      this.change = "resize";
+      this.modus = "resize";
       this.handleItem = handleItem;
       return;
     }
@@ -94,24 +69,12 @@ class IacSelect extends React.Component<IProps>
   };
 
   onMouseMove = (event: Paper.MouseEvent) => {
+    this.resetHover();
+
     const result = Paper.project.hitTest(
       event.point,
       this.hitTestOptions,
     );
-    // reset style from current hoverItem
-    const metaData = itemGetMetaData(this.hoverItem);
-    if (metaData && metaData.placement) {
-      metaData.placement.paperSetStyle(this.hoverItem);
-    }
-
-    // reset hoverItem
-    if (this.hoverItem) {
-      switch (this.hoverItem.name) {
-        case ItemName.resizeHandle:
-          this.hoverItem.fillColor = "white";
-          break;
-      }
-    }
 
     const hitItem = this.getHitItem(result);
     if (hitItem) {
@@ -129,21 +92,10 @@ class IacSelect extends React.Component<IProps>
   };
 
   onMouseDrag = (event: Paper.MouseEvent) => {
-    if (this.change == "resize") {
-      this.hoverItem.position = this.hoverItem.position.add(
-        event.delta,
-      );
+    if (this.modus == "resize") {
+      this.onMouseDragResize(event);
       return;
     }
-    // if (this.segments.length > 0) {
-    //   // resize
-    //   this.segments.forEach(s => {
-    //     s.point.x = s.point.x + event.delta.x;
-    //     s.point.y = s.point.y + event.delta.y;
-    //   });
-    //   this.change = "resize";
-    //   return;
-    // }
 
     // move all items
     this.props.selectedPaperItems.forEach(item => {
@@ -157,7 +109,7 @@ class IacSelect extends React.Component<IProps>
         );
       }
     });
-    this.change = "moving";
+    this.modus = "moving";
   };
 
   onMouseUp = async (event: Paper.MouseEvent) => {
@@ -175,7 +127,7 @@ class IacSelect extends React.Component<IProps>
     //   return;
     // }
 
-    if (this.change === "moving") {
+    if (this.modus === "moving") {
       const paperDelta = event.point.subtract(this.firstPoint);
       const completeDelta = new Point(paperDelta.x, paperDelta.y);
       placements = this.props.selectedPaperItems.map(item => {
@@ -184,7 +136,7 @@ class IacSelect extends React.Component<IProps>
       });
     }
 
-    this.change = null;
+    this.modus = null;
     if (placements.length > 0) {
       await this.props.dispatch(
         updateElementAction("placement", placements),
@@ -278,6 +230,29 @@ class IacSelect extends React.Component<IProps>
       }
     }
     return null;
+  }
+
+  private resetHover() {
+    // reset style from current hoverItem
+    const metaData = itemGetMetaData(this.hoverItem);
+    if (metaData && metaData.placement) {
+      metaData.placement.paperSetStyle(this.hoverItem);
+    }
+
+    // reset hoverItem
+    if (this.hoverItem) {
+      switch (this.hoverItem.name) {
+        case ItemName.resizeHandle:
+          this.hoverItem.fillColor = "white";
+          break;
+      }
+    }
+  }
+
+  private onMouseDragResize(event: Paper.MouseEvent) {
+    this.hoverItem.position = this.hoverItem.position.add(
+      event.delta,
+    );
   }
 
   render() {

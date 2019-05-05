@@ -25,10 +25,14 @@ const createSymbolHandle = () => {
 class ResizeBox {
   group: Paper.Group | null = null;
 
-  static create(item: Paper.Item) {
+  public static getSymbolHandle() {
     if (!symbolHandle) {
       symbolHandle = createSymbolHandle();
     }
+  }
+
+  static create(item: Paper.Item) {
+    symbolHandle = createSymbolHandle();
 
     const items = [];
     const rect = new Paper.Path.Rectangle(
@@ -44,10 +48,6 @@ class ResizeBox {
       rect.bounds.bottomRight,
       rect.bounds.bottomLeft,
     ].forEach((point: Paper.Point) => {
-      // const handle = new Paper.PlacedSymbol(
-      //   symbolHandle as Paper.Symbol,
-      //   point,
-      // );
       const handle = new Paper.Path.Rectangle(
         new Paper.Rectangle(
           point.subtract(configuration.boundingBoxHandleSize / 2),
