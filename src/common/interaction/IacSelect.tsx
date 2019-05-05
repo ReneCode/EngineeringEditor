@@ -16,6 +16,8 @@ import Placement from "../../model/Placement";
 import configuration from "../configuration";
 import { connect } from "react-redux";
 import { IGlobalState } from "../../reducers";
+import ResizeBox from "./ResizeBox";
+import ResizeShape from "./ResizeShape";
 
 interface IProps {
   dispatch: Function;
@@ -27,7 +29,10 @@ class IacSelect extends React.Component<IProps>
   modus: null | "moving" | "resize" = null;
   firstPoint: Paper.Point = new Paper.Point(0, 0);
   hoverItem: Paper.Item = new Paper.Item();
-  handleItem: Paper.Item = new Paper.Item();
+  handleItem: Paper.Item | null = null;
+  // currentResizeShape: ResizeShape | null = null;
+  // resizeItem: Paper.Item | null = null;
+
   hitTestOptions: IHitTestOptions = {
     tolerance: 4,
     segments: true,
@@ -42,7 +47,7 @@ class IacSelect extends React.Component<IProps>
   onMouseDown = (event: Paper.MouseEvent) => {
     const project = Paper.project;
 
-    this.resetHover();
+    this.resetHover(false);
 
     // item select
     const result = project.hitTest(event.point, this.hitTestOptions);
@@ -69,7 +74,7 @@ class IacSelect extends React.Component<IProps>
   };
 
   onMouseMove = (event: Paper.MouseEvent) => {
-    this.resetHover();
+    this.resetHover(true);
 
     const result = Paper.project.hitTest(
       event.point,
@@ -142,6 +147,8 @@ class IacSelect extends React.Component<IProps>
         updateElementAction("placement", placements),
       );
     }
+
+    this.handleItem = null;
   };
 
   changeSelectedPaperItems(
@@ -232,27 +239,39 @@ class IacSelect extends React.Component<IProps>
     return null;
   }
 
-  private resetHover() {
-    // reset style from current hoverItem
+  private resetHover(withHover: boolean) {
     const metaData = itemGetMetaData(this.hoverItem);
     if (metaData && metaData.placement) {
       metaData.placement.paperSetStyle(this.hoverItem);
     }
 
-    // reset hoverItem
-    if (this.hoverItem) {
-      switch (this.hoverItem.name) {
-        case ItemName.resizeHandle:
-          this.hoverItem.fillColor = "white";
-          break;
+    if (withHover) {
+      // reset hoverItem
+      if (this.hoverItem) {
+        switch (this.hoverItem.name) {
+          case ItemName.resizeHandle:
+            this.hoverItem.fillColor = "white";
+            break;
+        }
       }
     }
   }
 
   private onMouseDragResize(event: Paper.MouseEvent) {
-    this.hoverItem.position = this.hoverItem.position.add(
+    // that is the item for that handle
+    if (!this.handleItem) {
+      throw new Error("handleItem not set");
+    }
+
+    const resizeItem: Paper.Item = this.handleItem.data.item;
+    const index: number = this.handleItem.data.index;
+
+    this.handleItem.position = this.handleItem.position.add(
       event.delta,
     );
+    // this.hoverItem.position = this.hoverItem.position.add(
+    //   event.delta,
+    // );
   }
 
   render() {

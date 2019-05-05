@@ -47,7 +47,7 @@ class ResizeBox {
       rect.bounds.topRight,
       rect.bounds.bottomRight,
       rect.bounds.bottomLeft,
-    ].forEach((point: Paper.Point) => {
+    ].forEach((point: Paper.Point, index: number) => {
       const handle = new Paper.Path.Rectangle(
         new Paper.Rectangle(
           point.subtract(configuration.boundingBoxHandleSize / 2),
@@ -57,6 +57,7 @@ class ResizeBox {
       handle.strokeColor = configuration.handleStrokeColor;
       handle.fillColor = configuration.handleFillColor;
       handle.name = ItemName.resizeHandle;
+      handle.data = { item: item, index: index };
 
       items.push(handle);
     });

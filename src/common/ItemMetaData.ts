@@ -1,6 +1,7 @@
 import Placement from "../model/Placement";
 import Paper from "paper";
 import ResizeBox from "./interaction/ResizeBox";
+import ResizeShape from "./interaction/ResizeShape";
 
 export type ItemMetaData = {
   placement: Placement;
