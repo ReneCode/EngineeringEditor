@@ -5,6 +5,7 @@ import deepClone from "../../common/deepClone";
 import Box from "../../common/box";
 import Placement, { DrawOptions } from "../Placement";
 import Paper from "paper";
+import ResizeBox from "../../common/interaction/ResizeBox";
 
 class GraphicCircle extends Placement {
   pt: Point;
@@ -49,6 +50,35 @@ class GraphicCircle extends Placement {
     return circle;
   }
 
+  getGeometyFromHandles(handles: Paper.Item[]): any {
+    const width = Math.abs(
+      handles[1].position.x - handles[2].position.x,
+    );
+    const height = Math.abs(
+      handles[0].position.y - handles[1].position.y,
+    );
+    const cx =
+      Math.min(handles[1].position.x, handles[2].position.x) +
+      width / 2;
+    const cy =
+      Math.min(handles[1].position.y, handles[0].position.y) +
+      height / 2;
+    return { cx, cy, width, height };
+  }
+
+  paperDrawFromResizeBox(resizeBox: ResizeBox): Paper.Item {
+    const handles = resizeBox.getHandles();
+    const { cx, cy, width, height } = this.getGeometyFromHandles(
+      handles,
+    );
+    const circle = new Paper.Path.Circle(
+      new Paper.Point(cx, cy),
+      height / 2,
+    );
+    this.paperSetStyle(circle);
+    return circle;
+  }
+
   draw(
     context: CanvasRenderingContext2D,
     transform: TransformCoordinate,
@@ -68,6 +98,16 @@ class GraphicCircle extends Placement {
   translate(pt: Point): GraphicCircle {
     const circle = deepClone(this);
     circle.pt = circle.pt.add(pt);
+    return circle;
+  }
+
+  updateFromHandles(handles: Paper.Item[]): Placement {
+    const circle = deepClone(this);
+    const { cx, cy, width, height } = this.getGeometyFromHandles(
+      handles,
+    );
+    circle.pt = new Point(cx, cy);
+    circle.radius = height / 2;
     return circle;
   }
 }

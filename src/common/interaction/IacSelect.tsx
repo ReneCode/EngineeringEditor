@@ -18,6 +18,7 @@ import { connect } from "react-redux";
 import { IGlobalState } from "../../reducers";
 import ResizeBox from "./ResizeBox";
 import ResizeShape from "./ResizeShape";
+import GraphicCircle from "../../model/graphic/GraphicCircle";
 
 interface IProps {
   dispatch: Function;
@@ -117,6 +118,28 @@ class IacSelect extends React.Component<IProps>
 
   onMouseUp = async (event: Paper.MouseEvent) => {
     let placements: Placement[] = [];
+
+    if (this.modus === "resize") {
+      // that is the item for that handle
+      if (!this.handleItem) {
+        throw new Error("handleItem not set");
+      }
+      const resizeItem: Paper.Item = this.handleItem.data.item;
+      const metaData = itemGetMetaData(resizeItem);
+      if (!metaData) {
+        throw new Error("meta data missing");
+      }
+      const resizeBox = metaData.resizeBox;
+      if (!resizeBox) {
+        throw new Error("resizeBox missing");
+      }
+      const newPlacement = metaData.placement.updateFromHandles(
+        resizeBox.getHandles(),
+      );
+      await this.props.dispatch(
+        updateElementAction("placement", newPlacement),
+      );
+    }
 
     // if (this.change === "resize") {
     //   placements = this.segments.map(segment => {
@@ -262,7 +285,6 @@ class IacSelect extends React.Component<IProps>
     }
 
     const resizeItem: Paper.Item = this.handleItem.data.item;
-    const index: number = this.handleItem.data.index;
     const metaData = itemGetMetaData(resizeItem);
     if (!metaData) {
       throw new Error("meta data missing");
@@ -272,10 +294,14 @@ class IacSelect extends React.Component<IProps>
       throw new Error("resizeBox missing");
     }
 
+    const index: number = this.handleItem.data.index;
     resizeBox.moveHandle(index, event.delta);
-    // this.handleItem.position = this.handleItem.position.add(
-    //   event.delta,
-    // );
+    const newItem = (metaData.placement as GraphicCircle).paperDrawFromResizeBox(
+      resizeBox,
+    );
+    newItem.data = resizeItem.data;
+    resizeBox.replaceItemWith(newItem);
+    resizeItem.replaceWith(newItem);
   }
 
   render() {

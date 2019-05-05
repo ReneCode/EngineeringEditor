@@ -53,7 +53,7 @@ class ResizeBox {
       handle.strokeColor = configuration.handleStrokeColor;
       handle.fillColor = configuration.handleFillColor;
       handle.name = ItemName.resizeHandle;
-      handle.data = { item: item, index: index };
+      ResizeBox.setHandleData(handle, item, index);
       this.handles.push(handle);
 
       items.push(handle);
@@ -65,6 +65,7 @@ class ResizeBox {
   public remove() {
     this.group.remove();
   }
+
   public move(delta: Paper.Point) {
     this.group.position = this.group.position.add(delta);
   }
@@ -76,10 +77,22 @@ class ResizeBox {
     this.updateRect();
   }
 
-  public static getSymbolHandle() {
-    if (!symbolHandle) {
-      symbolHandle = createSymbolHandle();
-    }
+  public getHandles() {
+    return this.handles;
+  }
+
+  public replaceItemWith(item: Paper.Item) {
+    this.handles.forEach((h, idx) => {
+      ResizeBox.setHandleData(h, item, idx);
+    });
+  }
+
+  private static setHandleData(
+    handle: Paper.Item,
+    item: Paper.Item,
+    index: number,
+  ) {
+    handle.data = { item: item, index: index };
   }
 
   private updateRect() {
