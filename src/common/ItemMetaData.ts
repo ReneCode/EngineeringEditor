@@ -5,7 +5,7 @@ import ResizeShape from "./interaction/ResizeShape";
 
 export type ItemMetaData = {
   placement: Placement;
-  resizeBox?: Paper.Item | undefined;
+  resizeBox?: ResizeBox | undefined;
   rev: number;
 };
 
@@ -37,7 +37,7 @@ export const itemIncRev = (item: Paper.Item) => {
 };
 
 export const itemSelect = (item: Paper.Item) => {
-  const resizeBox = ResizeBox.create(item);
+  const resizeBox = new ResizeBox(item);
   const metaData = itemGetMetaData(item);
   if (metaData) {
     metaData.resizeBox = resizeBox;

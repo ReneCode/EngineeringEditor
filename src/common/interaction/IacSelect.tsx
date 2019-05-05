@@ -109,9 +109,7 @@ class IacSelect extends React.Component<IProps>
       // move also the resizeBox if there is any
       const metaData = itemGetMetaData(item);
       if (metaData && metaData.resizeBox) {
-        metaData.resizeBox.position = metaData.resizeBox.position.add(
-          event.delta,
-        );
+        metaData.resizeBox.move(event.delta);
       }
     });
     this.modus = "moving";
@@ -265,11 +263,17 @@ class IacSelect extends React.Component<IProps>
 
     const resizeItem: Paper.Item = this.handleItem.data.item;
     const index: number = this.handleItem.data.index;
+    const metaData = itemGetMetaData(resizeItem);
+    if (!metaData) {
+      throw new Error("meta data missing");
+    }
+    const resizeBox = metaData.resizeBox;
+    if (!resizeBox) {
+      throw new Error("resizeBox missing");
+    }
 
-    this.handleItem.position = this.handleItem.position.add(
-      event.delta,
-    );
-    // this.hoverItem.position = this.hoverItem.position.add(
+    resizeBox.moveHandle(index, event.delta);
+    // this.handleItem.position = this.handleItem.position.add(
     //   event.delta,
     // );
   }

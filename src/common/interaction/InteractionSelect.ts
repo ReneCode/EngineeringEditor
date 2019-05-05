@@ -169,9 +169,9 @@ class InteractionSelect extends InteractionBase {
       // move also the resizeBox if there is any
       const metaData = itemGetMetaData(item);
       if (metaData && metaData.resizeBox) {
-        metaData.resizeBox.position = metaData.resizeBox.position.add(
-          event.delta,
-        );
+        // // // metaData.resizeBox.position = metaData.resizeBox.position.add(
+        // // //   event.delta,
+        // // // );
       }
     });
     this.change = "moving";
