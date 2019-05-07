@@ -13,9 +13,7 @@ export interface IGraphicState {
   selectedItems: Placement[];
   tempItems: Placement[];
   cursor: {
-    // pt: Point;
-    radiusScreen: number;
-    mode: string;
+    pt: Paper.Point;
   };
   viewport: {
     x: number;
@@ -39,9 +37,7 @@ const initialState: IGraphicState = {
   selectedItems: [],
   tempItems: [],
   cursor: {
-    // pt: new Point(0, 0),
-    radiusScreen: 10,
-    mode: "",
+    pt: new Paper.Point(0, 0),
   },
   viewport: {
     x: -500,
@@ -274,12 +270,12 @@ const graphicReducer = (state = initialState, action: any) => {
     case actionTypes.UPDATE_SELECTED_ITEM:
       return updateSelectedItem(state, action);
 
-    case actionTypes.SET_CURSOR_MODE:
+    case actionTypes.SET_CURSOR_POINT:
       return {
         ...state,
         cursor: {
           ...state.cursor,
-          mode: action.payload,
+          pt: action.payload,
         },
       };
 

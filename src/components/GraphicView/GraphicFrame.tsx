@@ -7,7 +7,7 @@ const GraphicFrame = () => {
   return (
     <div className="middle-content">
       <GraphicView />
-      <Statusbar cursor={"cursorWc"} />
+      <Statusbar />
     </div>
   );
 };

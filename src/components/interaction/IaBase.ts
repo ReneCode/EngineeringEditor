@@ -89,7 +89,8 @@ class IaBase {
     } = this.context.getState().graphic;
     const transform = new TransformCoordinate(viewport, canvas);
     const pickRadius = transform.canvasLengthToWc(
-      cursor.radiusScreen,
+      //      cursor.radiusScreen,
+      10,
     );
     const pickedPlacements = items.filter(
       p => p.pickable() && p.nearPoint(pt, pickRadius),

@@ -1,4 +1,15 @@
+# ISSUES
+
+- selected item in shown on top - even if it is below other items
+
 # TODO
+
+- ONE resize-box
+
+  - multi-selection expands the resize-box
+  - resize of that box resizes the items inside
+  - with SHIFT the with-height ratio is fixed on resizing the box
+    (- with ctrl the center of the resize-box will be fixed)
 
 - no separate interactions.
   handleMouse... on the component where it starts.

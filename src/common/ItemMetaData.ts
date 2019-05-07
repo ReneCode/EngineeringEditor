@@ -37,11 +37,11 @@ export const itemIncRev = (item: Paper.Item) => {
 };
 
 export const itemSelect = (item: Paper.Item) => {
-  const resizeBox = new ResizeBox(item);
-  const metaData = itemGetMetaData(item);
-  if (metaData) {
-    metaData.resizeBox = resizeBox;
-  }
+  // const resizeBox = new ResizeBox(item);
+  // const metaData = itemGetMetaData(item);
+  // if (metaData) {
+  //   metaData.resizeBox = resizeBox;
+  // }
 };
 
 export const itemUnselect = (item: Paper.Item) => {

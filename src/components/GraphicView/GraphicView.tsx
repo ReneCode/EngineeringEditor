@@ -1,25 +1,15 @@
-import React, { Component, SyntheticEvent, createRef } from "react";
+import React, { Component, SyntheticEvent } from "react";
 import { connect } from "react-redux";
 
 import Point from "../../common/point";
 import { IGlobalState } from "../../reducers";
 import Paper from "paper";
 import Placement from "../../model/Placement";
-import drawCanvas, { createPaperItem } from "../../common/drawCanvas";
-import EventHandlerInteraction from "../../common/Event/EventHandlerInteraction";
+import drawCanvas from "../../common/drawCanvas";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
-import { IdType } from "../../model/types";
-import {
-  ItemMetaData,
-  itemGetMetaData,
-} from "../../common/ItemMetaData";
-import ResizeBox from "../../common/interaction/ResizeBox";
 import PaperCanvas from "./PaperCanvas";
 import IacSelect from "../../common/interaction/IacSelect";
-import {
-  IIacComponent,
-  IIacNull,
-} from "../../common/interaction/IIacComponent";
+import InteractionManager from "../../common/Event/InteractionManager";
 
 interface IProps {
   dispatch: Function;
@@ -36,8 +26,6 @@ class GraphicView extends Component<IProps> {
   canvas: HTMLCanvasElement | null = null;
   state: IState;
   paperCanvas: PaperCanvas | null = null;
-  iac: IIacComponent = new IIacNull();
-  private iacRef = createRef<IIacComponent>();
 
   constructor(props: IProps) {
     super(props);
@@ -48,12 +36,6 @@ class GraphicView extends Component<IProps> {
   }
   componentDidMount() {
     if (this.canvas) {
-      // this.paperCanvas = new PaperCanvas(
-      //   this.canvas,
-      //   this.props.dispatch,
-      // );
-      // this.paperCanvas.startInteraction("select");
-
       Paper.setup(this.canvas);
       Paper.settings.handleSize = 8;
 
@@ -75,51 +57,22 @@ class GraphicView extends Component<IProps> {
     if (prevProps.items != this.props.items) {
       drawCanvas(Paper.project, this.props.items);
     }
-    /*
-    if (prevProps.changes !== this.props.changes) {
-      const { type, data } = this.props.changes;
-      const placement = data[0];
-      const layer = Paper.project.activeLayer;
-      if (type === "update") {
-        for (let i = 0; i < layer.children.length; i++) {
-          const metaData = layer.children[i].data as ItemMetaData;
-          if (metaData.placement.id === placement.id) {
-            // this data should be replaced
-            layer.children[i].remove();
-
-            const item = createPaperItem(metaData.placement);
-
-            if (item) {
-              if (metaData.resizeBox) {
-                const resizeBox = ResizeBox.create(item);
-                const metaData = itemGetMetaData(item);
-                metaData.resizeBox = resizeBox;
-              }
-              layer.insertChild(i, item);
-            }
-            break;
-          }
-        }
-      }
-      // deltaChangeView(this.props.items)
-    }
-    */
   }
 
   private onMouseDown = (event: Paper.MouseEvent) => {
-    this.iac.onMouseDown(event);
+    appEventDispatcher.dispatch("mouseDown", event);
   };
 
   private onMouseUp = (event: Paper.MouseEvent) => {
-    this.iac.onMouseUp(event);
+    appEventDispatcher.dispatch("mouseUp", event);
   };
 
   onMouseDrag = (event: Paper.MouseEvent) => {
-    this.iac.onMouseDrag(event);
+    appEventDispatcher.dispatch("mouseDrag", event);
   };
 
   onMouseMove = (event: Paper.MouseEvent) => {
-    this.iac.onMouseMove(event);
+    appEventDispatcher.dispatch("mouseMove", event);
   };
 
   onResize = () => {
@@ -158,7 +111,7 @@ class GraphicView extends Component<IProps> {
   };
 
   render() {
-    const interactionComponent = (
+    /*
       <IacSelect
         ref={(e: any) => {
           if (e) {
@@ -166,14 +119,9 @@ class GraphicView extends Component<IProps> {
           }
         }}
       />
-      // <IacSelect
-      //   ref={(iac: any) =>
-      //     (this.iac = iac.getWrappedInstance() as IIacComponent)
-      //   }
-      // />
-    );
 
-    console.log("render");
+*/
+
     return (
       <div ref={div => (this.frame = div)} className="GraphicView">
         <canvas
@@ -184,8 +132,7 @@ class GraphicView extends Component<IProps> {
           height={this.state.height}
           onContextMenu={this.onContextMenu}
         />
-        <EventHandlerInteraction />
-        {interactionComponent}
+        <InteractionManager />
       </div>
     );
   }
