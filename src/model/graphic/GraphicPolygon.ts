@@ -1,3 +1,4 @@
+import Paper from "paper";
 import Point from "../../common/point";
 import Line from "../../common/line";
 import TransformCoordinate from "../../common/transformCoordinate";
@@ -72,9 +73,34 @@ class GraphicPolygon extends Placement {
     return grips;
   }
 
-  translate(pt: Point) {
+  translate(pt: Point): GraphicPolygon {
     const polygon: GraphicPolygon = deepClone(this);
     polygon.points = polygon.points.map(p => p.add(pt));
+    return polygon;
+  }
+
+  fitToRect(rectangle: Paper.Rectangle): GraphicPolygon {
+    const polygon: GraphicPolygon = deepClone(this);
+
+    const bbox = this.getBoundingBox();
+    const scaleX = rectangle.width / bbox.width();
+    const scaleY = rectangle.height / bbox.height();
+    const centerOrginal = bbox.center();
+    const translate = new Paper.Point(
+      rectangle.center.x - centerOrginal.x,
+      rectangle.center.y - centerOrginal.y,
+    );
+    let matrix = new Paper.Matrix(1, 0, 0, 1, 0, 0);
+    matrix = matrix.scale(
+      scaleX,
+      scaleY,
+      new Paper.Point(rectangle.center),
+    );
+    matrix = matrix.translate(translate);
+    polygon.points = polygon.points.map(p => {
+      const pt = matrix.transform(new Paper.Point(p.x, p.y));
+      return new Point(pt.x, pt.y);
+    });
     return polygon;
   }
 
@@ -93,6 +119,15 @@ class GraphicPolygon extends Placement {
       return false;
     }
     return this.points[len - 1].equal(this.points[0]);
+  }
+
+  paperDraw(): Paper.Item {
+    const segments = this.points.map(p => {
+      return new Paper.Point(p.x, p.y);
+    });
+    const path = new Paper.Path(segments);
+    this.paperSetStyle(path);
+    return path;
   }
 }
 

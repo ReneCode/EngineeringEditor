@@ -164,6 +164,13 @@ class IacSelect extends React.Component<IProps> {
     //   return;
     // }
 
+    if (this.modus === "resize") {
+      placements = this.props.selectedPaperItems.map(item => {
+        const metaData = itemGetMetaData(item) as ItemMetaData;
+        return metaData.placement.fitToRect(this.resizeBox.bounds());
+      });
+    }
+
     if (this.modus === "moving") {
       const paperDelta = event.point.subtract(this.firstPoint);
       const completeDelta = new Point(paperDelta.x, paperDelta.y);
@@ -297,8 +304,6 @@ class IacSelect extends React.Component<IProps> {
     // console.log(rect);
     this.props.selectedPaperItems.forEach(i => {
       i.fitBounds(rect);
-      const json = i.exportJSON();
-      console.log(json);
     });
 
     /*

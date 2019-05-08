@@ -70,4 +70,10 @@ describe("box", () => {
       new Box(new Point(-80, -100), new Point(-20, -30)),
     );
   });
+
+  it("center", () => {
+    const box = new Box(new Point(20, 40), new Point(80, 80));
+    const center = box.center();
+    expect(center).toEqual(new Point(50, 60));
+  });
 });

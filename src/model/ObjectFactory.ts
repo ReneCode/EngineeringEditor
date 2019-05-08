@@ -5,6 +5,7 @@ import GraphicSymbolRef from "./graphic/GraphicSymbolRef";
 import GraphicSymbol from "./graphic/GraphicSymbol";
 import GraphicConnectionPoint from "./graphic/GraphicConnectionPoint";
 import GraphicText from "./graphic/GraphicText";
+import GraphicRect from "./graphic/GraphicRect";
 
 class ObjectFactory {
   static fromJSON(json: any): object | object[] {
@@ -13,6 +14,8 @@ class ObjectFactory {
     }
 
     switch (json.type) {
+      case "rect":
+        return GraphicRect.fromJSON(json);
       case "line":
         return GraphicLine.fromJSON(json);
       case "polygon":

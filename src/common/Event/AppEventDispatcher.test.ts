@@ -6,7 +6,6 @@ describe("appEventDispatcher", () => {
     let called = 0;
     let calledPayload: any;
     const fn = (type: AppEventType, payload: any) => {
-      console.log("called");
       called++;
       calledPayload = payload;
     };

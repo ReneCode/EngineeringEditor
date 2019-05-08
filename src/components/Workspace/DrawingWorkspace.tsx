@@ -93,6 +93,11 @@ class DrawingWorkspace extends Component<IProps> {
           onClick={() => this.startInteraction("Circle")}>
           Circle
         </button>
+        <button
+          className="button"
+          onClick={() => this.startInteraction("Rectangle")}>
+          Rectangle
+        </button>
         {/* <button
           className="button"
           onClick={() => this.startIa(IA_CREATE_POLYGON)}>

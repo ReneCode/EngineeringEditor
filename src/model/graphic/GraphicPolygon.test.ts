@@ -1,3 +1,4 @@
+import Paper from "paper";
 import Point from "../../common/point";
 import GraphicPolygon from "./GraphicPolygon";
 import { DtoPlacement } from "../dtoUtil";
@@ -44,5 +45,55 @@ describe("GraphicPolygon", () => {
     const expectedPoints = polygon.points.map(p => p.add(delta));
     expect(newPolygon.points).toEqual(expectedPoints);
     expect(newPolygon instanceof GraphicPolygon).toBe(true);
+  });
+
+  it("fitToRect same rect", () => {
+    const rectangle = new Paper.Rectangle(2, 3, 5, 5);
+    const newPolygon = polygon.fitToRect(rectangle);
+    const expectedPoints = polygon.points;
+    expect(newPolygon.points).toEqual(expectedPoints);
+  });
+
+  it("fitToRect translate", () => {
+    const rectangle = new Paper.Rectangle(12, 23, 5, 5);
+    const newPolygon = polygon.fitToRect(rectangle);
+    const expectedPoints = polygon.points.map(p =>
+      p.add(new Point(10, 20)),
+    );
+    expect(newPolygon.points).toEqual(expectedPoints);
+  });
+
+  it("fitToRect scale x:2x y:3x", () => {
+    polygon.points = [
+      new Point(5, 10),
+      new Point(15, 50),
+      new Point(10, 20),
+    ];
+    // bbox = 5,10,  w:10  h:40
+    const rectangle = new Paper.Rectangle(5, 10, 20, 120);
+    const newPolygon = polygon.fitToRect(rectangle);
+    const expectedPoints = [
+      new Point(5, 10),
+      new Point(25, 130),
+      new Point(15, 40),
+    ];
+    expect(newPolygon.points).toEqual(expectedPoints);
+  });
+
+  it("fitToRect scale x:2x y:3x and translate", () => {
+    polygon.points = [
+      new Point(5, 10),
+      new Point(15, 50),
+      new Point(10, 20),
+    ];
+    // bbox = 5,10,  w:10  h:40
+    const rectangle = new Paper.Rectangle(105, 110, 20, 120);
+    const newPolygon = polygon.fitToRect(rectangle);
+    const expectedPoints = [
+      new Point(105, 110),
+      new Point(125, 230),
+      new Point(115, 140),
+    ];
+    expect(newPolygon.points).toEqual(expectedPoints);
   });
 });

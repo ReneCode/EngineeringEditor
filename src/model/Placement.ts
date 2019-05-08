@@ -66,6 +66,10 @@ class Placement {
     throw new Error("translate has to be overwritten by:" + this);
   }
 
+  fitToRect(rectangle: Paper.Rectangle): Placement {
+    throw new Error("fitToRect has to be overwritten by:" + this);
+  }
+
   updateFromHandles(handles: Paper.Item[]): Placement {
     throw new Error(
       "updateFromHandles has to be overwritten by:" + this,

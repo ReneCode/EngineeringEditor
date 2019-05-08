@@ -7,9 +7,7 @@ import { createElementAction } from "../../actions/changeElementActions";
 import appEventDispatcher from "../Event/AppEventDispatcher";
 import { AppEventType } from "../Event/AppEventType";
 import { connect } from "react-redux";
-
-const FILL_COLOR = "#ee33F0Ee";
-const COLOR = "#00EE11";
+import configuration from "../configuration";
 
 interface IProps {
   dispatch: Function;
@@ -68,8 +66,8 @@ class IacCircle extends React.Component<IProps> {
       new Point(this.start.x, this.start.y),
       this.radius,
     );
-    circle.fill = FILL_COLOR;
-    circle.color = COLOR;
+    circle.fill = configuration.defaultFillColor;
+    circle.color = configuration.defaultStrokeColor;
     await this.props.dispatch(
       createElementAction("placement", circle),
     );
@@ -80,8 +78,8 @@ class IacCircle extends React.Component<IProps> {
       this.circle.remove();
     }
     this.circle = new Paper.Path.Circle(center, radius);
-    this.circle.strokeColor = COLOR;
-    this.circle.fillColor = FILL_COLOR;
+    this.circle.strokeColor = configuration.defaultStrokeColor;
+    this.circle.fillColor = configuration.defaultFillColor;
   }
 
   render() {

@@ -101,6 +101,13 @@ class GraphicCircle extends Placement {
     return circle;
   }
 
+  fitToRect(rectangle: Paper.Rectangle): GraphicCircle {
+    const circle = deepClone(this);
+    circle.pt = new Point(rectangle.center.x, rectangle.center.y);
+    circle.radius = rectangle.width / 2;
+    return circle;
+  }
+
   updateFromHandles(handles: Paper.Item[]): Placement {
     const circle = deepClone(this);
     const { cx, cy, width, height } = this.getGeometyFromHandles(
