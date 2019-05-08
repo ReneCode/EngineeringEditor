@@ -5,9 +5,10 @@ import IacUndoRedo from "../../components/interaction/IacUndoRedo";
 
 class InteractionFactory {
   static create(name: string): JSX.Element {
+    const props = { key: name };
     switch (name) {
       case "Select":
-        return <IacSelect key={name} />;
+        return <IacSelect {...props} />;
         break;
       // case "Zoom":
       //   interaction = new InteractionZoom(context);
@@ -16,9 +17,9 @@ class InteractionFactory {
       //   interaction = new InteractionLine(context);
       //   break;
       case "Circle":
-        return <IacCircle key={name} />;
+        return <IacCircle {...props} />;
       case "UndoRedo":
-        return <IacUndoRedo />;
+        return <IacUndoRedo {...props} />;
       default:
         throw new Error(`InteractionName not registered: ${name}`);
     }

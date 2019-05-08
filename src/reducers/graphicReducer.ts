@@ -280,7 +280,7 @@ const graphicReducer = (state = initialState, action: any) => {
       };
 
     case actionTypes.SET_SELECTED_PAPER_ITEMS:
-      console.log("change selected paper items");
+      // console.log("change selected paper items");
       return {
         ...state,
         selectedPaperItems: action.payload,

@@ -12,7 +12,6 @@ class IacUndoRedo extends React.Component<IProps> {
   private unsubscribeFn: any;
 
   componentDidMount() {
-    console.log("undoRedo");
     this.unsubscribeFn = appEventDispatcher.subscribe(
       "keyDown",
       this.onKeyDown,
@@ -24,8 +23,6 @@ class IacUndoRedo extends React.Component<IProps> {
   }
 
   onKeyDown = (type: AppEventType, event: KeyboardEvent) => {
-    console.log("undoRedo-keydown");
-
     // TODO decide if mac or windows user
     // mac => metaKey,  windows => ctrlKey
     if ((event.metaKey || event.ctrlKey) && event.key === "z") {
