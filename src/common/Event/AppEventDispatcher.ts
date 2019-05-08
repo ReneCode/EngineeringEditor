@@ -26,6 +26,7 @@ class AppEventDispatcher {
   }
 
   dispatch(type: AppEventType, payload: any = undefined) {
+    console.log(":dispatch:", type);
     this.eventHandlers.forEach(eh => {
       try {
         if (eh.type == type) {

@@ -137,6 +137,7 @@ class IacSelect extends React.Component<IProps> {
     let placements: Placement[] = [];
 
     if (this.modus === "resize") {
+      this.selectedPaperItemsOrginal.forEach(i => i.remove());
       this.selectedPaperItemsOrginal = [];
       // TODO
       // that is the item for that handle
@@ -269,26 +270,38 @@ class IacSelect extends React.Component<IProps> {
   }
 
   private onMouseDragResize(event: Paper.MouseEvent) {
+    // console.log("MouseDragResize");
     // that is the item for that handle
     if (!this.handleItem) {
       throw new Error("handleItem not set");
     }
 
+    /*
     if (this.selectedPaperItemsOrginal.length === 0) {
       console.log("clone");
       this.selectedPaperItemsOrginal = this.props.selectedPaperItems.map(
-        i => i.clone(),
+        i => i.clone({ insert: false }),
       );
     }
-
+*/
     const sizeA = this.resizeBox.getStartBoundingBox();
     const centerA = sizeA.center;
-    const keepRatio: boolean = event.modifiers.command;
+    const keepRatio: boolean = true; //event.modifiers.command;
     this.resizeBox.moveHandle(
       this.handleItem,
       event.point,
       keepRatio,
     );
+
+    const rect = this.resizeBox.bounds();
+    // console.log(rect);
+    this.props.selectedPaperItems.forEach(i => {
+      i.fitBounds(rect);
+      const json = i.exportJSON();
+      console.log(json);
+    });
+
+    /*
     const centerB = this.resizeBox.getCenter();
     console.log(centerA, centerB);
     const translate = centerB.subtract(centerA);
@@ -309,6 +322,9 @@ class IacSelect extends React.Component<IProps> {
         i.matrix = matrix;
       },
     );
+
+*/
+
     // const translate = this.resizeBox.getTranslation();
 
     // const newItem = (metaData.placement as GraphicCircle).paperDrawFromResizeBox(

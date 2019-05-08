@@ -4,4 +4,5 @@ export type AppEventType =
   | "mouseDrag"
   | "mouseDown"
   | "mouseUp"
+  | "keyDown"
   | "startInteraction";

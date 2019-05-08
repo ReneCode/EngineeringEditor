@@ -1,6 +1,7 @@
 import React from "react";
 import IacSelect from "../interaction/IacSelect";
 import IacCircle from "../interaction/IacCircle";
+import IacUndoRedo from "../../components/interaction/IacUndoRedo";
 
 class InteractionFactory {
   static create(name: string): JSX.Element {
@@ -16,6 +17,8 @@ class InteractionFactory {
       //   break;
       case "Circle":
         return <IacCircle key={name} />;
+      case "UndoRedo":
+        return <IacUndoRedo />;
       default:
         throw new Error(`InteractionName not registered: ${name}`);
     }

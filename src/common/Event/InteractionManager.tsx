@@ -10,7 +10,7 @@ interface IProps {}
 class InteractionManager extends Component<IProps> {
   unsubscribeFn: any;
   state = {
-    interactionNames: [],
+    interactionNames: ["UndoRedo"],
   };
 
   componentWillMount() {
@@ -19,7 +19,10 @@ class InteractionManager extends Component<IProps> {
       this.startInteraction,
     );
 
-    appEventDispatcher.dispatch("startInteraction", "Select");
+    appEventDispatcher.dispatch("startInteraction", {
+      name: "Select",
+      replace: false,
+    });
   }
 
   componentWillUnmount() {
@@ -27,11 +30,24 @@ class InteractionManager extends Component<IProps> {
   }
 
   startInteraction = (type: AppEventType, payload: any) => {
-    const newNames: string[] = this.state.interactionNames.slice(
-      0,
-      this.state.interactionNames.length - 1,
-    );
-    newNames.push(payload);
+    let name: string;
+    let replace = true;
+    if ("string" === typeof payload) {
+      name = payload;
+    } else {
+      name = payload.name;
+      replace = payload.replace;
+    }
+    let newNames: string[] = [];
+    if (!replace) {
+      newNames = this.state.interactionNames;
+    } else {
+      newNames = this.state.interactionNames.slice(
+        0,
+        this.state.interactionNames.length - 1,
+      );
+    }
+    newNames.push(name);
     this.setState({
       interactionNames: newNames,
     });

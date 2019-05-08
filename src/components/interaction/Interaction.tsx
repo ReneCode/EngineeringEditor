@@ -50,7 +50,7 @@ class Interaction extends Component<IProps> {
       canvas.removeEventListener("mousedown", this.onMouseDown);
       canvas.removeEventListener("mousemove", this.onMouseMove);
       canvas.removeEventListener("mouseup", this.onMouseUp);
-      canvas.removeEventListener("keydown", this.onKeyDown);
+      // canvas.removeEventListener("keydown", this.onKeyDown);
     }
     this.props.dispatch(actions.setDoInteractionHandler(() => {}));
   }

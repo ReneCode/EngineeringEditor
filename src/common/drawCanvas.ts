@@ -5,7 +5,7 @@ import { ItemMetaData } from "./ItemMetaData";
 const drawCanvas = (project: Paper.Project, items: Placement[]) => {
   project.activeLayer.removeChildren();
   items.forEach(placement => {
-    const paperItem = createPaperItem(placement);
+    createPaperItem(placement);
   });
 };
 

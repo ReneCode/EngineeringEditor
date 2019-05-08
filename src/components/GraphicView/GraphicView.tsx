@@ -141,7 +141,6 @@ class GraphicView extends Component<IProps> {
 const mapStateToProps = (state: IGlobalState) => {
   return {
     items: state.graphic.items,
-    selectedPaperItems: state.graphic.selectedPaperItems,
   };
 };
 

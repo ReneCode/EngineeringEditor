@@ -37,11 +37,14 @@ class ResizeBox {
     }
 
     // calc bounding box
-    const group = new Paper.Group();
-    group.addChildren(paperItems);
-    const bbox = group.bounds;
+    // const group = new Paper.Group();
+    // group.addChildren(paperItems);
+    // const bb = group.bounds;
+    // group.removeChildren();
+
+    const bbox = paperItems[0].bounds;
     this.ratio = bbox.width / bbox.height;
-    this.startBoundingBox = group.bounds;
+    this.startBoundingBox = bbox;
 
     this.rect = new Paper.Path.Rectangle(bbox);
     this.rect.name = ItemName.resizeBox;
@@ -117,6 +120,13 @@ class ResizeBox {
       this.rect.replaceWith(newRect);
     }
     this.rect = newRect;
+  }
+
+  public bounds(): Paper.Rectangle {
+    return new Paper.Rectangle(
+      this.handles[3].position,
+      this.handles[1].position,
+    );
   }
 
   getCenter(): Paper.Point {
