@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-import appEventDispatcher from "../../common/Event/AppEventDispatcher";
-import { AppEventType } from "../../common/Event/AppEventType";
+import appEventDispatcher from "../Event/AppEventDispatcher";
+import { AppEventType } from "../Event/AppEventType";
 import { undoAction, redoAction } from "../../actions/undoRedo";
 
 interface IProps {

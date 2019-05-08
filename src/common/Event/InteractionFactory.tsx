@@ -1,9 +1,10 @@
 import React from "react";
 import IacSelect from "../interaction/IacSelect";
 import IacCircle from "../interaction/IacCircle";
-import IacUndoRedo from "../../components/interaction/IacUndoRedo";
+import IacUndoRedo from "../interaction/IacUndoRedo";
 import IacSnapGrid from "../interaction/IacSnapGrid";
 import IacRectangle from "../interaction/IacRectangle";
+import IacDelete from "../interaction/IacDelete";
 
 class InteractionFactory {
   static create(name: string): JSX.Element {
@@ -24,6 +25,8 @@ class InteractionFactory {
         return <IacRectangle {...props} />;
       case "UndoRedo":
         return <IacUndoRedo {...props} />;
+      case "Delete":
+        return <IacDelete {...props} />;
       case "SnapGrid":
         return <IacSnapGrid {...props} />;
       default:
