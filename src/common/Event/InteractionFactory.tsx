@@ -5,6 +5,7 @@ import IacUndoRedo from "../interaction/IacUndoRedo";
 import IacSnapGrid from "../interaction/IacSnapGrid";
 import IacRectangle from "../interaction/IacRectangle";
 import IacDelete from "../interaction/IacDelete";
+import IacZoomInOut from "../interaction/IacZoomInOut";
 
 class InteractionFactory {
   static create(name: string): JSX.Element {
@@ -29,6 +30,8 @@ class InteractionFactory {
         return <IacDelete {...props} />;
       case "SnapGrid":
         return <IacSnapGrid {...props} />;
+      case "ZoomInOut":
+        return <IacZoomInOut {...props} />;
       default:
         throw new Error(`InteractionName not registered: ${name}`);
     }

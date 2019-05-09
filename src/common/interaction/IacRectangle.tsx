@@ -60,15 +60,14 @@ class IacRectangle extends React.Component<IProps> {
   };
 
   private createRectangle(secondPoint: Paper.Point) {
-    const rect = new Paper.Rectangle(this.firstPoint, secondPoint);
-    const rectangle = new Paper.Path.Rectangle(rect);
-    rectangle.strokeColor = configuration.defaultStrokeColor;
-    rectangle.strokeWidth = 2;
-    rectangle.fillColor = configuration.defaultFillColor;
     if (this.rectangle) {
       this.rectangle.remove();
     }
-    this.rectangle = rectangle;
+    const rect = new Paper.Rectangle(this.firstPoint, secondPoint);
+    this.rectangle = new Paper.Path.Rectangle(rect);
+    this.rectangle.strokeColor = configuration.defaultStrokeColor;
+    this.rectangle.strokeWidth = 1;
+    this.rectangle.fillColor = configuration.defaultFillColor;
   }
 
   async saveRectangle(p1: Paper.Point, p2: Paper.Point) {

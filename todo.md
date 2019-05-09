@@ -4,6 +4,11 @@ fixed - selected item in shown on top - even if it is below other items
 
 # TODO
 
+ok - zoom in/out
+
+- Zoom in +/- get center from cursor
+- change z-index for items (to background/foreground)
+
 - resize without keepRatio on Rectangle
 
 ok - ONE resize-box
@@ -30,6 +35,35 @@ ok- delte
 
 * hover-color on resize-handle
 
+## State machine
+
+- has one state
+- gets events that moves to an other state
+
+  - (and may do side effects on that way)
+
+- handle an event INSIDE a current state
+
+```
+send("CALL_PERSON", person)
+
+// returns new state
+function send(event): string {
+  switch (state) {
+    case "idle":
+      switch (event) {
+        case "CALL_PERSON":
+          // so some side effects
+          return "calling";
+        default:
+          return state;
+      }
+      break;
+
+  }
+}
+```
+
 ## Selection
 
 ### selection with window like autocad
@@ -46,7 +80,7 @@ update to the backend each time some data will change
 
 inform other collaborating users via websocket - so they get an update
 
-client-server realy simple:
+client-server really simple:
 
 change -> post changes to server. Server will give you back the changes of other users.
 => "merge" that changes to your client-data-structure

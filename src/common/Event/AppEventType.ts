@@ -1,5 +1,7 @@
 export type AppEventType =
   | ""
+  | "zoomIn"
+  | "zoomOut"
   | "mouseMove"
   | "mouseDrag"
   | "mouseDown"

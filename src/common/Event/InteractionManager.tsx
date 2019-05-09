@@ -10,7 +10,7 @@ interface IProps {}
 class InteractionManager extends Component<IProps> {
   unsubscribeFn: any;
   state = {
-    interactionNames: ["UndoRedo", "SnapGrid", "Delete"],
+    interactionNames: ["UndoRedo", "SnapGrid", "Delete", "ZoomInOut"],
   };
 
   componentWillMount() {

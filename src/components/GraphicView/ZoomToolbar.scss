@@ -1,0 +1,29 @@
+$back: #222222cc;
+$back-toolbar: #444444cc;
+$back-hover: #666666;
+$text-color: #bbbbbb;
+
+.zoomview {
+  position: fixed;
+  bottom: 40px;
+  right: 20px;
+  color: black;
+  button {
+    width: 30px;
+    height: 30px;
+    background-color: $back;
+    color: $text-color;
+    border-radius: 0px;
+    font-size: 22px;
+    border: 1px solid $back;
+  }
+  button:hover {
+    background-color: $back-hover;
+  }
+}
+
+.toolbar {
+  padding: 4px;
+  border: 1px solid $text-color;
+  background-color: $back-toolbar;
+}
