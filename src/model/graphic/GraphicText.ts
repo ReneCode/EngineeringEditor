@@ -1,3 +1,4 @@
+import Paper from "paper";
 import Placement, { DrawOptions } from "../Placement";
 import Point from "../../common/point";
 import TransformCoordinate from "../../common/transformCoordinate";
@@ -15,6 +16,10 @@ class GraphicText extends Placement {
     super("text");
     this.text = text;
     this.pt = pt;
+  }
+
+  paperDraw() {
+    return new Paper.Item();
   }
 
   static fromJSON(json: any): GraphicText {

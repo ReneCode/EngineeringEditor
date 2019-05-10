@@ -37,4 +37,13 @@ describe("paper", () => {
     const p2 = matrix.transform(p1);
     expect(p2).toEqual(new Paper.Point(-25, 20));
   });
+
+  it.skip("clone with data", () => {
+    const i1 = new Paper.Item();
+    i1.data = { nr: 42, str: "hello" };
+    const i2 = i1.clone();
+    expect(i2.data).toBeFalsy();
+    expect(t2.data.nr).toEqual(42);
+    expect(t2.data.str).toEqual("hello");
+  });
 });

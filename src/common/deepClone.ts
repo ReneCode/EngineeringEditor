@@ -25,7 +25,8 @@ const deepClone = (obj: any): any => {
     copy = new obj.constructor();
 
     for (var attr in obj) {
-      if (obj.hasOwnProperty(attr)) copy[attr] = deepClone(obj[attr]);
+      if (attr[0] !== "_" && obj.hasOwnProperty(attr))
+        copy[attr] = deepClone(obj[attr]);
     }
     return copy;
   }
