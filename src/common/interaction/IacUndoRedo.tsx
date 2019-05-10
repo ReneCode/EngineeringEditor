@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import appEventDispatcher from "../Event/AppEventDispatcher";
-import { AppEventType } from "../Event/AppEventType";
 import { undoAction, redoAction } from "../../actions/undoRedo";
 
 interface IProps {
@@ -9,31 +8,25 @@ interface IProps {
 }
 
 class IacUndoRedo extends React.Component<IProps> {
-  private unsubscribeFn: any;
+  private unsubscribeFn: Function[] = [];
 
   componentDidMount() {
-    this.unsubscribeFn = appEventDispatcher.subscribe(
-      "keyDown",
-      this.onKeyDown,
+    this.unsubscribeFn.push(
+      appEventDispatcher.subscribe("undo", () => {
+        this.props.dispatch(undoAction());
+      }),
+    );
+
+    this.unsubscribeFn.push(
+      appEventDispatcher.subscribe("redo", () => {
+        this.props.dispatch(redoAction());
+      }),
     );
   }
 
   componentWillUnmount() {
-    this.unsubscribeFn();
+    this.unsubscribeFn.forEach(fn => fn());
   }
-
-  onKeyDown = (type: AppEventType, event: KeyboardEvent) => {
-    // TODO decide if mac or windows user
-    // mac => metaKey,  windows => ctrlKey
-    if ((event.metaKey || event.ctrlKey) && event.key === "z") {
-      if (!event.shiftKey) {
-        this.props.dispatch(undoAction());
-      } else {
-        this.props.dispatch(redoAction());
-      }
-      event.preventDefault();
-    }
-  };
 
   render() {
     return null;

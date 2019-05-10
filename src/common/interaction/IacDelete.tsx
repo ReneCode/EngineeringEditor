@@ -18,8 +18,8 @@ class IacDelete extends React.Component<IProps> {
 
   componentDidMount() {
     this.unsubscribeFn = appEventDispatcher.subscribe(
-      "keyDown",
-      this.onKeyDown,
+      "delete",
+      this.onDelete,
     );
   }
 
@@ -27,22 +27,16 @@ class IacDelete extends React.Component<IProps> {
     this.unsubscribeFn();
   }
 
-  onKeyDown = (type: AppEventType, event: KeyboardEvent) => {
-    if (event.key === "Delete" || event.key === "Backspace") {
-      console.log("event.key:", event.key);
-      const placements = this.props.selectedPaperItems.map(item => {
-        const metaData = itemGetMetaData(item);
-        if (!metaData) {
-          throw new Error("metaData missing on item:" + item);
-        }
-        return metaData.placement;
-      });
+  onDelete = () => {
+    const placements = this.props.selectedPaperItems.map(item => {
+      const metaData = itemGetMetaData(item);
+      if (!metaData) {
+        throw new Error("metaData missing on item:" + item);
+      }
+      return metaData.placement;
+    });
 
-      this.props.dispatch(
-        deleteElementAction("placement", placements),
-      );
-      event.preventDefault();
-    }
+    this.props.dispatch(deleteElementAction("placement", placements));
   };
 
   render() {

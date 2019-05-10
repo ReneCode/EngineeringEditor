@@ -14,8 +14,8 @@ import { IdType } from "../model/types";
 import setPageId from "../actions/setPageId";
 import { setProjectId } from "../actions/projectActions";
 import DetailView from "./DetailView/DetailView";
-import KeyboardListener from "./KeyboardListener";
 import GraphicFrame from "./GraphicView/GraphicFrame";
+import KeyboardDispatcher from "./KeyboardDispatcher";
 
 interface IProps extends RouteComponentProps<any> {
   showModalId: string;
@@ -89,7 +89,7 @@ class ProjectView extends Component<IProps> {
         <Workspace workspace={this.state.activeWorkspaceId} />
         <GraphicFrame />
         {/* <DetailView /> */}
-        <KeyboardListener />
+        <KeyboardDispatcher />
         <SelectSymbolModal
           show={this.props.showModalId === "selectSymbol"}
         />

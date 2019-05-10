@@ -35,6 +35,7 @@ const setPageId = (projectId: IdType, pageId: IdType) => {
         payload: pageId,
       });
 
+      /*
       if (pageId) {
         // get the pageId specific viewport
         // if there is no viewport for this page start with full-screen
@@ -47,6 +48,7 @@ const setPageId = (projectId: IdType, pageId: IdType) => {
           await dispatch(zoomFullAction());
         }
       }
+       */
     } catch (ex) {
       console.log(ex);
     }

@@ -1,7 +1,7 @@
 import React from "react";
 import appEventDispatcher from "../common/Event/AppEventDispatcher";
 
-class KeyboardListener extends React.Component {
+class KeyboardDispatcher extends React.Component {
   componentDidMount() {
     document.addEventListener("keydown", this.onKeyDown);
   }
@@ -19,4 +19,4 @@ class KeyboardListener extends React.Component {
   }
 }
 
-export default KeyboardListener;
+export default KeyboardDispatcher;
