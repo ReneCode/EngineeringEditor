@@ -6,6 +6,7 @@ import IacSnapGrid from "../interaction/IacSnapGrid";
 import IacRectangle from "../interaction/IacRectangle";
 import IacDelete from "../interaction/IacDelete";
 import IacZoomInOut from "../interaction/IacZoomInOut";
+import IacLine from "../interaction/IacLine";
 
 class InteractionFactory {
   static create(name: string): JSX.Element {
@@ -20,6 +21,8 @@ class InteractionFactory {
       // case "Line":
       //   interaction = new InteractionLine(context);
       //   break;
+      case "Line":
+        return <IacLine {...props} />;
       case "Circle":
         return <IacCircle {...props} />;
       case "Rectangle":

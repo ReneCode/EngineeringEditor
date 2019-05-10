@@ -2,8 +2,6 @@ import React from "react";
 import Paper from "paper";
 import { connect } from "react-redux";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
-import { AppEventType } from "../../common/Event/AppEventType";
-import { undoAction, redoAction } from "../../actions/undoRedo";
 import { IGlobalState } from "../../reducers";
 import { itemGetMetaData } from "../ItemMetaData";
 import { deleteElementAction } from "../../actions/changeElementActions";

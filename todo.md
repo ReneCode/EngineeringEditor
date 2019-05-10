@@ -2,38 +2,41 @@
 
 fixed - selected item in shown on top - even if it is below other items
 
+# Questions
+
+- when importJson into a new createdItem => that item is not shown
+
 # TODO
 
-ok - zoom in/out
+- ok - zoom in/out
+- ok - Zoom in +/- get center from cursor
+- ok - ONE resize-box
+- ok- delete
 
-- Zoom in +/- get center from cursor
-- change z-index for items (to background/foreground)
-
+- handles of the resizeBox has fixed size - independent on zoom.
 - resize without keepRatio on Rectangle
+- change z-index for items (to background/foreground)
+- create metaData on a new drawn placement
 
-ok - ONE resize-box
-
-ok- delte
-
-- multi-selection expands the resize-box
-- resize of that box resizes the items inside
-- with SHIFT the with-height ratio is fixed on resizing the box
+* multi-selection expands the resize-box
+* resize of that box resizes the items inside
+* with SHIFT the with-height ratio is fixed on resizing the box
   (- with ctrl the center of the resize-box will be fixed)
 
-- no separate interactions.
+* no separate interactions.
   handleMouse... on the component where it starts.
-- redraw after store.items change
-- undo -> dispatch(setSelection) with last changed item
+* redraw after store.items change
+* undo -> dispatch(setSelection) with last changed item
 
-* Undo / Redo: after Undo/Redo select the "undo-ed" items
+- Undo / Redo: after Undo/Redo select the "undo-ed" items
   remove the current selection
 
-* Undo => changes the items in the state => no more subscription on redux-store.
+- Undo => changes the items in the state => no more subscription on redux-store.
   update the view on the changed placements. (do not use redux-store)
 
-* do not move the resize-box
+- do not move the resize-box
 
-* hover-color on resize-handle
+- hover-color on resize-handle
 
 ## State machine
 

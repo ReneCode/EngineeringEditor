@@ -24,6 +24,8 @@ class Placement {
     this.type = type;
   }
 
+  toJsonContent: Function | null = null;
+
   paperDraw(): Paper.Item | null {
     return null;
   }
