@@ -1,23 +1,19 @@
-import React from "react";
-import { connect } from "react-redux";
+import React, { createElement } from "react";
 import Paper from "paper";
 import appEventDispatcher from "../Event/AppEventDispatcher";
 import { AppEventType } from "../Event/AppEventType";
+import { connect } from "react-redux";
 import configuration from "../configuration";
-import GraphicLine from "../../model/graphic/GraphicLine";
-import Point from "../point";
-import { createElementAction } from "../../actions/changeElementActions";
 import PaperPlacement from "../../model/graphic/PaperPlacement";
+import { createElementAction } from "../../actions/changeElementActions";
 
 interface IProps {
   dispatch: Function;
 }
-
-class IacLine extends React.Component<IProps> {
+class IacArc extends React.Component<IProps> {
   private unsubscribeFn: Function[] = [];
   private firstPoint: Paper.Point = new Paper.Point(0, 0);
-  private line: Paper.Path | null = null;
-  // private newItem: Paper.Item = new Paper.Item();
+  private arc: Paper.Path | null = null;
 
   componentDidMount() {
     this.unsubscribeFn.push(
@@ -37,38 +33,42 @@ class IacLine extends React.Component<IProps> {
 
   onMouseDown = (type: AppEventType, event: Paper.MouseEvent) => {
     this.firstPoint = event.point;
-    this.createLine(this.firstPoint);
+    this.createArc(this.firstPoint);
   };
   onMouseUp = async (type: AppEventType, event: Paper.MouseEvent) => {
-    if (!this.line) {
-      throw new Error("line missing");
+    if (!this.arc) {
+      throw new Error("arc missing");
     }
-    this.createLine(event.point);
-    this.saveLine();
-    this.line = null;
+    this.createArc(event.point);
+    this.saveArc();
+    this.arc = null;
   };
 
   onMouseDrag = (type: AppEventType, event: Paper.MouseEvent) => {
-    if (!this.line) {
-      throw new Error("line missing");
+    if (!this.arc) {
+      throw new Error("arc missing");
     }
-    this.createLine(event.point);
+
+    this.createArc(event.point);
   };
 
-  private createLine(p2: Paper.Point) {
-    if (this.line) {
-      this.line.remove();
+  private createArc(p2: Paper.Point) {
+    if (this.arc) {
+      this.arc.remove();
     }
-    this.line = new Paper.Path.Line(this.firstPoint, p2);
-    this.line.strokeColor = configuration.defaultStrokeColor;
+
+    const radius = p2.subtract(this.firstPoint).length;
+    this.arc = new Paper.Path.Circle(this.firstPoint, radius);
+    this.arc.strokeColor = configuration.defaultStrokeColor;
+    this.arc.fillColor = configuration.defaultFillColor;
   }
 
-  private async saveLine() {
-    if (!this.line) {
-      throw new Error("line missing");
+  private async saveArc() {
+    if (!this.arc) {
+      throw new Error("arc missing");
     }
 
-    const paperPlacement = new PaperPlacement(this.line);
+    const paperPlacement = new PaperPlacement(this.arc);
     await this.props.dispatch(
       createElementAction("placement", paperPlacement),
     );
@@ -79,4 +79,4 @@ class IacLine extends React.Component<IProps> {
   }
 }
 
-export default connect()(IacLine);
+export default connect()(IacArc);

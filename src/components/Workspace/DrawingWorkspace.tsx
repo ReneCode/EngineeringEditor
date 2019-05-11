@@ -90,6 +90,11 @@ class DrawingWorkspace extends Component<IProps> {
         </button> */}
         <button
           className="button"
+          onClick={() => this.startInteraction("Arc")}>
+          Arc
+        </button>
+        <button
+          className="button"
           onClick={() => this.startInteraction("Line")}>
           Line
         </button>

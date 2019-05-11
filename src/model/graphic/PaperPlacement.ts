@@ -2,6 +2,7 @@ import Paper from "paper";
 import Placement from "../Placement";
 import deepClone from "../../common/deepClone";
 import Point from "../../common/point";
+import { ItemMetaData } from "../../common/ItemMetaData";
 
 class PaperPlacement extends Placement {
   constructor(private _paperItem: Paper.Item) {
@@ -24,17 +25,35 @@ class PaperPlacement extends Placement {
     // newPaperItem.data.placement = newPlacement;
     newPlacement.paperItem = newPaperItem;
     // console.log(":", newPlacement._paperItem.position);
+    this.setMetaData();
     return newPlacement;
   }
 
-  paperDraw() {
-    console.log("paperDraw");
-    return this._paperItem.clone();
+  fitToRect(rect: Paper.Rectangle): PaperPlacement {
+    const newPaperItem = this._paperItem.clone();
+    const newPlacement = deepClone(this);
+    newPaperItem.fitBounds(rect);
+    newPlacement._paperItem = newPaperItem;
+    this.setMetaData();
+    return newPlacement;
   }
 
-  // getPaperItem = () => {
+  // paperDraw() {
+  //   console.log("paperDraw");
   //   return this._paperItem.clone();
-  // };
+  // }
+
+  getPaperItem() {
+    return this._paperItem;
+  }
+
+  setMetaData() {
+    const metaData: ItemMetaData = {
+      placement: this,
+      rev: 1,
+    };
+    // this._paperItem.data = metaData;
+  }
 }
 
 export default PaperPlacement;

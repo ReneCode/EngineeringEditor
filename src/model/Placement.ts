@@ -30,7 +30,9 @@ class Placement {
   // TODO  do not use that construct to overwrite
   // that function in PaperPlacement
   // change it as done in: toJsonContent()
-  getPaperItem: Function | null = null;
+  getPaperItem(): Paper.Item | null {
+    return null;
+  }
 
   paperDraw(): Paper.Item | null {
     return null;

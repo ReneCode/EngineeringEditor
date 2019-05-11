@@ -90,3 +90,26 @@ change -> post changes to server. Server will give you back the changes of other
 
 on the server you also have to merge the changing-data to the data-base-structure.
 And it has to be conflict-fee ! CRDT database (conflict-free replicated data types)
+
+#learned
+
+```
+class base {
+  foo() {
+    return 42;
+  }
+}
+
+clas foo extends base {
+
+  // that does not work !!
+  foo = () => {
+    return 666;
+  }
+
+  // use that
+  foo() {
+    return 123;
+  }
+}
+```

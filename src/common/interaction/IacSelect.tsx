@@ -16,6 +16,7 @@ import { IGlobalState } from "../../reducers";
 import ResizeBox from "./ResizeBox";
 import appEventDispatcher from "../Event/AppEventDispatcher";
 import { AppEventType } from "../Event/AppEventType";
+import PaperPlacement from "../../model/graphic/PaperPlacement";
 
 interface IProps {
   dispatch: Function;
@@ -166,7 +167,15 @@ class IacSelect extends React.Component<IProps> {
 
     if (this.modus === "resize") {
       placements = this.props.selectedPaperItems.map(item => {
-        const metaData = itemGetMetaData(item) as ItemMetaData;
+        const metaData = itemGetMetaData(item);
+        if (!metaData || !metaData.placement) {
+          throw new Error("metaData or placement not set");
+        }
+        // const placement = metaData.placement;
+        // if (placement instanceof PaperPlacement) {
+        //   // placement.setPaperItem(item);
+        // } else {
+        //   // old
         return metaData.placement.fitToRect(this.resizeBox.bounds());
       });
     }

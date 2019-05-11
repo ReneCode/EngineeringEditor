@@ -32,10 +32,11 @@ const drawCanvas = (project: Paper.Project, items: Placement[]) => {
 export const createPaperItem = (
   placement: Placement,
 ): Paper.Item | null => {
-  let paperItem = undefined;
-
-  if (placement.getPaperItem) {
-    paperItem = placement.getPaperItem(); // .clone();
+  let paperItem: Paper.Item | null = null;
+  const fixedPaperItem = placement.getPaperItem();
+  if (fixedPaperItem) {
+    // these paperItem will be modified
+    paperItem = fixedPaperItem.clone();
   } else {
     paperItem = placement.paperDraw();
   }
