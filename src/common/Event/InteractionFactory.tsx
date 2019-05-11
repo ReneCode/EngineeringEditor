@@ -1,5 +1,4 @@
 import React from "react";
-import IacSelect from "../interaction/IacSelect";
 import IacCircle from "../interaction/IacCircle";
 import IacUndoRedo from "../interaction/IacUndoRedo";
 import IacSnapGrid from "../interaction/IacSnapGrid";
@@ -8,13 +7,18 @@ import IacDelete from "../interaction/IacDelete";
 import IacZoomInOut from "../interaction/IacZoomInOut";
 import IacLine from "../interaction/IacLine";
 import IacArc from "../interaction/IacArc";
+import IacIdle from "../interaction/IacIdle";
+import IacSelectPaperItem from "../interaction/IacSelectPaperItem";
 
 class InteractionFactory {
   static create(name: string): JSX.Element {
     const props = { key: name };
     switch (name) {
-      case "Select":
-        return <IacSelect {...props} />;
+      case "Idle":
+        return <IacIdle {...props} />;
+        break;
+      case "SelectPaperItem":
+        return <IacSelectPaperItem {...props} />;
         break;
       // case "Zoom":
       //   interaction = new InteractionZoom(context);

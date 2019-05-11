@@ -8,7 +8,6 @@ import Placement from "../../model/Placement";
 import drawCanvas from "../../common/drawCanvas";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 import PaperCanvas from "./PaperCanvas";
-import IacSelect from "../../common/interaction/IacSelect";
 import InteractionManager from "../../common/Event/InteractionManager";
 
 interface IProps {

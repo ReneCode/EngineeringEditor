@@ -6,7 +6,6 @@ import {
   itemGetMetaData,
   ItemMetaData,
 } from "../ItemMetaData";
-import { setSelectedPaperItems } from "../../actions/graphicActions";
 import { updateElementAction } from "../../actions/changeElementActions";
 import Point from "../point";
 import Placement from "../../model/Placement";
@@ -23,7 +22,7 @@ interface IProps {
   selectedPaperItems: Paper.Item[];
 }
 
-class IacSelect extends React.Component<IProps> {
+class IacIdle extends React.Component<IProps> {
   unsubscribeFn: Function[] = [];
   resizeBox: ResizeBox = new ResizeBox();
   modus: null | "moving" | "resize" = null;
@@ -55,7 +54,7 @@ class IacSelect extends React.Component<IProps> {
   }
   componentWillUnmount() {
     this.unsubscribeFn.forEach(fn => fn());
-    this.selectPaperItem(null);
+    appEventDispatcher.dispatch("selectPaperItem");
   }
 
   componentWillUpdate(newProps: IProps) {
@@ -89,9 +88,12 @@ class IacSelect extends React.Component<IProps> {
     // add to selection
     if (item) {
       const append = event.modifiers.shift;
-      this.selectPaperItem(item, append);
+      appEventDispatcher.dispatch("selectPaperItem", {
+        item,
+        append,
+      });
     } else {
-      this.selectPaperItem(null);
+      appEventDispatcher.dispatch("selectPaperItem");
     }
   };
 
@@ -210,22 +212,6 @@ class IacSelect extends React.Component<IProps> {
   //     itemSelect(item);
   //   });
   // }
-
-  selectPaperItem(item: Paper.Item | null, append: boolean = false) {
-    if (!item) {
-      this.props.dispatch(setSelectedPaperItems([]));
-      return;
-    }
-    if (this.props.selectedPaperItems.includes(item)) {
-      return;
-    }
-    if (append) {
-      const payload = [...this.props.selectedPaperItems, item];
-      this.props.dispatch(setSelectedPaperItems(payload));
-    } else {
-      this.props.dispatch(setSelectedPaperItems(item));
-    }
-  }
 
   /**
    * @summary returns the hit item, if it is not resizeBox or resizeHandle
@@ -369,6 +355,6 @@ const mapDispatchToProps = (dispatch: Function) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(IacSelect);
+)(IacIdle);
 
 // { withRef: true }, // to get reference in GraphicView   this.ref = com.getWrappedInstance()

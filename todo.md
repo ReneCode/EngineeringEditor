@@ -8,6 +8,8 @@ fixed - selected item in shown on top - even if it is below other items
 
 # TODO
 
+- check undo/redo (setMetaData on PaperPlacement)
+
 - ok - zoom in/out
 - ok - Zoom in +/- get center from cursor
 - ok - ONE resize-box

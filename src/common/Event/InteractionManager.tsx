@@ -2,7 +2,6 @@ import React from "react";
 import appEventDispatcher from "./AppEventDispatcher";
 import { Component } from "react";
 import { AppEventType } from "./AppEventType";
-import IacSelect from "../interaction/IacSelect";
 import InteractionFactory from "./InteractionFactory";
 
 interface IProps {}
@@ -10,7 +9,13 @@ interface IProps {}
 class InteractionManager extends Component<IProps> {
   unsubscribeFn: any;
   state = {
-    interactionNames: ["UndoRedo", "SnapGrid", "Delete", "ZoomInOut"],
+    interactionNames: [
+      "UndoRedo",
+      "SnapGrid",
+      "Delete",
+      "ZoomInOut",
+      "SelectPaperItem",
+    ],
   };
 
   componentWillMount() {
@@ -20,7 +25,7 @@ class InteractionManager extends Component<IProps> {
     );
 
     appEventDispatcher.dispatch("startInteraction", {
-      name: "Select",
+      name: "Idle",
       replace: false,
     });
   }
