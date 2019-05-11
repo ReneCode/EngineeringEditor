@@ -21,8 +21,10 @@ class PlacementFactory {
       pageId?: string;
       projectId?: string;
     } = {};
-    if (obj.toJsonContent) {
-      json = obj.toJsonContent();
+
+    const jsonContent = obj.toJsonContent();
+    if (jsonContent) {
+      json = jsonContent as any;
     } else {
       json = Object.assign({}, obj);
     }

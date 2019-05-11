@@ -32,7 +32,13 @@ const drawCanvas = (project: Paper.Project, items: Placement[]) => {
 export const createPaperItem = (
   placement: Placement,
 ): Paper.Item | null => {
-  const paperItem = placement.paperDraw();
+  let paperItem = undefined;
+
+  if (placement.getPaperItem) {
+    paperItem = placement.getPaperItem(); // .clone();
+  } else {
+    paperItem = placement.paperDraw();
+  }
   if (!paperItem) {
     debugger;
     return null;
@@ -43,7 +49,6 @@ export const createPaperItem = (
     rev: 1,
   };
   paperItem.data = metaData;
-  // console.log("::", placement, paperItem.data);
   return paperItem;
 };
 

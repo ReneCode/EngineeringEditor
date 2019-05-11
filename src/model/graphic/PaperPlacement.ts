@@ -8,27 +8,33 @@ class PaperPlacement extends Placement {
     super("#paper");
   }
 
-  toJsonContent = () => {
+  toJsonContent(): string {
     return this._paperItem.exportJSON({ asString: false });
-  };
+  }
 
   translate(pt: Point): Placement {
+    // console.log(":", this._paperItem.position);
     const newPaperItem = this._paperItem.clone();
     const newPlacement = deepClone(this);
     newPlacement._paperItem = newPaperItem;
     newPaperItem.position = newPaperItem.position.add(
       new Paper.Point(pt.x, pt.y),
     );
+    // newPaperItem.data = this._paperItem.data;
+    // newPaperItem.data.placement = newPlacement;
     newPlacement.paperItem = newPaperItem;
+    // console.log(":", newPlacement._paperItem.position);
     return newPlacement;
   }
 
   paperDraw() {
+    console.log("paperDraw");
     return this._paperItem.clone();
-    // const item = new Paper.Path();
-    // item.replaceWith(this.paperItem);
-    // return item;
   }
+
+  // getPaperItem = () => {
+  //   return this._paperItem.clone();
+  // };
 }
 
 export default PaperPlacement;

@@ -207,7 +207,6 @@ class IacSelect extends React.Component<IProps> {
       this.props.dispatch(setSelectedPaperItems([]));
       return;
     }
-    console.log(":", item.className, item.data);
     if (this.props.selectedPaperItems.includes(item)) {
       return;
     }

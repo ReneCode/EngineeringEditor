@@ -24,7 +24,13 @@ class Placement {
     this.type = type;
   }
 
-  toJsonContent: Function | null = null;
+  toJsonContent(): string | null {
+    return null;
+  }
+  // TODO  do not use that construct to overwrite
+  // that function in PaperPlacement
+  // change it as done in: toJsonContent()
+  getPaperItem: Function | null = null;
 
   paperDraw(): Paper.Item | null {
     return null;
