@@ -1,6 +1,5 @@
 import Paper from "paper";
 import Placement from "../../model/Placement";
-import drawCanvas from "../../common/drawCanvas";
 import InteractionBase, {
   InteractionContext,
 } from "../../common/interaction/InteractionBase";
@@ -46,7 +45,7 @@ class PaperCanvas {
   }
 
   public redraw(items: Placement[]) {
-    drawCanvas(Paper.project, items);
+    // drawCanvas(Paper.project, items);
   }
 
   public setSelectedPaperItems(selectedPaperItems: Paper.Item[]) {

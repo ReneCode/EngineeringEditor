@@ -56,20 +56,21 @@ export const setSelectedItemAction = (
   return async (dispatch: any) => {
     try {
       // clear old selected items
-      const action = {
-        type: actionTypes.CLEAR_SELECTED_ITEM,
-      };
-      await dispatch(action);
+      // const action = {
+      //   type: actionTypes.CLEAR_SELECTED_ITEM,
+      // };
+      // await dispatch(action);
+
       // clear the grips
-      await dispatch(deleteLayerAction("grip"));
+      // await dispatch(deleteLayerAction("grip"));
 
       items = makeArray(items);
-      const grips = getGripsFromPlacements(items);
-      const actionAddGrips = {
-        type: actionTypes.ADD_PLACEMENT,
-        payload: grips,
-      };
-      await dispatch(actionAddGrips);
+      // const grips = getGripsFromPlacements(items);
+      // const actionAddGrips = {
+      //   type: actionTypes.ADD_PLACEMENT,
+      //   payload: grips,
+      // };
+      // await dispatch(actionAddGrips);
 
       const actionSetSelectedItems = {
         type: actionTypes.SET_SELECTED_ITEM,

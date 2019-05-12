@@ -40,7 +40,6 @@ class IacSelectPaperItem extends React.Component<IProps> {
       return;
     }
 
-    console.table(payload.append);
     const item = payload.item;
     if (this.props.selectedPaperItems.includes(item)) {
       return;

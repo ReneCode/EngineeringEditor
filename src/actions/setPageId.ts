@@ -28,7 +28,7 @@ const setPageId = (projectId: IdType, pageId: IdType) => {
         payload: placements,
       });
 
-      await updateAutoconnection(dispatch, getState);
+      // await updateAutoconnection(dispatch, getState);
 
       await dispatch({
         type: actionTypes.SET_PAGE_ID,

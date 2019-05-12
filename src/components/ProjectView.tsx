@@ -46,6 +46,8 @@ class ProjectView extends Component<IProps> {
     if (this.props.projectId !== projectId) {
       await this.props.dispatch(setProjectId(projectId));
     }
+    // console.log("setPageId()");
+
     await this.props.dispatch(setPageId(projectId, pageId));
   };
 
@@ -101,7 +103,6 @@ class ProjectView extends Component<IProps> {
 const mapStateToProps = (state: IGlobalState) => {
   return {
     showModalId: state.project.showModalId,
-    projectId: state.project.projectId,
   };
 };
 

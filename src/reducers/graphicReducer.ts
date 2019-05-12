@@ -131,8 +131,9 @@ const addSelectedItem = (state: IGraphicState, action: any) => {
 };
 
 const setPlacement = (state: IGraphicState, action: any) => {
-  // console.log("SET placement");
   let newItems: Placement[] = makeArray(action.payload).map(p => p);
+
+  // console.log("SET placement");
   return {
     ...state,
     items: newItems,
@@ -224,6 +225,7 @@ const graphicReducer = (state = initialState, action: any) => {
       };
 
     case actionTypes.ADD_PLACEMENT:
+      // console.log("addPlacement");
       return {
         ...state,
         items: state.items.concat(action.payload),

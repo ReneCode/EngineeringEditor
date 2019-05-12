@@ -9,11 +9,14 @@ import IacLine from "../interaction/IacLine";
 import IacArc from "../interaction/IacArc";
 import IacIdle from "../interaction/IacIdle";
 import IacSelectPaperItem from "../interaction/IacSelectPaperItem";
+import IacDrawCanvas from "../interaction/IacDrawCanvas";
 
 class InteractionFactory {
   static create(name: string): JSX.Element {
     const props = { key: name };
     switch (name) {
+      case "DrawCanvas":
+        return <IacDrawCanvas {...props} />;
       case "Idle":
         return <IacIdle {...props} />;
         break;

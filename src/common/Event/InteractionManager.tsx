@@ -10,6 +10,7 @@ class InteractionManager extends Component<IProps> {
   unsubscribeFn: any;
   state = {
     interactionNames: [
+      "DrawCanvas",
       "UndoRedo",
       "SnapGrid",
       "Delete",

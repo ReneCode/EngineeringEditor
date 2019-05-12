@@ -75,19 +75,9 @@ class DrawingWorkspace extends Component<IProps> {
       <div className="drawingworkspace">
         <button
           className="button"
-          onClick={() => this.startInteraction("Select")}>
-          Select
+          onClick={() => this.startInteraction("Idle")}>
+          Idle
         </button>
-        {/* <button
-          className="button"
-          onClick={() => this.startIa(IA_DELETE_ITEM)}>
-          Delete
-        </button>
-        <button
-          className="button"
-          onClick={() => this.startInteraction("Line")}>
-          Line
-        </button> */}
         <button
           className="button"
           onClick={() => this.startInteraction("Arc")}>

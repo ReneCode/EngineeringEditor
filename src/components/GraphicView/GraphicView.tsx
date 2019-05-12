@@ -5,15 +5,11 @@ import Point from "../../common/point";
 import { IGlobalState } from "../../reducers";
 import Paper from "paper";
 import Placement from "../../model/Placement";
-import drawCanvas from "../../common/drawCanvas";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 import PaperCanvas from "./PaperCanvas";
 import InteractionManager from "../../common/Event/InteractionManager";
 
-interface IProps {
-  dispatch: Function;
-  items: Placement[];
-}
+interface IProps {}
 
 interface IState {
   width: number;
@@ -35,6 +31,7 @@ class GraphicView extends Component<IProps> {
   }
   componentDidMount() {
     if (this.canvas) {
+      console.log("Paper.setup()");
       Paper.setup(this.canvas);
       Paper.settings.handleSize = 8;
 
@@ -50,12 +47,6 @@ class GraphicView extends Component<IProps> {
 
   componentWillUnmount() {
     window.removeEventListener("resize", this.onResize);
-  }
-
-  async componentDidUpdate(prevProps: any, prevState: any) {
-    if (prevProps.items != this.props.items) {
-      drawCanvas(Paper.project, this.props.items);
-    }
   }
 
   private onMouseDown = (event: Paper.MouseEvent) => {
@@ -137,12 +128,4 @@ class GraphicView extends Component<IProps> {
   }
 }
 
-const mapStateToProps = (state: IGlobalState) => {
-  return {
-    items: state.graphic.items,
-  };
-};
-
-const ConnectedComponent = connect(mapStateToProps)(GraphicView);
-
-export default ConnectedComponent;
+export default GraphicView;
