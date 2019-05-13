@@ -10,6 +10,7 @@ import IacArc from "../interaction/IacArc";
 import IacIdle from "../interaction/IacIdle";
 import IacSelectPaperItem from "../interaction/IacSelectPaperItem";
 import IacDrawCanvas from "../interaction/IacDrawCanvas";
+import IacSelectAll from "../interaction/IacSelectAll";
 
 class InteractionFactory {
   static create(name: string): JSX.Element {
@@ -20,6 +21,9 @@ class InteractionFactory {
       case "Idle":
         return <IacIdle {...props} />;
         break;
+      case "SelectAll":
+        return <IacSelectAll {...props} />;
+
       case "SelectPaperItem":
         return <IacSelectPaperItem {...props} />;
         break;

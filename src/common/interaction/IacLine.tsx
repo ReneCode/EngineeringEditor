@@ -8,6 +8,7 @@ import GraphicLine from "../../model/graphic/GraphicLine";
 import Point from "../point";
 import { createElementAction } from "../../actions/changeElementActions";
 import PaperPlacement from "../../model/graphic/PaperPlacement";
+import { ItemName } from "../ItemMetaData";
 
 interface IProps {
   dispatch: Function;
@@ -60,6 +61,7 @@ class IacLine extends React.Component<IProps> {
       this.line.remove();
     }
     this.line = new Paper.Path.Line(this.firstPoint, p2);
+    this.line.name = ItemName.itemLine;
     this.line.strokeColor = configuration.defaultStrokeColor;
   }
 

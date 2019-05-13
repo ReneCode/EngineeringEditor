@@ -84,14 +84,18 @@ class IacIdle extends React.Component<IProps> {
       return;
     }
 
-    const item = this.getHitTestItem(result, null);
+    const item = this.getHitTestItem(result, ItemName.itemAny);
     // add to selection
     if (item) {
-      const append = event.modifiers.shift;
-      appEventDispatcher.dispatch("selectPaperItem", {
-        item,
-        append,
-      });
+      if (this.props.selectedPaperItems.includes(item)) {
+        this.drawItemModifyGrips(item);
+      } else {
+        const append = event.modifiers.shift;
+        appEventDispatcher.dispatch("selectPaperItem", {
+          item,
+          append,
+        });
+      }
     } else {
       appEventDispatcher.dispatch("selectPaperItem");
     }
@@ -213,12 +217,7 @@ class IacIdle extends React.Component<IProps> {
   //   });
   // }
 
-  /**
-   * @summary returns the hit item, if it is not resizeBox or resizeHandle
-   * @param result
-   */
   private getHitItem(result: any): Paper.Item | null {
-    // do not mark a selected item
     let canSelect = false;
     if (
       result &&
@@ -226,14 +225,6 @@ class IacIdle extends React.Component<IProps> {
       result.item.name != ItemName.resizeBox &&
       result.item.name != ItemName.resizeHandle
     ) {
-      canSelect = true;
-      // if (
-      //   this.props.selectedPaperItems.find(i => i === result.item)
-      // ) {
-      //   canSelect = false;
-      // }
-    }
-    if (canSelect) {
       return result.item;
     }
     return null;
@@ -241,18 +232,21 @@ class IacIdle extends React.Component<IProps> {
 
   private getHitTestItem(
     result: any,
-    itemName: string | null,
+    itemName: string,
   ): Paper.Item | null {
     if (result && result.item) {
-      if (itemName) {
-        if (result.item.name == itemName) {
-          return result.item;
-        }
-      } else {
-        if (!result.item.name) {
-          return result.item;
-        }
+      if (ItemName.match(itemName, result.item.name)) {
+        return result.item;
       }
+      // if (itemName) {
+      //   if (result.item.name == itemName) {
+      //     return result.item;
+      //   }
+      // } else {
+      //   if (!result.item.name) {
+      //     return result.item;
+      //   }
+      // }
     }
     return null;
   }
@@ -269,6 +263,10 @@ class IacIdle extends React.Component<IProps> {
       }
     }
     return null;
+  }
+
+  drawItemModifyGrips(item: Paper.Item) {
+    console.log("drawGrips for: ", item.name);
   }
 
   private onMouseDragResize(event: Paper.MouseEvent) {

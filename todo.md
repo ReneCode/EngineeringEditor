@@ -8,6 +8,9 @@ fixed - selected item in shown on top - even if it is below other items
 
 # TODO
 
+- Arc. Set Start/End angle
+- cmd-A select all
+- cmd-C cmd-V copy paste
 - check undo/redo (setMetaData on PaperPlacement)
 
 - ok - zoom in/out

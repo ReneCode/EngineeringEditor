@@ -38,11 +38,6 @@ class PaperPlacement extends Placement {
     return newPlacement;
   }
 
-  // paperDraw() {
-  //   console.log("paperDraw");
-  //   return this._paperItem.clone();
-  // }
-
   getPaperItem() {
     return this._paperItem;
   }
@@ -52,6 +47,7 @@ class PaperPlacement extends Placement {
       placement: this,
       rev: 1,
     };
+    // TODO currently not working with Undo/Redo :-(
     // this._paperItem.data = metaData;
   }
 }

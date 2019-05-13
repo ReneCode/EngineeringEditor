@@ -54,6 +54,13 @@ class KeybaordHandler extends React.Component {
       case "Backspace":
         appEventDispatcher.dispatch("delete");
         event.preventDefault();
+
+      case "a":
+      case "A":
+        if (event.metaKey || event.ctrlKey) {
+          appEventDispatcher.dispatch("selectAll");
+          event.preventDefault();
+        }
     }
   };
 

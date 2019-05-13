@@ -8,6 +8,7 @@
   "main": "src/index.js",
   "dependencies": {
     "@types/jest": "^23.3.10",
+    "@types/jsdom": "^12.2.3",
     "@types/node": "^10.12.15",
     "@types/paper": "^0.11.9",
     "@types/react": "^16.7.17",

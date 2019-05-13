@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import configuration from "../configuration";
 import PaperPlacement from "../../model/graphic/PaperPlacement";
 import { createElementAction } from "../../actions/changeElementActions";
+import { ItemName } from "../ItemMetaData";
 
 interface IProps {
   dispatch: Function;
@@ -59,6 +60,7 @@ class IacArc extends React.Component<IProps> {
 
     const radius = p2.subtract(this.firstPoint).length;
     this.arc = new Paper.Path.Circle(this.firstPoint, radius);
+    this.arc.name = ItemName.itemArc;
     this.arc.strokeColor = configuration.defaultStrokeColor;
     this.arc.fillColor = configuration.defaultFillColor;
   }

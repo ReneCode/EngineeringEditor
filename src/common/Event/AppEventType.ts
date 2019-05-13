@@ -1,5 +1,6 @@
 export type AppEventType =
   | ""
+  | "selectAll"
   | "selectPaperItem" // { item: Paper.Item, append: boolean = false}
   | "delete"
   | "undo"

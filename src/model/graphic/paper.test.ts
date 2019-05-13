@@ -1,5 +1,8 @@
 import Paper from "paper";
 import Point from "../../common/point";
+import jsdom from "jsdom";
+
+const { JSDOM } = jsdom;
 
 describe("paper", () => {
   it("matrix 2x translation", () => {
@@ -39,6 +42,9 @@ describe("paper", () => {
   });
 
   it.skip("clone with data", () => {
+    const dom = new JSDOM(`<!DOCTYPE html><canvas />`);
+    const canvas = dom.window.document.querySelector("canvas");
+    Paper.setup(canvas as HTMLCanvasElement);
     const i1 = new Paper.Item();
     i1.data = { nr: 42, str: "hello" };
     const i2 = i1.clone();

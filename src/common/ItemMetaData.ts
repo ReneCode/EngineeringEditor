@@ -2,6 +2,7 @@ import Placement from "../model/Placement";
 import Paper from "paper";
 import ResizeBox from "./interaction/ResizeBox";
 import ResizeShape from "./interaction/ResizeShape";
+import { match } from "minimatch";
 
 export type ItemMetaData = {
   placement: Placement;
@@ -9,9 +10,33 @@ export type ItemMetaData = {
   rev: number;
 };
 
-export enum ItemName {
-  resizeBox = "resizeBox",
-  resizeHandle = "resizeHandle",
+export class ItemName {
+  static resizeBox = "resizeBox";
+  static resizeHandle = "resizeHandle";
+
+  static itemAny = ".";
+  static itemArc = ".arc";
+  static itemLine = ".line";
+
+  static match(test: string, found: string | null) {
+    // if (test === ".") return true;
+    if (!test) {
+      // old data
+      return true;
+    }
+
+    if (test && found === test) {
+      return true;
+    }
+    if (
+      found &&
+      test === ItemName.itemAny &&
+      found[0] === ItemName.itemAny
+    ) {
+      return true;
+    }
+    return false;
+  }
 }
 
 export const itemGetMetaData = (
