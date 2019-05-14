@@ -9,6 +9,7 @@ export type IdType = string | undefined;
 
 export type GraphicType =
   | ""
+  | "arc"
   | "#paper"
   | "symbolref"
   | "symbol"

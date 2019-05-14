@@ -8,6 +8,7 @@ import GraphicConnectionPoint from "./graphic/GraphicConnectionPoint";
 import GraphicText from "./graphic/GraphicText";
 import GraphicRect from "./graphic/GraphicRect";
 import PaperPlacement from "./graphic/PaperPlacement";
+import GraphicArc from "./graphic/GraphicArc";
 
 class ObjectFactory {
   static fromJSON(json: any): object | object[] {
@@ -31,6 +32,8 @@ class ObjectFactory {
     }
 
     switch (json.type) {
+      case "arc":
+        return GraphicArc.fromJSON(json);
       case "rect":
         return GraphicRect.fromJSON(json);
       case "line":

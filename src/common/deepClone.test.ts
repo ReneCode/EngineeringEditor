@@ -2,6 +2,7 @@ import Page from "../model/Page";
 import deepClone from "./deepClone";
 import Placement from "../model/Placement";
 import GraphicLine from "../model/graphic/GraphicLine";
+import Paper from "paper";
 import Point from "./point";
 
 describe("deepClone", () => {
@@ -33,5 +34,12 @@ describe("deepClone", () => {
       a: 3,
       b: { x: 32 },
     });
+  });
+
+  it("clone Paper.Point", () => {
+    const p1 = new Paper.Point(4, 5);
+    const p2 = deepClone(p1);
+    expect(p2).toEqual(p1);
+    expect(p2).toBeInstanceOf(Paper.Point);
   });
 });

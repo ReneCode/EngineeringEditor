@@ -45,7 +45,6 @@ class IacSelectPaperItem extends React.Component<IProps> {
       return;
     }
     if (payload.append) {
-      // debugger;
       this.props.dispatch(
         setSelectedPaperItems([
           ...this.props.selectedPaperItems,

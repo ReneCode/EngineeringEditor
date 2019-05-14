@@ -57,11 +57,13 @@ class IacDrawCanvas extends React.Component<IProps> {
       return null;
       // throw new Error("paperDraw return no item:" + placement);
     }
-    const metaData: ItemMetaData = {
-      placement: placement,
-      rev: 1,
-    };
-    paperItem.data = metaData;
+    if (!paperItem.data) {
+      const metaData: ItemMetaData = {
+        placement: placement,
+        rev: 1,
+      };
+      paperItem.data = metaData;
+    }
     return paperItem;
   };
 

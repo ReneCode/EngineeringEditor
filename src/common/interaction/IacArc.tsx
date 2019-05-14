@@ -7,6 +7,7 @@ import configuration from "../configuration";
 import PaperPlacement from "../../model/graphic/PaperPlacement";
 import { createElementAction } from "../../actions/changeElementActions";
 import { ItemName } from "../ItemMetaData";
+import GraphicArc from "../../model/graphic/GraphicArc";
 
 interface IProps {
   dispatch: Function;
@@ -14,7 +15,8 @@ interface IProps {
 class IacArc extends React.Component<IProps> {
   private unsubscribeFn: Function[] = [];
   private firstPoint: Paper.Point = new Paper.Point(0, 0);
-  private arc: Paper.Path | null = null;
+  private arc: GraphicArc | null = null;
+  private item: Paper.Item = new Paper.Item();
 
   componentDidMount() {
     this.unsubscribeFn.push(
@@ -54,15 +56,19 @@ class IacArc extends React.Component<IProps> {
   };
 
   private createArc(p2: Paper.Point) {
-    if (this.arc) {
-      this.arc.remove();
-    }
-
     const radius = p2.subtract(this.firstPoint).length;
-    this.arc = new Paper.Path.Circle(this.firstPoint, radius);
-    this.arc.name = ItemName.itemArc;
-    this.arc.strokeColor = configuration.defaultStrokeColor;
-    this.arc.fillColor = configuration.defaultFillColor;
+    if (!this.arc) {
+      this.arc = new GraphicArc(this.firstPoint, radius);
+      this.arc.color = configuration.defaultStrokeColor;
+      this.arc.fill = configuration.defaultFillColor;
+
+      this.item = this.arc.paperDraw();
+    } else {
+      this.arc.radius = radius;
+
+      this.item.remove();
+      this.item = this.arc.paperDraw();
+    }
   }
 
   private async saveArc() {
@@ -70,9 +76,8 @@ class IacArc extends React.Component<IProps> {
       throw new Error("arc missing");
     }
 
-    const paperPlacement = new PaperPlacement(this.arc);
     await this.props.dispatch(
-      createElementAction("placement", paperPlacement),
+      createElementAction("placement", this.arc),
     );
   }
 

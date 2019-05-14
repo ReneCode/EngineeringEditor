@@ -20,6 +20,7 @@ import PaperPlacement from "../../model/graphic/PaperPlacement";
 interface IProps {
   dispatch: Function;
   selectedPaperItems: Paper.Item[];
+  items: Placement[];
 }
 
 class IacIdle extends React.Component<IProps> {
@@ -190,8 +191,11 @@ class IacIdle extends React.Component<IProps> {
       const paperDelta = event.point.subtract(this.firstPoint);
       const completeDelta = new Point(paperDelta.x, paperDelta.y);
       placements = this.props.selectedPaperItems.map(item => {
-        const metaData = itemGetMetaData(item) as ItemMetaData;
-        return metaData.placement.translate(completeDelta);
+        const placement = this.getPlacementById(item.data);
+        if (!placement) {
+          throw new Error("placement not gotten");
+        }
+        return placement.translate(completeDelta);
       });
     }
 
@@ -333,6 +337,10 @@ class IacIdle extends React.Component<IProps> {
     // resizeItem.replaceWith(newItem);
   }
 
+  getPlacementById(id: string): Placement | undefined {
+    return this.props.items.find(placement => placement.id === id);
+  }
+
   render() {
     return null;
   }
@@ -341,6 +349,7 @@ class IacIdle extends React.Component<IProps> {
 const mapStateToProps = (state: IGlobalState) => {
   return {
     selectedPaperItems: state.graphic.selectedPaperItems,
+    items: state.graphic.items,
   };
 };
 

@@ -1,3 +1,5 @@
+import UUID from "uuid/v4";
+
 import { IdType, GraphicType, LayerType } from "./types";
 import TransformCoordinate from "../common/transformCoordinate";
 import Point from "../common/point";
@@ -22,6 +24,19 @@ class Placement {
 
   constructor(type: GraphicType) {
     this.type = type;
+    this.id = UUID();
+  }
+
+  asJSON(): any {
+    return {
+      type: this.type,
+      id: this.id,
+      pageId: this.pageId,
+      projectId: this.projectId,
+      color: this.color,
+      fill: this.fill,
+      layer: this.layer,
+    };
   }
 
   toJsonContent(): string | null {
