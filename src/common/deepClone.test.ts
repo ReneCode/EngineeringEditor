@@ -25,4 +25,13 @@ describe("deepClone", () => {
     expect(line.p1).toEqual(new Point(10, 20));
     expect(cloneLine.p1).toEqual(new Point(2, 3));
   });
+
+  it("to not clone attributes starting with '_'", () => {
+    const obj = { a: 3, b: { x: 32, _y: 42 }, _c: "hallo" };
+    const copyObj = deepClone(obj);
+    expect(copyObj).toEqual({
+      a: 3,
+      b: { x: 32 },
+    });
+  });
 });

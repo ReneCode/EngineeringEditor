@@ -14,8 +14,8 @@ import { IdType } from "../model/types";
 import setPageId from "../actions/setPageId";
 import { setProjectId } from "../actions/projectActions";
 import DetailView from "./DetailView/DetailView";
-import KeyboardHandler from "./KeyboardHandler";
 import GraphicFrame from "./GraphicView/GraphicFrame";
+import KeyboardDispatcher from "./KeyboardDispatcher";
 
 interface IProps extends RouteComponentProps<any> {
   showModalId: string;
@@ -46,6 +46,8 @@ class ProjectView extends Component<IProps> {
     if (this.props.projectId !== projectId) {
       await this.props.dispatch(setProjectId(projectId));
     }
+    // console.log("setPageId()");
+
     await this.props.dispatch(setPageId(projectId, pageId));
   };
 
@@ -89,7 +91,7 @@ class ProjectView extends Component<IProps> {
         <Workspace workspace={this.state.activeWorkspaceId} />
         <GraphicFrame />
         {/* <DetailView /> */}
-        <KeyboardHandler />
+        <KeyboardDispatcher />
         <SelectSymbolModal
           show={this.props.showModalId === "selectSymbol"}
         />
@@ -101,7 +103,6 @@ class ProjectView extends Component<IProps> {
 const mapStateToProps = (state: IGlobalState) => {
   return {
     showModalId: state.project.showModalId,
-    projectId: state.project.projectId,
   };
 };
 

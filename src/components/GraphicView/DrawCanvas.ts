@@ -100,7 +100,7 @@ class DrawCanvas extends Component<IProps> {
 
     // this.drawViewport(context, transform);
 
-    this.drawCursor(context, transform);
+    // this.drawCursor(context, transform);
   };
 
   drawViewport(
@@ -118,12 +118,13 @@ class DrawCanvas extends Component<IProps> {
     rect.color = "red";
     rect.draw(context, transform);
   }
+  /* 
 
   drawCursor(
     context: CanvasRenderingContext2D,
     transform: TransformCoordinate,
   ) {
-    const { radiusScreen, mode } = this.props.graphic.cursor;
+       const { radiusScreen, mode } = this.props.graphic.cursor;
 
     let pt = transform.canvasToWc(this.state.cursorPoint);
     if (this.props.graphic.canvas.useGrid) {
@@ -156,6 +157,7 @@ class DrawCanvas extends Component<IProps> {
     context.stroke();
     context.restore();
   }
+    */
 
   render() {
     return null;

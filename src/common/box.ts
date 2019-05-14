@@ -20,6 +20,13 @@ export default class Box {
     return this.p2;
   }
 
+  center(): Point {
+    return new Point(
+      this.p1.x + this.width() / 2,
+      this.p1.y + this.height() / 2,
+    );
+  }
+
   x(): number {
     return this.p1.x;
   }

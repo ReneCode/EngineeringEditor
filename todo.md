@@ -1,4 +1,37 @@
+# ISSUES
+
+fixed - selected item in shown on top - even if it is below other items
+
+# Questions
+
+- when importJson into a new createdItem => that item is not shown
+
 # TODO
+
+- Arc. Set Start/End angle
+- cmd-A select all
+- cmd-C cmd-V copy paste
+- check undo/redo (setMetaData on PaperPlacement)
+
+- ok - zoom in/out
+- ok - Zoom in +/- get center from cursor
+- ok - ONE resize-box
+- ok- delete
+
+- handles of the resizeBox has fixed size - independent on zoom.
+- resize without keepRatio on Rectangle
+- change z-index for items (to background/foreground)
+- create metaData on a new drawn placement
+
+* multi-selection expands the resize-box
+* resize of that box resizes the items inside
+* with SHIFT the with-height ratio is fixed on resizing the box
+  (- with ctrl the center of the resize-box will be fixed)
+
+* no separate interactions.
+  handleMouse... on the component where it starts.
+* redraw after store.items change
+* undo -> dispatch(setSelection) with last changed item
 
 - Undo / Redo: after Undo/Redo select the "undo-ed" items
   remove the current selection
@@ -9,6 +42,35 @@
 - do not move the resize-box
 
 - hover-color on resize-handle
+
+## State machine
+
+- has one state
+- gets events that moves to an other state
+
+  - (and may do side effects on that way)
+
+- handle an event INSIDE a current state
+
+```
+send("CALL_PERSON", person)
+
+// returns new state
+function send(event): string {
+  switch (state) {
+    case "idle":
+      switch (event) {
+        case "CALL_PERSON":
+          // so some side effects
+          return "calling";
+        default:
+          return state;
+      }
+      break;
+
+  }
+}
+```
 
 ## Selection
 
@@ -26,10 +88,33 @@ update to the backend each time some data will change
 
 inform other collaborating users via websocket - so they get an update
 
-client-server realy simple:
+client-server really simple:
 
 change -> post changes to server. Server will give you back the changes of other users.
 => "merge" that changes to your client-data-structure
 
 on the server you also have to merge the changing-data to the data-base-structure.
 And it has to be conflict-fee ! CRDT database (conflict-free replicated data types)
+
+#learned
+
+```
+class base {
+  foo() {
+    return 42;
+  }
+}
+
+clas foo extends base {
+
+  // that does not work !!
+  foo = () => {
+    return 666;
+  }
+
+  // use that
+  foo() {
+    return 123;
+  }
+}
+```

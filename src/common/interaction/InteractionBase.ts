@@ -15,6 +15,8 @@ class InteractionBase {
   }
 
   stop() {}
+  setSelectedPaperItems(selectedPaperItems: Paper.Item[]) {}
+
   onMouseDown(event: Paper.MouseEvent) {}
   onMouseUp(event: Paper.MouseEvent) {}
   onMouseMove(event: Paper.MouseEvent) {}

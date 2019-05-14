@@ -15,7 +15,19 @@ class PlacementFactory {
       return obj.map(o => <DtoPlacement>PlacementFactory.toDTO(o));
     }
 
-    const json = Object.assign({}, obj);
+    let json: {
+      type?: string;
+      id?: string;
+      pageId?: string;
+      projectId?: string;
+    } = {};
+
+    const jsonContent = obj.toJsonContent();
+    if (jsonContent) {
+      json = jsonContent as any;
+    } else {
+      json = Object.assign({}, obj);
+    }
 
     // special dto
     if (json.type === "symbolref") {
@@ -46,7 +58,9 @@ class PlacementFactory {
 
     const json = decodeJson(dto.content);
     json.type = dto.type;
-    let placement = ObjectFactory.fromJSON(json) as Placement;
+    const placement = ObjectFactory.fromJSON(json) as Placement;
+
+    // console.log("::placement:" placement);
 
     placement.id = dto.id;
     placement.type = dto.type;

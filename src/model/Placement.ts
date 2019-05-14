@@ -24,6 +24,16 @@ class Placement {
     this.type = type;
   }
 
+  toJsonContent(): string | null {
+    return null;
+  }
+  // TODO  do not use that construct to overwrite
+  // that function in PaperPlacement
+  // change it as done in: toJsonContent()
+  getPaperItem(): Paper.Item | null {
+    return null;
+  }
+
   paperDraw(): Paper.Item | null {
     return null;
   }
@@ -64,6 +74,16 @@ class Placement {
 
   translate(pt: Point): Placement {
     throw new Error("translate has to be overwritten by:" + this);
+  }
+
+  fitToRect(rectangle: Paper.Rectangle): Placement {
+    throw new Error("fitToRect has to be overwritten by:" + this);
+  }
+
+  updateFromHandles(handles: Paper.Item[]): Placement {
+    throw new Error(
+      "updateFromHandles has to be overwritten by:" + this,
+    );
   }
 
   changeAfterResize(points: Point[]): Placement {

@@ -1,3 +1,4 @@
+import Paper from "paper";
 import GraphicLine from "../model/graphic/GraphicLine";
 import Point from "../common/point";
 import * as actionTypes from "../actions/actionTypes";
@@ -9,13 +10,13 @@ describe("graphicReducer", () => {
 
   beforeEach(() => {
     initialState = {
+      selectedPaperItems: [],
       symbols: [],
       items: [],
       selectedItems: [],
       tempItems: [],
       cursor: {
-        radiusScreen: 10,
-        mode: "",
+        pt: new Paper.Point(0, 0),
       },
       viewport: {
         x: -500,

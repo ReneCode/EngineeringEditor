@@ -12,6 +12,7 @@ import {
   ItemName,
   itemUnselect,
   itemSelect,
+  ItemMetaData,
 } from "../ItemMetaData";
 import configuration from "../configuration";
 import store from "../../store";
@@ -64,7 +65,7 @@ class InteractionSelect extends InteractionBase {
 
     // reset style from current tempItem
     const metaData = itemGetMetaData(this.tempItem);
-    if (metaData.placement) {
+    if (metaData && metaData.placement) {
       metaData.placement.paperSetStyle(this.tempItem);
     }
     /*
@@ -117,7 +118,7 @@ class InteractionSelect extends InteractionBase {
     );
     // reset style from current tempItem
     const metaData = itemGetMetaData(this.tempItem);
-    if (metaData.placement) {
+    if (metaData && metaData.placement) {
       metaData.placement.paperSetStyle(this.tempItem);
     }
 
@@ -167,10 +168,10 @@ class InteractionSelect extends InteractionBase {
 
       // move also the resizeBox if there is any
       const metaData = itemGetMetaData(item);
-      if (metaData.resizeBox) {
-        metaData.resizeBox.position = metaData.resizeBox.position.add(
-          event.delta,
-        );
+      if (metaData && metaData.resizeBox) {
+        // // // metaData.resizeBox.position = metaData.resizeBox.position.add(
+        // // //   event.delta,
+        // // // );
       }
     });
     this.change = "moving";
@@ -185,7 +186,7 @@ class InteractionSelect extends InteractionBase {
         const points = path.segments.map(s => {
           return new Point(s.point.x, s.point.y);
         });
-        const metaData = itemGetMetaData(path);
+        const metaData = itemGetMetaData(path) as ItemMetaData;
         return metaData.placement.changeAfterResize(points);
       });
       return;
@@ -195,7 +196,7 @@ class InteractionSelect extends InteractionBase {
       const paperDelta = event.point.subtract(this.firstPoint);
       const completeDelta = new Point(paperDelta.x, paperDelta.y);
       placements = this.selectedPaperItems.map(item => {
-        const metaData = itemGetMetaData(item);
+        const metaData = itemGetMetaData(item) as ItemMetaData;
         return metaData.placement.translate(completeDelta);
       });
     }

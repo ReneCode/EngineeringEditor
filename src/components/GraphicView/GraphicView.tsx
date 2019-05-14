@@ -5,23 +5,11 @@ import Point from "../../common/point";
 import { IGlobalState } from "../../reducers";
 import Paper from "paper";
 import Placement from "../../model/Placement";
-import drawCanvas, { createPaperItem } from "../../common/drawCanvas";
-import EventHandlerInteraction from "../../common/Event/EventHandlerInteraction";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
-import { IdType } from "../../model/types";
-import {
-  ItemMetaData,
-  itemGetMetaData,
-} from "../../common/ItemMetaData";
-import ResizeBox from "../../common/interaction/ResizeBox";
+import PaperCanvas from "./PaperCanvas";
+import InteractionManager from "../../common/Event/InteractionManager";
 
-interface IProps {
-  dispatch: Function;
-  items: Placement[];
-  pageId: IdType;
-  projectId: IdType;
-  changes: any;
-}
+interface IProps {}
 
 interface IState {
   width: number;
@@ -32,6 +20,7 @@ class GraphicView extends Component<IProps> {
   frame: any;
   canvas: HTMLCanvasElement | null = null;
   state: IState;
+  paperCanvas: PaperCanvas | null = null;
 
   constructor(props: IProps) {
     super(props);
@@ -42,6 +31,7 @@ class GraphicView extends Component<IProps> {
   }
   componentDidMount() {
     if (this.canvas) {
+      console.log("Paper.setup()");
       Paper.setup(this.canvas);
       Paper.settings.handleSize = 8;
 
@@ -59,66 +49,20 @@ class GraphicView extends Component<IProps> {
     window.removeEventListener("resize", this.onResize);
   }
 
-  async componentDidUpdate(prevProps: any, prevState: any) {
-    if (
-      prevProps.pageId !== this.props.pageId ||
-      prevProps.projectId !== this.props.projectId
-    ) {
-      drawCanvas(Paper.project, this.props.items);
-    }
-
-    if (prevProps.changes !== this.props.changes) {
-      const { type, data } = this.props.changes;
-      const placement = data[0];
-      const layer = Paper.project.activeLayer;
-      if (type === "update") {
-        for (let i = 0; i < layer.children.length; i++) {
-          const metaData = layer.children[i].data as ItemMetaData;
-          if (metaData.placement.id === placement.id) {
-            // this data should be replaced
-            layer.children[i].remove();
-
-            const item = createPaperItem(metaData.placement);
-
-            if (item) {
-              if (metaData.resizeBox) {
-                const resizeBox = ResizeBox.create(item);
-                const metaData = itemGetMetaData(item);
-                metaData.resizeBox = resizeBox;
-              }
-              layer.insertChild(i, item);
-            }
-            break;
-          }
-        }
-      }
-      // deltaChangeView(this.props.items)
-    }
-  }
-
-  onMouseDown = (event: Paper.MouseEvent) => {
-    appEventDispatcher.dispatch({
-      type: "mouseDown",
-      payload: event,
-    });
+  private onMouseDown = (event: Paper.MouseEvent) => {
+    appEventDispatcher.dispatch("mouseDown", event);
   };
 
-  onMouseUp = (event: Paper.MouseEvent) => {
-    appEventDispatcher.dispatch({ type: "mouseUp", payload: event });
+  private onMouseUp = (event: Paper.MouseEvent) => {
+    appEventDispatcher.dispatch("mouseUp", event);
   };
 
   onMouseDrag = (event: Paper.MouseEvent) => {
-    appEventDispatcher.dispatch({
-      type: "mouseDrag",
-      payload: event,
-    });
+    appEventDispatcher.dispatch("mouseDrag", event);
   };
 
   onMouseMove = (event: Paper.MouseEvent) => {
-    appEventDispatcher.dispatch({
-      type: "mouseMove",
-      payload: event,
-    });
+    appEventDispatcher.dispatch("mouseMove", event);
   };
 
   onResize = () => {
@@ -157,7 +101,17 @@ class GraphicView extends Component<IProps> {
   };
 
   render() {
-    console.log("render");
+    /*
+      <IacSelect
+        ref={(e: any) => {
+          if (e) {
+            this.iac = e.getWrappedInstance();
+          }
+        }}
+      />
+
+*/
+
     return (
       <div ref={div => (this.frame = div)} className="GraphicView">
         <canvas
@@ -168,22 +122,10 @@ class GraphicView extends Component<IProps> {
           height={this.state.height}
           onContextMenu={this.onContextMenu}
         />
-        <EventHandlerInteraction />
+        <InteractionManager />
       </div>
     );
   }
 }
 
-const mapStateToProps = (state: IGlobalState) => {
-  return {
-    // items: state.graphic.items,
-    pageId: state.project.pageId,
-    projectId: state.project.projectId,
-    items: state.graphic.items,
-    changes: state.changeView.changes,
-  };
-};
-
-const ConnectedComponent = connect(mapStateToProps)(GraphicView);
-
-export default ConnectedComponent;
+export default GraphicView;

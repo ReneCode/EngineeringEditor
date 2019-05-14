@@ -2,7 +2,7 @@ import * as actions from "../../actions";
 import IaBase, { IaContext, IaEventType } from "./IaBase";
 import Point from "../../common/point";
 import Placement from "../../model/Placement";
-import { setCursorModeAction } from "../../actions/setCursorMode";
+// import { setCursorModeAction } from "../../actions/setCursorPoint";
 
 class IaPickItem extends IaBase {
   constructor(context: IaContext) {
@@ -13,9 +13,9 @@ class IaPickItem extends IaBase {
     ...args: any
   ): Promise<null | { items: Placement[]; point: Point }> => {
     try {
-      if (args && args.length > 0) {
-        this.context.dispatch(setCursorModeAction(args[0]));
-      }
+      // if (args && args.length > 0) {
+      //   this.context.dispatch(setCursorModeAction(args[0]));
+      // }
       const result = await this.context.getEvent([
         IaEventType.mouseDown,
         IaEventType.keyDown,
@@ -25,7 +25,7 @@ class IaPickItem extends IaBase {
       }
       const point = result.pointWc;
       const items = this.pickItems(point);
-      this.context.dispatch(setCursorModeAction());
+      // this.context.dispatch(setCursorModeAction());
 
       return { items, point };
     } finally {

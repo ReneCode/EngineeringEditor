@@ -1,3 +1,4 @@
+import Paper from "paper";
 import Point from "../../common/point";
 import TransformCoordinate from "../../common/transformCoordinate";
 import GraphicSymbol from "./GraphicSymbol";
@@ -18,6 +19,10 @@ class GraphicSymbolRef extends Placement {
     this.name = name;
     this.pt = pt;
     this.symbol = symbol;
+  }
+
+  paperDraw() {
+    return new Paper.Item();
   }
 
   static fromJSON(json: any): GraphicSymbolRef {

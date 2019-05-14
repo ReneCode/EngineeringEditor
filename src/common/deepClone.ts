@@ -1,3 +1,7 @@
+/**
+ * @summary creates a deep copy of 'obj'.
+ * Does not copy the attributes, that names starts with "_" e.g. _internalProp
+ */
 const deepClone = (obj: any): any => {
   var copy;
 
@@ -25,7 +29,8 @@ const deepClone = (obj: any): any => {
     copy = new obj.constructor();
 
     for (var attr in obj) {
-      if (obj.hasOwnProperty(attr)) copy[attr] = deepClone(obj[attr]);
+      if (attr[0] !== "_" && obj.hasOwnProperty(attr))
+        copy[attr] = deepClone(obj[attr]);
     }
     return copy;
   }

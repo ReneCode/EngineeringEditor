@@ -66,7 +66,6 @@ export const updateElementAction = (
   return async (dispatch: any, getState: GetGlobalStateFunction) => {
     try {
       const elements: Placement[] = makeArray(element);
-
       const oldPlacements = getState().graphic.items.filter(i =>
         containsWithSameId(elements, i),
       );

@@ -13,7 +13,7 @@ import {
   deleteElementAction,
   updateElementAction,
 } from "../../actions/changeElementActions";
-import { setCursorModeAction } from "../../actions/setCursorMode";
+// import { setCursorModeAction } from "../../actions/setCursorPoint";
 import GraphicGrip from "../../model/graphic/GraphicGrip";
 import Point from "../../common/point";
 import { setTempItem } from "../../actions";
@@ -40,14 +40,14 @@ class IaSelect extends IaBase {
 
   async start() {
     try {
-      this.context.dispatch(setCursorModeAction("select"));
+      // this.context.dispatch(setCursorModeAction("select"));
 
       const result = await this.context.getEvent([
         IaEventType.mouseDown,
         IaEventType.keyDown,
       ]);
       if (this.isEscape(result)) {
-        this.context.dispatch(setCursorModeAction());
+        // this.context.dispatch(setCursorModeAction());
         return;
       }
       if (result.type === IaEventType.keyDown) {
@@ -88,7 +88,7 @@ class IaSelect extends IaBase {
           }
         }
       }
-      this.context.dispatch(setCursorModeAction());
+      // this.context.dispatch(setCursorModeAction());
 
       return { restart: true };
     } finally {

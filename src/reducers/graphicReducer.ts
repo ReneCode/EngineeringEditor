@@ -13,9 +13,7 @@ export interface IGraphicState {
   selectedItems: Placement[];
   tempItems: Placement[];
   cursor: {
-    // pt: Point;
-    radiusScreen: number;
-    mode: string;
+    pt: Paper.Point;
   };
   viewport: {
     x: number;
@@ -39,9 +37,7 @@ const initialState: IGraphicState = {
   selectedItems: [],
   tempItems: [],
   cursor: {
-    // pt: new Point(0, 0),
-    radiusScreen: 10,
-    mode: "",
+    pt: new Paper.Point(0, 0),
   },
   viewport: {
     x: -500,
@@ -135,8 +131,9 @@ const addSelectedItem = (state: IGraphicState, action: any) => {
 };
 
 const setPlacement = (state: IGraphicState, action: any) => {
-  // console.log("SET placement");
   let newItems: Placement[] = makeArray(action.payload).map(p => p);
+
+  // console.log("SET placement");
   return {
     ...state,
     items: newItems,
@@ -228,6 +225,7 @@ const graphicReducer = (state = initialState, action: any) => {
       };
 
     case actionTypes.ADD_PLACEMENT:
+      // console.log("addPlacement");
       return {
         ...state,
         items: state.items.concat(action.payload),
@@ -274,17 +272,17 @@ const graphicReducer = (state = initialState, action: any) => {
     case actionTypes.UPDATE_SELECTED_ITEM:
       return updateSelectedItem(state, action);
 
-    case actionTypes.SET_CURSOR_MODE:
+    case actionTypes.SET_CURSOR_POINT:
       return {
         ...state,
         cursor: {
           ...state.cursor,
-          mode: action.payload,
+          pt: action.payload,
         },
       };
 
     case actionTypes.SET_SELECTED_PAPER_ITEMS:
-      console.log("change selected paper items");
+      // console.log("change selected paper items");
       return {
         ...state,
         selectedPaperItems: action.payload,

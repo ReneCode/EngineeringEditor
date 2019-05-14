@@ -1,59 +1,60 @@
-import React, { Component, SyntheticEvent } from "react";
-import { connect } from "react-redux";
-import {
-  addEventHandlerAction,
-  removeEventHandlerAction,
-} from "./../../actions";
-import { IaEventType } from "./../interaction/IaBase";
-import Point from "./../../common/point";
-import { IIaEvent } from "./../../model/types";
+import React from "react";
 
-interface IProps {
-  dispatch: Function;
-  cursor: string;
-}
+import Paper from "paper";
+import appEventDispatcher from "../../common/Event/AppEventDispatcher";
+import { AppEventType } from "../../common/Event/AppEventType";
 
-class Statusbar extends Component<IProps> {
+interface IProps {}
+
+class Statusbar extends React.Component<IProps> {
+  private unsubscribeFn: Function[] = [];
+
   state = {
-    cursorPt: new Point(0, 0),
+    cursor: new Paper.Point(0, 0),
   };
 
-  constructor(props: any) {
-    super(props);
-
-    this.eventHandler = this.eventHandler.bind(this);
-  }
-
   componentDidMount() {
-    this.props.dispatch(
-      addEventHandlerAction(IaEventType.mouseMove, this.eventHandler),
+    this.unsubscribeFn.push(
+      appEventDispatcher.subscribe(
+        "mouseMove",
+        this.mouseEventHandler,
+      ),
     );
-  }
-
-  componentWillUnmount() {
-    this.props.dispatch(
-      removeEventHandlerAction(
-        IaEventType.mouseMove,
-        this.eventHandler,
+    this.unsubscribeFn.push(
+      appEventDispatcher.subscribe(
+        "mouseDrag",
+        this.mouseEventHandler,
       ),
     );
   }
 
-  eventHandler(iaEvent: IIaEvent) {
-    this.setState({
-      cursorPt: iaEvent.pointWc,
-    });
+  componentWillUnmount() {
+    this.unsubscribeFn.forEach(fn => fn());
   }
+
+  mouseEventHandler = (
+    type: AppEventType,
+    event: Paper.MouseEvent,
+  ) => {
+    const pt = new Paper.Point(
+      Math.floor(event.point.x),
+      Math.floor(event.point.y),
+    );
+
+    this.setState({
+      cursor: pt,
+    });
+  };
 
   render() {
     return (
       <div className="status">
         <div>
-          {this.state.cursorPt.x} {this.state.cursorPt.y}
+          x:{this.state.cursor.x} y:{this.state.cursor.y}
         </div>
       </div>
     );
   }
 }
 
-export default connect()(Statusbar);
+export default Statusbar;

@@ -1,6 +1,5 @@
 import Paper from "paper";
 import InteractionBase from "./InteractionBase";
-import PaperUtil from "../../utils/PaperUtil";
 import GraphicCircle from "../../model/graphic/GraphicCircle";
 import Point from "../point";
 import { createElementAction } from "../../actions/changeElementActions";

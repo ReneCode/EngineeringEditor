@@ -67,10 +67,7 @@ class DrawingWorkspace extends Component<IProps> {
   };
 
   startInteraction = (name: string) => {
-    appEventDispatcher.dispatch({
-      type: "startInteraction",
-      payload: name,
-    });
+    appEventDispatcher.dispatch("startInteraction", name);
   };
 
   render() {
@@ -78,13 +75,13 @@ class DrawingWorkspace extends Component<IProps> {
       <div className="drawingworkspace">
         <button
           className="button"
-          onClick={() => this.startInteraction("Select")}>
-          Select
+          onClick={() => this.startInteraction("Idle")}>
+          Idle
         </button>
         <button
           className="button"
-          onClick={() => this.startIa(IA_DELETE_ITEM)}>
-          Delete
+          onClick={() => this.startInteraction("Arc")}>
+          Arc
         </button>
         <button
           className="button"
@@ -97,6 +94,11 @@ class DrawingWorkspace extends Component<IProps> {
           Circle
         </button>
         <button
+          className="button"
+          onClick={() => this.startInteraction("Rectangle")}>
+          Rectangle
+        </button>
+        {/* <button
           className="button"
           onClick={() => this.startIa(IA_CREATE_POLYGON)}>
           Polygon
@@ -126,7 +128,7 @@ class DrawingWorkspace extends Component<IProps> {
           className="button"
           onClick={() => this.startIa(IA_CREATE_CONNECTION_POINT)}>
           Connection Point
-        </button>
+        </button> */}
         <button className="button" onClick={this.onUndo}>
           Undo
         </button>

@@ -1,13 +1,17 @@
-import React, { Component } from "react";
+import React from "react";
 
 import Statusbar from "./Statusbar";
 import GraphicView from "./GraphicView";
+import ZoomToolbar from "./ZoomToolbar";
+import KeyboardHandler from "./KeyboardHandler";
 
 const GraphicFrame = () => {
   return (
     <div className="middle-content">
       <GraphicView />
-      <Statusbar cursor={"cursorWc"} />
+      <ZoomToolbar />
+      <KeyboardHandler />
+      <Statusbar />
     </div>
   );
 };

@@ -1,22 +1,54 @@
 import Placement from "../model/Placement";
 import Paper from "paper";
 import ResizeBox from "./interaction/ResizeBox";
+import ResizeShape from "./interaction/ResizeShape";
+import { match } from "minimatch";
 
 export type ItemMetaData = {
   placement: Placement;
-  resizeBox?: Paper.Item | undefined;
+  resizeBox?: ResizeBox | undefined;
   rev: number;
 };
 
-export enum ItemName {
-  resizeBox = "resizeBox",
-  resizeHandle = "resizeHandle",
+export class ItemName {
+  static resizeBox = "resizeBox";
+  static resizeHandle = "resizeHandle";
+
+  static itemAny = ".";
+  static itemArc = ".arc";
+  static itemLine = ".line";
+
+  static match(test: string, found: string | null) {
+    // if (test === ".") return true;
+    if (!test) {
+      // old data
+      return true;
+    }
+
+    if (test && found === test) {
+      return true;
+    }
+    if (
+      found &&
+      test === ItemName.itemAny &&
+      found[0] === ItemName.itemAny
+    ) {
+      return true;
+    }
+    return false;
+  }
 }
 
-export const itemGetMetaData = (item: Paper.Item) => {
+export const itemGetMetaData = (
+  item: Paper.Item,
+): ItemMetaData | null => {
+  if (!item) {
+    return null;
+  }
   const metaData = item.data as ItemMetaData;
   if (!metaData) {
-    throw new Error(`MetaData missing on item:"${item}`);
+    return null;
+    // throw new Error(`MetaData missing on item:"${item}`);
   }
   return metaData;
 };
@@ -30,14 +62,16 @@ export const itemIncRev = (item: Paper.Item) => {
 };
 
 export const itemSelect = (item: Paper.Item) => {
-  const resizeBox = ResizeBox.create(item);
-  const metaData = itemGetMetaData(item);
-  metaData.resizeBox = resizeBox;
+  // const resizeBox = new ResizeBox(item);
+  // const metaData = itemGetMetaData(item);
+  // if (metaData) {
+  //   metaData.resizeBox = resizeBox;
+  // }
 };
 
 export const itemUnselect = (item: Paper.Item) => {
   const metaData = itemGetMetaData(item);
-  if (metaData.resizeBox) {
+  if (metaData && metaData.resizeBox) {
     metaData.resizeBox.remove();
     metaData.resizeBox = undefined;
   }
