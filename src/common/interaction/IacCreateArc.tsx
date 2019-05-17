@@ -36,7 +36,7 @@ class IacCreateArc extends React.Component<IProps> {
     this.firstPoint = event.point;
     this.createArc(this.firstPoint);
   };
-  onMouseUp = async (type: AppEventType, event: Paper.MouseEvent) => {
+  onMouseUp = (type: AppEventType, event: Paper.MouseEvent) => {
     if (!this.arc) {
       throw new Error("arc missing");
     }

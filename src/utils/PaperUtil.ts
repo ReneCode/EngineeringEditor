@@ -17,10 +17,7 @@ class PaperUtil {
     fill: true,
   };
 
-  static hitTestItem(
-    point: Paper.Point,
-    itemName: string | string[],
-  ): Paper.Item | null {
+  static hitTest(point: Paper.Point): Paper.HitResult {
     const hitTestOptions: Paper.IHitTestOptions = {
       tolerance: 4,
       segments: true,
@@ -30,6 +27,13 @@ class PaperUtil {
 
     const project = Paper.project;
     const result = project.hitTest(point, hitTestOptions);
+    return result;
+  }
+
+  static getHitTestItem(
+    result: Paper.HitResult,
+    itemName: string | string[],
+  ): Paper.Item | null {
     if (result && result.item) {
       const itemNames = makeArray(itemName);
       for (let name of itemNames) {
@@ -41,7 +45,16 @@ class PaperUtil {
     return null;
   }
 
-  getHitTestItem(result: Paper.HitResult, name: ItemName) {}
+  static includeWithSameData(
+    items: Paper.Item[],
+    item: Paper.Item,
+  ): boolean {
+    const found = items.find(i => i.data === item.data);
+    if (found) {
+      return true;
+    }
+    return false;
+  }
 }
 
 export default PaperUtil;

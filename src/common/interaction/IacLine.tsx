@@ -40,7 +40,7 @@ class IacLine extends React.Component<IProps> {
     this.firstPoint = event.point;
     this.createLine(this.firstPoint);
   };
-  onMouseUp = async (type: AppEventType, event: Paper.MouseEvent) => {
+  onMouseUp = (type: AppEventType, event: Paper.MouseEvent) => {
     if (!this.line) {
       throw new Error("line missing");
     }

@@ -10,7 +10,6 @@ import ResizeBox from "./ResizeBox";
 import appEventDispatcher from "../Event/AppEventDispatcher";
 import { AppEventType } from "../Event/AppEventType";
 import GraphicArc from "../../model/graphic/GraphicArc";
-import configuration from "../configuration";
 
 interface IProps {
   dispatch: Function;
@@ -18,7 +17,7 @@ interface IProps {
   items: Placement[];
 }
 
-class IacIdle extends React.Component<IProps> {
+class IacMove extends React.Component<IProps> {
   unsubscribeFn: Function[] = [];
   resizeBox: ResizeBox = new ResizeBox();
   modus: null | "moving" | "resize" = null;
@@ -60,6 +59,7 @@ class IacIdle extends React.Component<IProps> {
     const project = Paper.project;
 
     const result = project.hitTest(event.point, this.hitTestOptions);
+
     this.firstPoint = event.point;
 
     const handleItem = this.getHitTestItem(
@@ -69,7 +69,6 @@ class IacIdle extends React.Component<IProps> {
     if (handleItem) {
       this.modus = "resize";
       this.handleItem = handleItem;
-      this.handleItem.fillColor = configuration.handleHoverColor;
       return;
     }
   };
@@ -136,6 +135,14 @@ class IacIdle extends React.Component<IProps> {
       }
     }
     return null;
+  }
+
+  showItemModifyGrips(item: Paper.Item) {
+    const placement = this.getPlacementById(item.data) as GraphicArc;
+    if (placement) {
+      placement.showGrips();
+    }
+    console.log("drawGrips for: ", item.name);
   }
 
   private onMouseDragResize(event: Paper.MouseEvent) {
@@ -218,6 +225,6 @@ const mapDispatchToProps = (dispatch: Function) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(IacIdle);
+)(IacMove);
 
 // { withRef: true }, // to get reference in GraphicView   this.ref = com.getWrappedInstance()

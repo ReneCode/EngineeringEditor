@@ -30,19 +30,22 @@ class IacHoverItem extends React.Component<IProps> {
   }
 
   onMouseMove = (type: AppEventType, event: Paper.MouseEvent) => {
-    const hitItem = PaperUtil.hitTestItem(event.point, [
-      ItemName.itemAny,
-      ItemName.grip,
-    ]);
+    const result = PaperUtil.hitTest(event.point);
+    if (result) {
+      const hitItem = PaperUtil.getHitTestItem(result, [
+        ItemName.itemAny,
+        ItemName.grip,
+      ]);
 
-    if (hitItem) {
-      if (this.hoverItem !== hitItem) {
-        this.redrawOldHoverItem();
-        this.oldStrokeColor = hitItem.strokeColor;
-        this.oldStrokeWidth = hitItem.strokeWidth;
-        this.hoverItem = hitItem;
-        this.hoverItem.strokeColor = configuration.itemHoverColor;
-        this.hoverItem.strokeWidth = 2;
+      if (hitItem) {
+        if (this.hoverItem !== hitItem) {
+          this.redrawOldHoverItem();
+          this.oldStrokeColor = hitItem.strokeColor;
+          this.oldStrokeWidth = hitItem.strokeWidth;
+          this.hoverItem = hitItem;
+          this.hoverItem.strokeColor = configuration.itemHoverColor;
+          this.hoverItem.strokeWidth = 2;
+        }
       }
     } else {
       this.redrawOldHoverItem();

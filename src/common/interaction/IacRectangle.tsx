@@ -39,7 +39,7 @@ class IacRectangle extends React.Component<IProps> {
     this.createRectangle(event.point);
   };
 
-  onMouseUp = async (type: AppEventType, event: Paper.MouseEvent) => {
+  onMouseUp = (type: AppEventType, event: Paper.MouseEvent) => {
     if (!this.rectangle) {
       throw new Error("rectangle missing");
     }

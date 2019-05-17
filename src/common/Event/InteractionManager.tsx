@@ -15,9 +15,10 @@ class InteractionManager extends Component<IProps> {
       "SnapGrid",
       "Delete",
       "ZoomInOut",
-      "SelectPaperItem",
       "SelectAll",
       "EditItem",
+      // "Move",
+      "SelectPaperItem",
       "HoverItem",
     ],
   };

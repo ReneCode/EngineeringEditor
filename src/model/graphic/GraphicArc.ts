@@ -12,7 +12,7 @@ class GraphicArc extends Placement {
 
   private fullCircle = true;
   private grips: Grip[] = [];
-  private item: Paper.Item | null = null;
+  private _item: Paper.Item | null = null;
 
   constructor(public center: Paper.Point, public radius: number) {
     super("arc");
@@ -59,7 +59,7 @@ class GraphicArc extends Placement {
       const from = start.rotate(this.startAngle, this.center);
       const to = start.rotate(this.endAngle, this.center);
       const through = start.rotate(
-        (this.endAngle + this.startAngle) / 2,
+        this.startAngle + (this.endAngle - this.startAngle) / 2,
         this.center,
       );
       item = new Paper.Path.Arc(from, through, to);
@@ -68,11 +68,15 @@ class GraphicArc extends Placement {
     item.name = ItemName.itemArc;
     this.paperSetStyle(item);
 
-    if (this.item) {
-      const ok = this.item.replaceWith(item);
+    if (this._item) {
+      const ok = this._item.replaceWith(item);
     }
-    this.item = item;
+    this._item = item;
     return item;
+  }
+
+  getPaperItem(): Paper.Item | null {
+    return this._item;
   }
 
   showGrips() {
@@ -97,7 +101,7 @@ class GraphicArc extends Placement {
   dragGrip(event: Paper.MouseEvent, gripItem: Paper.Item) {
     gripItem.position = event.point;
 
-    if (this.item) {
+    if (this._item) {
       const angle = event.point.subtract(this.center).angle;
       const ptOnArc = this.center
         .add(new Paper.Point(this.radius, 0))
@@ -115,17 +119,8 @@ class GraphicArc extends Placement {
       }
 
       this.fullCircle = false;
-      const oldItem = this.item;
-      const newItem = this.paperDraw();
-      // oldItem.replaceWith(newItem);
+      this.paperDraw();
     }
-    // this.center = event.point;
-    // this.paperDraw();
-    // console.log("dragGrip:", gripId);
-    // const grip = this.grips.find(g => g.id === gripId);
-    // if (grip) {
-    //   grip.setPosition(event.point);
-    // }
   }
 
   translate(pt: Paper.Point): GraphicArc {

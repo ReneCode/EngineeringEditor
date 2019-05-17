@@ -11,8 +11,6 @@ class Grip {
     this.item.strokeColor = "black";
     this.item.name = ItemName.grip;
     this.item.data = id;
-
-    console.log("show grip:", this.item.id);
   }
 
   setPosition(pt: Paper.Point) {

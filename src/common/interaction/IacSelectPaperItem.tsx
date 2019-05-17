@@ -6,6 +6,8 @@ import { IGlobalState } from "../../reducers";
 import ResizeBox from "./ResizeBox";
 import appEventDispatcher from "../Event/AppEventDispatcher";
 import { AppEventType } from "../Event/AppEventType";
+import PaperUtil from "../../utils/PaperUtil";
+import { ItemName } from "../ItemMetaData";
 
 interface IProps {
   dispatch: Function;
@@ -15,45 +17,46 @@ interface IProps {
 class IacSelectPaperItem extends React.Component<IProps> {
   unsubscribeFn: any;
 
-  constructor(props: any) {
-    super(props);
-
-    this.onSelectPaperItem = this.onSelectPaperItem.bind(this);
-  }
-
   componentDidMount() {
     this.unsubscribeFn = appEventDispatcher.subscribe(
-      "selectPaperItem",
-      this.onSelectPaperItem,
+      "mouseDown",
+      this.onMouseDown,
     );
   }
   componentWillUnmount() {
     this.unsubscribeFn();
   }
 
-  onSelectPaperItem = (
-    event: AppEventType,
-    payload: { item: Paper.Item; append: boolean },
-  ) => {
-    if (!payload || !payload.item) {
-      this.props.dispatch(setSelectedPaperItems([]));
-      return;
-    }
+  onMouseDown = (type: AppEventType, event: Paper.MouseEvent) => {
+    let newSelectedPaperItems: Paper.Item[] = [];
+    const result = PaperUtil.hitTest(event.point);
+    if (result) {
+      const item = PaperUtil.getHitTestItem(result, ItemName.itemAny);
 
-    const item = payload.item;
-    if (this.props.selectedPaperItems.includes(item)) {
-      return;
-    }
-    if (payload.append) {
-      this.props.dispatch(
-        setSelectedPaperItems([
+      if (!item) {
+        // other item-type selected
+        return;
+      }
+      if (
+        PaperUtil.includeWithSameData(
+          this.props.selectedPaperItems,
+          item,
+        )
+      ) {
+        return;
+      }
+
+      const append = event.modifiers.shift;
+      if (append) {
+        newSelectedPaperItems = [
           ...this.props.selectedPaperItems,
           item,
-        ]),
-      );
-    } else {
-      this.props.dispatch(setSelectedPaperItems(item));
+        ];
+      } else {
+        newSelectedPaperItems.push(item);
+      }
     }
+    this.props.dispatch(setSelectedPaperItems(newSelectedPaperItems));
   };
 
   render() {

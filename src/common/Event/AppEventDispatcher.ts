@@ -6,7 +6,10 @@ import { AppEventType } from "./AppEventType";
 //   payload?: any;
 // }
 
-type AppEventHandler = (type: AppEventType, payload: any) => void;
+type AppEventHandler = (
+  type: AppEventType,
+  payload: any,
+) => void | string;
 
 class AppEventDispatcher {
   private eventHandlers: {
@@ -27,10 +30,13 @@ class AppEventDispatcher {
 
   dispatch(type: AppEventType, payload: any = undefined) {
     // console.log(":dispatch:", type);
-    this.eventHandlers.forEach(eh => {
+    for (let eh of this.eventHandlers) {
       try {
         if (eh.type === type) {
-          eh.handler(type, payload);
+          const result = eh.handler(type, payload);
+          if (result === "stop") {
+            break;
+          }
         }
       } catch (ex) {
         // if DEBUG
@@ -42,7 +48,7 @@ class AppEventDispatcher {
           }`,
         );
       }
-    });
+    }
   }
 }
 

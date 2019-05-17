@@ -5,6 +5,7 @@ class Configuration {
   handleFillColor = "#eeeeee";
 
   itemHoverColor = "#bb22bb";
+  handleHoverColor = "#bb22bb";
 
   gripMoveFillColor = "#ee9999";
 

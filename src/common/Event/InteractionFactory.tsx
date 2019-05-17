@@ -13,11 +13,14 @@ import IacSelectAll from "../interaction/IacSelectAll";
 import IacCreateArc from "../interaction/IacCreateArc";
 import IacEditItem from "../interaction/IacEditItem";
 import IacHoverItem from "../interaction/IacHoverItem";
+import IacMove from "../interaction/IacMove";
 
 class InteractionFactory {
   static create(name: string): JSX.Element {
     const props = { key: name };
     switch (name) {
+      case "Move":
+        return <IacMove {...props} />;
       case "HoverItem":
         return <IacHoverItem {...props} />;
       case "EditItem":

@@ -1,6 +1,6 @@
 import React from "react";
 
-import Paper from "paper";
+import Paper, { Point } from "paper";
 import Placement from "../../model/Placement";
 import { connect } from "react-redux";
 import { IGlobalState } from "../../reducers";
@@ -10,6 +10,8 @@ import GraphicArc from "../../model/graphic/GraphicArc";
 import PaperUtil from "../../utils/PaperUtil";
 import { ItemName } from "../ItemMetaData";
 import configuration from "../configuration";
+import { updateElementAction } from "../../actions/changeElementActions";
+import deepClone from "../deepClone";
 
 interface IProps {
   dispatch: Function;
@@ -24,11 +26,11 @@ class IacEditItem extends React.Component<IProps> {
   placement: GraphicArc | null = null;
   gripItem: Paper.Item | null = null;
   oldFillColor: string | Paper.Color | null = null;
+  modified: boolean = false;
 
   constructor(props: any) {
     super(props);
 
-    this.onEditItem = this.onEditItem.bind(this);
     this.onMouseDown = this.onMouseDown.bind(this);
   }
   componentDidMount() {
@@ -44,12 +46,6 @@ class IacEditItem extends React.Component<IProps> {
     this.unsubscribeFn.push(
       appEventDispatcher.subscribe("mouseDown", this.onMouseDown),
     );
-    this.unsubscribeFn.push(
-      appEventDispatcher.subscribe("editItem", this.onEditItem),
-    );
-    // this.unsubscribeFn.push(
-    //   appEventDispatcher.subscribe("selectItem", this.onSelectItem),
-    // );
   }
   componentWillUnmount() {
     this.unsubscribeFn.forEach(fn => fn());
@@ -64,14 +60,36 @@ class IacEditItem extends React.Component<IProps> {
       }
       this.item = null;
       this.placement = null;
+      this.modified = false;
     }
   }
 
   onMouseDown = (type: AppEventType, event: Paper.MouseEvent) => {
-    this.gripItem = PaperUtil.hitTestItem(event.point, ItemName.grip);
+    const result = PaperUtil.hitTest(event.point);
+    if (!result) {
+      return;
+    }
+
+    this.gripItem = PaperUtil.getHitTestItem(result, ItemName.grip);
     if (this.gripItem) {
+      console.log("grip");
       this.oldFillColor = this.gripItem.fillColor;
       this.gripItem.fillColor = configuration.gripMoveFillColor;
+      return;
+    }
+
+    const item = PaperUtil.getHitTestItem(result, ItemName.itemAny);
+    if (item) {
+      if (
+        PaperUtil.includeWithSameData(
+          this.props.selectedPaperItems,
+          item,
+        )
+      ) {
+        // click on a selected item => edit it
+        this.editItem(item);
+      }
+      return;
     }
   };
 
@@ -79,17 +97,32 @@ class IacEditItem extends React.Component<IProps> {
 
   onMouseDrag = (type: AppEventType, event: Paper.MouseEvent) => {
     if (this.gripItem && this.placement) {
+      this.modified = true;
       this.placement.dragGrip(event, this.gripItem);
+      return "stop";
     }
   };
 
-  onMouseUp = async (type: AppEventType, event: Paper.MouseEvent) => {
+  onMouseUp = (type: AppEventType, event: Paper.MouseEvent) => {
     if (this.gripItem) {
       this.gripItem.fillColor = this.oldFillColor;
     }
+
+    if (this.modified && this.placement) {
+      this.updatePlacement(this.placement);
+      this.modified = false;
+    }
   };
 
-  onEditItem = (type: AppEventType, item: Paper.Item) => {
+  private async updatePlacement(placement: Placement) {
+    if (placement) {
+      await this.props.dispatch(
+        updateElementAction("placement", placement),
+      );
+    }
+  }
+
+  editItem = (item: Paper.Item) => {
     if (!item) {
       if (this.placement) {
         this.placement.removeGrips();
@@ -102,19 +135,21 @@ class IacEditItem extends React.Component<IProps> {
       // this item is allready editing
       return;
     }
-    console.log("edit item:", item.name, item.data, item.id);
-    const placement = this.getPlacementById(item.data);
+    const placement = this.getPlacementById(item.data) as GraphicArc;
     if (!placement) {
       throw new Error("EditItem, item has no placement");
     }
 
-    if (this.placement) {
-      this.placement.removeGrips();
+    // create copy of placement and update the paper item
+    const copyPlacement = deepClone(placement) as GraphicArc;
+    const copyItem = copyPlacement.paperDraw();
+    const oldItem = placement.getPaperItem();
+
+    if (oldItem) {
+      oldItem.replaceWith(copyItem);
     }
-
-    this.item = item;
-    this.placement = placement as GraphicArc;
-
+    this.item = copyItem;
+    this.placement = copyPlacement;
     this.placement.showGrips();
   };
 
