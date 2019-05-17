@@ -16,6 +16,7 @@ import ResizeBox from "./ResizeBox";
 import appEventDispatcher from "../Event/AppEventDispatcher";
 import { AppEventType } from "../Event/AppEventType";
 import PaperPlacement from "../../model/graphic/PaperPlacement";
+import GraphicArc from "../../model/graphic/GraphicArc";
 
 interface IProps {
   dispatch: Function;
@@ -28,7 +29,6 @@ class IacIdle extends React.Component<IProps> {
   resizeBox: ResizeBox = new ResizeBox();
   modus: null | "moving" | "resize" = null;
   firstPoint: Paper.Point = new Paper.Point(0, 0);
-  hoverItem: Paper.Item = new Paper.Item();
   handleItem: Paper.Item | null = null;
   selectedPaperItemsOrginal: Paper.Item[] = [];
 
@@ -69,10 +69,12 @@ class IacIdle extends React.Component<IProps> {
   onMouseDown = (type: AppEventType, event: Paper.MouseEvent) => {
     const project = Paper.project;
 
-    this.hoverItem.remove();
-
     // item select
     const result = project.hitTest(event.point, this.hitTestOptions);
+    if (!result) {
+      appEventDispatcher.dispatch("selectPaperItem");
+    }
+
     this.firstPoint = event.point;
 
     const handleItem = this.getHitTestItem(
@@ -89,7 +91,7 @@ class IacIdle extends React.Component<IProps> {
     // add to selection
     if (item) {
       if (this.props.selectedPaperItems.includes(item)) {
-        this.drawItemModifyGrips(item);
+        appEventDispatcher.dispatch("editItem", item);
       } else {
         const append = event.modifiers.shift;
         appEventDispatcher.dispatch("selectPaperItem", {
@@ -97,35 +99,10 @@ class IacIdle extends React.Component<IProps> {
           append,
         });
       }
-    } else {
-      appEventDispatcher.dispatch("selectPaperItem");
     }
   };
 
-  onMouseMove = (type: AppEventType, event: Paper.MouseEvent) => {
-    this.hoverItem.remove();
-
-    const result = Paper.project.hitTest(
-      event.point,
-      this.hitTestOptions,
-    );
-
-    const hitItem = this.getHitItem(result);
-    if (hitItem) {
-      this.hoverItem = hitItem.clone();
-      this.hoverItem.strokeColor = configuration.itemHoverColor;
-      this.hoverItem.strokeWidth = 2;
-      this.hoverItem.fillColor = null;
-    }
-
-    // paint hoverItem
-    const hitHandle = this.getHitHandleItem(result);
-    if (hitHandle) {
-      this.hoverItem = hitHandle.clone();
-      this.hoverItem.fillColor = configuration.itemHoverColor;
-    }
-    this.hoverItem.bringToFront();
-  };
+  onMouseMove = (type: AppEventType, event: Paper.MouseEvent) => {};
 
   onMouseDrag = (type: AppEventType, event: Paper.MouseEvent) => {
     if (this.modus == "resize") {
@@ -145,57 +122,23 @@ class IacIdle extends React.Component<IProps> {
     let placements: Placement[] = [];
 
     if (this.modus === "resize") {
-      this.selectedPaperItemsOrginal.forEach(i => i.remove());
-      this.selectedPaperItemsOrginal = [];
-      // TODO
-      // that is the item for that handle
-      // if (!this.handleItem) {
-      //   throw new Error("handleItem not set");
-      // }
-      // const newPlacement = metaData.placement.updateFromHandles(
-      //   resizeBox.getHandles(),
-      // );
-      // await this.props.dispatch(
-      //   updateElementAction("placement", newPlacement),
-      // );
-    }
-
-    // if (this.change === "resize") {
-    //   placements = this.segments.map(segment => {
-    //     const path = segment.path;
-    //     const points = path.segments.map(s => {
-    //       return new Point(s.point.x, s.point.y);
-    //     });
-    //     const metaData = itemGetMetaData(path);
-    //     return metaData.placement.changeAfterResize(points);
-    //   });
-    //   return;
-    // }
-
-    if (this.modus === "resize") {
       placements = this.props.selectedPaperItems.map(item => {
-        const metaData = itemGetMetaData(item);
-        if (!metaData || !metaData.placement) {
-          throw new Error("metaData or placement not set");
+        const placement = this.getPlacementById(item.data);
+        if (!placement) {
+          throw new Error("placement not found");
         }
-        // const placement = metaData.placement;
-        // if (placement instanceof PaperPlacement) {
-        //   // placement.setPaperItem(item);
-        // } else {
-        //   // old
-        return metaData.placement.fitToRect(this.resizeBox.bounds());
+        return placement.fitToRect(this.resizeBox.bounds());
       });
     }
 
     if (this.modus === "moving") {
-      const paperDelta = event.point.subtract(this.firstPoint);
-      const completeDelta = new Point(paperDelta.x, paperDelta.y);
+      const moveDelta = event.point.subtract(this.firstPoint);
       placements = this.props.selectedPaperItems.map(item => {
         const placement = this.getPlacementById(item.data);
         if (!placement) {
-          throw new Error("placement not gotten");
+          throw new Error("placement not found");
         }
-        return placement.translate(completeDelta);
+        return placement.translate(moveDelta);
       });
     }
 
@@ -269,7 +212,11 @@ class IacIdle extends React.Component<IProps> {
     return null;
   }
 
-  drawItemModifyGrips(item: Paper.Item) {
+  showItemModifyGrips(item: Paper.Item) {
+    const placement = this.getPlacementById(item.data) as GraphicArc;
+    if (placement) {
+      placement.showGrips();
+    }
     console.log("drawGrips for: ", item.name);
   }
 
@@ -280,14 +227,6 @@ class IacIdle extends React.Component<IProps> {
       throw new Error("handleItem not set");
     }
 
-    /*
-    if (this.selectedPaperItemsOrginal.length === 0) {
-      console.log("clone");
-      this.selectedPaperItemsOrginal = this.props.selectedPaperItems.map(
-        i => i.clone({ insert: false }),
-      );
-    }
-*/
     const sizeA = this.resizeBox.getStartBoundingBox();
     const centerA = sizeA.center;
     const keepRatio: boolean = true; //event.modifiers.command;

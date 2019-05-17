@@ -3,7 +3,10 @@ class Configuration {
   boundingBoxHandleSize = 10;
   handleStrokeColor = "#222222";
   handleFillColor = "#eeeeee";
+
   itemHoverColor = "#bb22bb";
+
+  gripMoveFillColor = "#ee9999";
 
   defaultFillColor = "#bbdd4499";
   defaultStrokeColor = "#442244";

@@ -29,10 +29,13 @@ class AppEventDispatcher {
     // console.log(":dispatch:", type);
     this.eventHandlers.forEach(eh => {
       try {
-        if (eh.type == type) {
+        if (eh.type === type) {
           eh.handler(type, payload);
         }
       } catch (ex) {
+        // if DEBUG
+        throw ex;
+        // if RELEASE
         console.error(
           `Exception on dispatching Event: ${type} + ${payload} to ${
             eh.handler

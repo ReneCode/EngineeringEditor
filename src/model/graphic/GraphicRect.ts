@@ -1,34 +1,33 @@
+import Paper from "paper";
 import Point from "../../common/point";
 import Line from "../../common/line";
 import TransformCoordinate from "../../common/transformCoordinate";
 import deepClone from "../../common/deepClone";
 import Placement from "../Placement";
+import PaperUtil from "../../utils/PaperUtil";
 
 class GraphicRect extends Placement {
-  p1: Point;
-  p2: Point;
-  constructor(p1: Point, p2: Point) {
+  constructor(public p1: Paper.Point, public p2: Paper.Point) {
     super("rect");
-    this.p1 = p1 || new Point(0, 0);
-    this.p2 = p2 || new Point(0, 0);
-  }
-
-  toJSON(): object {
-    const result = (<any>Object).assign({}, this, {
-      p1: this.p1.toJSON(),
-      p2: this.p2.toJSON(),
-    });
-    return result;
   }
 
   static fromJSON(json: any): GraphicRect {
-    const line = Object.create(GraphicRect.prototype);
-    return (<any>Object).assign(line, json, {
-      p1: Point.fromJSON(json.p1),
-      p2: Point.fromJSON(json.p2),
+    const rect = Object.create(GraphicRect.prototype);
+    return (<any>Object).assign(rect, json, {
+      p1: PaperUtil.PointFromJSON(json.p1),
+      p2: PaperUtil.PointFromJSON(json.p2),
     });
   }
 
+  asJSON(): any {
+    return {
+      ...super.asJSON(),
+      p1: PaperUtil.PointAsJSON(this.p1),
+      p2: PaperUtil.PointAsJSON(this.p2),
+    };
+  }
+
+  /*
   nearPoint(pt: Point, radius: number): boolean {
     const line = new Line(this.p1, this.p2);
     return line.nearPoint(pt, radius);
@@ -49,12 +48,13 @@ class GraphicRect extends Placement {
     context.stroke();
   }
 
-  translate(pt: Point) {
+  translate(pt: Paper.Point) {
     const line = deepClone(this);
     line.p1 = line.p1.add(pt);
     line.p2 = line.p2.add(pt);
     return line;
   }
+  */
 }
 
 export default GraphicRect;

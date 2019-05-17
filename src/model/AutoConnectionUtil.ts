@@ -1,5 +1,5 @@
+import Paper from "paper";
 import Placement from "./Placement";
-import Point from "../common/point";
 import GraphicConnectionPoint, {
   ConnectionPointDirection,
 } from "./graphic/GraphicConnectionPoint";
@@ -8,7 +8,7 @@ import GraphicSymbolRef from "./graphic/GraphicSymbolRef";
 interface IPlacementAndConnectionPoint {
   placement: Placement;
   index: number;
-  pt: Point;
+  pt: Paper.Point;
   direction: ConnectionPointDirection;
 }
 
@@ -83,7 +83,7 @@ class AutoConnectionUtil {
   ): IPlacementAndConnectionPoint[] => {
     if (symbolRef && symbolRef.symbol) {
       const symbol = symbolRef.symbol;
-      const symbolPt = symbolRef.pt.sub(symbol.insertPt);
+      const symbolPt = symbolRef.pt.subtract(symbol.insertPt);
       const cpsWithSymbolRef = symbol.items
         .filter(g => g.type === "connectionpoint")
         .map(g => g as GraphicConnectionPoint)

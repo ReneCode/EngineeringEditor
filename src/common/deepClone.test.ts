@@ -18,13 +18,16 @@ describe("deepClone", () => {
   });
 
   it("clone GraphicLine", () => {
-    const line = new GraphicLine(new Point(2, 3), new Point(4, 5));
+    const line = new GraphicLine(
+      new Paper.Point(2, 3),
+      new Paper.Point(4, 5),
+    );
     expect(line).toBeInstanceOf(GraphicLine);
     const cloneLine = deepClone(line);
-    expect(cloneLine.p1).toEqual(new Point(2, 3));
-    line.p1 = new Point(10, 20);
-    expect(line.p1).toEqual(new Point(10, 20));
-    expect(cloneLine.p1).toEqual(new Point(2, 3));
+    expect(cloneLine.p1).toEqual(new Paper.Point(2, 3));
+    line.p1 = new Paper.Point(10, 20);
+    expect(line.p1).toEqual(new Paper.Point(10, 20));
+    expect(cloneLine.p1).toEqual(new Paper.Point(2, 3));
   });
 
   it("to not clone attributes starting with '_'", () => {

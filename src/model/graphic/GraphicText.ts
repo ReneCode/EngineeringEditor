@@ -75,11 +75,11 @@ class GraphicText extends Placement {
     context.restore();
   }
 
-  translate(pt: Point): GraphicText {
-    const text = deepClone(this);
-    text.pt = text.pt.add(pt);
-    return text;
-  }
+  // translate(pt: Point): GraphicText {
+  //   const text = deepClone(this);
+  //   text.pt = text.pt.add(pt);
+  //   return text;
+  // }
 
   getBoundingBox(): Box {
     return new Box(this.pt, this.pt);

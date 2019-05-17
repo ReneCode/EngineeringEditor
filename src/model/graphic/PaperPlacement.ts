@@ -13,7 +13,7 @@ class PaperPlacement extends Placement {
     return this._paperItem.exportJSON({ asString: false });
   }
 
-  translate(pt: Point): Placement {
+  translate(pt: Paper.Point): Placement {
     // console.log(":", this._paperItem.position);
     const newPaperItem = this._paperItem.clone();
     const newPlacement = deepClone(this);

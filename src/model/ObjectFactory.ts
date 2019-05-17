@@ -9,6 +9,7 @@ import GraphicText from "./graphic/GraphicText";
 import GraphicRect from "./graphic/GraphicRect";
 import PaperPlacement from "./graphic/PaperPlacement";
 import GraphicArc from "./graphic/GraphicArc";
+import Placement from "./Placement";
 
 class ObjectFactory {
   static fromJSON(json: any): object | object[] {
@@ -45,9 +46,10 @@ class ObjectFactory {
       case "symbolref":
         return GraphicSymbolRef.fromJSON(json);
       case "symbol":
-        return GraphicSymbol.fromJSON(json);
-      case "connectionpoint":
-        return GraphicConnectionPoint.fromJSON(json);
+        return new Placement(json.type);
+      //   return GraphicSymbol.fromJSON(json);
+      // case "connectionpoint":
+      //   return GraphicConnectionPoint.fromJSON(json);
       case "text":
         return GraphicText.fromJSON(json);
       default:

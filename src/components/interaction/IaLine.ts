@@ -11,7 +11,7 @@ class IaLine extends IaBase {
   }
 
   start = async () => {
-    try {
+    /*    try {
       let run = true;
       let nPoints = 0;
       let line = new GraphicLine(new Point(), new Point());
@@ -64,6 +64,7 @@ class IaLine extends IaBase {
       return { restart: true };
     } finally {
     }
+    */
   };
 }
 

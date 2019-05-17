@@ -8,11 +8,11 @@ import Placement, { DrawOptions } from "../Placement";
 class GraphicSymbolRef extends Placement {
   name: string = "";
   symbol: GraphicSymbol | undefined = undefined;
-  pt: Point = new Point();
+  pt: Paper.Point = new Paper.Point(0, 0);
 
   constructor(
     name: string,
-    pt: Point = new Point(),
+    pt: Paper.Point = new Paper.Point(0, 0),
     symbol: GraphicSymbol | undefined = undefined,
   ) {
     super("symbolref");
@@ -33,42 +33,42 @@ class GraphicSymbolRef extends Placement {
     });
   }
 
-  draw(
-    context: CanvasRenderingContext2D,
-    transform: TransformCoordinate,
-    options: DrawOptions = {},
-  ) {
-    if (!this.symbol) {
-      // throw new Error("symbol not set / " + this.symbolName);
-      console.log(`symbol not found: ${this.name}`);
-      return;
-    }
-    const symbol = <GraphicSymbol>this.symbol;
-    transform.save();
-    transform.addTranslateWc(this.pt);
-    symbol.draw(context, transform, {
-      ...options,
-      parent: this,
-    });
-    transform.restore();
-  }
+  // draw(
+  //   context: CanvasRenderingContext2D,
+  //   transform: TransformCoordinate,
+  //   options: DrawOptions = {},
+  // ) {
+  //   if (!this.symbol) {
+  //     // throw new Error("symbol not set / " + this.symbolName);
+  //     console.log(`symbol not found: ${this.name}`);
+  //     return;
+  //   }
+  //   const symbol = <GraphicSymbol>this.symbol;
+  //   transform.save();
+  //   transform.addTranslateWc(this.pt);
+  //   symbol.draw(context, transform, {
+  //     ...options,
+  //     parent: this,
+  //   });
+  //   transform.restore();
+  // }
 
-  nearPoint(pt: Point, radius: number): boolean {
-    if (!this.symbol) {
-      //      throw new Error("symbol not set / " + this.symbolName);
-      console.log(`symbol not found: ${this.name}`);
-      return false;
-    }
-    // on draw() we use addTranslateWc(this.pt) -
-    // so we have to sub this.pt for picking
-    return this.symbol.nearPoint(pt.sub(this.pt), radius);
-  }
+  // nearPoint(pt: Point, radius: number): boolean {
+  //   if (!this.symbol) {
+  //     //      throw new Error("symbol not set / " + this.symbolName);
+  //     console.log(`symbol not found: ${this.name}`);
+  //     return false;
+  //   }
+  //   // on draw() we use addTranslateWc(this.pt) -
+  //   // so we have to sub this.pt for picking
+  //   return this.symbol.nearPoint(pt.sub(this.pt), radius);
+  // }
 
-  insideBox(box: Box): boolean {
-    return box.isPointInside(this.pt);
-  }
+  // insideBox(box: Box): boolean {
+  //   return box.isPointInside(this.pt);
+  // }
 
-  translate(pt: Point): Placement {
+  translate(pt: Paper.Point): Placement {
     // do not use deepClone - because symbol has not to be cloned
     const symbolRef = Object.create(GraphicSymbolRef.prototype);
     return (<any>Object).assign(symbolRef, this, {
@@ -76,13 +76,13 @@ class GraphicSymbolRef extends Placement {
     });
   }
 
-  getBoundingBox(): Box {
-    if (!this.symbol) {
-      throw Error("symbol not found");
-    }
-    let box = this.symbol.getBoundingBox();
-    return box.add(this.pt);
-  }
+  // getBoundingBox(): Box {
+  //   if (!this.symbol) {
+  //     throw Error("symbol not found");
+  //   }
+  //   let box = this.symbol.getBoundingBox();
+  //   return box.add(this.pt);
+  // }
 }
 
 export default GraphicSymbolRef;

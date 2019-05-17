@@ -8,7 +8,7 @@ import Placement, { DrawOptions } from "../Placement";
 import GraphicGrip from "./GraphicGrip";
 
 class GraphicPolygon extends Placement {
-  points: Point[] = [];
+  points: Paper.Point[] = [];
   constructor() {
     super("polygon");
   }
@@ -19,7 +19,7 @@ class GraphicPolygon extends Placement {
       points: json.points.map((p: any) => Point.fromJSON(p)),
     });
   }
-
+  /*
   nearPoint(pt: Point, radius: number): boolean {
     const len = this.points.length;
     for (let i = 0; i < len - 1; i++) {
@@ -72,8 +72,8 @@ class GraphicPolygon extends Placement {
     }
     return grips;
   }
-
-  translate(pt: Point): GraphicPolygon {
+*/
+  translate(pt: Paper.Point): GraphicPolygon {
     const polygon: GraphicPolygon = deepClone(this);
     polygon.points = polygon.points.map(p => p.add(pt));
     return polygon;
@@ -99,27 +99,27 @@ class GraphicPolygon extends Placement {
     matrix = matrix.translate(translate);
     polygon.points = polygon.points.map(p => {
       const pt = matrix.transform(new Paper.Point(p.x, p.y));
-      return new Point(pt.x, pt.y);
+      return new Paper.Point(pt.x, pt.y);
     });
     return polygon;
   }
 
-  getBoundingBox(): Box {
-    let box = new Box(this.points[0], this.points[0]);
-    this.points.forEach(pt => {
-      box = box.expandByPoint(pt);
-    });
-    return box;
-  }
+  // getBoundingBox(): Box {
+  //   let box = new Box(this.points[0], this.points[0]);
+  //   this.points.forEach(pt => {
+  //     box = box.expandByPoint(pt);
+  //   });
+  //   return box;
+  // }
 
   // first and last point are equal
-  closed(): boolean {
-    const len = this.points.length;
-    if (len < 2) {
-      return false;
-    }
-    return this.points[len - 1].equal(this.points[0]);
-  }
+  // closed(): boolean {
+  //   const len = this.points.length;
+  //   if (len < 2) {
+  //     return false;
+  //   }
+  //   return this.points[len - 1].equal(this.points[0]);
+  // }
 
   paperDraw(): Paper.Item {
     const segments = this.points.map(p => {

@@ -45,7 +45,7 @@ class IacRectangle extends React.Component<IProps> {
     }
     this.createRectangle(event.point);
 
-    this.saveRectangle(this.firstPoint, event.point);
+    // this.saveRectangle(this.firstPoint, event.point);
     this.rectangle = null;
   };
 
@@ -58,32 +58,30 @@ class IacRectangle extends React.Component<IProps> {
   };
 
   private createRectangle(secondPoint: Paper.Point) {
-    if (this.rectangle) {
-      this.rectangle.remove();
-    }
-    const rect = new Paper.Rectangle(this.firstPoint, secondPoint);
-    this.rectangle = new Paper.Path.Rectangle(rect);
-    this.rectangle.strokeColor = configuration.defaultStrokeColor;
-    this.rectangle.strokeWidth = 1;
-    this.rectangle.fillColor = configuration.defaultFillColor;
-  }
-
-  async saveRectangle(p1: Paper.Point, p2: Paper.Point) {
-    const box = new Box(new Point(p1.x, p1.y), new Point(p2.x, p2.y));
-
-    const polygon = new GraphicPolygon();
-    polygon.points = [
-      box.topRight(),
-      box.bottomRight(),
-      box.bottomLeft(),
-      box.topLeft(),
-      box.topRight(),
-    ];
-    polygon.color = configuration.defaultStrokeColor;
-    polygon.fill = configuration.defaultFillColor;
-    await this.props.dispatch(
-      createElementAction("placement", polygon),
-    );
+    //   if (this.rectangle) {
+    //     this.rectangle.remove();
+    //   }
+    //   const rect = new Paper.Rectangle(this.firstPoint, secondPoint);
+    //   this.rectangle = new Paper.Path.Rectangle(rect);
+    //   this.rectangle.strokeColor = configuration.defaultStrokeColor;
+    //   this.rectangle.strokeWidth = 1;
+    //   this.rectangle.fillColor = configuration.defaultFillColor;
+    // }
+    // async saveRectangle(p1: Paper.Point, p2: Paper.Point) {
+    //   const box = new Box(new Point(p1.x, p1.y), new Point(p2.x, p2.y));
+    //   const polygon = new GraphicPolygon();
+    //   polygon.points = [
+    //     box.topRight(),
+    //     box.bottomRight(),
+    //     box.bottomLeft(),
+    //     box.topLeft(),
+    //     box.topRight(),
+    //   ];
+    //   polygon.color = configuration.defaultStrokeColor;
+    //   polygon.fill = configuration.defaultFillColor;
+    //   await this.props.dispatch(
+    //     createElementAction("placement", polygon),
+    //   );
   }
 
   render() {

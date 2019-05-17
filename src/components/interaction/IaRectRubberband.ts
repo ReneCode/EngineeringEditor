@@ -11,6 +11,7 @@ class IaRectRubberband extends IaBase {
     super(context);
   }
 
+  /*
   start = async (
     p1: Point,
   ): Promise<null | IaRectRubberbandResult> => {
@@ -45,6 +46,7 @@ class IaRectRubberband extends IaBase {
       return null;
     }
   };
+   */
 }
 
 export default IaRectRubberband;

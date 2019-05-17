@@ -20,6 +20,7 @@ import { IGlobalState } from "../../reducers";
 import { setSelectedPaperItems } from "../../actions/graphicActions";
 
 class InteractionSelect extends InteractionBase {
+  /*
   hoverItem: Paper.Item | null = null;
   change: null | "moving" | "resize" = null;
   firstPoint: Paper.Point = new Paper.Point(0, 0);
@@ -68,27 +69,25 @@ class InteractionSelect extends InteractionBase {
     if (metaData && metaData.placement) {
       metaData.placement.paperSetStyle(this.tempItem);
     }
-    /*
-    if (this.selectedItems.length > 0) {
-      // check hit on resize-handle  (segments) ?
-      let results: HitResult[] = [];
-      // only check on the selected items
-      this.selectedItems.forEach(item => {
-        results = results.concat(
-          item.hitTestAll(event.point, {
-            segments: true,
-            tolerance: this.hitTestOptions.tolerance,
-          }),
-        );
-      });
-      if (results.length > 0) {
-        this.segments = results.map(r => r.segment);
-        return;
-      } else {
-        this.segments = [];
-      }
-    }
-*/
+    // if (this.selectedItems.length > 0) {
+    //   // check hit on resize-handle  (segments) ?
+    //   let results: HitResult[] = [];
+    //   // only check on the selected items
+    //   this.selectedItems.forEach(item => {
+    //     results = results.concat(
+    //       item.hitTestAll(event.point, {
+    //         segments: true,
+    //         tolerance: this.hitTestOptions.tolerance,
+    //       }),
+    //     );
+    //   });
+    //   if (results.length > 0) {
+    //     this.segments = results.map(r => r.segment);
+    //     return;
+    //   } else {
+    //     this.segments = [];
+    //   }
+    // }
 
     // item select
     const result = project.hitTest(event.point, this.hitTestOptions);
@@ -192,14 +191,14 @@ class InteractionSelect extends InteractionBase {
       return;
     }
 
-    if (this.change === "moving") {
-      const paperDelta = event.point.subtract(this.firstPoint);
-      const completeDelta = new Point(paperDelta.x, paperDelta.y);
-      placements = this.selectedPaperItems.map(item => {
-        const metaData = itemGetMetaData(item) as ItemMetaData;
-        return metaData.placement.translate(completeDelta);
-      });
-    }
+    // if (this.change === "moving") {
+    //   const paperDelta = event.point.subtract(this.firstPoint);
+    //   const completeDelta = new Point(paperDelta.x, paperDelta.y);
+    //   placements = this.selectedPaperItems.map(item => {
+    //     const metaData = itemGetMetaData(item) as ItemMetaData;
+    //     return metaData.placement.translate(completeDelta);
+    //   });
+    // }
 
     this.change = null;
     if (placements.length > 0) {
@@ -266,6 +265,7 @@ class InteractionSelect extends InteractionBase {
     }
     return null;
   }
+  */
 }
 
 export default InteractionSelect;

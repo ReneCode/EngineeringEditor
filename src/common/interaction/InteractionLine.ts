@@ -7,11 +7,11 @@ import Point from "../point";
 
 class InteractionLine extends InteractionBase {
   line: Paper.Path | null = null;
-
   onMouseDown(event: Paper.MouseEvent) {
     this.line = new Paper.Path.Line(event.point, event.point);
     this.line.strokeColor = "blue";
   }
+  /*
 
   onMouseDrag(event: Paper.MouseEvent) {
     if (this.line) {
@@ -44,6 +44,7 @@ class InteractionLine extends InteractionBase {
       createElementAction("placement", line),
     );
   }
+  */
 }
 
 export default InteractionLine;

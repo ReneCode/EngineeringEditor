@@ -7,17 +7,17 @@ export const updateAllSymbolRef = (
   symbols: GraphicSymbol[],
   recursive: boolean = false,
 ) => {
-  graphics.forEach((graphic: Placement) => {
-    if (graphic.type === "symbolref") {
-      const symbol = updateOneSymbolRef(
-        <GraphicSymbolRef>graphic,
-        symbols,
-      );
-      if (recursive && symbol) {
-        updateAllSymbolRef(symbol.items, symbols);
-      }
-    }
-  });
+  // graphics.forEach((graphic: Placement) => {
+  //   if (graphic.type === "symbolref") {
+  //     const symbol = updateOneSymbolRef(
+  //       <GraphicSymbolRef>graphic,
+  //       symbols,
+  //     );
+  //     if (recursive && symbol) {
+  //       updateAllSymbolRef(symbol.items, symbols);
+  //     }
+  //   }
+  // });
 };
 
 const updateOneSymbolRef = (

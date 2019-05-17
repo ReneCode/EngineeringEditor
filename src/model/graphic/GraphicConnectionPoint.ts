@@ -1,4 +1,4 @@
-import Point from "../../common/point";
+import Paper from "paper";
 import TransformCoordinate from "../../common/transformCoordinate";
 import deepClone from "../../common/deepClone";
 import Box from "../../common/box";
@@ -15,16 +15,14 @@ export enum ConnectionPointDirection {
 const RADIUS_CANVAS = 5;
 
 class GraphicConnectionPoint extends Placement {
-  pt: Point;
   direction: ConnectionPointDirection = ConnectionPointDirection.DOWN;
   index: number;
 
-  constructor(pt: Point) {
+  constructor(public pt: Paper.Point) {
     super("connectionpoint");
-    this.pt = pt || new Point(0, 0);
     this.index = 0;
   }
-
+  /*
   static fromJSON(json: any): GraphicConnectionPoint {
     const connectionPoint = Object.create(
       GraphicConnectionPoint.prototype,
@@ -80,7 +78,7 @@ class GraphicConnectionPoint extends Placement {
     context.strokeStyle = oldStokeStyle;
   }
 
-  translate(pt: Point): GraphicConnectionPoint {
+  translate(pt: Paper.Point): GraphicConnectionPoint {
     const connectionPoint = deepClone(this);
     connectionPoint.pt = connectionPoint.pt.add(pt);
     return connectionPoint;
@@ -89,6 +87,7 @@ class GraphicConnectionPoint extends Placement {
   getBoundingBox(): Box {
     return new Box(this.pt, this.pt);
   }
+  */
 }
 
 export default GraphicConnectionPoint;

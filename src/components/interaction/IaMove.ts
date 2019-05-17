@@ -14,6 +14,7 @@ class IaMove extends IaBase {
   }
 
   start = async (firstPoint: Point) => {
+    /*
     try {
       if (!firstPoint) {
         throw new Error("firstPoint missing");
@@ -58,6 +59,7 @@ class IaMove extends IaBase {
       return;
     } finally {
     }
+    */
   };
 }
 

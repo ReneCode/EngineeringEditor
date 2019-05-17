@@ -10,6 +10,7 @@ class IaPolygon extends IaBase {
   }
 
   start = async () => {
+    /*
     try {
       let polygon = new GraphicPolygon();
       let run = true;
@@ -80,6 +81,7 @@ class IaPolygon extends IaBase {
         return { restart: true };
       }
     } catch (ex) {}
+    */
   };
 }
 

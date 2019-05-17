@@ -1,4 +1,4 @@
-import Point from "../../common/point";
+import Paper from "paper";
 import TransformCoordinate from "../../common/transformCoordinate";
 import { IdType, GraphicType } from "../types";
 import Placement from "../Placement";
@@ -7,12 +7,12 @@ import Box from "../../common/box";
 
 class GraphicSymbol {
   projectId: IdType;
-  name: string;
-  insertPt: Point = new Point();
+  name: string = "";
+  insertPt: Paper.Point = new Paper.Point(0, 0);
   items: Placement[] = [];
   id: IdType;
   type: GraphicType = "symbol";
-
+  /*
   constructor(projectId: IdType, name: string) {
     this.projectId = projectId;
     this.name = name;
@@ -58,6 +58,7 @@ class GraphicSymbol {
     });
     return box.sub(this.insertPt);
   }
+  */
 }
 
 export default GraphicSymbol;

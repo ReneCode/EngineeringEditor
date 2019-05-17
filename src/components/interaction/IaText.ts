@@ -7,6 +7,7 @@ import GraphicText from "../../model/graphic/GraphicText";
 import { createElementAction } from "../../actions/changeElementActions";
 
 class IaText extends IaBase {
+  /*
   constructor(config: IaContext) {
     super(config);
   }
@@ -44,6 +45,7 @@ class IaText extends IaBase {
     } finally {
     }
   };
+  */
 }
 
 export default IaText;

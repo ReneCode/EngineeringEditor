@@ -46,13 +46,13 @@ class SelectSymbolModal extends Component<IProps> {
       activeSymbol: symbol,
     });
   };
-
   onDrawCanvas = (
     canvas: HTMLCanvasElement,
     width: number,
     height: number,
   ) => {
-    const context = canvas.getContext("2d");
+    /*
+      const context = canvas.getContext("2d");
     if (context) {
       context.clearRect(0, 0, width, height);
 
@@ -78,6 +78,7 @@ class SelectSymbolModal extends Component<IProps> {
         }
       }
     }
+    */
   };
 
   render() {

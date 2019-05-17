@@ -22,6 +22,7 @@ import { updatePlacementAction } from "../../actions/placementActions";
 type MoveGripCallback = (grip: GraphicGrip) => void;
 
 class IaSelect extends IaBase {
+  /*
   constructor(context: IaContext) {
     super(context);
   }
@@ -37,7 +38,6 @@ class IaSelect extends IaBase {
       .graphic.items.filter(p => p.pickable() && p.insideBox(box));
     return items;
   }
-
   async start() {
     try {
       // this.context.dispatch(setCursorModeAction("select"));
@@ -161,6 +161,7 @@ class IaSelect extends IaBase {
     const iaMove = new IaMove(this.context);
     await iaMove.start(firstPoint);
   };
+  */
 }
 
 export default IaSelect;

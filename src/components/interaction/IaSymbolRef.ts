@@ -5,6 +5,7 @@ import { setTempItem } from "../../actions";
 import { createPlacementAction } from "../../actions/placementActions";
 
 class IaSymbolRef extends IaBase {
+  /*
   constructor(config: IaContext) {
     super(config);
   }
@@ -51,6 +52,7 @@ class IaSymbolRef extends IaBase {
       return { restart: true };
     } catch (ex) {}
   };
+  */
 }
 
 export default IaSymbolRef;

@@ -80,7 +80,7 @@ class DrawingWorkspace extends Component<IProps> {
         </button>
         <button
           className="button"
-          onClick={() => this.startInteraction("Arc")}>
+          onClick={() => this.startInteraction("CreateArc")}>
           Arc
         </button>
         <button

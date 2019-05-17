@@ -13,6 +13,7 @@ export type ItemMetaData = {
 export class ItemName {
   static resizeBox = "resizeBox";
   static resizeHandle = "resizeHandle";
+  static grip = "grip";
 
   static itemAny = ".";
   static itemArc = ".arc";

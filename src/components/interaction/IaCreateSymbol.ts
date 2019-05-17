@@ -13,6 +13,7 @@ class IaCreateSymbol extends IaBase {
   }
 
   start = async () => {
+    /*
     try {
       const selectedItems = this.context.getState().graphic
         .selectedItems;
@@ -58,6 +59,7 @@ class IaCreateSymbol extends IaBase {
     } catch (ex) {
       console.log("Exception:", ex);
     }
+    */
   };
 }
 

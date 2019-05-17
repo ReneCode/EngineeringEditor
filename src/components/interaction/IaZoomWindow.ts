@@ -6,6 +6,7 @@ import { setTempItem } from "../../actions";
 import { setViewportAction } from "../../actions/graphicActions";
 
 class IaZoomWindow extends IaBase {
+  /*
   constructor(config: IaContext) {
     super(config);
   }
@@ -84,6 +85,7 @@ class IaZoomWindow extends IaBase {
       ),
     );
   };
+  */
 }
 
 export default IaZoomWindow;

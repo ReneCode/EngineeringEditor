@@ -103,21 +103,21 @@ class DrawCanvas extends Component<IProps> {
     // this.drawCursor(context, transform);
   };
 
-  drawViewport(
-    context: CanvasRenderingContext2D,
-    transform: TransformCoordinate,
-  ) {
-    const { viewport } = this.props.graphic;
-    const rect = new GraphicRect(
-      new Point(viewport.x, viewport.y),
-      new Point(
-        viewport.x + viewport.width,
-        viewport.y + viewport.height,
-      ),
-    );
-    rect.color = "red";
-    rect.draw(context, transform);
-  }
+  // drawViewport(
+  //   context: CanvasRenderingContext2D,
+  //   transform: TransformCoordinate,
+  // ) {
+  //   const { viewport } = this.props.graphic;
+  //   const rect = new GraphicRect(
+  //     new Point(viewport.x, viewport.y),
+  //     new Point(
+  //       viewport.x + viewport.width,
+  //       viewport.y + viewport.height,
+  //     ),
+  //   );
+  //   rect.color = "red";
+  //   rect.draw(context, transform);
+  // }
   /* 
 
   drawCursor(

@@ -37,10 +37,11 @@ class IacDrawCanvas extends React.Component<IProps> {
   drawCanvas = (project: Paper.Project, items: Placement[]) => {
     project.activeLayer.removeChildren();
     items.forEach(placement => {
-      const paperItem = this.createPaperItem(placement);
-      if (paperItem && placement instanceof PaperPlacement) {
-        project.activeLayer.addChild(paperItem);
-      }
+      placement.paperDraw();
+      // const paperItem = this.createPaperItem(placement);
+      // if (paperItem && placement instanceof PaperPlacement) {
+      //   // project.activeLayer.addChild(paperItem);
+      // }
     });
   };
 

@@ -6,16 +6,22 @@ import IacRectangle from "../interaction/IacRectangle";
 import IacDelete from "../interaction/IacDelete";
 import IacZoomInOut from "../interaction/IacZoomInOut";
 import IacLine from "../interaction/IacLine";
-import IacArc from "../interaction/IacArc";
 import IacIdle from "../interaction/IacIdle";
 import IacSelectPaperItem from "../interaction/IacSelectPaperItem";
 import IacDrawCanvas from "../interaction/IacDrawCanvas";
 import IacSelectAll from "../interaction/IacSelectAll";
+import IacCreateArc from "../interaction/IacCreateArc";
+import IacEditItem from "../interaction/IacEditItem";
+import IacHoverItem from "../interaction/IacHoverItem";
 
 class InteractionFactory {
   static create(name: string): JSX.Element {
     const props = { key: name };
     switch (name) {
+      case "HoverItem":
+        return <IacHoverItem {...props} />;
+      case "EditItem":
+        return <IacEditItem {...props} />;
       case "DrawCanvas":
         return <IacDrawCanvas {...props} />;
       case "Idle":
@@ -33,8 +39,8 @@ class InteractionFactory {
       // case "Line":
       //   interaction = new InteractionLine(context);
       //   break;
-      case "Arc":
-        return <IacArc {...props} />;
+      case "CreateArc":
+        return <IacCreateArc {...props} />;
       case "Line":
         return <IacLine {...props} />;
       case "Circle":

@@ -95,18 +95,18 @@ class GraphicCircle extends Placement {
     context.stroke();
   }
 
-  translate(pt: Point): GraphicCircle {
-    const circle = deepClone(this);
-    circle.pt = circle.pt.add(pt);
-    return circle;
-  }
+  // translate(pt: Point): GraphicCircle {
+  //   const circle = deepClone(this);
+  //   circle.pt = circle.pt.add(pt);
+  //   return circle;
+  // }
 
-  fitToRect(rectangle: Paper.Rectangle): GraphicCircle {
-    const circle = deepClone(this);
-    circle.pt = new Point(rectangle.center.x, rectangle.center.y);
-    circle.radius = rectangle.width / 2;
-    return circle;
-  }
+  // fitToRect(rectangle: Paper.Rectangle): GraphicCircle {
+  //   const circle = deepClone(this);
+  //   circle.pt = new Point(rectangle.center.x, rectangle.center.y);
+  //   circle.radius = rectangle.width / 2;
+  //   return circle;
+  // }
 
   updateFromHandles(handles: Paper.Item[]): Placement {
     const circle = deepClone(this);

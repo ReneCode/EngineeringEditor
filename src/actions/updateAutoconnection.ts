@@ -14,6 +14,7 @@ const updateAutoconnection = async (
   //   "autoconnect lines disabled. create them none-persistent (without redux)",
   // );
   return;
+  /*
   await dispatch(deleteLayerAction("autoconnect"));
 
   const allPlacements = getState().graphic.items;
@@ -35,6 +36,7 @@ const updateAutoconnection = async (
     payload: autoconnectionLines,
   };
   await dispatch(action);
+  */
 };
 
 export default updateAutoconnection;

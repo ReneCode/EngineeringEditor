@@ -3,20 +3,16 @@ import deepClone from "../../common/deepClone";
 import Placement from "../Placement";
 import Paper from "paper";
 import { ItemName } from "../../common/ItemMetaData";
-
-class PaperUtil {
-  static PointAsJSON(pt: Paper.Point): any {
-    return { x: pt.x, y: pt.y };
-  }
-
-  static PointFromJSON(json: any): Paper.Point {
-    return new Paper.Point(json.x, json.y);
-  }
-}
+import PaperUtil from "../../utils/PaperUtil";
+import Grip from "./Grip";
 
 class GraphicArc extends Placement {
   public startAngle: number = 0;
-  public endAngle: number = 2 * Math.PI;
+  public endAngle: number = 0;
+
+  private fullCircle = true;
+  private grips: Grip[] = [];
+  private item: Paper.Item | null = null;
 
   constructor(public center: Paper.Point, public radius: number) {
     super("arc");
@@ -29,6 +25,7 @@ class GraphicArc extends Placement {
     }
     return (<any>Object).assign(arc, json, {
       center: new Paper.Point(json.center.x, json.center.y),
+      grips: [],
     });
   }
 
@@ -39,6 +36,7 @@ class GraphicArc extends Placement {
       radius: this.radius,
       startAngle: this.startAngle,
       endAngle: this.endAngle,
+      fullCircle: this.fullCircle,
     };
   }
 
@@ -52,38 +50,100 @@ class GraphicArc extends Placement {
 
   paperDraw(): Paper.Item {
     let item: Paper.Item;
-    if (this.startAngle === 0 && this.endAngle === 2 * Math.PI) {
+    // if (this.startAngle === 0 && this.endAngle === 2 * Math.PI) {
+    if (this.fullCircle) {
       item = new Paper.Path.Circle(this.center, this.radius);
     } else {
       // start = three o'clock
       const start = this.center.add(new Paper.Point(this.radius, 0));
-      const from = start.rotate(this.startAngle);
-      const to = start.rotate(this.endAngle);
+      const from = start.rotate(this.startAngle, this.center);
+      const to = start.rotate(this.endAngle, this.center);
       const through = start.rotate(
         (this.endAngle + this.startAngle) / 2,
+        this.center,
       );
       item = new Paper.Path.Arc(from, through, to);
     }
     item.data = this.id;
     item.name = ItemName.itemArc;
     this.paperSetStyle(item);
+
+    if (this.item) {
+      const ok = this.item.replaceWith(item);
+    }
+    this.item = item;
     return item;
   }
 
-  translate(pt: Point): GraphicArc {
-    const arc = deepClone(this);
+  showGrips() {
+    const ptStart = this.center
+      .add(new Paper.Point(this.radius, 0))
+      .rotate(this.startAngle, this.center);
+    const gripStart = new Grip(ptStart, 1);
+    this.grips.push(gripStart);
+
+    const ptEnd = this.center
+      .add(new Paper.Point(this.radius, 0))
+      .rotate(this.endAngle, this.center);
+    const gripEnd = new Grip(ptEnd, 2);
+    this.grips.push(gripEnd);
+  }
+
+  removeGrips() {
+    this.grips.forEach(g => g.remove());
+    this.grips = [];
+  }
+
+  dragGrip(event: Paper.MouseEvent, gripItem: Paper.Item) {
+    gripItem.position = event.point;
+
+    if (this.item) {
+      const angle = event.point.subtract(this.center).angle;
+      const ptOnArc = this.center
+        .add(new Paper.Point(this.radius, 0))
+        .rotate(angle, this.center);
+      gripItem.position = ptOnArc;
+      switch (gripItem.data) {
+        case 1:
+          this.startAngle = angle;
+          break;
+        case 2:
+          this.endAngle = angle;
+          break;
+        default:
+          throw new Error(`bad index: ${gripItem.data}`);
+      }
+
+      this.fullCircle = false;
+      const oldItem = this.item;
+      const newItem = this.paperDraw();
+      // oldItem.replaceWith(newItem);
+    }
+    // this.center = event.point;
+    // this.paperDraw();
+    // console.log("dragGrip:", gripId);
+    // const grip = this.grips.find(g => g.id === gripId);
+    // if (grip) {
+    //   grip.setPosition(event.point);
+    // }
+  }
+
+  translate(pt: Paper.Point): GraphicArc {
+    const arc: GraphicArc = deepClone(this);
     arc.center = arc.center.add(pt);
     return arc;
   }
 
-  /*
-  fitToRect(rectangle: Paper.Rectangle): GraphicCircle {
-    const circle = deepClone(this);
-    circle.pt = new Point(rectangle.center.x, rectangle.center.y);
-    circle.radius = rectangle.width / 2;
-    return circle;
+  fitToRect(rectangle: Paper.Rectangle): GraphicArc {
+    const arc = deepClone(this) as GraphicArc;
+    arc.center = new Paper.Point(
+      rectangle.center.x,
+      rectangle.center.y,
+    );
+    arc.radius = rectangle.width / 2;
+    return arc;
   }
-
+  /*
   updateFromHandles(handles: Paper.Item[]): Placement {
     const circle = deepClone(this);
     const { cx, cy, width, height } = this.getGeometyFromHandles(

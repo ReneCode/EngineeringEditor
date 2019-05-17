@@ -1,18 +1,16 @@
-import React, { createElement } from "react";
+import React from "react";
 import Paper from "paper";
 import appEventDispatcher from "../Event/AppEventDispatcher";
 import { AppEventType } from "../Event/AppEventType";
 import { connect } from "react-redux";
 import configuration from "../configuration";
-import PaperPlacement from "../../model/graphic/PaperPlacement";
 import { createElementAction } from "../../actions/changeElementActions";
-import { ItemName } from "../ItemMetaData";
 import GraphicArc from "../../model/graphic/GraphicArc";
 
 interface IProps {
   dispatch: Function;
 }
-class IacArc extends React.Component<IProps> {
+class IacCreateArc extends React.Component<IProps> {
   private unsubscribeFn: Function[] = [];
   private firstPoint: Paper.Point = new Paper.Point(0, 0);
   private arc: GraphicArc | null = null;
@@ -86,4 +84,4 @@ class IacArc extends React.Component<IProps> {
   }
 }
 
-export default connect()(IacArc);
+export default connect()(IacCreateArc);

@@ -1,3 +1,4 @@
+import Paper from "paper";
 import IaBase, { IaContext, IaEventType } from "./IaBase";
 import GraphicConnectionPoint, {
   ConnectionPointDirection,
@@ -7,6 +8,7 @@ import { setTempItem } from "../../actions";
 import { createPlacementAction } from "../../actions/placementActions";
 
 class IaConnectionPoint extends IaBase {
+  /*
   constructor(config: IaContext) {
     super(config);
   }
@@ -16,7 +18,9 @@ class IaConnectionPoint extends IaBase {
       let run = true;
       let nPoints = 0;
       let firstPoint = new Point();
-      let connectionPoint = new GraphicConnectionPoint(new Point());
+      let connectionPoint = new GraphicConnectionPoint(
+        new Paper.Point(0, 0),
+      );
       while (run) {
         const result = await this.context.getEvent([
           IaEventType.mouseUp,
@@ -83,6 +87,7 @@ class IaConnectionPoint extends IaBase {
       return { restart: true };
     } catch (ex) {}
   };
+  */
 }
 
 export default IaConnectionPoint;

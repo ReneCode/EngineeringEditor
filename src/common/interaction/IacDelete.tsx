@@ -5,9 +5,11 @@ import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 import { IGlobalState } from "../../reducers";
 import { itemGetMetaData } from "../ItemMetaData";
 import { deleteElementAction } from "../../actions/changeElementActions";
+import Placement from "../../model/Placement";
 
 interface IProps {
   dispatch: any;
+  items: Placement[];
   selectedPaperItems: Paper.Item[];
 }
 
@@ -26,12 +28,14 @@ class IacDelete extends React.Component<IProps> {
   }
 
   onDelete = () => {
+    console.log("delete:", this.props.selectedPaperItems);
     const placements = this.props.selectedPaperItems.map(item => {
-      const metaData = itemGetMetaData(item);
-      if (!metaData) {
-        throw new Error("metaData missing on item:" + item);
+      const data = item.data;
+      if (data && data.placement) {
+        return data.placement;
       }
-      return metaData.placement;
+
+      return this.props.items.find(pl => pl.id == data) as Placement;
     });
 
     this.props.dispatch(deleteElementAction("placement", placements));
@@ -44,6 +48,7 @@ class IacDelete extends React.Component<IProps> {
 
 const mapStateToProps = (state: IGlobalState) => {
   return {
+    items: state.graphic.items,
     selectedPaperItems: state.graphic.selectedPaperItems,
   };
 };
