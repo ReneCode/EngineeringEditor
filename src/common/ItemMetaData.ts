@@ -1,8 +1,6 @@
 import Placement from "../model/Placement";
 import Paper from "paper";
 import ResizeBox from "./interaction/ResizeBox";
-import ResizeShape from "./interaction/ResizeShape";
-import { match } from "minimatch";
 
 export type ItemMetaData = {
   placement: Placement;

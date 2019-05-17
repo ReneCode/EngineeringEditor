@@ -55,11 +55,18 @@ class GraphicArc extends Placement {
       item = new Paper.Path.Circle(this.center, this.radius);
     } else {
       // start = three o'clock
+      const startAngle = this.startAngle;
+      const endAngle = this.endAngle;
+
       const start = this.center.add(new Paper.Point(this.radius, 0));
-      const from = start.rotate(this.startAngle, this.center);
-      const to = start.rotate(this.endAngle, this.center);
+      const from = start.rotate(startAngle, this.center);
+      const to = start.rotate(endAngle, this.center);
+      let deltaAngle = 0;
+      if (startAngle > endAngle) {
+        deltaAngle = 180;
+      }
       const through = start.rotate(
-        this.startAngle + (this.endAngle - this.startAngle) / 2,
+        startAngle + deltaAngle + (endAngle - startAngle) / 2,
         this.center,
       );
       item = new Paper.Path.Arc(from, through, to);
