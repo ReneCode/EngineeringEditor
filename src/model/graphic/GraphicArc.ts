@@ -4,7 +4,6 @@ import Placement from "../Placement";
 import Paper from "paper";
 import { ItemName } from "../../common/ItemMetaData";
 import PaperUtil from "../../utils/PaperUtil";
-import Grip from "./Grip";
 
 class GraphicArc extends Placement {
   public startAngle: number = 0;
@@ -76,12 +75,12 @@ class GraphicArc extends Placement {
       const ptStart = this.center
         .add(new Paper.Point(this.radius, 0))
         .rotate(this.startAngle, this.center);
-      const gripStart = new Grip(ptStart, 1);
+      const gripStart = PaperUtil.createGrip(ptStart, 1);
 
       const ptEnd = this.center
         .add(new Paper.Point(this.radius, 0))
         .rotate(this.endAngle, this.center);
-      const gripEnd = new Grip(ptEnd, 2);
+      const gripEnd = PaperUtil.createGrip(ptEnd, 2);
 
       this._grips = [gripStart, gripEnd];
     } else {
@@ -118,6 +117,13 @@ class GraphicArc extends Placement {
       }
 
       this.fullCircle = false;
+      this.paperDraw();
+    }
+  }
+
+  dragItem(event: Paper.MouseEvent) {
+    if (this._item) {
+      this.center = this.center.add(event.delta);
       this.paperDraw();
     }
   }

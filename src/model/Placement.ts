@@ -7,7 +7,6 @@ import Paper from "paper";
 import { encodeJson, DtoPlacement } from "./dtoUtil";
 import Box from "../common/box";
 import GraphicGrip from "./graphic/GraphicGrip";
-import Grip from "./graphic/Grip";
 
 export type DrawOptions = {
   mode?: "selected" | "temp";
@@ -23,7 +22,7 @@ class Placement {
   fill: string | undefined;
   layer: LayerType = undefined;
 
-  protected _grips: Grip[] = [];
+  protected _grips: Paper.Item[] = [];
   protected _item: Paper.Item | null = null;
 
   constructor(type: GraphicType) {
@@ -78,6 +77,8 @@ class Placement {
   }
 
   dragGrip(event: Paper.MouseEvent, gripItem: Paper.Item) {}
+
+  dragItem(event: Paper.MouseEvent, item: Paper.Item) {}
 
   getGrips(): GraphicGrip[] {
     return [];

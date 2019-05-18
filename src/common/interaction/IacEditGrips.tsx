@@ -21,9 +21,10 @@ interface IProps {
 class IacEditGrips extends React.Component<IProps> {
   unsubscribeFn: Function[] = [];
   selectedPlacement: Placement | null = null;
-  gripItem: Paper.Item | null = null;
+  editItem: Paper.Item | null = null;
   oldFillColor: string | Paper.Color | null = null;
   edited: boolean = false;
+  modus: "grip" | "item" | null = null;
 
   componentDidMount() {
     this.unsubscribeFn.push(
@@ -71,25 +72,49 @@ class IacEditGrips extends React.Component<IProps> {
       return;
     }
 
-    this.gripItem = PaperUtil.getHitTestItem(result, ItemName.grip);
-    if (this.gripItem) {
-      console.log("grip");
-      this.oldFillColor = this.gripItem.fillColor;
-      this.gripItem.fillColor = configuration.gripMoveFillColor;
+    this.editItem = PaperUtil.getHitTestItem(result, ItemName.grip);
+    if (this.editItem) {
+      this.modus = "grip";
+      this.oldFillColor = this.editItem.fillColor;
+      this.editItem.fillColor = configuration.gripMoveFillColor;
+      return;
+    }
+
+    this.editItem = PaperUtil.getHitTestItem(
+      result,
+      ItemName.itemAny,
+    );
+    if (this.editItem) {
+      this.modus = "item";
+      return;
     }
   };
 
   onMouseDrag = (type: AppEventType, event: Paper.MouseEvent) => {
-    if (this.gripItem && this.selectedPlacement) {
-      this.startEdit();
-      this.selectedPlacement.dragGrip(event, this.gripItem);
-      return "stop";
+    if (this.editItem && this.selectedPlacement) {
+      switch (this.modus) {
+        case "grip":
+          this.startEdit();
+          this.selectedPlacement.dragGrip(event, this.editItem);
+          return "stop";
+
+        case "item":
+          // switch off grips during moving the item
+          this.selectedPlacement.setSelected(false);
+          this.startEdit();
+          this.selectedPlacement.dragItem(event, this.editItem);
+          return "stop";
+      }
     }
   };
 
   onMouseUp = (type: AppEventType, event: Paper.MouseEvent) => {
-    if (this.gripItem) {
-      this.gripItem.fillColor = this.oldFillColor;
+    switch (this.modus) {
+      case "grip":
+        if (this.editItem) {
+          this.editItem.fillColor = this.oldFillColor;
+        }
+        break;
     }
 
     if (this.edited && this.selectedPlacement) {

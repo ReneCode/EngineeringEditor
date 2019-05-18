@@ -1,14 +1,8 @@
-import Point from "../../common/point";
-import Line from "../../common/line";
-import TransformCoordinate from "../../common/transformCoordinate";
 import deepClone from "../../common/deepClone";
-import Box from "../../common/box";
-import Placement, { DrawOptions } from "../Placement";
-import GraphicGrip from "./GraphicGrip";
-import Paper, { Item } from "paper";
+import Placement from "../Placement";
+import Paper from "paper";
 import PaperUtil from "../../utils/PaperUtil";
 import { ItemName } from "../../common/ItemMetaData";
-import Grip from "./Grip";
 
 class GraphicLine extends Placement {
   constructor(public p1: Paper.Point, public p2: Paper.Point) {
@@ -33,7 +27,10 @@ class GraphicLine extends Placement {
 
   setSelected(on: boolean) {
     if (on) {
-      this._grips = [new Grip(this.p1, 1), new Grip(this.p2, 2)];
+      this._grips = [
+        PaperUtil.createGrip(this.p1, 1),
+        PaperUtil.createGrip(this.p2, 2),
+      ];
     } else {
       this._grips.forEach(g => g.remove());
     }
@@ -55,6 +52,14 @@ class GraphicLine extends Placement {
         default:
           throw new Error(`bad index: ${gripItem.data}`);
       }
+      this.paperDraw();
+    }
+  }
+
+  dragItem(event: Paper.MouseEvent) {
+    if (this._item) {
+      this.p1 = this.p1.add(event.delta);
+      this.p2 = this.p2.add(event.delta);
       this.paperDraw();
     }
   }

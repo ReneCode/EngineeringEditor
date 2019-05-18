@@ -55,6 +55,17 @@ class PaperUtil {
     }
     return false;
   }
+
+  static createGrip(pt: Paper.Point, id: number): Paper.Item {
+    const radius = 5;
+
+    const grip = new Paper.Path.Circle(pt, radius);
+    grip.fillColor = "yellow";
+    grip.strokeColor = "black";
+    grip.name = ItemName.grip;
+    grip.data = id;
+    return grip;
+  }
 }
 
 export default PaperUtil;
