@@ -9,7 +9,6 @@ import { IGlobalState } from "../../reducers";
 import ResizeBox from "./ResizeBox";
 import appEventDispatcher from "../Event/AppEventDispatcher";
 import { AppEventType } from "../Event/AppEventType";
-import GraphicArc from "../../model/graphic/GraphicArc";
 import configuration from "../configuration";
 
 interface IProps {
@@ -52,7 +51,7 @@ class IacIdle extends React.Component<IProps> {
     if (
       newProps.selectedPaperItems !== this.props.selectedPaperItems
     ) {
-      this.resizeBox.create(newProps.selectedPaperItems);
+      // this.resizeBox.create(newProps.selectedPaperItems);
     }
   }
 
@@ -81,11 +80,11 @@ class IacIdle extends React.Component<IProps> {
     }
 
     // move all items
-    this.props.selectedPaperItems.forEach(item => {
-      item.position = item.position.add(event.delta);
-    });
-    this.resizeBox.move(event.delta);
-    this.modus = "moving";
+    // this.props.selectedPaperItems.forEach(item => {
+    //   item.position = item.position.add(event.delta);
+    // });
+    // this.resizeBox.move(event.delta);
+    // this.modus = "moving";
   };
 
   onMouseUp = (type: AppEventType, event: Paper.MouseEvent) => {
@@ -158,39 +157,6 @@ class IacIdle extends React.Component<IProps> {
     this.props.selectedPaperItems.forEach(i => {
       i.fitBounds(rect);
     });
-
-    /*
-    const centerB = this.resizeBox.getCenter();
-    console.log(centerA, centerB);
-    const translate = centerB.subtract(centerA);
-
-    const scale = new Paper.Point(
-      1,
-      1,
-      // sizeB.x / sizeA.x,
-      // sizeB.y / sizeA.y,
-    );
-
-    this.props.selectedPaperItems.forEach(
-      (i: Paper.Item, index: number) => {
-        i.replaceWith(this.selectedPaperItemsOrginal[index]);
-        let matrix = new Paper.Matrix(1, 0, 0, 1, 0, 0);
-        matrix = matrix.scale(scale.x, scale.y, i.position);
-        matrix = matrix.translate(translate);
-        i.matrix = matrix;
-      },
-    );
-
-*/
-
-    // const translate = this.resizeBox.getTranslation();
-
-    // const newItem = (metaData.placement as GraphicCircle).paperDrawFromResizeBox(
-    //   resizeBox,
-    // );
-    // newItem.data = resizeItem.data;
-    // resizeBox.replaceItemWith(newItem);
-    // resizeItem.replaceWith(newItem);
   }
 
   getPlacementById(id: string): Placement | undefined {

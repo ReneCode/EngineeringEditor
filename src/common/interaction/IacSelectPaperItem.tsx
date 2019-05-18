@@ -3,7 +3,6 @@ import Paper from "paper";
 import { setSelectedPaperItems } from "../../actions/graphicActions";
 import { connect } from "react-redux";
 import { IGlobalState } from "../../reducers";
-import ResizeBox from "./ResizeBox";
 import appEventDispatcher from "../Event/AppEventDispatcher";
 import { AppEventType } from "../Event/AppEventType";
 import PaperUtil from "../../utils/PaperUtil";
@@ -80,5 +79,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(IacSelectPaperItem);
-
-// { withRef: true }, // to get reference in GraphicView   this.ref = com.getWrappedInstance()

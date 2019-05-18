@@ -11,8 +11,6 @@ class GraphicArc extends Placement {
   public endAngle: number = 0;
 
   private fullCircle = true;
-  private grips: Grip[] = [];
-  private _item: Paper.Item | null = null;
 
   constructor(public center: Paper.Point, public radius: number) {
     super("arc");
@@ -24,8 +22,7 @@ class GraphicArc extends Placement {
       json.center = { x: 0, y: 0 };
     }
     return (<any>Object).assign(arc, json, {
-      center: new Paper.Point(json.center.x, json.center.y),
-      grips: [],
+      center: PaperUtil.PointFromJSON(json.center),
     });
   }
 
@@ -39,14 +36,6 @@ class GraphicArc extends Placement {
       fullCircle: this.fullCircle,
     };
   }
-
-  toJsonContent(): string {
-    return this.asJSON();
-  }
-
-  // clone() : GraphicArc {
-
-  // }
 
   paperDraw(): Paper.Item {
     let item: Paper.Item;
@@ -82,31 +71,34 @@ class GraphicArc extends Placement {
     return item;
   }
 
-  getPaperItem(): Paper.Item | null {
-    return this._item;
-  }
+  setSelected(on: boolean) {
+    if (on) {
+      const ptStart = this.center
+        .add(new Paper.Point(this.radius, 0))
+        .rotate(this.startAngle, this.center);
+      const gripStart = new Grip(ptStart, 1);
 
-  showGrips() {
-    const ptStart = this.center
-      .add(new Paper.Point(this.radius, 0))
-      .rotate(this.startAngle, this.center);
-    const gripStart = new Grip(ptStart, 1);
-    this.grips.push(gripStart);
+      const ptEnd = this.center
+        .add(new Paper.Point(this.radius, 0))
+        .rotate(this.endAngle, this.center);
+      const gripEnd = new Grip(ptEnd, 2);
 
-    const ptEnd = this.center
-      .add(new Paper.Point(this.radius, 0))
-      .rotate(this.endAngle, this.center);
-    const gripEnd = new Grip(ptEnd, 2);
-    this.grips.push(gripEnd);
+      this._grips = [gripStart, gripEnd];
+    } else {
+      this._grips.forEach(g => g.remove());
+    }
   }
 
   removeGrips() {
-    this.grips.forEach(g => g.remove());
-    this.grips = [];
+    this._grips.forEach(g => g.remove());
+    this._grips = [];
   }
 
   dragGrip(event: Paper.MouseEvent, gripItem: Paper.Item) {
     gripItem.position = event.point;
+    if (this._item) {
+      console.log("dragGrip Arc:", this._item.id);
+    }
 
     if (this._item) {
       const angle = event.point.subtract(this.center).angle;

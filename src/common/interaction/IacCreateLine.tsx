@@ -14,11 +14,11 @@ interface IProps {
   dispatch: Function;
 }
 
-class IacLine extends React.Component<IProps> {
+class IacCreateLine extends React.Component<IProps> {
   private unsubscribeFn: Function[] = [];
   private firstPoint: Paper.Point = new Paper.Point(0, 0);
-  private line: Paper.Path | null = null;
-  // private newItem: Paper.Item = new Paper.Item();
+  private line: GraphicLine | null = null;
+  private item: Paper.Item = new Paper.Item();
 
   componentDidMount() {
     this.unsubscribeFn.push(
@@ -40,6 +40,7 @@ class IacLine extends React.Component<IProps> {
     this.firstPoint = event.point;
     this.createLine(this.firstPoint);
   };
+
   onMouseUp = (type: AppEventType, event: Paper.MouseEvent) => {
     if (!this.line) {
       throw new Error("line missing");
@@ -57,12 +58,15 @@ class IacLine extends React.Component<IProps> {
   };
 
   private createLine(p2: Paper.Point) {
-    if (this.line) {
-      this.line.remove();
+    if (!this.line) {
+      this.line = new GraphicLine(this.firstPoint, p2);
+      this.line.color = configuration.defaultStrokeColor;
+      this.item = this.line.paperDraw();
+    } else {
+      this.line.p2 = p2;
+      this.item.remove();
+      this.item = this.line.paperDraw();
     }
-    this.line = new Paper.Path.Line(this.firstPoint, p2);
-    this.line.name = ItemName.itemLine;
-    this.line.strokeColor = configuration.defaultStrokeColor;
   }
 
   private async saveLine() {
@@ -70,9 +74,8 @@ class IacLine extends React.Component<IProps> {
       throw new Error("line missing");
     }
 
-    const paperPlacement = new PaperPlacement(this.line);
     await this.props.dispatch(
-      createElementAction("placement", paperPlacement),
+      createElementAction("placement", this.line),
     );
   }
 
@@ -81,4 +84,4 @@ class IacLine extends React.Component<IProps> {
   }
 }
 
-export default connect()(IacLine);
+export default connect()(IacCreateLine);

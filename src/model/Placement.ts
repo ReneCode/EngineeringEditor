@@ -7,6 +7,7 @@ import Paper from "paper";
 import { encodeJson, DtoPlacement } from "./dtoUtil";
 import Box from "../common/box";
 import GraphicGrip from "./graphic/GraphicGrip";
+import Grip from "./graphic/Grip";
 
 export type DrawOptions = {
   mode?: "selected" | "temp";
@@ -21,6 +22,9 @@ class Placement {
   color: string | undefined;
   fill: string | undefined;
   layer: LayerType = undefined;
+
+  protected _grips: Grip[] = [];
+  protected _item: Paper.Item | null = null;
 
   constructor(type: GraphicType) {
     this.type = type;
@@ -39,14 +43,20 @@ class Placement {
     };
   }
 
-  toJsonContent(): string | null {
-    return null;
+  toJsonContent(): string {
+    return this.asJSON();
   }
-  // TODO  do not use that construct to overwrite
-  // that function in PaperPlacement
-  // change it as done in: toJsonContent()
+
   getPaperItem(): Paper.Item | null {
-    return null;
+    return this._item;
+  }
+
+  setSelected(on: boolean) {
+    console.log("select:", on, this.id);
+
+    if (this._item) {
+      this._item.selected = on;
+    }
   }
 
   paperDraw(): Paper.Item | null {
@@ -66,6 +76,8 @@ class Placement {
   ) {
     throw new Error("draw has to be overwritten by:" + this);
   }
+
+  dragGrip(event: Paper.MouseEvent, gripItem: Paper.Item) {}
 
   getGrips(): GraphicGrip[] {
     return [];

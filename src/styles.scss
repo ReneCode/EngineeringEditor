@@ -118,6 +118,9 @@ nav.menu .text {
   height: 25px;
   display: flex;
   flex-direction: row;
+  div {
+    margin-right: 10px;
+  }
 }
 
 .middle-content {

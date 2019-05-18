@@ -3,8 +3,12 @@ import React from "react";
 import Paper from "paper";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 import { AppEventType } from "../../common/Event/AppEventType";
+import { IGlobalState } from "../../reducers";
+import { connect } from "react-redux";
 
-interface IProps {}
+interface IProps {
+  selectedPaperItems: Paper.Item[];
+}
 
 class Statusbar extends React.Component<IProps> {
   private unsubscribeFn: Function[] = [];
@@ -52,9 +56,23 @@ class Statusbar extends React.Component<IProps> {
         <div>
           x:{this.state.cursor.x} y:{this.state.cursor.y}
         </div>
+        <div>selected items:</div>
+        {this.props.selectedPaperItems.map((item, idx) => {
+          return (
+            <div key={idx}>
+              {item.id}/{item.data}
+            </div>
+          );
+        })}
       </div>
     );
   }
 }
 
-export default Statusbar;
+const mapStateToProps = (state: IGlobalState) => {
+  return {
+    selectedPaperItems: state.graphic.selectedPaperItems,
+  };
+};
+
+export default connect(mapStateToProps)(Statusbar);

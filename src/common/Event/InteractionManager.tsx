@@ -9,19 +9,22 @@ interface IProps {}
 class InteractionManager extends Component<IProps> {
   unsubscribeFn: any;
   state = {
-    interactionNames: [
-      "DrawCanvas",
-      "UndoRedo",
-      "SnapGrid",
-      "Delete",
-      "ZoomInOut",
-      "SelectAll",
-      "EditItem",
-      // "Move",
-      "SelectPaperItem",
-      "HoverItem",
-    ],
+    interactionNames: [],
   };
+
+  fixInteractionNames = [
+    "DrawCanvas",
+    "UndoRedo",
+    "SnapGrid",
+    "Delete",
+    "ZoomInOut",
+    // "SelectAll",
+    // "Move",
+    // "EditItem",
+    "EditGrips",
+    "SelectPaperItem",
+    "HoverItem",
+  ];
 
   componentWillMount() {
     this.unsubscribeFn = appEventDispatcher.subscribe(
@@ -66,6 +69,9 @@ class InteractionManager extends Component<IProps> {
   render() {
     return (
       <React.Fragment>
+        {this.fixInteractionNames.map(name => {
+          return InteractionFactory.create(name);
+        })}
         {this.state.interactionNames.map(name => {
           return InteractionFactory.create(name);
         })}

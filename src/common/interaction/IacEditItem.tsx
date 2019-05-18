@@ -150,7 +150,7 @@ class IacEditItem extends React.Component<IProps> {
     }
     this.item = copyItem;
     this.placement = copyPlacement;
-    this.placement.showGrips();
+    // this.placement.showGrips();
   };
 
   private getPlacementById(id: string): Placement | undefined {

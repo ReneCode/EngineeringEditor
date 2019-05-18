@@ -5,7 +5,6 @@ import IacSnapGrid from "../interaction/IacSnapGrid";
 import IacRectangle from "../interaction/IacRectangle";
 import IacDelete from "../interaction/IacDelete";
 import IacZoomInOut from "../interaction/IacZoomInOut";
-import IacLine from "../interaction/IacLine";
 import IacIdle from "../interaction/IacIdle";
 import IacSelectPaperItem from "../interaction/IacSelectPaperItem";
 import IacDrawCanvas from "../interaction/IacDrawCanvas";
@@ -14,6 +13,8 @@ import IacCreateArc from "../interaction/IacCreateArc";
 import IacEditItem from "../interaction/IacEditItem";
 import IacHoverItem from "../interaction/IacHoverItem";
 import IacMove from "../interaction/IacMove";
+import IacCreateLine from "../interaction/IacCreateLine";
+import IacEditGrips from "../interaction/IacEditGrips";
 
 class InteractionFactory {
   static create(name: string): JSX.Element {
@@ -32,10 +33,10 @@ class InteractionFactory {
         break;
       case "SelectAll":
         return <IacSelectAll {...props} />;
-
+      case "EditGrips":
+        return <IacEditGrips {...props} />;
       case "SelectPaperItem":
         return <IacSelectPaperItem {...props} />;
-        break;
       // case "Zoom":
       //   interaction = new InteractionZoom(context);
       //   break;
@@ -45,7 +46,7 @@ class InteractionFactory {
       case "CreateArc":
         return <IacCreateArc {...props} />;
       case "Line":
-        return <IacLine {...props} />;
+        return <IacCreateLine {...props} />;
       case "Circle":
         return <IacCircle {...props} />;
       case "Rectangle":
