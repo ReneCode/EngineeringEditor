@@ -8,40 +8,44 @@ fixed - selected item in shown on top - even if it is below other items
 
 # TODO
 
-- Arc. Set Start/End angle
-- cmd-A select all
-- cmd-C cmd-V copy paste
-- check undo/redo (setMetaData on PaperPlacement)
+- create item in frontEnd - to not wait for backend
+- switch to id => selectedPlacementIds (no selectedPaperItems, no selectedItems)
 
-- ok - zoom in/out
-- ok - Zoom in +/- get center from cursor
-- ok - ONE resize-box
-- ok- delete
+* no redraw after saving to backend
 
-- handles of the resizeBox has fixed size - independent on zoom.
-- resize without keepRatio on Rectangle
-- change z-index for items (to background/foreground)
-- create metaData on a new drawn placement
+* cmd-A select all
+* cmd-C cmd-V copy paste
+* check undo/redo (setMetaData on PaperPlacement)
 
-* multi-selection expands the resize-box
-* resize of that box resizes the items inside
-* with SHIFT the with-height ratio is fixed on resizing the box
+* ok - Arc. Set Start/End angle
+* ok - zoom in/out
+* ok - Zoom in +/- get center from cursor
+* ok - ONE resize-box
+* ok - delete
+* ok - hover-color on resize-handle
+
+* handles of the resizeBox has fixed size - independent on zoom.
+* resize without keepRatio on Rectangle
+* change z-index for items (to background/foreground)
+* create metaData on a new drawn placement
+
+- multi-selection expands the resize-box
+- resize of that box resizes the items inside
+- with SHIFT the with-height ratio is fixed on resizing the box
   (- with ctrl the center of the resize-box will be fixed)
 
-* no separate interactions.
+- no separate interactions.
   handleMouse... on the component where it starts.
-* redraw after store.items change
-* undo -> dispatch(setSelection) with last changed item
+- redraw after store.items change
+- undo -> dispatch(setSelection) with last changed item
 
-- Undo / Redo: after Undo/Redo select the "undo-ed" items
+* Undo / Redo: after Undo/Redo select the "undo-ed" items
   remove the current selection
 
-- Undo => changes the items in the state => no more subscription on redux-store.
+* Undo => changes the items in the state => no more subscription on redux-store.
   update the view on the changed placements. (do not use redux-store)
 
-- do not move the resize-box
-
-- hover-color on resize-handle
+* do not move the resize-box
 
 ## State machine
 

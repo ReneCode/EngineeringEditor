@@ -162,6 +162,7 @@ const updatePlacements = (state: IGraphicState, action: any) => {
     // no changes
     newSelectedItems = selectedItems;
   }
+
   // console.log("UPDATE placement");
   return {
     ...state,
@@ -176,7 +177,7 @@ const updatePlacements = (state: IGraphicState, action: any) => {
       }
     }),
     selectedItems: newSelectedItems,
-    selectedPaperItems: [],
+    selectedPaperItems: newSelectedItems.map(p => p.getPaperItem()),
   };
 };
 
@@ -191,7 +192,27 @@ const deleteLayer = (state: IGraphicState, action: any) => {
   return deletePlacement(state, { payload: itemsToDelete });
 };
 
-const graphicReducer = (state = initialState, action: any) => {
+const setSelectedPaperItems = (
+  state: IGraphicState,
+  action: IAction,
+) => {
+  // const paperItems: Paper.Item[] = action.payload;
+  // const selectedPlacements = state.items.filter(p => {
+  //   const id = p.id;
+  //   const pi = paperItems.find(i => i.data == id);
+  //   if (pi) {
+  //     return true;
+  //   }
+  //   return false;
+  // });
+  return {
+    ...state,
+    selectedPaperItems: action.payload,
+    // selectedItems: selectedPlacements,
+  };
+};
+
+const graphicReducer = (state = initialState, action: IAction) => {
   switch (action.type) {
     case actionTypes.USE_GRID: {
       return {
@@ -284,10 +305,7 @@ const graphicReducer = (state = initialState, action: any) => {
 
     case actionTypes.SET_SELECTED_PAPER_ITEMS:
       // console.log("change selected paper items");
-      return {
-        ...state,
-        selectedPaperItems: action.payload,
-      };
+      return setSelectedPaperItems(state, action);
 
     default:
       return state;

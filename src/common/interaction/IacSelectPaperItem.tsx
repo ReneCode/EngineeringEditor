@@ -1,16 +1,21 @@
 import React from "react";
 import Paper from "paper";
-import { setSelectedPaperItems } from "../../actions/graphicActions";
+import {
+  setSelectedPaperItems,
+  setSelectedItemAction,
+} from "../../actions/graphicActions";
 import { connect } from "react-redux";
 import { IGlobalState } from "../../reducers";
 import appEventDispatcher from "../Event/AppEventDispatcher";
 import { AppEventType } from "../Event/AppEventType";
 import PaperUtil from "../../utils/PaperUtil";
 import { ItemName } from "../ItemMetaData";
+import Placement from "../../model/Placement";
 
 interface IProps {
   dispatch: Function;
   selectedPaperItems: Paper.Item[];
+  items: Placement[];
 }
 
 class IacSelectPaperItem extends React.Component<IProps> {
@@ -28,6 +33,7 @@ class IacSelectPaperItem extends React.Component<IProps> {
 
   onMouseDown = (type: AppEventType, event: Paper.MouseEvent) => {
     let newSelectedPaperItems: Paper.Item[] = [];
+    let newSelectedPlacements: Placement[] = [];
     const result = PaperUtil.hitTest(event.point);
     if (result) {
       const item = PaperUtil.getHitTestItem(result, ItemName.itemAny);
@@ -45,6 +51,8 @@ class IacSelectPaperItem extends React.Component<IProps> {
         return;
       }
 
+      console.log("items:", item.data);
+
       const append = event.modifiers.shift;
       if (append) {
         newSelectedPaperItems = [
@@ -54,8 +62,18 @@ class IacSelectPaperItem extends React.Component<IProps> {
       } else {
         newSelectedPaperItems.push(item);
       }
+
+      newSelectedPlacements = this.props.items.filter(placement => {
+        const id = placement.id;
+        if (newSelectedPaperItems.find(i => i.data === id)) {
+          return true;
+        } else {
+          return false;
+        }
+      });
     }
     this.props.dispatch(setSelectedPaperItems(newSelectedPaperItems));
+    this.props.dispatch(setSelectedItemAction(newSelectedPlacements));
   };
 
   render() {
@@ -66,6 +84,7 @@ class IacSelectPaperItem extends React.Component<IProps> {
 const mapStateToProps = (state: IGlobalState) => {
   return {
     selectedPaperItems: state.graphic.selectedPaperItems,
+    items: state.graphic.items,
   };
 };
 

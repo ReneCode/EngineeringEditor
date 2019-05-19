@@ -9,6 +9,10 @@ import Point from "../point";
 import { createElementAction } from "../../actions/changeElementActions";
 import PaperPlacement from "../../model/graphic/PaperPlacement";
 import { ItemName } from "../ItemMetaData";
+import {
+  setSelectedItemAction,
+  setSelectedPaperItems,
+} from "../../actions/graphicActions";
 
 interface IProps {
   dispatch: Function;
@@ -83,6 +87,8 @@ class IacCreateLine extends React.Component<IProps> {
     await this.props.dispatch(
       createElementAction("placement", this.line),
     );
+
+    // await this.props.dispatch(setSelectedItemAction(this.line));
   }
 
   render() {

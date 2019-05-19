@@ -15,6 +15,7 @@ import deepClone from "../deepClone";
 interface IProps {
   dispatch: Function;
   selectedPaperItems: Paper.Item[];
+  selectedItems: Placement[];
   items: Placement[];
 }
 
@@ -41,27 +42,36 @@ class IacEditItem extends React.Component<IProps> {
     this.unsubscribeFn.forEach(fn => fn());
   }
 
-  componentWillUpdate(newProps: IProps) {
+  componentDidUpdate(prevProps: IProps) {
     if (
-      newProps.selectedPaperItems !== this.props.selectedPaperItems
+      prevProps.selectedPaperItems !== this.props.selectedPaperItems
     ) {
       // de-select prev item
-      if (this.props.selectedPaperItems.length > 0) {
-        const oldItem = this.props.selectedPaperItems[0];
+      if (prevProps.selectedPaperItems.length > 0) {
+        const oldItem = prevProps.selectedPaperItems[0];
         const oldPlacement = this.getPlacementById(oldItem.data);
         if (oldPlacement) {
           oldPlacement.setSelected(false);
         }
       }
       this.selectedPlacement = null;
-      if (newProps.selectedPaperItems.length > 0) {
+      if (this.props.selectedPaperItems.length > 0) {
         // select new item
-        const newItem = newProps.selectedPaperItems[0];
+        const newItem = this.props.selectedPaperItems[0];
         const newPlacement = this.getPlacementById(newItem.data);
         if (newPlacement) {
           this.selectedPlacement = newPlacement;
           newPlacement.setSelected(true);
         }
+      }
+    }
+
+    if (prevProps.selectedItems !== this.props.selectedItems) {
+      this.selectedPlacement = null;
+      if (this.props.selectedItems.length > 0) {
+        const item = this.props.selectedItems[0];
+        this.selectedPlacement = item;
+        item.setSelected(true);
       }
     }
   }
@@ -174,6 +184,7 @@ class IacEditItem extends React.Component<IProps> {
 const mapStateToProps = (state: IGlobalState) => {
   return {
     selectedPaperItems: state.graphic.selectedPaperItems,
+    selectedItems: state.graphic.selectedItems,
     items: state.graphic.items,
   };
 };

@@ -5,9 +5,11 @@ import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 import { AppEventType } from "../../common/Event/AppEventType";
 import { IGlobalState } from "../../reducers";
 import { connect } from "react-redux";
+import Placement from "../../model/Placement";
 
 interface IProps {
   selectedPaperItems: Paper.Item[];
+  selectedItems: Placement[];
 }
 
 class Statusbar extends React.Component<IProps> {
@@ -56,13 +58,17 @@ class Statusbar extends React.Component<IProps> {
         <div>
           x:{this.state.cursor.x} y:{this.state.cursor.y}
         </div>
-        <div>selected items:</div>
+        <div> items:</div>
         {this.props.selectedPaperItems.map((item, idx) => {
           return (
             <div key={idx}>
               {item.id}/{item.data}
             </div>
           );
+        })}
+        <div> placements:</div>
+        {this.props.selectedItems.map((p, idx) => {
+          return <div key={idx}>{p.id}</div>;
         })}
       </div>
     );
@@ -72,6 +78,7 @@ class Statusbar extends React.Component<IProps> {
 const mapStateToProps = (state: IGlobalState) => {
   return {
     selectedPaperItems: state.graphic.selectedPaperItems,
+    selectedItems: state.graphic.selectedItems,
   };
 };
 
