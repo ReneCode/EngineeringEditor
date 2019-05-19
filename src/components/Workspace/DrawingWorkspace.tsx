@@ -2,24 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import * as actions from "../../actions";
-import {
-  IA_SELECT,
-  IA_CREATE_CIRCLE,
-  IA_CREATE_LINE,
-  IA_ZOOM_WINDOW,
-  IA_DELETE_ITEM,
-  IA_CREATE_SYMBOL,
-  IA_CREATE_POLYGON,
-  IA_CREATE_CONNECTION_POINT,
-  IA_CREATE_TEXT,
-} from "../../actions/interactionTypes";
 import { zoomFullAction } from "../../actions/zoomFull";
 import { undoAction, redoAction } from "../../actions/undoRedo";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
-import InteractionBase from "../../common/interaction/InteractionBase";
-import InteractionSelect from "../../common/interaction/InteractionSelect";
-import InteractionZoom from "../../common/interaction/InteractionZoom";
-import InteractionLine from "../../common/interaction/InteractionLine";
 
 interface IProps {
   dispatch: Function;
@@ -85,7 +70,7 @@ class DrawingWorkspace extends Component<IProps> {
         </button>
         <button
           className="button"
-          onClick={() => this.startInteraction("Line")}>
+          onClick={() => this.startInteraction("CreateLine")}>
           Line
         </button>
         <button

@@ -45,6 +45,12 @@ class IacCreateLine extends React.Component<IProps> {
     if (!this.line) {
       throw new Error("line missing");
     }
+
+    if (this.firstPoint.equals(event.point)) {
+      appEventDispatcher.dispatch("stopInteraction");
+      return;
+    }
+
     this.createLine(event.point);
     this.saveLine();
     this.line = null;

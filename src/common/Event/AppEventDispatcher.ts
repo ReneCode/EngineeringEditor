@@ -29,7 +29,7 @@ class AppEventDispatcher {
   }
 
   dispatch(type: AppEventType, payload: any = undefined) {
-    // console.log(":dispatch:", type);
+    console.log(":dispatch:", type, payload);
     for (let eh of this.eventHandlers) {
       try {
         if (eh.type === type) {

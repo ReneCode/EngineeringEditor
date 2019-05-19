@@ -7,9 +7,10 @@ import InteractionFactory from "./InteractionFactory";
 interface IProps {}
 
 class InteractionManager extends Component<IProps> {
-  unsubscribeFn: any;
+  unsubscribeFn: Function[] = [];
   state = {
-    interactionNames: [],
+    interactionName: "",
+    idle: true,
   };
 
   fixInteractionNames = [
@@ -18,62 +19,64 @@ class InteractionManager extends Component<IProps> {
     "SnapGrid",
     "Delete",
     "ZoomInOut",
-    // "SelectAll",
-    // "Move",
-    "EditItem",
-    "SelectPaperItem",
-    "HoverItem",
   ];
 
+  idleInteractionNames = ["EditItem", "SelectPaperItem", "HoverItem"];
+
   componentWillMount() {
-    this.unsubscribeFn = appEventDispatcher.subscribe(
-      "startInteraction",
-      this.startInteraction,
+    this.unsubscribeFn.push(
+      appEventDispatcher.subscribe(
+        "stopInteraction",
+        this.stopInteraction,
+      ),
     );
 
-    appEventDispatcher.dispatch("startInteraction", {
-      name: "Idle",
-      replace: false,
-    });
+    this.unsubscribeFn.push(
+      appEventDispatcher.subscribe(
+        "startInteraction",
+        this.startInteraction,
+      ),
+    );
+
+    appEventDispatcher.dispatch("stopInteraction");
   }
 
   componentWillUnmount() {
-    this.unsubscribeFn();
+    this.unsubscribeFn.forEach(fn => fn());
   }
 
   startInteraction = (type: AppEventType, payload: any) => {
-    let name: string;
-    let replace = true;
-    if ("string" === typeof payload) {
-      name = payload;
-    } else {
-      name = payload.name;
-      replace = payload.replace;
-    }
-    let newNames: string[] = [];
-    if (!replace) {
-      newNames = this.state.interactionNames;
-    } else {
-      newNames = this.state.interactionNames.slice(
-        0,
-        this.state.interactionNames.length - 1,
-      );
-    }
-    newNames.push(name);
     this.setState({
-      interactionNames: newNames,
+      interactionName: payload,
+      idle: false,
+    });
+  };
+
+  stopInteraction = (type: AppEventType, payload: any) => {
+    this.setState({
+      interactionName: "Idle",
+      idle: true,
     });
   };
 
   render() {
+    let currentInteraction;
+    if (this.state.interactionName) {
+      currentInteraction = InteractionFactory.create(
+        this.state.interactionName,
+      );
+    }
     return (
       <React.Fragment>
+        {this.state.idle &&
+          this.idleInteractionNames.map(name => {
+            return InteractionFactory.create(name);
+          })}
+
         {this.fixInteractionNames.map(name => {
           return InteractionFactory.create(name);
         })}
-        {this.state.interactionNames.map(name => {
-          return InteractionFactory.create(name);
-        })}
+        {currentInteraction}
       </React.Fragment>
     );
   }

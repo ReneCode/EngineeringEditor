@@ -40,6 +40,12 @@ class IacCreateArc extends React.Component<IProps> {
     if (!this.arc) {
       throw new Error("arc missing");
     }
+
+    if (this.firstPoint.equals(event.point)) {
+      appEventDispatcher.dispatch("stopInteraction");
+      return;
+    }
+
     this.createArc(event.point);
     this.saveArc();
     this.arc = null;

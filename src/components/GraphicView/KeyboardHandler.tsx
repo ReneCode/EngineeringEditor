@@ -54,6 +54,7 @@ class KeybaordHandler extends React.Component {
       case "Backspace":
         appEventDispatcher.dispatch("delete");
         event.preventDefault();
+        break;
 
       case "a":
       case "A":
@@ -61,6 +62,17 @@ class KeybaordHandler extends React.Component {
           appEventDispatcher.dispatch("selectAll");
           event.preventDefault();
         }
+        break;
+
+      case "l":
+      case "L":
+        appEventDispatcher.dispatch("startInteraction", "CreateLine");
+        break;
+
+      case "o":
+      case "O":
+        appEventDispatcher.dispatch("startInteraction", "CreateArc");
+        break;
     }
   };
 

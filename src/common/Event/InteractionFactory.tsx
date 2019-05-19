@@ -42,7 +42,7 @@ class InteractionFactory {
       //   break;
       case "CreateArc":
         return <IacCreateArc {...props} />;
-      case "Line":
+      case "CreateLine":
         return <IacCreateLine {...props} />;
       case "Circle":
         return <IacCircle {...props} />;
