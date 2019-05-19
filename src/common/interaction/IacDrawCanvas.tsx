@@ -11,7 +11,7 @@ interface IProps {
 class IacDrawCanvas extends React.Component<IProps> {
   componentDidUpdate(prevProps: any, prevState: any) {
     if (prevProps.items !== this.props.items) {
-      console.log("draw canvas", this.props.items.length);
+      // console.log("draw canvas", this.props.items.length);
       this.drawCanvas(Paper.project, this.props.items);
     }
   }

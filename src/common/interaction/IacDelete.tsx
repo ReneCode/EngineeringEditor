@@ -28,7 +28,6 @@ class IacDelete extends React.Component<IProps> {
   }
 
   onDelete = () => {
-    console.log("delete:", this.props.selectedPaperItems);
     const placements = this.props.selectedPaperItems.map(item => {
       const data = item.data;
       if (data && data.placement) {
