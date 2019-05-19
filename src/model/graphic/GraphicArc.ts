@@ -42,22 +42,8 @@ class GraphicArc extends Placement {
     if (this.fullCircle) {
       item = new Paper.Path.Circle(this.center, this.radius);
     } else {
-      // start = three o'clock
-      const startAngle = this.startAngle;
-      const endAngle = this.endAngle;
-
-      const start = this.center.add(new Paper.Point(this.radius, 0));
-      const from = start.rotate(startAngle, this.center);
-      const to = start.rotate(endAngle, this.center);
-      let deltaAngle = 0;
-      if (startAngle > endAngle) {
-        deltaAngle = 180;
-      }
-      const through = start.rotate(
-        startAngle + deltaAngle + (endAngle - startAngle) / 2,
-        this.center,
-      );
-      item = new Paper.Path.Arc(from, through, to);
+      const pts = this.calcPoints();
+      item = new Paper.Path.Arc(pts.from, pts.through, pts.to);
     }
     item.data = this.id;
     item.name = ItemName.itemArc;
@@ -72,17 +58,12 @@ class GraphicArc extends Placement {
 
   setSelected(on: boolean) {
     if (on) {
-      const ptStart = this.center
-        .add(new Paper.Point(this.radius, 0))
-        .rotate(this.startAngle, this.center);
-      const gripStart = PaperUtil.createGrip(ptStart, 1);
-
-      const ptEnd = this.center
-        .add(new Paper.Point(this.radius, 0))
-        .rotate(this.endAngle, this.center);
-      const gripEnd = PaperUtil.createGrip(ptEnd, 2);
-
-      this._grips = [gripStart, gripEnd];
+      const pts = this.calcPoints();
+      this._grips = [
+        PaperUtil.createGrip(pts.from, 1),
+        PaperUtil.createGrip(pts.to, 2),
+        PaperUtil.createGrip(pts.through, 3, "rect"),
+      ];
     } else {
       this._grips.forEach(g => g.remove());
     }
@@ -97,23 +78,32 @@ class GraphicArc extends Placement {
     gripItem.position = event.point;
 
     if (this._item) {
-      const angle = event.point.subtract(this.center).angle;
-      const ptOnArc = this.center
-        .add(new Paper.Point(this.radius, 0))
-        .rotate(angle, this.center);
-      gripItem.position = ptOnArc;
       switch (gripItem.data) {
         case 1:
-          this.startAngle = angle;
-          break;
         case 2:
-          this.endAngle = angle;
+          this.fullCircle = false;
+
+          const angle = event.point.subtract(this.center).angle;
+          const ptOnArc = this.center
+            .add(new Paper.Point(this.radius, 0))
+            .rotate(angle, this.center);
+          gripItem.position = ptOnArc;
+          if (gripItem.data == 1) {
+            this.startAngle = angle;
+          } else {
+            this.endAngle = angle;
+          }
           break;
+        case 3:
+          // const { through } = this.calcPoints();
+          const newRadius = event.point.subtract(this.center).length;
+          this.radius = newRadius;
+          break;
+
         default:
           throw new Error(`bad index: ${gripItem.data}`);
       }
 
-      this.fullCircle = false;
       this.paperDraw();
     }
   }
@@ -139,6 +129,34 @@ class GraphicArc extends Placement {
     );
     arc.radius = rectangle.width / 2;
     return arc;
+  }
+
+  private calcPoints(): {
+    from: Paper.Point;
+    to: Paper.Point;
+    through: Paper.Point;
+  } {
+    const startAngle = this.startAngle;
+    const endAngle = this.endAngle;
+    // start = three o'clock
+    const start = this.center.add(new Paper.Point(this.radius, 0));
+    const from = start.rotate(startAngle, this.center);
+    const to = start.rotate(endAngle, this.center);
+    let deltaAngle = 0;
+    if (startAngle > endAngle) {
+      deltaAngle = 180;
+    }
+
+    let through: Paper.Point;
+    if (this.fullCircle) {
+      through = start.rotate(180, this.center);
+    } else {
+      through = start.rotate(
+        startAngle + deltaAngle + (endAngle - startAngle) / 2,
+        this.center,
+      );
+    }
+    return { from, to, through };
   }
   /*
   updateFromHandles(handles: Paper.Item[]): Placement {

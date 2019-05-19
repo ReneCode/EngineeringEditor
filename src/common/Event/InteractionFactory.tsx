@@ -10,7 +10,6 @@ import IacSelectPaperItem from "../interaction/IacSelectPaperItem";
 import IacDrawCanvas from "../interaction/IacDrawCanvas";
 import IacSelectAll from "../interaction/IacSelectAll";
 import IacCreateArc from "../interaction/IacCreateArc";
-import IacEditItem from "../interaction/IacEditItem";
 import IacHoverItem from "../interaction/IacHoverItem";
 import IacMove from "../interaction/IacMove";
 import IacCreateLine from "../interaction/IacCreateLine";
@@ -24,8 +23,6 @@ class InteractionFactory {
         return <IacMove {...props} />;
       case "HoverItem":
         return <IacHoverItem {...props} />;
-      case "EditItem":
-        return <IacEditItem {...props} />;
       case "DrawCanvas":
         return <IacDrawCanvas {...props} />;
       case "Idle":

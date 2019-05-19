@@ -145,7 +145,6 @@ const updatePlacements = (state: IGraphicState, action: any) => {
   let placements: Placement[] = action.payload;
   let selectedItems = state.selectedItems;
 
-  console.log("update placement");
   // check if selectedItems are also changed
   let updateSelectedItems = false;
   let newSelectedItems = selectedItems.map(oneSelectedItem => {

@@ -57,10 +57,24 @@ class PaperUtil {
     return false;
   }
 
-  static createGrip(pt: Paper.Point, id: number): Paper.Item {
-    const radius = 5;
+  static createGrip(
+    pt: Paper.Point,
+    id: number,
+    type: "circle" | "rect" = "circle",
+  ): Paper.Item {
+    const radius = 6;
 
-    const grip = new Paper.Path.Circle(pt, radius);
+    let grip: Paper.Item;
+    if (type === "circle") {
+      grip = new Paper.Path.Circle(pt, radius);
+    } else {
+      const rect = new Paper.Rectangle(
+        pt.subtract(radius),
+        pt.add(radius),
+      );
+      grip = new Paper.Path.Rectangle(rect);
+    }
+
     grip.fillColor = configuration.gripFillColor;
     grip.strokeColor = configuration.gripStrokeColor;
     grip.name = ItemName.grip;
