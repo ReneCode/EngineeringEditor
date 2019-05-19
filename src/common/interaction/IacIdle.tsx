@@ -20,7 +20,7 @@ interface IProps {
 class IacIdle extends React.Component<IProps> {
   unsubscribeFn: Function[] = [];
   resizeBox: ResizeBox = new ResizeBox();
-  modus: null | "moving" | "resize" = null;
+  modus: null | "resize" = null;
   firstPoint: Paper.Point = new Paper.Point(0, 0);
   handleItem: Paper.Item | null = null;
   selectedPaperItemsOrginal: Paper.Item[] = [];
@@ -78,13 +78,6 @@ class IacIdle extends React.Component<IProps> {
       this.onMouseDragResize(event);
       return;
     }
-
-    // move all items
-    // this.props.selectedPaperItems.forEach(item => {
-    //   item.position = item.position.add(event.delta);
-    // });
-    // this.resizeBox.move(event.delta);
-    // this.modus = "moving";
   };
 
   onMouseUp = (type: AppEventType, event: Paper.MouseEvent) => {
@@ -97,17 +90,6 @@ class IacIdle extends React.Component<IProps> {
           throw new Error("placement not found");
         }
         return placement.fitToRect(this.resizeBox.bounds());
-      });
-    }
-
-    if (this.modus === "moving") {
-      const moveDelta = event.point.subtract(this.firstPoint);
-      placements = this.props.selectedPaperItems.map(item => {
-        const placement = this.getPlacementById(item.data);
-        if (!placement) {
-          throw new Error("placement not found");
-        }
-        return placement.translate(moveDelta);
       });
     }
 
@@ -185,5 +167,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(IacIdle);
-
-// { withRef: true }, // to get reference in GraphicView   this.ref = com.getWrappedInstance()
