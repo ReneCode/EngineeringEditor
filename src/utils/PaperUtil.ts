@@ -1,6 +1,7 @@
 import Paper from "paper";
 import { ItemName } from "../common/ItemMetaData";
 import { makeArray } from "../model/dtoUtil";
+import configuration from "../common/configuration";
 
 class PaperUtil {
   static PointAsJSON(pt: Paper.Point): any {
@@ -60,8 +61,8 @@ class PaperUtil {
     const radius = 5;
 
     const grip = new Paper.Path.Circle(pt, radius);
-    grip.fillColor = "yellow";
-    grip.strokeColor = "black";
+    grip.fillColor = configuration.gripFillColor;
+    grip.strokeColor = configuration.gripStrokeColor;
     grip.name = ItemName.grip;
     grip.data = id;
     return grip;

@@ -95,9 +95,6 @@ class GraphicArc extends Placement {
 
   dragGrip(event: Paper.MouseEvent, gripItem: Paper.Item) {
     gripItem.position = event.point;
-    if (this._item) {
-      console.log("dragGrip Arc:", this._item.id);
-    }
 
     if (this._item) {
       const angle = event.point.subtract(this.center).angle;

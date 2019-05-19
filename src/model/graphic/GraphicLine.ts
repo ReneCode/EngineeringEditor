@@ -39,9 +39,6 @@ class GraphicLine extends Placement {
   dragGrip(event: Paper.MouseEvent, gripItem: Paper.Item) {
     gripItem.position = event.point;
     if (this._item) {
-      console.log("dragGrip Line:", this._item.id);
-    }
-    if (this._item) {
       switch (gripItem.data) {
         case 1:
           this.p1 = event.point;
