@@ -10,6 +10,7 @@ fixed - selected item in shown on top - even if it is below other items
 
 - create item in frontEnd - to not wait for backend
 - switch to id => selectedPlacementIds (no selectedPaperItems, no selectedItems)
+- select id after creating Line/Arc
 
 * no redraw after saving to backend
 
