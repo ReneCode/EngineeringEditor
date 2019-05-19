@@ -20,8 +20,7 @@ class InteractionManager extends Component<IProps> {
     "ZoomInOut",
     // "SelectAll",
     // "Move",
-    // "EditItem",
-    "EditGrips",
+    "EditItem",
     "SelectPaperItem",
     "HoverItem",
   ];

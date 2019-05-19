@@ -41,14 +41,14 @@ export const setViewportAction = (
   };
 };
 
-const getGripsFromPlacements = (
-  items: Placement[],
-): GraphicGrip[] => {
-  return items.reduce((acc: GraphicGrip[], p) => {
-    const myGrips = p.getGrips();
-    return acc.concat(myGrips);
-  }, []);
-};
+// const getGripsFromPlacements = (
+//   items: Placement[],
+// ): GraphicGrip[] => {
+//   return items.reduce((acc: GraphicGrip[], p) => {
+//     const myGrips = p.getGrips();
+//     return acc.concat(myGrips);
+//   }, []);
+// };
 
 export const setSelectedItemAction = (
   items: Placement | Placement[],
@@ -90,12 +90,12 @@ export const addSelectedItemAction = (
     try {
       items = makeArray(items);
 
-      const grips = getGripsFromPlacements(items);
-      const actionAddGrips = {
-        type: actionTypes.ADD_PLACEMENT,
-        payload: grips,
-      };
-      await dispatch(actionAddGrips);
+      // const grips = getGripsFromPlacements(items);
+      // const actionAddGrips = {
+      //   type: actionTypes.ADD_PLACEMENT,
+      //   payload: grips,
+      // };
+      // await dispatch(actionAddGrips);
 
       const action = {
         type: actionTypes.ADD_SELECTED_ITEM,

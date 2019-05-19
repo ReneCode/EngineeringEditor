@@ -4,6 +4,7 @@ import Placement from "../Placement";
 import Paper from "paper";
 import { ItemName } from "../../common/ItemMetaData";
 import PaperUtil from "../../utils/PaperUtil";
+import configuration from "../../common/configuration";
 
 class GraphicArc extends Placement {
   public startAngle: number = 0;
@@ -50,40 +51,54 @@ class GraphicArc extends Placement {
     this.paperSetStyle(item);
 
     if (this._item) {
-      const ok = this._item.replaceWith(item);
+      this._item.replaceWith(item);
     }
     this._item = item;
+
     return item;
   }
 
   setSelected(on: boolean) {
+    this._selected = on;
     if (on) {
-      const pts = this.calcPoints();
-      this._grips = [
-        PaperUtil.createGrip(pts.from, 1),
-        PaperUtil.createGrip(pts.to, 2),
-        PaperUtil.createGrip(pts.through, 3, "rect"),
-      ];
+      this.drawGrips();
     } else {
-      this._grips.forEach(g => g.remove());
+      this.removeGrips();
+    }
+  }
+
+  private drawGrips(selectedGripId: number = 0) {
+    this.removeGrips();
+    const pts = this.calcPoints();
+    this._grips = [
+      PaperUtil.createGrip(pts.from, 1),
+      PaperUtil.createGrip(pts.to, 2),
+      PaperUtil.createGrip(pts.through, 3, "rect"),
+    ];
+    if (selectedGripId > 0) {
+      const selectGrip = this._grips.find(
+        g => g.data === selectedGripId,
+      );
+      if (selectGrip) {
+        selectGrip.fillColor = configuration.gripDragFillColor;
+      }
     }
   }
 
   removeGrips() {
-    this._grips.forEach(g => g.remove());
+    if (this._grips) {
+      this._grips.forEach(g => g.remove());
+    }
     this._grips = [];
   }
 
   dragGrip(event: Paper.MouseEvent, gripItem: Paper.Item) {
-    gripItem.position = event.point;
-
     if (this._item) {
+      let angle = event.point.subtract(this.center).angle;
       switch (gripItem.data) {
         case 1:
         case 2:
           this.fullCircle = false;
-
-          const angle = event.point.subtract(this.center).angle;
           const ptOnArc = this.center
             .add(new Paper.Point(this.radius, 0))
             .rotate(angle, this.center);
@@ -95,9 +110,27 @@ class GraphicArc extends Placement {
           }
           break;
         case 3:
-          // const { through } = this.calcPoints();
           const newRadius = event.point.subtract(this.center).length;
           this.radius = newRadius;
+
+          let startAngle = this.startAngle;
+          let endAngle = this.endAngle;
+
+          let swap = false;
+          if (startAngle < endAngle) {
+            if (angle < startAngle || angle > endAngle) {
+              swap = true;
+            }
+          } else {
+            if (angle > endAngle && angle < startAngle) {
+              swap = true;
+            }
+          }
+          if (swap) {
+            const tmp = this.startAngle;
+            this.startAngle = this.endAngle;
+            this.endAngle = tmp;
+          }
           break;
 
         default:
@@ -105,6 +138,16 @@ class GraphicArc extends Placement {
       }
 
       this.paperDraw();
+      this.drawGrips(gripItem.data);
+
+      if (gripItem.data === 3) {
+        const editGripItem = this._grips.find(
+          g => g.data === gripItem.data,
+        );
+        if (editGripItem) {
+          editGripItem.position = event.point;
+        }
+      }
     }
   }
 

@@ -13,7 +13,7 @@ import IacCreateArc from "../interaction/IacCreateArc";
 import IacHoverItem from "../interaction/IacHoverItem";
 import IacMove from "../interaction/IacMove";
 import IacCreateLine from "../interaction/IacCreateLine";
-import IacEditGrips from "../interaction/IacEditGrips";
+import IacEditItem from "../interaction/IacEditItem";
 
 class InteractionFactory {
   static create(name: string): JSX.Element {
@@ -30,8 +30,8 @@ class InteractionFactory {
         break;
       case "SelectAll":
         return <IacSelectAll {...props} />;
-      case "EditGrips":
-        return <IacEditGrips {...props} />;
+      case "EditItem":
+        return <IacEditItem {...props} />;
       case "SelectPaperItem":
         return <IacSelectPaperItem {...props} />;
       // case "Zoom":

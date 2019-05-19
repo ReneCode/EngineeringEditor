@@ -27,7 +27,7 @@ class Configuration {
   gripFillColor = "#ffffff";
   gripHoverStrokeColor = accentColor;
   gripHoverFillColor = accentColor;
-  gripMoveFillColor = accentColor;
+  gripDragFillColor = accentColor;
 
   defaultFillColor = "#bbdd4499";
   defaultStrokeColor = "#442244";

@@ -22,6 +22,7 @@ class Placement {
   fill: string | undefined;
   layer: LayerType = undefined;
 
+  protected _selected: boolean = false;
   protected _grips: Paper.Item[] = [];
   protected _item: Paper.Item | null = null;
 
@@ -80,8 +81,8 @@ class Placement {
 
   dragItem(event: Paper.MouseEvent, item: Paper.Item) {}
 
-  getGrips(): GraphicGrip[] {
-    return [];
+  getGrips(): Paper.Item[] {
+    return this._grips;
   }
 
   gripChanged(pt: Point, payload: any): Placement {

@@ -3,6 +3,7 @@ import Placement from "../Placement";
 import Paper from "paper";
 import PaperUtil from "../../utils/PaperUtil";
 import { ItemName } from "../../common/ItemMetaData";
+import configuration from "../../common/configuration";
 
 class GraphicLine extends Placement {
   constructor(public p1: Paper.Point, public p2: Paper.Point) {
@@ -27,15 +28,34 @@ class GraphicLine extends Placement {
 
   setSelected(on: boolean) {
     if (on) {
-      this._grips = [
-        PaperUtil.createGrip(this.p1, 1),
-        PaperUtil.createGrip(this.p2, 2),
-      ];
+      this.drawGrips();
     } else {
-      this._grips.forEach(g => g.remove());
+      this.removeGrips();
     }
   }
 
+  private drawGrips(selectedGripId: number = 0) {
+    this.removeGrips();
+    this._grips = [
+      PaperUtil.createGrip(this.p1, 1),
+      PaperUtil.createGrip(this.p2, 2),
+    ];
+    if (selectedGripId > 0) {
+      const selectGrip = this._grips.find(
+        g => g.data === selectedGripId,
+      );
+      if (selectGrip) {
+        selectGrip.fillColor = configuration.gripDragFillColor;
+      }
+    }
+  }
+
+  private removeGrips() {
+    if (this._grips) {
+      this._grips.forEach(g => g.remove());
+    }
+    this._grips = [];
+  }
   dragGrip(event: Paper.MouseEvent, gripItem: Paper.Item) {
     gripItem.position = event.point;
     if (this._item) {
@@ -50,6 +70,7 @@ class GraphicLine extends Placement {
           throw new Error(`bad index: ${gripItem.data}`);
       }
       this.paperDraw();
+      this.drawGrips(gripItem.data);
     }
   }
 
