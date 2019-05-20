@@ -56,6 +56,7 @@ class GraphicLine extends Placement {
     }
     this._grips = [];
   }
+
   dragGrip(event: Paper.MouseEvent, gripItem: Paper.Item) {
     gripItem.position = event.point;
     if (this._item) {
@@ -79,6 +80,7 @@ class GraphicLine extends Placement {
       this.p1 = this.p1.add(event.delta);
       this.p2 = this.p2.add(event.delta);
       this.paperDraw();
+      this.drawGrips();
     }
   }
 

@@ -95,8 +95,6 @@ class IacEditItem extends React.Component<IProps> {
 
         case "item":
           this.startEdit();
-          // switch off grips during moving the item
-          this.selectedPlacement.setSelected(false);
           this.selectedPlacement.dragItem(event, this.editItem);
           return "stop";
       }

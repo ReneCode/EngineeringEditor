@@ -59,8 +59,6 @@ class GraphicArc extends Placement {
   }
 
   setSelected(on: boolean) {
-    console.log("arc selected:", on);
-    this._selected = on;
     if (on) {
       this.drawGrips();
     } else {
@@ -156,6 +154,7 @@ class GraphicArc extends Placement {
     if (this._item) {
       this.center = this.center.add(event.delta);
       this.paperDraw();
+      this.drawGrips();
     }
   }
 

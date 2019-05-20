@@ -18,83 +18,83 @@ interface IProps {
 }
 
 class IacMove extends React.Component<IProps> {
-  unsubscribeFn: Function[] = [];
-  modus: null | "moving" = null;
-  firstPoint: Paper.Point = new Paper.Point(0, 0);
-  handleItem: Paper.Item | null = null;
+  // unsubscribeFn: Function[] = [];
+  // modus: null | "moving" = null;
+  // firstPoint: Paper.Point = new Paper.Point(0, 0);
+  // handleItem: Paper.Item | null = null;
 
-  hitTestOptions: Paper.IHitTestOptions = {
-    tolerance: 4,
-    segments: true,
-    stroke: true,
-    fill: true,
-  };
+  // hitTestOptions: Paper.IHitTestOptions = {
+  //   tolerance: 4,
+  //   segments: true,
+  //   stroke: true,
+  //   fill: true,
+  // };
 
-  componentDidMount() {
-    this.unsubscribeFn.push(
-      appEventDispatcher.subscribe("mouseDrag", this.onMouseDrag),
-    );
-    this.unsubscribeFn.push(
-      appEventDispatcher.subscribe("mouseUp", this.onMouseUp),
-    );
-    this.unsubscribeFn.push(
-      appEventDispatcher.subscribe("mouseDown", this.onMouseDown),
-    );
-  }
-  componentWillUnmount() {
-    this.unsubscribeFn.forEach(fn => fn());
-  }
+  // componentDidMount() {
+  //   this.unsubscribeFn.push(
+  //     appEventDispatcher.subscribe("mouseDrag", this.onMouseDrag),
+  //   );
+  //   this.unsubscribeFn.push(
+  //     appEventDispatcher.subscribe("mouseUp", this.onMouseUp),
+  //   );
+  //   this.unsubscribeFn.push(
+  //     appEventDispatcher.subscribe("mouseDown", this.onMouseDown),
+  //   );
+  // }
+  // componentWillUnmount() {
+  //   this.unsubscribeFn.forEach(fn => fn());
+  // }
 
-  componentWillUpdate(newProps: IProps) {
-    if (
-      newProps.selectedPaperItems !== this.props.selectedPaperItems
-    ) {
-    }
-  }
+  // componentWillUpdate(newProps: IProps) {
+  //   if (
+  //     newProps.selectedPaperItems !== this.props.selectedPaperItems
+  //   ) {
+  //   }
+  // }
 
-  onMouseDown = (type: AppEventType, event: Paper.MouseEvent) => {
-    this.firstPoint = event.point;
-  };
+  // onMouseDown = (type: AppEventType, event: Paper.MouseEvent) => {
+  //   this.firstPoint = event.point;
+  // };
 
-  onMouseDrag = (type: AppEventType, event: Paper.MouseEvent) => {
-    // move all items
-    this.props.selectedPaperItems.forEach(item => {
-      item.position = item.position.add(event.delta);
-    });
-    this.modus = "moving";
-  };
+  // onMouseDrag = (type: AppEventType, event: Paper.MouseEvent) => {
+  //   // move all items
+  //   this.props.selectedPaperItems.forEach(item => {
+  //     item.position = item.position.add(event.delta);
+  //   });
+  //   this.modus = "moving";
+  // };
 
-  onMouseUp = (type: AppEventType, event: Paper.MouseEvent) => {
-    let placements: Placement[] = [];
+  // onMouseUp = (type: AppEventType, event: Paper.MouseEvent) => {
+  //   let placements: Placement[] = [];
 
-    if (this.modus === "moving") {
-      const moveDelta = event.point.subtract(this.firstPoint);
-      placements = this.props.selectedPaperItems.map(item => {
-        const placement = this.getPlacementById(item.data);
-        if (!placement) {
-          throw new Error("placement not found");
-        }
-        return placement.translate(moveDelta);
-      });
-    }
+  //   if (this.modus === "moving") {
+  //     const moveDelta = event.point.subtract(this.firstPoint);
+  //     placements = this.props.selectedPaperItems.map(item => {
+  //       const placement = this.getPlacementById(item.data);
+  //       if (!placement) {
+  //         throw new Error("placement not found");
+  //       }
+  //       return placement.translate(moveDelta);
+  //     });
+  //   }
 
-    this.modus = null;
-    this.updatePlacements(placements);
+  //   this.modus = null;
+  //   this.updatePlacements(placements);
 
-    this.handleItem = null;
-  };
+  //   this.handleItem = null;
+  // };
 
-  private async updatePlacements(placements: Placement[]) {
-    if (placements.length > 0) {
-      await this.props.dispatch(
-        updateElementAction("placement", placements),
-      );
-    }
-  }
+  // private async updatePlacements(placements: Placement[]) {
+  //   if (placements.length > 0) {
+  //     await this.props.dispatch(
+  //       updateElementAction("placement", placements),
+  //     );
+  //   }
+  // }
 
-  getPlacementById(id: string): Placement | undefined {
-    return this.props.items.find(placement => placement.id === id);
-  }
+  // getPlacementById(id: string): Placement | undefined {
+  //   return this.props.items.find(placement => placement.id === id);
+  // }
 
   render() {
     return null;

@@ -4,9 +4,7 @@ import { IdType, GraphicType, LayerType } from "./types";
 import TransformCoordinate from "../common/transformCoordinate";
 import Point from "../common/point";
 import Paper from "paper";
-import { encodeJson, DtoPlacement } from "./dtoUtil";
 import Box from "../common/box";
-import GraphicGrip from "./graphic/GraphicGrip";
 
 export type DrawOptions = {
   mode?: "selected" | "temp";
@@ -22,7 +20,6 @@ class Placement {
   fill: string | undefined;
   layer: LayerType = undefined;
 
-  protected _selected: boolean = false;
   protected _grips: Paper.Item[] = [];
   protected _item: Paper.Item | null = null;
 
