@@ -15,8 +15,6 @@ import deepClone from "../deepClone";
 interface IProps {
   dispatch: Function;
   selectedPlacementIds: string[];
-  // selectedPaperItems: Paper.Item[];
-  // selectedItems: Placement[];
   items: Placement[];
 }
 
