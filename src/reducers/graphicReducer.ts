@@ -10,6 +10,7 @@ export interface IGraphicState {
   selectedPaperItems: Paper.Item[];
   symbols: GraphicSymbol[];
   items: Placement[];
+  selectedPlacementIds: string[];
   selectedItems: Placement[];
   tempItems: Placement[];
   cursor: {
@@ -34,6 +35,7 @@ const initialState: IGraphicState = {
   selectedPaperItems: [],
   symbols: [],
   items: [],
+  selectedPlacementIds: [],
   selectedItems: [],
   tempItems: [],
   cursor: {
@@ -214,7 +216,13 @@ const setSelectedPaperItems = (
 
 const graphicReducer = (state = initialState, action: IAction) => {
   switch (action.type) {
-    case actionTypes.USE_GRID: {
+    case actionTypes.SET_SELECTED_PLACEMENT_IDS:
+      return {
+        ...state,
+        selectedPlacementIds: action.payload,
+      };
+
+    case actionTypes.USE_GRID:
       return {
         ...state,
         canvas: {
@@ -222,7 +230,6 @@ const graphicReducer = (state = initialState, action: IAction) => {
           useGrid: action.payload,
         },
       };
-    }
 
     case actionTypes.DELETE_LAYER:
       return deleteLayer(state, action);

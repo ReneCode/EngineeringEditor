@@ -3,12 +3,12 @@ import Paper from "paper";
 import { connect } from "react-redux";
 import Placement from "../../model/Placement";
 import { IGlobalState } from "../../reducers";
-import { Stats } from "fs";
 import { setSelectedPaperItems } from "../../actions/graphicActions";
 
 interface IProps {
   items: Placement[];
-  selectedItems: Placement[];
+  // selectedItems: Placement[];
+  selectedPlacementIds: string[];
   dispatch: Function;
 }
 
@@ -29,19 +29,22 @@ class IacDrawCanvas extends React.Component<IProps> {
     });
   };
 
-  setSelectedPaperItems = (items: Placement[]) => {
+  private setSelectedPaperItems = (items: Placement[]) => {
     const selectedPaperItems: Paper.Item[] = [];
     this.props.items.forEach(placement => {
       const id = placement.id;
-      const selItem = this.props.selectedItems.find(p => p.id === id);
+      const selItem = this.props.selectedPlacementIds.find(
+        i => i === id,
+      );
       if (selItem) {
-        const paperItem = placement.getPaperItem();
-        if (paperItem) {
-          selectedPaperItems.push(paperItem);
-        }
+        placement.setSelected(true);
+        // const paperItem = placement.getPaperItem();
+        // if (paperItem) {
+        //   selectedPaperItems.push(paperItem);
+        // }
       }
     });
-    this.props.dispatch(setSelectedPaperItems(selectedPaperItems));
+    // this.props.dispatch(setSelectedPaperItems(selectedPaperItems));
     // console.log("selectedItems:", this.props.selectedItems);
   };
 
@@ -58,7 +61,8 @@ const mapDispatchToProps = (dispatch: Function) => {
 const mapStateToProps = (state: IGlobalState) => {
   return {
     items: state.graphic.items,
-    selectedItems: state.graphic.selectedItems,
+    selectedPlacementIds: state.graphic.selectedPlacementIds,
+    // selectedItems: state.graphic.selectedItems,
   };
 };
 

@@ -14,8 +14,9 @@ import deepClone from "../deepClone";
 
 interface IProps {
   dispatch: Function;
-  selectedPaperItems: Paper.Item[];
-  selectedItems: Placement[];
+  selectedPlacementIds: string[];
+  // selectedPaperItems: Paper.Item[];
+  // selectedItems: Placement[];
   items: Placement[];
 }
 
@@ -44,34 +45,20 @@ class IacEditItem extends React.Component<IProps> {
 
   componentDidUpdate(prevProps: IProps) {
     if (
-      prevProps.selectedPaperItems !== this.props.selectedPaperItems
+      prevProps.selectedPlacementIds !==
+        this.props.selectedPlacementIds ||
+      prevProps.items !== this.props.items
     ) {
-      // de-select prev item
-      if (prevProps.selectedPaperItems.length > 0) {
-        const oldItem = prevProps.selectedPaperItems[0];
-        const oldPlacement = this.getPlacementById(oldItem.data);
-        if (oldPlacement) {
-          oldPlacement.setSelected(false);
-        }
-      }
       this.selectedPlacement = null;
-      if (this.props.selectedPaperItems.length > 0) {
-        // select new item
-        const newItem = this.props.selectedPaperItems[0];
-        const newPlacement = this.getPlacementById(newItem.data);
-        if (newPlacement) {
-          this.selectedPlacement = newPlacement;
-          newPlacement.setSelected(true);
-        }
-      }
-    }
 
-    if (prevProps.selectedItems !== this.props.selectedItems) {
-      this.selectedPlacement = null;
-      if (this.props.selectedItems.length > 0) {
-        const item = this.props.selectedItems[0];
-        this.selectedPlacement = item;
-        item.setSelected(true);
+      const newPlacements = this.getPlacementsById(
+        this.props.selectedPlacementIds,
+      ).filter(p => !!p);
+      if (newPlacements.length === 1) {
+        const placement = newPlacements[0];
+        if (placement) {
+          this.selectedPlacement = placement;
+        }
       }
     }
   }
@@ -148,19 +135,6 @@ class IacEditItem extends React.Component<IProps> {
         this.selectedPlacement = copyPlacement;
         this.selectedPlacement.setSelected(true);
       }
-
-      // if (this.editItem) {
-      //   // update this.editItem, because we just made a copy with new grip-items
-      //   if (this.modus == "grip") {
-      //     const gripId = this.editItem.data;
-      //     const copyGridItem = this.selectedPlacement
-      //       .getGrips()
-      //       .find(g => g.data == gripId);
-      //     if (copyGridItem) {
-      //       this.editItem = copyGridItem;
-      //     }
-      //   }
-      // }
     }
   }
 
@@ -172,8 +146,10 @@ class IacEditItem extends React.Component<IProps> {
     }
   }
 
-  getPlacementById(id: string): Placement | undefined {
-    return this.props.items.find(placement => placement.id === id);
+  getPlacementsById(ids: string[]): (Placement | undefined)[] {
+    return ids.map(id => {
+      return this.props.items.find(placement => placement.id === id);
+    });
   }
 
   render() {
@@ -183,8 +159,7 @@ class IacEditItem extends React.Component<IProps> {
 
 const mapStateToProps = (state: IGlobalState) => {
   return {
-    selectedPaperItems: state.graphic.selectedPaperItems,
-    selectedItems: state.graphic.selectedItems,
+    selectedPlacementIds: state.graphic.selectedPlacementIds,
     items: state.graphic.items,
   };
 };

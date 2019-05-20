@@ -7,6 +7,13 @@ import { deleteLayerAction } from "./placementActions";
 
 import Paper from "paper";
 
+export const setSelectedPlacementIds = (ids: string[]) => {
+  return {
+    type: actionTypes.SET_SELECTED_PLACEMENT_IDS,
+    payload: ids,
+  };
+};
+
 export const addSymbol = (symbol: GraphicSymbol) => {
   return {
     type: actionTypes.ADD_SYMBOL,

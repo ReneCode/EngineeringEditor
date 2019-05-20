@@ -59,6 +59,7 @@ class GraphicArc extends Placement {
   }
 
   setSelected(on: boolean) {
+    console.log("arc selected:", on);
     this._selected = on;
     if (on) {
       this.drawGrips();

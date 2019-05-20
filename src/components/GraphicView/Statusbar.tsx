@@ -8,8 +8,7 @@ import { connect } from "react-redux";
 import Placement from "../../model/Placement";
 
 interface IProps {
-  selectedPaperItems: Paper.Item[];
-  selectedItems: Placement[];
+  selectedPlacementIds: string[];
 }
 
 class Statusbar extends React.Component<IProps> {
@@ -58,17 +57,9 @@ class Statusbar extends React.Component<IProps> {
         <div>
           x:{this.state.cursor.x} y:{this.state.cursor.y}
         </div>
-        <div> items:</div>
-        {this.props.selectedPaperItems.map((item, idx) => {
-          return (
-            <div key={idx}>
-              {item.id}/{item.data}
-            </div>
-          );
-        })}
-        <div> placements:</div>
-        {this.props.selectedItems.map((p, idx) => {
-          return <div key={idx}>{p.id}</div>;
+        <div> selected Ids:</div>
+        {this.props.selectedPlacementIds.map((id, idx) => {
+          return <div key={idx}>{id}</div>;
         })}
       </div>
     );
@@ -77,8 +68,7 @@ class Statusbar extends React.Component<IProps> {
 
 const mapStateToProps = (state: IGlobalState) => {
   return {
-    selectedPaperItems: state.graphic.selectedPaperItems,
-    selectedItems: state.graphic.selectedItems,
+    selectedPlacementIds: state.graphic.selectedPlacementIds,
   };
 };
 

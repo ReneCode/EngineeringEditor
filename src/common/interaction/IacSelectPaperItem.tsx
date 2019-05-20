@@ -3,6 +3,7 @@ import Paper from "paper";
 import {
   setSelectedPaperItems,
   setSelectedItemAction,
+  setSelectedPlacementIds,
 } from "../../actions/graphicActions";
 import { connect } from "react-redux";
 import { IGlobalState } from "../../reducers";
@@ -14,8 +15,9 @@ import Placement from "../../model/Placement";
 
 interface IProps {
   dispatch: Function;
-  selectedPaperItems: Paper.Item[];
-  items: Placement[];
+  // selectedPaperItems: Paper.Item[];
+  selectedPlacementIds: string[];
+  // items: Placement[];
 }
 
 class IacSelectPaperItem extends React.Component<IProps> {
@@ -34,6 +36,8 @@ class IacSelectPaperItem extends React.Component<IProps> {
   onMouseDown = (type: AppEventType, event: Paper.MouseEvent) => {
     let newSelectedPaperItems: Paper.Item[] = [];
     let newSelectedPlacements: Placement[] = [];
+    let newSelectedPlacementIds: string[] = [];
+
     const result = PaperUtil.hitTest(event.point);
     if (result) {
       const item = PaperUtil.getHitTestItem(result, ItemName.itemAny);
@@ -42,38 +46,49 @@ class IacSelectPaperItem extends React.Component<IProps> {
         // other item-type selected
         return;
       }
-      if (
-        PaperUtil.includeWithSameData(
-          this.props.selectedPaperItems,
-          item,
-        )
-      ) {
-        return;
-      }
 
-      console.log("items:", item.data);
+      const id = item.data;
+      if (!id) {
+        throw new Error("item with no data (placment-id)");
+      }
 
       const append = event.modifiers.shift;
       if (append) {
-        newSelectedPaperItems = [
-          ...this.props.selectedPaperItems,
-          item,
-        ];
+        if (this.props.selectedPlacementIds.includes(id)) {
+          // allready selected
+          // remove that id
+          newSelectedPlacementIds = this.props.selectedPlacementIds.filter(
+            i => i !== id,
+          );
+          // but do not remote the last id
+          if (newSelectedPlacementIds.length === 0) {
+            newSelectedPlacementIds = [id];
+          }
+        } else {
+          newSelectedPlacementIds = [
+            ...this.props.selectedPlacementIds,
+            id,
+          ];
+        }
       } else {
-        newSelectedPaperItems.push(item);
+        newSelectedPlacementIds = [id];
       }
 
-      newSelectedPlacements = this.props.items.filter(placement => {
-        const id = placement.id;
-        if (newSelectedPaperItems.find(i => i.data === id)) {
-          return true;
-        } else {
-          return false;
-        }
-      });
+      // newSelectedPlacements = this.props.items.filter(placement => {
+      //   const id = placement.id;
+      //   if (newSelectedPaperItems.find(i => i.data === id)) {
+      //     return true;
+      //   } else {
+      //     return false;
+      //   }
+      // });
     }
-    this.props.dispatch(setSelectedPaperItems(newSelectedPaperItems));
-    this.props.dispatch(setSelectedItemAction(newSelectedPlacements));
+    // this.props.dispatch(setSelectedPaperItems(newSelectedPaperItems));
+    // this.props.dispatch(setSelectedItemAction(newSelectedPlacements));
+
+    this.props.dispatch(
+      setSelectedPlacementIds(newSelectedPlacementIds),
+    );
   };
 
   render() {
@@ -83,8 +98,9 @@ class IacSelectPaperItem extends React.Component<IProps> {
 
 const mapStateToProps = (state: IGlobalState) => {
   return {
-    selectedPaperItems: state.graphic.selectedPaperItems,
-    items: state.graphic.items,
+    // selectedPaperItems: state.graphic.selectedPaperItems,
+    selectedPlacementIds: state.graphic.selectedPlacementIds,
+    // items: state.graphic.items,
   };
 };
 

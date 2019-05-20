@@ -18,132 +18,132 @@ interface IProps {
 }
 
 class IacIdle extends React.Component<IProps> {
-  unsubscribeFn: Function[] = [];
-  resizeBox: ResizeBox = new ResizeBox();
-  modus: null | "resize" = null;
-  firstPoint: Paper.Point = new Paper.Point(0, 0);
-  handleItem: Paper.Item | null = null;
-  selectedPaperItemsOrginal: Paper.Item[] = [];
+  // unsubscribeFn: Function[] = [];
+  // resizeBox: ResizeBox = new ResizeBox();
+  // modus: null | "resize" = null;
+  // firstPoint: Paper.Point = new Paper.Point(0, 0);
+  // handleItem: Paper.Item | null = null;
+  // selectedPaperItemsOrginal: Paper.Item[] = [];
 
-  hitTestOptions: Paper.IHitTestOptions = {
-    tolerance: 4,
-    segments: true,
-    stroke: true,
-    fill: true,
-  };
+  // hitTestOptions: Paper.IHitTestOptions = {
+  //   tolerance: 4,
+  //   segments: true,
+  //   stroke: true,
+  //   fill: true,
+  // };
 
-  componentDidMount() {
-    this.unsubscribeFn.push(
-      appEventDispatcher.subscribe("mouseDrag", this.onMouseDrag),
-    );
-    this.unsubscribeFn.push(
-      appEventDispatcher.subscribe("mouseUp", this.onMouseUp),
-    );
-    this.unsubscribeFn.push(
-      appEventDispatcher.subscribe("mouseDown", this.onMouseDown),
-    );
-  }
-  componentWillUnmount() {
-    this.unsubscribeFn.forEach(fn => fn());
-  }
+  // componentDidMount() {
+  //   this.unsubscribeFn.push(
+  //     appEventDispatcher.subscribe("mouseDrag", this.onMouseDrag),
+  //   );
+  //   this.unsubscribeFn.push(
+  //     appEventDispatcher.subscribe("mouseUp", this.onMouseUp),
+  //   );
+  //   this.unsubscribeFn.push(
+  //     appEventDispatcher.subscribe("mouseDown", this.onMouseDown),
+  //   );
+  // }
+  // componentWillUnmount() {
+  //   this.unsubscribeFn.forEach(fn => fn());
+  // }
 
-  componentWillUpdate(newProps: IProps) {
-    if (
-      newProps.selectedPaperItems !== this.props.selectedPaperItems
-    ) {
-      // this.resizeBox.create(newProps.selectedPaperItems);
-    }
-  }
+  // componentWillUpdate(newProps: IProps) {
+  //   if (
+  //     newProps.selectedPaperItems !== this.props.selectedPaperItems
+  //   ) {
+  //     // this.resizeBox.create(newProps.selectedPaperItems);
+  //   }
+  // }
 
-  onMouseDown = (type: AppEventType, event: Paper.MouseEvent) => {
-    const project = Paper.project;
+  // onMouseDown = (type: AppEventType, event: Paper.MouseEvent) => {
+  //   const project = Paper.project;
 
-    const result = project.hitTest(event.point, this.hitTestOptions);
-    this.firstPoint = event.point;
+  //   const result = project.hitTest(event.point, this.hitTestOptions);
+  //   this.firstPoint = event.point;
 
-    const handleItem = this.getHitTestItem(
-      result,
-      ItemName.resizeHandle,
-    );
-    if (handleItem) {
-      this.modus = "resize";
-      this.handleItem = handleItem;
-      this.handleItem.fillColor = configuration.handleHoverColor;
-      return;
-    }
-  };
+  //   const handleItem = this.getHitTestItem(
+  //     result,
+  //     ItemName.resizeHandle,
+  //   );
+  //   if (handleItem) {
+  //     this.modus = "resize";
+  //     this.handleItem = handleItem;
+  //     this.handleItem.fillColor = configuration.handleHoverColor;
+  //     return;
+  //   }
+  // };
 
-  onMouseDrag = (type: AppEventType, event: Paper.MouseEvent) => {
-    if (this.modus == "resize") {
-      this.onMouseDragResize(event);
-      return;
-    }
-  };
+  // onMouseDrag = (type: AppEventType, event: Paper.MouseEvent) => {
+  //   if (this.modus == "resize") {
+  //     this.onMouseDragResize(event);
+  //     return;
+  //   }
+  // };
 
-  onMouseUp = (type: AppEventType, event: Paper.MouseEvent) => {
-    let placements: Placement[] = [];
+  // onMouseUp = (type: AppEventType, event: Paper.MouseEvent) => {
+  //   let placements: Placement[] = [];
 
-    if (this.modus === "resize") {
-      placements = this.props.selectedPaperItems.map(item => {
-        const placement = this.getPlacementById(item.data);
-        if (!placement) {
-          throw new Error("placement not found");
-        }
-        return placement.fitToRect(this.resizeBox.bounds());
-      });
-    }
+  //   if (this.modus === "resize") {
+  //     placements = this.props.selectedPaperItems.map(item => {
+  //       const placement = this.getPlacementById(item.data);
+  //       if (!placement) {
+  //         throw new Error("placement not found");
+  //       }
+  //       return placement.fitToRect(this.resizeBox.bounds());
+  //     });
+  //   }
 
-    this.modus = null;
-    this.updatePlacements(placements);
+  //   this.modus = null;
+  //   this.updatePlacements(placements);
 
-    this.handleItem = null;
-  };
+  //   this.handleItem = null;
+  // };
 
-  private async updatePlacements(placements: Placement[]) {
-    if (placements.length > 0) {
-      await this.props.dispatch(
-        updateElementAction("placement", placements),
-      );
-    }
-  }
+  // private async updatePlacements(placements: Placement[]) {
+  //   if (placements.length > 0) {
+  //     await this.props.dispatch(
+  //       updateElementAction("placement", placements),
+  //     );
+  //   }
+  // }
 
-  private getHitTestItem(
-    result: any,
-    itemName: string,
-  ): Paper.Item | null {
-    if (result && result.item) {
-      if (ItemName.match(itemName, result.item.name)) {
-        return result.item;
-      }
-    }
-    return null;
-  }
+  // private getHitTestItem(
+  //   result: any,
+  //   itemName: string,
+  // ): Paper.Item | null {
+  //   if (result && result.item) {
+  //     if (ItemName.match(itemName, result.item.name)) {
+  //       return result.item;
+  //     }
+  //   }
+  //   return null;
+  // }
 
-  private onMouseDragResize(event: Paper.MouseEvent) {
-    // console.log("MouseDragResize");
-    // that is the item for that handle
-    if (!this.handleItem) {
-      throw new Error("handleItem not set");
-    }
+  // private onMouseDragResize(event: Paper.MouseEvent) {
+  //   // console.log("MouseDragResize");
+  //   // that is the item for that handle
+  //   if (!this.handleItem) {
+  //     throw new Error("handleItem not set");
+  //   }
 
-    const sizeA = this.resizeBox.getStartBoundingBox();
-    const keepRatio: boolean = true; //event.modifiers.command;
-    this.resizeBox.moveHandle(
-      this.handleItem,
-      event.point,
-      keepRatio,
-    );
+  //   const sizeA = this.resizeBox.getStartBoundingBox();
+  //   const keepRatio: boolean = true; //event.modifiers.command;
+  //   this.resizeBox.moveHandle(
+  //     this.handleItem,
+  //     event.point,
+  //     keepRatio,
+  //   );
 
-    const rect = this.resizeBox.bounds();
-    // console.log(rect);
-    this.props.selectedPaperItems.forEach(i => {
-      i.fitBounds(rect);
-    });
-  }
+  //   const rect = this.resizeBox.bounds();
+  //   // console.log(rect);
+  //   this.props.selectedPaperItems.forEach(i => {
+  //     i.fitBounds(rect);
+  //   });
+  // }
 
-  getPlacementById(id: string): Placement | undefined {
-    return this.props.items.find(placement => placement.id === id);
-  }
+  // getPlacementById(id: string): Placement | undefined {
+  //   return this.props.items.find(placement => placement.id === id);
+  // }
 
   render() {
     return null;
