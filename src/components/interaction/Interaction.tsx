@@ -37,11 +37,11 @@ class Interaction extends Component<IProps> {
       canvas.addEventListener("keydown", this.onKeyDown);
     }
 
-    this.props.dispatch(
-      actions.setDoInteractionHandler(this.doInteraction),
-    );
+    // this.props.dispatch(
+    //   actions.setDoInteractionHandler(this.doInteraction),
+    // );
 
-    this.props.dispatch(actions.startInteraction(IA_SELECT));
+    // this.props.dispatch(actions.startInteraction(IA_SELECT));
   }
 
   componentWillUnmount() {
@@ -52,7 +52,7 @@ class Interaction extends Component<IProps> {
       canvas.removeEventListener("mouseup", this.onMouseUp);
       // canvas.removeEventListener("keydown", this.onKeyDown);
     }
-    this.props.dispatch(actions.setDoInteractionHandler(() => {}));
+    // this.props.dispatch(actions.setDoInteractionHandler(() => {}));
   }
 
   onKeyDown = (ev: KeyboardEvent) => {
@@ -177,22 +177,22 @@ class Interaction extends Component<IProps> {
     });
   };
 
-  doInteraction = (action: any) => {
-    // finish current promise
-    if (this.promiseResolve) {
-      this.promiseResolve(null);
-    }
-    this.promiseResolve = null;
-    this.promiseReject = null;
+  // doInteraction = (action: any) => {
+  //   // finish current promise
+  //   if (this.promiseResolve) {
+  //     this.promiseResolve(null);
+  //   }
+  //   this.promiseResolve = null;
+  //   this.promiseReject = null;
 
-    const iaConfig: IaContext = {
-      getEvent: this.getEvent,
-      getState: () => this.props.state,
-      dispatch: this.props.dispatch,
-    };
+  //   const iaConfig: IaContext = {
+  //     getEvent: this.getEvent,
+  //     getState: () => this.props.state,
+  //     dispatch: this.props.dispatch,
+  //   };
 
-    this.iaStarter.start(iaConfig, action);
-  };
+  //   this.iaStarter.start(iaConfig, action);
+  // };
 
   render() {
     return null;

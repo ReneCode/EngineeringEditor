@@ -31,26 +31,6 @@ class DrawingWorkspace extends Component<IProps> {
     this.props.dispatch(actions.showModal("selectSymbol"));
   };
 
-  startIa = (ia: string) => {
-    this.props.dispatch(actions.startInteraction(ia));
-
-    // switch (ia) {
-    //   case IA_ZOOM_WINDOW:
-    //     appEventDispatcher.dispatch({
-    //       type: "startInteraction",
-    //       payload: new IaZoom(),
-    //     });
-    //     break;
-
-    //   case IA_SELECT:
-    //     appEventDispatcher.dispatch({
-    //       type: "startInteraction",
-    //       payload: new IaSelect(),
-    //     });
-    //     break;
-    // }
-  };
-
   startInteraction = (name: string) => {
     appEventDispatcher.dispatch("startInteraction", name);
   };

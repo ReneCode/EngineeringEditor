@@ -10,17 +10,6 @@ export const setTempItem = (item: any = undefined) => {
   };
 };
 
-export const startInteraction = (iaType: string, ...args: any) => {
-  return {
-    type: actionTypes.DO_INTERACTION,
-    payload: {
-      mode: "start",
-      type: iaType,
-      args: args,
-    },
-  };
-};
-
 export const addEventHandlerAction = (
   eventType: IaEventType,
   handler: any,
@@ -58,12 +47,5 @@ export const useGrid = (useGrid: boolean) => {
   return {
     type: actionTypes.USE_GRID,
     payload: useGrid,
-  };
-};
-
-export const setDoInteractionHandler = (handler: Function) => {
-  return {
-    type: actionTypes.SET_DO_INTERACTION_HANDLER,
-    payload: handler,
   };
 };
