@@ -1,10 +1,10 @@
+import Paper from "paper";
 import * as actionTypes from "../actions/actionTypes";
 import Point from "../common/point";
 import Placement from "../model/Placement";
 import GraphicSymbol from "../model/graphic/GraphicSymbol";
 import { IAction } from "../actions/action";
 import { makeArray } from "../model/dtoUtil";
-import Paper from "paper";
 
 export interface IGraphicState {
   selectedPaperItems: Paper.Item[];
@@ -132,8 +132,17 @@ const addSelectedItem = (state: IGraphicState, action: any) => {
   };
 };
 
+const drawCanvas = (project: Paper.Project, items: Placement[]) => {
+  console.log("draw Canvas:", items.length);
+  project.activeLayer.removeChildren();
+  items.forEach(placement => {
+    placement.paperDraw();
+  });
+};
 const setPlacement = (state: IGraphicState, action: any) => {
   let newItems: Placement[] = makeArray(action.payload).map(p => p);
+
+  drawCanvas(Paper.project, newItems);
 
   // console.log("SET placement");
   return {
@@ -235,6 +244,7 @@ const graphicReducer = (state = initialState, action: IAction) => {
       return deleteLayer(state, action);
 
     case actionTypes.SET_PLACEMENT:
+      console.log("setPlacement reducers");
       return setPlacement(state, action);
 
     case actionTypes.ADD_SYMBOL:

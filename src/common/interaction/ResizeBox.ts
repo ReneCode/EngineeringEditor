@@ -3,26 +3,6 @@ import configuration from "../configuration";
 import { ItemName } from "../ItemMetaData";
 import correctP2WithRatio from "../../utils/correctP2WithRatio";
 
-// let symbolHandle: Paper.Symbol | null = null;
-
-// const createSymbolHandle = () => {
-//   const symbol = new Paper.Symbol(
-//     new Paper.Path.Rectangle(
-//       new Paper.Rectangle(
-//         new Paper.Point(
-//           (-1 * configuration.boundingBoxHandleSize) / 2,
-//           (-1 * configuration.boundingBoxHandleSize) / 2,
-//         ),
-//         new Paper.Size(
-//           configuration.boundingBoxHandleSize,
-//           configuration.boundingBoxHandleSize,
-//         ),
-//       ),
-//     ),
-//   );
-//   return symbol;
-// };
-
 class ResizeBox {
   private group: Paper.Group | null = null;
   private handles: Paper.Item[] = [];
@@ -37,12 +17,11 @@ class ResizeBox {
     }
 
     // calc bounding box
-    // const group = new Paper.Group();
-    // group.addChildren(paperItems);
-    // const bb = group.bounds;
+    const group = new Paper.Group();
+    group.addChildren(paperItems);
     // group.removeChildren();
 
-    const bbox = paperItems[0].bounds;
+    const bbox = group.bounds;
     this.ratio = bbox.width / bbox.height;
     this.startBoundingBox = bbox;
 

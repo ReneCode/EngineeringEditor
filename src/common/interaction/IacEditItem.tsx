@@ -11,6 +11,7 @@ import configuration from "../configuration";
 import { updateElementAction } from "../../actions/changeElementActions";
 import appEventDispatcher from "../Event/AppEventDispatcher";
 import deepClone from "../deepClone";
+import ResizeBox from "./ResizeBox";
 
 interface IProps {
   dispatch: Function;
@@ -24,6 +25,7 @@ class IacEditItem extends React.Component<IProps> {
   editItem: Paper.Item | null = null;
   oldFillColor: string | Paper.Color | null = null;
   editing: boolean = false;
+  resizeBox: ResizeBox = new ResizeBox();
   modus: "grip" | "item" | null = null;
 
   componentDidMount() {
@@ -69,18 +71,60 @@ class IacEditItem extends React.Component<IProps> {
     ) {
       this.selectedPlacement = null;
 
-      const newPlacements = this.getPlacementsById(
+      const oldSelectedPlacements = this.getPlacementsById(
+        prevProps.selectedPlacementIds,
+      );
+      oldSelectedPlacements.forEach(p => {
+        if (p) {
+          p.setSelected(false);
+        }
+      });
+      this.resizeBox.remove();
+
+      const newSelectedPlacements = this.getPlacementsById(
         this.props.selectedPlacementIds,
       ).filter(p => !!p);
-      if (newPlacements.length === 1) {
-        const placement = newPlacements[0];
+      if (newSelectedPlacements.length === 1) {
+        const placement = newSelectedPlacements[0];
         if (placement) {
           this.selectedPlacement = placement;
+          placement.setSelected(true);
         }
+      }
+      if (newSelectedPlacements.length > 1) {
+        const paperItems: Paper.Item[] = [];
+        newSelectedPlacements.forEach(p => {
+          if (p) {
+            const paperItem = p.getPaperItem();
+            if (paperItem) {
+              paperItems.push(paperItem);
+            }
+          }
+        });
+        this.resizeBox.create(paperItems);
+        console.log("multi-select");
       }
     }
   }
 
+  private selectPaperItems = (items: Placement[]) => {
+    const selectedPaperItems: Paper.Item[] = [];
+    const selectedPlacements = this.props.items.filter(placement => {
+      const id = placement.id;
+      return this.props.selectedPlacementIds.find(i => i === id);
+    });
+
+    if (selectedPlacements.length === 1) {
+      selectedPlacements[0].setSelected(true);
+    }
+    if (selectedPlacements.length >= 2) {
+      const paperItem = selectedPlacements[0].getPaperItem();
+      if (paperItem) {
+        const rect = new Paper.Path.Rectangle(paperItem.bounds);
+        rect.strokeColor = configuration.boundingBoxStrokeColor;
+      }
+    }
+  };
   onMouseDown = (type: AppEventType, event: Paper.MouseEvent) => {
     const result = PaperUtil.hitTest(event.point);
     if (!result) {

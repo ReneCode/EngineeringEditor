@@ -18,8 +18,12 @@ class IacDrawCanvas extends React.Component<IProps> {
   componentDidUpdate(prevProps: any, prevState: any) {
     // if (prevProps.items !== this.props.items) {
     // console.log("draw canvas", this.props.items.length);
-    this.drawCanvas(Paper.project, this.props.items);
-    this.setSelectedPaperItems(this.props.items);
+
+    // this.drawCanvas(Paper.project, this.props.items);
+
+    appEventDispatcher.dispatch("didDrawCanvas");
+
+    // this.setSelectedPaperItems(this.props.items);
     // }
   }
 
