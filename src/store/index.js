@@ -1,7 +1,6 @@
 import { createStore, applyMiddleware, compose } from "redux";
 
 import reduxThunk from "redux-thunk";
-import interactionMiddleware from "./interactionMiddleware";
 
 import reducers from "../reducers";
 
@@ -11,9 +10,7 @@ const composeEnhancers =
 
 const store = createStore(
   reducers,
-  composeEnhancers(
-    applyMiddleware(reduxThunk, interactionMiddleware),
-  ),
+  composeEnhancers(applyMiddleware(reduxThunk)),
 );
 
 export default store;
