@@ -72,7 +72,7 @@ class GraphicArc extends Placement {
     this._grips = [
       PaperUtil.createGrip(pts.from, 1),
       PaperUtil.createGrip(pts.to, 2),
-      PaperUtil.createGrip(pts.through, 3, "rect"),
+      PaperUtil.createGrip(pts.through, 3),
     ];
     if (selectedGripId > 0) {
       const selectGrip = this._grips.find(

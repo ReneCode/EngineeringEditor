@@ -36,10 +36,30 @@ class IacEditItem extends React.Component<IProps> {
     this.unsubscribeFn.push(
       appEventDispatcher.subscribe("mouseDown", this.onMouseDown),
     );
+    // this.unsubscribeFn.push(
+    //   appEventDispatcher.subscribe(
+    //     "selectedPlacements",
+    //     this.onSelectedPlacements,
+    //   ),
+    // );
   }
   componentWillUnmount() {
     this.unsubscribeFn.forEach(fn => fn());
   }
+
+  // onSelectedPlacements(type: AppEventType, placements: Placement[]) {
+  //   const len = placements.length;
+  //   switch (len) {
+  //     case 0:
+  //       this.selectedPlacement = null;
+  //       break;
+  //     case 1:
+  //       this.selectedPlacement = placements[0];
+  //       break;
+
+  //     default:
+  //   }
+  // }
 
   componentDidUpdate(prevProps: IProps) {
     if (

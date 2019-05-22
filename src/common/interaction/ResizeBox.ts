@@ -65,7 +65,7 @@ class ResizeBox {
       );
       handle.strokeColor = configuration.handleStrokeColor;
       handle.fillColor = configuration.handleFillColor;
-      handle.name = ItemName.resizeHandle;
+      handle.name = ItemName.handle;
       handle.data = { index: index };
       this.handles.push(handle);
       items.push(handle);

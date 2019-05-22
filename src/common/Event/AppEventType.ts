@@ -1,5 +1,6 @@
 export type AppEventType =
   | ""
+  | "selectedPlacements"
   | "selectAll"
   | "delete"
   | "undo"

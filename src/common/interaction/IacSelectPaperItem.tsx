@@ -1,10 +1,6 @@
 import React from "react";
 import Paper from "paper";
-import {
-  setSelectedPaperItems,
-  setSelectedItemAction,
-  setSelectedPlacementIds,
-} from "../../actions/graphicActions";
+import { setSelectedPlacementIds } from "../../actions/graphicActions";
 import { connect } from "react-redux";
 import { IGlobalState } from "../../reducers";
 import appEventDispatcher from "../Event/AppEventDispatcher";
@@ -15,9 +11,7 @@ import Placement from "../../model/Placement";
 
 interface IProps {
   dispatch: Function;
-  // selectedPaperItems: Paper.Item[];
   selectedPlacementIds: string[];
-  // items: Placement[];
 }
 
 class IacSelectPaperItem extends React.Component<IProps> {
@@ -34,8 +28,6 @@ class IacSelectPaperItem extends React.Component<IProps> {
   }
 
   onMouseDown = (type: AppEventType, event: Paper.MouseEvent) => {
-    let newSelectedPaperItems: Paper.Item[] = [];
-    let newSelectedPlacements: Placement[] = [];
     let newSelectedPlacementIds: string[] = [];
 
     const result = PaperUtil.hitTest(event.point);
@@ -73,18 +65,7 @@ class IacSelectPaperItem extends React.Component<IProps> {
       } else {
         newSelectedPlacementIds = [id];
       }
-
-      // newSelectedPlacements = this.props.items.filter(placement => {
-      //   const id = placement.id;
-      //   if (newSelectedPaperItems.find(i => i.data === id)) {
-      //     return true;
-      //   } else {
-      //     return false;
-      //   }
-      // });
     }
-    // this.props.dispatch(setSelectedPaperItems(newSelectedPaperItems));
-    // this.props.dispatch(setSelectedItemAction(newSelectedPlacements));
 
     this.props.dispatch(
       setSelectedPlacementIds(newSelectedPlacementIds),
@@ -98,9 +79,7 @@ class IacSelectPaperItem extends React.Component<IProps> {
 
 const mapStateToProps = (state: IGlobalState) => {
   return {
-    // selectedPaperItems: state.graphic.selectedPaperItems,
     selectedPlacementIds: state.graphic.selectedPlacementIds,
-    // items: state.graphic.items,
   };
 };
 
