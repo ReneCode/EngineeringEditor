@@ -1,6 +1,5 @@
 export type AppEventType =
   | ""
-  | "didDrawCanvas"
   | "selectAll"
   | "delete"
   | "undo"

@@ -8,6 +8,7 @@ import { AppEventType } from "../Event/AppEventType";
 import PaperUtil from "../../utils/PaperUtil";
 import { ItemName } from "../ItemMetaData";
 import Placement from "../../model/Placement";
+import { concatUnique } from "../../utils/concatUnique";
 
 interface IProps {
   dispatch: Function;
@@ -16,26 +17,62 @@ interface IProps {
 
 class IacSelectPaperItem extends React.Component<IProps> {
   unsubscribeFn: any;
+  addedId: string = "";
 
   componentDidMount() {
     this.unsubscribeFn = appEventDispatcher.subscribe(
       "mouseDown",
       this.onMouseDown,
     );
+
+    this.unsubscribeFn = appEventDispatcher.subscribe(
+      "mouseUp",
+      this.onMouseUp,
+    );
   }
   componentWillUnmount() {
     this.unsubscribeFn();
   }
 
+  /*
+    TODO: (see on whimsical)
+    mouseDown => add to selection
+    mouseUp => remove to selection (if it was already selected on mouseDown)
+                do not remove, when dragEvent was before mouseUp
+  */
+  onMouseUp = (type: AppEventType, event: Paper.MouseEvent) => {
+    const id = this.getHitItemPlacementId(event.point);
+    if (!id) {
+      return;
+    }
+
+    if (this.addedId !== id) {
+      const newSelectedPlacementIds = this.props.selectedPlacementIds.filter(
+        i => i !== id,
+      );
+
+      // but do not remote the last id
+      if (newSelectedPlacementIds.length > 0) {
+        this.props.dispatch(
+          setSelectedPlacementIds(newSelectedPlacementIds),
+        );
+      }
+    }
+  };
+
   onMouseDown = (type: AppEventType, event: Paper.MouseEvent) => {
     let newSelectedPlacementIds: string[] = [];
+    this.addedId = "";
 
     const result = PaperUtil.hitTest(event.point);
-    if (result) {
+    if (!result) {
+      // nothing selected - remove selection
+      newSelectedPlacementIds = [];
+    } else {
       const item = PaperUtil.getHitTestItem(result, ItemName.itemAny);
-
       if (!item) {
         // other item-type selected
+        // do nothing
         return;
       }
 
@@ -44,24 +81,19 @@ class IacSelectPaperItem extends React.Component<IProps> {
         throw new Error("item with no data (placment-id)");
       }
 
+      if (this.props.selectedPlacementIds.includes(id)) {
+        // allready selected
+        // do nothing
+        return;
+      }
+
+      this.addedId = id;
       const append = event.modifiers.shift;
       if (append) {
-        if (this.props.selectedPlacementIds.includes(id)) {
-          // allready selected
-          // remove that id
-          newSelectedPlacementIds = this.props.selectedPlacementIds.filter(
-            i => i !== id,
-          );
-          // but do not remote the last id
-          if (newSelectedPlacementIds.length === 0) {
-            newSelectedPlacementIds = [id];
-          }
-        } else {
-          newSelectedPlacementIds = [
-            ...this.props.selectedPlacementIds,
-            id,
-          ];
-        }
+        newSelectedPlacementIds = concatUnique<string>(
+          this.props.selectedPlacementIds,
+          id,
+        );
       } else {
         newSelectedPlacementIds = [id];
       }
@@ -71,6 +103,23 @@ class IacSelectPaperItem extends React.Component<IProps> {
       setSelectedPlacementIds(newSelectedPlacementIds),
     );
   };
+
+  getHitItemPlacementId(point: Paper.Point): string | null {
+    let newSelectedPlacementIds: string[] = [];
+    const result = PaperUtil.hitTest(point);
+    if (!result) {
+      return null;
+    }
+    const item = PaperUtil.getHitTestItem(result, ItemName.itemAny);
+    if (!item) {
+      return null;
+    }
+    const id = item.data;
+    if (!id) {
+      throw new Error("item with no data (placment-id)");
+    }
+    return id;
+  }
 
   render() {
     return null;

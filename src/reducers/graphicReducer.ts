@@ -132,19 +132,9 @@ const addSelectedItem = (state: IGraphicState, action: any) => {
   };
 };
 
-const drawCanvas = (project: Paper.Project, items: Placement[]) => {
-  console.log("draw Canvas:", items.length);
-  project.activeLayer.removeChildren();
-  items.forEach(placement => {
-    placement.paperDraw();
-  });
-};
 const setPlacement = (state: IGraphicState, action: any) => {
   let newItems: Placement[] = makeArray(action.payload).map(p => p);
 
-  drawCanvas(Paper.project, newItems);
-
-  // console.log("SET placement");
   return {
     ...state,
     items: newItems,
