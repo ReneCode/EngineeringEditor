@@ -20,7 +20,12 @@ class InteractionManager extends Component<IProps> {
     "ZoomInOut",
   ];
 
-  idleInteractionNames = ["EditItem", "SelectPaperItem", "HoverItem"];
+  idleInteractionNames = [
+    "EditItem",
+    "IacSelectAll",
+    "IacSelect",
+    "HoverItem",
+  ];
 
   componentWillMount() {
     this.unsubscribeFn.push(

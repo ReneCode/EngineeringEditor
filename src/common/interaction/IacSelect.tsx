@@ -15,7 +15,7 @@ interface IProps {
   selectedPlacementIds: string[];
 }
 
-class IacSelectPaperItem extends React.Component<IProps> {
+class IacSelect extends React.Component<IProps> {
   unsubscribeFn: any;
   addedId: string = "";
 
@@ -143,4 +143,4 @@ const mapDispatchToProps = (dispatch: Function) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(IacSelectPaperItem);
+)(IacSelect);

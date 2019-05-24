@@ -11,7 +11,7 @@ interface IProps {
   items: Placement[];
 }
 
-class IacSelectPaperItem extends React.Component<IProps> {
+class IacSelectAll extends React.Component<IProps> {
   unsubscribeFn: any;
 
   componentDidMount() {
@@ -56,6 +56,4 @@ const mapDispatchToProps = (dispatch: Function) => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(IacSelectPaperItem);
-
-// { withRef: true }, // to get reference in GraphicView   this.ref = com.getWrappedInstance()
+)(IacSelectAll);

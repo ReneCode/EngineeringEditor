@@ -6,12 +6,12 @@ import IacRectangle from "../interaction/IacRectangle";
 import IacDelete from "../interaction/IacDelete";
 import IacZoomInOut from "../interaction/IacZoomInOut";
 import IacIdle from "../interaction/IacIdle";
-import IacSelectPaperItem from "../interaction/IacSelectPaperItem";
 import IacSelectAll from "../interaction/IacSelectAll";
 import IacCreateArc from "../interaction/IacCreateArc";
 import IacHoverItem from "../interaction/IacHoverItem";
 import IacCreateLine from "../interaction/IacCreateLine";
 import IacEditItem from "../interaction/IacEditItem";
+import IacSelect from "../interaction/IacSelect";
 
 class InteractionFactory {
   static create(name: string): JSX.Element {
@@ -21,12 +21,12 @@ class InteractionFactory {
         return <IacHoverItem {...props} />;
       case "Idle":
         return <IacIdle {...props} />;
-      case "SelectAll":
+      case "IacSelectAll":
         return <IacSelectAll {...props} />;
       case "EditItem":
         return <IacEditItem {...props} />;
-      case "SelectPaperItem":
-        return <IacSelectPaperItem {...props} />;
+      case "IacSelect":
+        return <IacSelect {...props} />;
       // case "Zoom":
       //   interaction = new InteractionZoom(context);
       //   break;

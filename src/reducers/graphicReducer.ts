@@ -5,7 +5,6 @@ import Placement from "../model/Placement";
 import GraphicSymbol from "../model/graphic/GraphicSymbol";
 import { IAction } from "../actions/action";
 import { makeArray } from "../model/dtoUtil";
-import drawCanvas from "../model/util/drawCanvas";
 
 export interface IGraphicState {
   symbols: GraphicSymbol[];
@@ -80,7 +79,6 @@ const deletePlacement = (state: IGraphicState, action: IAction) => {
     id => !placementIds.includes(id),
   );
 
-  drawCanvas(items);
   return {
     ...state,
     items,
@@ -91,7 +89,6 @@ const deletePlacement = (state: IGraphicState, action: IAction) => {
 const setPlacement = (state: IGraphicState, action: any) => {
   let items: Placement[] = makeArray(action.payload).map(p => p);
 
-  drawCanvas(items);
   return {
     ...state,
     items: items,
@@ -129,7 +126,6 @@ const deleteLayer = (state: IGraphicState, action: any) => {
 
 function addPlacement(state: IGraphicState, action: IAction) {
   const items = state.items.concat(action.payload);
-  drawCanvas(items);
   return {
     ...state,
     items: items,
@@ -163,7 +159,6 @@ const graphicReducer = (state = initialState, action: IAction) => {
       return deleteLayer(state, action);
 
     case actionTypes.SET_PLACEMENT:
-      console.log("setPlacement reducers");
       return setPlacement(state, action);
 
     case actionTypes.ADD_SYMBOL:

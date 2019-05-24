@@ -34,7 +34,7 @@ class GraphicView extends Component<IProps> {
 
   componentDidUpdate(prevProps: IProps) {
     if (prevProps.items !== this.props.items) {
-      console.log("draw Canvas:", this.props.items);
+      console.log("draw Canvas:", this.props.items.length);
       const project = Paper.project;
       project.activeLayer.removeChildren();
       for (let placement of this.props.items) {

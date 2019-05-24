@@ -50,10 +50,6 @@ class IacEditItem extends React.Component<IProps> {
         this.props.selectedPlacementIds ||
       prevProps.redrawn !== this.props.redrawn
     ) {
-      console.log(
-        "update edit.items: ",
-        this.props.selectedPlacementIds,
-      );
       // remove old selection
       const oldSelectedPlacements = this.getPlacementsById(
         prevProps.selectedPlacementIds,
@@ -163,7 +159,6 @@ class IacEditItem extends React.Component<IProps> {
       if (len > 1) {
         this.resizeBox.remove();
       }
-      console.log("startEdit");
       // create a copy before editing
       this.editing = true;
       let newSelectedPlacements = [];
