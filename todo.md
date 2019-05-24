@@ -8,13 +8,16 @@ fixed - selected item in shown on top - even if it is below other items
 
 # TODO
 
-- fix undo of delete placement
+ok - fix undo of delete placement
+
 - switch to id => selectedPlacementIds (no selectedPaperItems, no selectedItems)
 
 - create item in frontEnd - to not wait for backend
 - select id after creating Line/Arc
 
 * no redraw after saving to backend
+
+- disable redux-dev-tools in production / https://medium.com/@zalmoxis/using-redux-devtools-in-production-4c5b56c5600f
 
 * cmd-A select all
 * cmd-C cmd-V copy paste

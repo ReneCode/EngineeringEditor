@@ -24,7 +24,6 @@ interface IProps extends RouteComponentProps<any> {
 }
 
 class ProjectView extends Component<IProps> {
-  private graphicFrameRef: any;
   state = {
     activeWorkspaceId: "",
   };

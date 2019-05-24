@@ -10,6 +10,7 @@ import drawCanvas from "../model/util/drawCanvas";
 export interface IGraphicState {
   selectedPaperItems: Paper.Item[];
   symbols: GraphicSymbol[];
+  redrawn: number;
   items: Placement[];
   selectedPlacementIds: string[];
   selectedItems: Placement[];
@@ -33,6 +34,7 @@ export interface IGraphicState {
 }
 
 const initialState: IGraphicState = {
+  redrawn: 0,
   selectedPaperItems: [],
   symbols: [],
   items: [],
@@ -95,7 +97,7 @@ const updateSelectedItem = (state: IGraphicState, action: any) => {
     .items
     .selectedItems
 */
-const deletePlacement = (state: IGraphicState, action: any) => {
+const deletePlacement = (state: IGraphicState, action: IAction) => {
   if (!Array.isArray(action.payload)) {
     throw new Error("payload has to be array of placements");
   }
@@ -149,42 +151,18 @@ const setPlacement = (state: IGraphicState, action: any) => {
 
 function updatePlacements(state: IGraphicState, action: any) {
   let placements: Placement[] = action.payload;
-  let selectedItems = state.selectedItems;
 
-  // check if selectedItems are also changed
-  let updateSelectedItems = false;
-  let newSelectedItems = selectedItems.map(oneSelectedItem => {
-    const newPlacement = placements.find(
-      p => p.id === oneSelectedItem.id,
-    );
-    if (newPlacement) {
-      updateSelectedItems = true;
-      return newPlacement;
-    } else {
-      return oneSelectedItem;
-    }
-  });
-  if (!updateSelectedItems) {
-    // no changes
-    newSelectedItems = selectedItems;
-  }
-
-  const items = state.items.map(currentPlacement => {
-    const newPlacement = placements.find(
-      p => p.id === currentPlacement.id,
-    );
+  const items = state.items.map(placement => {
+    const newPlacement = placements.find(p => p.id === placement.id);
     if (newPlacement) {
       return newPlacement;
     } else {
-      return currentPlacement;
+      return placement;
     }
   });
-  drawCanvas(items);
   return {
     ...state,
     items: items,
-    selectedItems: newSelectedItems,
-    selectedPaperItems: newSelectedItems.map(p => p.getPaperItem()),
   };
 }
 
@@ -196,7 +174,7 @@ const deleteLayer = (state: IGraphicState, action: any) => {
   const itemsToDelete = state.items.filter((item: Placement) =>
     layer.includes(item.layer),
   );
-  return deletePlacement(state, { payload: itemsToDelete });
+  return deletePlacement(state, { type: "", payload: itemsToDelete });
 };
 
 function setSelectedPaperItems(
@@ -230,6 +208,12 @@ function addPlacement(state: IGraphicState, action: IAction) {
 
 const graphicReducer = (state = initialState, action: IAction) => {
   switch (action.type) {
+    case actionTypes.REDRAWN: {
+      return {
+        ...state,
+        redrawn: state.redrawn + 1,
+      };
+    }
     case actionTypes.SET_SELECTED_PLACEMENT_IDS:
       return {
         ...state,

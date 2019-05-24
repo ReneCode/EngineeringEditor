@@ -1,6 +1,8 @@
 import React, { Component, SyntheticEvent } from "react";
 import { connect } from "react-redux";
 
+import * as actionTypes from "../../actions/actionTypes";
+
 import Point from "../../common/point";
 import { IGlobalState } from "../../reducers";
 import Paper from "paper";
@@ -9,7 +11,10 @@ import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 import PaperCanvas from "./PaperCanvas";
 import InteractionManager from "../../common/Event/InteractionManager";
 
-interface IProps {}
+interface IProps {
+  items: Placement[];
+  dispatch: Function;
+}
 
 interface IState {
   width: number;
@@ -29,9 +34,23 @@ class GraphicView extends Component<IProps> {
       height: 100,
     };
   }
+
+  componentDidUpdate(prevProps: IProps) {
+    if (prevProps.items !== this.props.items) {
+      console.log("draw Canvas:", this.props.items);
+      const project = Paper.project;
+      project.activeLayer.removeChildren();
+      for (let placement of this.props.items) {
+        placement.paperDraw();
+      }
+
+      // now the other components can work with the drawn Paper items
+      this.props.dispatch({ type: actionTypes.REDRAWN });
+    }
+  }
+
   componentDidMount() {
     if (this.canvas) {
-      console.log("Paper.setup()");
       Paper.setup(this.canvas);
       Paper.settings.handleSize = 8;
 
@@ -92,26 +111,7 @@ class GraphicView extends Component<IProps> {
     console.log("onContextMenu:", ev);
   };
 
-  getCursor = (ev: MouseEvent): Point => {
-    if (this.canvas) {
-      const { top, left } = this.canvas.getBoundingClientRect();
-      return new Point(ev.clientX - left, ev.clientY - top);
-    }
-    return new Point();
-  };
-
   render() {
-    /*
-      <IacSelect
-        ref={(e: any) => {
-          if (e) {
-            this.iac = e.getWrappedInstance();
-          }
-        }}
-      />
-
-*/
-
     return (
       <div ref={div => (this.frame = div)} className="GraphicView">
         <canvas
@@ -128,4 +128,10 @@ class GraphicView extends Component<IProps> {
   }
 }
 
-export default GraphicView;
+const mapStateToProps = (state: IGlobalState) => {
+  return {
+    items: state.graphic.items,
+  };
+};
+
+export default connect(mapStateToProps)(GraphicView);

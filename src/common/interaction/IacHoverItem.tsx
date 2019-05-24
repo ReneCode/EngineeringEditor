@@ -72,10 +72,6 @@ class IacHoverItem extends React.Component<IProps> {
     }
   }
 
-  private getPlacementById(id: string): Placement | undefined {
-    return this.props.items.find(placement => placement.id === id);
-  }
-
   render() {
     return null;
   }

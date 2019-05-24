@@ -17,6 +17,7 @@ interface IProps {
   dispatch: Function;
   selectedPlacementIds: string[];
   items: Placement[];
+  redrawn: number;
 }
 
 class IacEditItem extends React.Component<IProps> {
@@ -47,7 +48,7 @@ class IacEditItem extends React.Component<IProps> {
     if (
       prevProps.selectedPlacementIds !==
         this.props.selectedPlacementIds ||
-      prevProps.items !== this.props.items
+      prevProps.redrawn !== this.props.redrawn
     ) {
       console.log(
         "update edit.items: ",
@@ -149,13 +150,19 @@ class IacEditItem extends React.Component<IProps> {
     }
 
     if (this.editing && this.selectedPlacements.length > 0) {
-      this.updatePlacement(this.selectedPlacements);
+      this.props.dispatch(
+        updateElementAction("placement", this.selectedPlacements),
+      );
       this.editing = false;
     }
   };
 
   startEdit() {
-    if (!this.editing && this.selectedPlacements.length > 0) {
+    const len = this.selectedPlacements.length;
+    if (!this.editing && len > 0) {
+      if (len > 1) {
+        this.resizeBox.remove();
+      }
       console.log("startEdit");
       // create a copy before editing
       this.editing = true;
@@ -176,12 +183,6 @@ class IacEditItem extends React.Component<IProps> {
     }
   }
 
-  private async updatePlacement(placements: Placement[]) {
-    await this.props.dispatch(
-      updateElementAction("placement", placements),
-    );
-  }
-
   getPlacementsById(ids: string[]): (Placement | undefined)[] {
     return ids.map(id => {
       return this.props.items.find(placement => placement.id === id);
@@ -197,6 +198,7 @@ const mapStateToProps = (state: IGlobalState) => {
   return {
     selectedPlacementIds: state.graphic.selectedPlacementIds,
     items: state.graphic.items,
+    redrawn: state.graphic.redrawn,
   };
 };
 

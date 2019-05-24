@@ -27,8 +27,12 @@ class IacDelete extends React.Component<IProps> {
 
   onDelete = () => {
     const placements = this.props.items.filter(placement => {
-      const id: string = placement.id as string;
-      return this.props.selectedPlacementIds.includes(id);
+      const id = placement.id;
+      if (id) {
+        return this.props.selectedPlacementIds.includes(id);
+      } else {
+        return false;
+      }
     });
 
     this.props.dispatch(deleteElementAction("placement", placements));
