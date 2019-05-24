@@ -14,7 +14,6 @@ class InteractionManager extends Component<IProps> {
   };
 
   fixInteractionNames = [
-    "DrawCanvas",
     "UndoRedo",
     "SnapGrid",
     "Delete",

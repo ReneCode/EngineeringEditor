@@ -3,12 +3,6 @@ import { IdType } from "../model/types";
 import { IGlobalState } from "../reducers";
 import apiLoadPlacement from "../common/api/apiLoadPlacement";
 import { updateAllSymbolRef } from "../model/updateSymbolRef";
-import {
-  setViewportAction,
-  setSelectedItemAction,
-} from "./graphicActions";
-import updateAutoconnection from "./updateAutoconnection";
-import { zoomFullAction } from "./zoomFull";
 
 const setPageId = (projectId: IdType, pageId: IdType) => {
   return async (dispatch: any, getState: () => IGlobalState) => {
@@ -16,8 +10,6 @@ const setPageId = (projectId: IdType, pageId: IdType) => {
       throw new Error("projectId missing on setPageId");
     }
     try {
-      dispatch(setSelectedItemAction([]));
-
       const placements = await apiLoadPlacement(projectId, pageId);
 
       const symbols = getState().graphic.symbols;

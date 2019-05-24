@@ -11,7 +11,6 @@ import deepClone from "../../common/deepClone";
 import { updateElementAction } from "../../actions/changeElementActions";
 
 interface IProps {
-  selectedItems: Placement[];
   pageId: IdType;
   pages: Page[];
   dispatch: Function;
@@ -45,31 +44,31 @@ class DetailView extends Component<IProps> {
   render() {
     let component = null;
 
-    if (this.props.selectedItems.length > 0) {
-      const placement = this.props.selectedItems[0];
-      component = (
-        <PlacementDetailView
-          key={placement.id}
-          placement={placement}
-          onChange={this.onPlacementChange}
-        />
-      );
-    } else if (this.props.pageId) {
-      const page = this.props.pages.find(
-        (p: Page) => p.id === this.props.pageId,
-      );
-      if (page) {
-        component = (
-          <PageDetailView page={page} onChange={this.onPageChange} />
-        );
-      } else {
-        console.log(
-          ": cant find page:",
-          this.props.pageId,
-          this.props.pages,
-        );
-      }
-    }
+    // if (this.props.selectedItems.length > 0) {
+    //   const placement = this.props.selectedItems[0];
+    //   component = (
+    //     <PlacementDetailView
+    //       key={placement.id}
+    //       placement={placement}
+    //       onChange={this.onPlacementChange}
+    //     />
+    //   );
+    // } else if (this.props.pageId) {
+    //   const page = this.props.pages.find(
+    //     (p: Page) => p.id === this.props.pageId,
+    //   );
+    //   if (page) {
+    //     component = (
+    //       <PageDetailView page={page} onChange={this.onPageChange} />
+    //     );
+    //   } else {
+    //     console.log(
+    //       ": cant find page:",
+    //       this.props.pageId,
+    //       this.props.pages,
+    //     );
+    //   }
+    // }
     return (
       <div className="ObjectView">
         <div className="scrolling">{component}</div>
@@ -80,7 +79,6 @@ class DetailView extends Component<IProps> {
 
 const mapStateToProps = (state: IGlobalState) => {
   return {
-    selectedItems: state.graphic.selectedItems,
     pageId: state.project.pageId,
     pages: state.project.pages,
   };

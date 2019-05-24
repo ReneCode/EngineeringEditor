@@ -1,25 +1,6 @@
-import IaBase, { IaContext, IaEventType } from "./IaBase";
-import IaRectRubberband, {
-  IaRectRubberbandResult,
-} from "./IaRectRubberband";
-import Box from "../../common/box";
-import IaMove from "./IaMove";
-import {
-  addSelectedItemAction,
-  setSelectedItemAction,
-} from "../../actions/graphicActions";
-import Placement from "../../model/Placement";
-import {
-  deleteElementAction,
-  updateElementAction,
-} from "../../actions/changeElementActions";
+import IaBase from "./IaBase";
 // import { setCursorModeAction } from "../../actions/setCursorPoint";
 import GraphicGrip from "../../model/graphic/GraphicGrip";
-import Point from "../../common/point";
-import { setTempItem } from "../../actions";
-import { updatePlacementAction } from "../../actions/placementActions";
-
-type MoveGripCallback = (grip: GraphicGrip) => void;
 
 class IaSelect extends IaBase {
   /*

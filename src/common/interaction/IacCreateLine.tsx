@@ -5,14 +5,7 @@ import appEventDispatcher from "../Event/AppEventDispatcher";
 import { AppEventType } from "../Event/AppEventType";
 import configuration from "../configuration";
 import GraphicLine from "../../model/graphic/GraphicLine";
-import Point from "../point";
 import { createElementAction } from "../../actions/changeElementActions";
-import PaperPlacement from "../../model/graphic/PaperPlacement";
-import { ItemName } from "../ItemMetaData";
-import {
-  setSelectedItemAction,
-  setSelectedPaperItems,
-} from "../../actions/graphicActions";
 
 interface IProps {
   dispatch: Function;

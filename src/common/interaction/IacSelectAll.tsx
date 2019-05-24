@@ -1,13 +1,10 @@
 import React from "react";
 import Paper from "paper";
-import { setSelectedPaperItems } from "../../actions/graphicActions";
 import { connect } from "react-redux";
 import { IGlobalState } from "../../reducers";
-import ResizeBox from "./ResizeBox";
 import appEventDispatcher from "../Event/AppEventDispatcher";
-import { AppEventType } from "../Event/AppEventType";
 import Placement from "../../model/Placement";
-import { itemGetMetaData } from "../ItemMetaData";
+import { setSelectedPlacementIds } from "../../actions/graphicActions";
 
 interface IProps {
   dispatch: Function;
@@ -21,9 +18,17 @@ class IacSelectPaperItem extends React.Component<IProps> {
     this.unsubscribeFn = appEventDispatcher.subscribe(
       "selectAll",
       () => {
-        console.log("selectAll");
         const paperItems = Paper.project.activeLayer.children;
-        this.props.dispatch(setSelectedPaperItems(paperItems));
+        const ids = paperItems
+          .map(item => {
+            const id = item.data;
+            if (id) {
+              return id;
+            }
+            return null;
+          })
+          .filter(id => !!id);
+        this.props.dispatch(setSelectedPlacementIds(ids));
       },
     );
   }

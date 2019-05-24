@@ -13,7 +13,6 @@ import configuration from "../configuration";
 
 interface IProps {
   dispatch: Function;
-  selectedPaperItems: Paper.Item[];
   items: Placement[];
 }
 
@@ -152,7 +151,6 @@ class IacIdle extends React.Component<IProps> {
 
 const mapStateToProps = (state: IGlobalState) => {
   return {
-    selectedPaperItems: state.graphic.selectedPaperItems,
     items: state.graphic.items,
   };
 };

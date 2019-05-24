@@ -3,12 +3,10 @@ import { connect } from "react-redux";
 
 import * as actionTypes from "../../actions/actionTypes";
 
-import Point from "../../common/point";
 import { IGlobalState } from "../../reducers";
 import Paper from "paper";
 import Placement from "../../model/Placement";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
-import PaperCanvas from "./PaperCanvas";
 import InteractionManager from "../../common/Event/InteractionManager";
 
 interface IProps {
@@ -25,7 +23,6 @@ class GraphicView extends Component<IProps> {
   frame: any;
   canvas: HTMLCanvasElement | null = null;
   state: IState;
-  paperCanvas: PaperCanvas | null = null;
 
   constructor(props: IProps) {
     super(props);

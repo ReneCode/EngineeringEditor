@@ -8,12 +8,10 @@ import { makeArray } from "../model/dtoUtil";
 import drawCanvas from "../model/util/drawCanvas";
 
 export interface IGraphicState {
-  selectedPaperItems: Paper.Item[];
   symbols: GraphicSymbol[];
   redrawn: number;
   items: Placement[];
   selectedPlacementIds: string[];
-  selectedItems: Placement[];
   tempItems: Placement[];
   cursor: {
     pt: Paper.Point;
@@ -35,11 +33,9 @@ export interface IGraphicState {
 
 const initialState: IGraphicState = {
   redrawn: 0,
-  selectedPaperItems: [],
   symbols: [],
   items: [],
   selectedPlacementIds: [],
-  selectedItems: [],
   tempItems: [],
   cursor: {
     pt: new Paper.Point(0, 0),
@@ -67,32 +63,6 @@ export const containsWithSameId = (
 };
 
 /*
-  update the selectedItems if that id is found in the action.payload
-*/
-const updateSelectedItem = (state: IGraphicState, action: any) => {
-  let items: Placement[] = makeArray(action.payload);
-
-  // const toIdObject = (acc: any, item: any)
-  const idToItem = items.reduce((acc: any, item: any) => {
-    acc[item.id] = item;
-    return acc;
-  }, {});
-
-  const newSelectedItems = state.selectedItems.map((item: any) => {
-    const newItem = idToItem[item.id];
-    if (newItem) {
-      return newItem;
-    } else {
-      return item;
-    }
-  });
-  return {
-    ...state,
-    selectedItems: newSelectedItems,
-  };
-};
-
-/*
   remove placements from 
     .items
     .selectedItems
@@ -115,26 +85,6 @@ const deletePlacement = (state: IGraphicState, action: IAction) => {
     ...state,
     items,
     selectedPlacementIds,
-  };
-};
-
-const setSelectedItem = (state: IGraphicState, action: any) => {
-  let newItems = makeArray(action.payload);
-  return {
-    ...state,
-    selectedItems: newItems,
-  };
-};
-const addSelectedItem = (state: IGraphicState, action: any) => {
-  let newItems = makeArray(action.payload);
-  // remove items, that are allready in state.selectedItems
-  newItems = newItems.filter(
-    (i: Placement) => state.selectedItems.indexOf(i) < 0,
-  );
-
-  return {
-    ...state,
-    selectedItems: state.selectedItems.concat(newItems),
   };
 };
 
@@ -176,26 +126,6 @@ const deleteLayer = (state: IGraphicState, action: any) => {
   );
   return deletePlacement(state, { type: "", payload: itemsToDelete });
 };
-
-function setSelectedPaperItems(
-  state: IGraphicState,
-  action: IAction,
-) {
-  // const paperItems: Paper.Item[] = action.payload;
-  // const selectedPlacements = state.items.filter(p => {
-  //   const id = p.id;
-  //   const pi = paperItems.find(i => i.data == id);
-  //   if (pi) {
-  //     return true;
-  //   }
-  //   return false;
-  // });
-  return {
-    ...state,
-    selectedPaperItems: action.payload,
-    // selectedItems: selectedPlacements,
-  };
-}
 
 function addPlacement(state: IGraphicState, action: IAction) {
   const items = state.items.concat(action.payload);
@@ -284,19 +214,6 @@ const graphicReducer = (state = initialState, action: IAction) => {
         },
       };
 
-    case actionTypes.CLEAR_SELECTED_ITEM:
-      return {
-        ...state,
-        selectedItems: [],
-      };
-
-    case actionTypes.SET_SELECTED_ITEM:
-      return setSelectedItem(state, action);
-    case actionTypes.ADD_SELECTED_ITEM:
-      return addSelectedItem(state, action);
-    case actionTypes.UPDATE_SELECTED_ITEM:
-      return updateSelectedItem(state, action);
-
     case actionTypes.SET_CURSOR_POINT:
       return {
         ...state,
@@ -305,10 +222,6 @@ const graphicReducer = (state = initialState, action: IAction) => {
           pt: action.payload,
         },
       };
-
-    case actionTypes.SET_SELECTED_PAPER_ITEMS:
-      // console.log("change selected paper items");
-      return setSelectedPaperItems(state, action);
 
     default:
       return state;
