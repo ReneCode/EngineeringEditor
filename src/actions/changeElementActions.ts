@@ -31,7 +31,7 @@ export const createElementAction = (
         createPlacementAction(element),
       );
       await dispatch(undoRedoAddStartMarkerCommit());
-      await dispatch(undoRedoAddCommit(ref, null, newPlacement));
+      await dispatch(undoRedoAddCommit(ref, null, element));
       return newPlacement;
     } catch (ex) {
       console.log(ex);

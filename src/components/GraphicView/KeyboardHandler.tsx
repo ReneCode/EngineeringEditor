@@ -64,6 +64,13 @@ class KeybaordHandler extends React.Component {
         }
         break;
 
+      case "Escape":
+        appEventDispatcher.dispatch(
+          "startInteraction",
+          "IacEditItem",
+        );
+        break;
+
       case "l":
       case "L":
         appEventDispatcher.dispatch("startInteraction", "CreateLine");

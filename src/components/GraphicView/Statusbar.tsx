@@ -52,15 +52,20 @@ class Statusbar extends React.Component<IProps> {
   };
 
   render() {
+    let selIds = "";
+    for (let idx of this.props.selectedPlacementIds) {
+      selIds = `${selIds} ${idx}`;
+      if (selIds.length > 100) {
+        break;
+      }
+    }
     return (
       <div className="status">
         <div>
           x:{this.state.cursor.x} y:{this.state.cursor.y}
         </div>
         <div> selected Ids:</div>
-        {this.props.selectedPlacementIds.map((id, idx) => {
-          return <div key={idx}>{id}</div>;
-        })}
+        <div>{selIds}</div>
       </div>
     );
   }

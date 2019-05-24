@@ -1,10 +1,9 @@
-import UUID from "uuid/v4";
-
 import { IdType, GraphicType, LayerType } from "./types";
 import TransformCoordinate from "../common/transformCoordinate";
 import Point from "../common/point";
 import Paper from "paper";
 import Box from "../common/box";
+import createId from "./createId";
 
 export type DrawOptions = {
   mode?: "selected" | "temp";
@@ -25,7 +24,7 @@ class Placement {
 
   constructor(type: GraphicType) {
     this.type = type;
-    this.id = UUID();
+    this.id = createId("P");
   }
 
   asJSON(): any {

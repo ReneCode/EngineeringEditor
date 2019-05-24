@@ -42,7 +42,13 @@ export const createPlacementAction = (
         return p;
       });
 
-      const newPlacements = await apiCreatePlacements(placements);
+      const action = {
+        type: actionTypes.ADD_PLACEMENT,
+        payload: placements,
+      };
+      await dispatch(action);
+
+      apiCreatePlacements(placements);
 
       // // on new symbolref we have to update the .symbol property of the symbolref
       // const newSymbolRefs = newPlacements.filter(
@@ -53,15 +59,7 @@ export const createPlacementAction = (
       //   updateAllSymbolRef(newPlacements, symbols);
       // }
 
-      const action = {
-        type: actionTypes.ADD_PLACEMENT,
-        payload: newPlacements,
-      };
-      await dispatch(action);
-
       // await updateAutoconnection(dispatch, getState);
-
-      return newPlacements;
     } catch (ex) {
       console.log("EX:", ex);
     }

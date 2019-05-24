@@ -23,7 +23,7 @@ class InteractionFactory {
         return <IacIdle {...props} />;
       case "IacSelectAll":
         return <IacSelectAll {...props} />;
-      case "EditItem":
+      case "IacEditItem":
         return <IacEditItem {...props} />;
       case "IacSelect":
         return <IacSelect {...props} />;
