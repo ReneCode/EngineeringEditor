@@ -5,6 +5,7 @@ import Placement from "../model/Placement";
 import GraphicSymbol from "../model/graphic/GraphicSymbol";
 import { IAction } from "../actions/action";
 import { makeArray } from "../model/dtoUtil";
+import drawCanvas from "../model/util/drawCanvas";
 
 export interface IGraphicState {
   selectedPaperItems: Paper.Item[];
@@ -98,17 +99,20 @@ const deletePlacement = (state: IGraphicState, action: any) => {
   if (!Array.isArray(action.payload)) {
     throw new Error("payload has to be array of placements");
   }
+  const placements: Placement[] = action.payload;
   const items = state.items.filter(
-    i => !containsWithSameId(action.payload, i),
+    i => !containsWithSameId(placements, i),
   );
-  const selectedItems = state.selectedItems.filter(
-    i => !containsWithSameId(action.payload, i),
+  const placementIds = placements.map(p => p.id);
+  const selectedPlacementIds = state.selectedPlacementIds.filter(
+    id => !placementIds.includes(id),
   );
 
+  drawCanvas(items);
   return {
     ...state,
     items,
-    selectedItems,
+    selectedPlacementIds,
   };
 };
 
@@ -133,16 +137,17 @@ const addSelectedItem = (state: IGraphicState, action: any) => {
 };
 
 const setPlacement = (state: IGraphicState, action: any) => {
-  let newItems: Placement[] = makeArray(action.payload).map(p => p);
+  let items: Placement[] = makeArray(action.payload).map(p => p);
 
+  drawCanvas(items);
   return {
     ...state,
-    items: newItems,
+    items: items,
     selectedItems: [],
   };
 };
 
-const updatePlacements = (state: IGraphicState, action: any) => {
+function updatePlacements(state: IGraphicState, action: any) {
   let placements: Placement[] = action.payload;
   let selectedItems = state.selectedItems;
 
@@ -164,23 +169,24 @@ const updatePlacements = (state: IGraphicState, action: any) => {
     newSelectedItems = selectedItems;
   }
 
-  // console.log("UPDATE placement");
+  const items = state.items.map(currentPlacement => {
+    const newPlacement = placements.find(
+      p => p.id === currentPlacement.id,
+    );
+    if (newPlacement) {
+      return newPlacement;
+    } else {
+      return currentPlacement;
+    }
+  });
+  drawCanvas(items);
   return {
     ...state,
-    items: state.items.map(currentPlacement => {
-      const newPlacement = placements.find(
-        p => p.id === currentPlacement.id,
-      );
-      if (newPlacement) {
-        return newPlacement;
-      } else {
-        return currentPlacement;
-      }
-    }),
+    items: items,
     selectedItems: newSelectedItems,
     selectedPaperItems: newSelectedItems.map(p => p.getPaperItem()),
   };
-};
+}
 
 /*
   delete .items with .layer in action.payload
@@ -193,10 +199,10 @@ const deleteLayer = (state: IGraphicState, action: any) => {
   return deletePlacement(state, { payload: itemsToDelete });
 };
 
-const setSelectedPaperItems = (
+function setSelectedPaperItems(
   state: IGraphicState,
   action: IAction,
-) => {
+) {
   // const paperItems: Paper.Item[] = action.payload;
   // const selectedPlacements = state.items.filter(p => {
   //   const id = p.id;
@@ -211,7 +217,16 @@ const setSelectedPaperItems = (
     selectedPaperItems: action.payload,
     // selectedItems: selectedPlacements,
   };
-};
+}
+
+function addPlacement(state: IGraphicState, action: IAction) {
+  const items = state.items.concat(action.payload);
+  drawCanvas(items);
+  return {
+    ...state,
+    items: items,
+  };
+}
 
 const graphicReducer = (state = initialState, action: IAction) => {
   switch (action.type) {
@@ -255,10 +270,7 @@ const graphicReducer = (state = initialState, action: IAction) => {
 
     case actionTypes.ADD_PLACEMENT:
       // console.log("addPlacement");
-      return {
-        ...state,
-        items: state.items.concat(action.payload),
-      };
+      return addPlacement(state, action);
 
     case actionTypes.DELETE_PLACEMENT:
       return deletePlacement(state, action);

@@ -76,7 +76,7 @@ class Placement {
 
   dragGrip(event: Paper.MouseEvent, gripItem: Paper.Item) {}
 
-  dragItem(event: Paper.MouseEvent, item: Paper.Item) {}
+  dragItem(event: Paper.MouseEvent) {}
 
   getGrips(): Paper.Item[] {
     return this._grips;

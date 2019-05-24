@@ -46,16 +46,18 @@ class IacSelectPaperItem extends React.Component<IProps> {
       return;
     }
 
-    if (this.addedId !== id) {
-      const newSelectedPlacementIds = this.props.selectedPlacementIds.filter(
-        i => i !== id,
-      );
-
-      // but do not remote the last id
-      if (newSelectedPlacementIds.length > 0) {
-        this.props.dispatch(
-          setSelectedPlacementIds(newSelectedPlacementIds),
+    if (event.modifiers.shift) {
+      if (this.addedId !== id) {
+        const newSelectedPlacementIds = this.props.selectedPlacementIds.filter(
+          i => i !== id,
         );
+
+        // but do not remote the last id
+        if (newSelectedPlacementIds.length > 0) {
+          this.props.dispatch(
+            setSelectedPlacementIds(newSelectedPlacementIds),
+          );
+        }
       }
     }
   };

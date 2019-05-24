@@ -21,7 +21,7 @@ interface IProps {
 
 class IacEditItem extends React.Component<IProps> {
   unsubscribeFn: Function[] = [];
-  selectedPlacement: Placement | null = null;
+  selectedPlacements: Placement[] = [];
   editItem: Paper.Item | null = null;
   oldFillColor: string | Paper.Color | null = null;
   editing: boolean = false;
@@ -49,6 +49,10 @@ class IacEditItem extends React.Component<IProps> {
         this.props.selectedPlacementIds ||
       prevProps.items !== this.props.items
     ) {
+      console.log(
+        "update edit.items: ",
+        this.props.selectedPlacementIds,
+      );
       // remove old selection
       const oldSelectedPlacements = this.getPlacementsById(
         prevProps.selectedPlacementIds,
@@ -60,51 +64,34 @@ class IacEditItem extends React.Component<IProps> {
       });
       this.resizeBox.remove();
 
-      this.selectedPlacement = null;
+      this.selectedPlacements = [];
       const newSelectedPlacements = this.getPlacementsById(
         this.props.selectedPlacementIds,
       ).filter(p => !!p);
       if (newSelectedPlacements.length === 1) {
         const placement = newSelectedPlacements[0];
         if (placement) {
-          this.selectedPlacement = placement;
+          this.selectedPlacements = [placement];
           placement.setSelected(true);
         }
       }
       if (newSelectedPlacements.length > 1) {
         const paperItems: Paper.Item[] = [];
-        newSelectedPlacements.forEach(p => {
-          if (p) {
-            const paperItem = p.getPaperItem();
+        for (let placement of newSelectedPlacements) {
+          if (placement) {
+            placement.setSelected(true);
+            const paperItem = placement.getPaperItem();
             if (paperItem) {
               paperItems.push(paperItem);
             }
+            this.selectedPlacements.push(placement);
           }
-        });
+        }
         this.resizeBox.create(paperItems);
-        console.log("multi-select");
       }
     }
   }
 
-  private selectPaperItems = (items: Placement[]) => {
-    const selectedPaperItems: Paper.Item[] = [];
-    const selectedPlacements = this.props.items.filter(placement => {
-      const id = placement.id;
-      return this.props.selectedPlacementIds.find(i => i === id);
-    });
-
-    if (selectedPlacements.length === 1) {
-      selectedPlacements[0].setSelected(true);
-    }
-    if (selectedPlacements.length >= 2) {
-      const paperItem = selectedPlacements[0].getPaperItem();
-      if (paperItem) {
-        const rect = new Paper.Path.Rectangle(paperItem.bounds);
-        rect.strokeColor = configuration.boundingBoxStrokeColor;
-      }
-    }
-  };
   onMouseDown = (type: AppEventType, event: Paper.MouseEvent) => {
     const result = PaperUtil.hitTest(event.point);
     if (!result) {
@@ -130,17 +117,24 @@ class IacEditItem extends React.Component<IProps> {
   };
 
   onMouseDrag = (type: AppEventType, event: Paper.MouseEvent) => {
-    if (this.editItem && this.selectedPlacement) {
+    const len = this.selectedPlacements.length;
+    if (this.editItem && len > 0) {
       switch (this.modus) {
         case "grip":
-          this.startEdit();
-          this.selectedPlacement.dragGrip(event, this.editItem);
-          return "stop";
+          if (len === 1) {
+            this.startEdit();
+            this.selectedPlacements[0].dragGrip(event, this.editItem);
+            return "stop";
+          }
+          break;
 
         case "item":
           this.startEdit();
-          this.selectedPlacement.dragItem(event, this.editItem);
+          for (let placement of this.selectedPlacements) {
+            placement.dragItem(event);
+          }
           return "stop";
+          break;
       }
     }
   };
@@ -154,36 +148,38 @@ class IacEditItem extends React.Component<IProps> {
         break;
     }
 
-    if (this.editing && this.selectedPlacement) {
-      this.updatePlacement(this.selectedPlacement);
+    if (this.editing && this.selectedPlacements.length > 0) {
+      this.updatePlacement(this.selectedPlacements);
       this.editing = false;
     }
   };
 
   startEdit() {
-    if (!this.editing && this.selectedPlacement) {
+    if (!this.editing && this.selectedPlacements.length > 0) {
+      console.log("startEdit");
       // create a copy before editing
-      this.selectedPlacement.setSelected(false);
       this.editing = true;
-      const copyPlacement: Placement = deepClone(
-        this.selectedPlacement,
-      );
-      const oldItem = this.selectedPlacement.getPaperItem();
-      const copyItem = copyPlacement.paperDraw();
-      if (oldItem && copyItem) {
-        oldItem.replaceWith(copyItem);
-        this.selectedPlacement = copyPlacement;
-        this.selectedPlacement.setSelected(true);
+      let newSelectedPlacements = [];
+      for (let placement of this.selectedPlacements) {
+        placement.setSelected(false);
+        const copyPlacement: Placement = deepClone(placement);
+        const oldItem = placement.getPaperItem();
+        const copyItem = copyPlacement.paperDraw();
+        if (oldItem && copyItem) {
+          oldItem.replaceWith(copyItem);
+          placement = copyPlacement;
+          newSelectedPlacements.push(placement);
+          placement.setSelected(true);
+        }
       }
+      this.selectedPlacements = newSelectedPlacements;
     }
   }
 
-  private async updatePlacement(placement: Placement) {
-    if (placement) {
-      await this.props.dispatch(
-        updateElementAction("placement", placement),
-      );
-    }
+  private async updatePlacement(placements: Placement[]) {
+    await this.props.dispatch(
+      updateElementAction("placement", placements),
+    );
   }
 
   getPlacementsById(ids: string[]): (Placement | undefined)[] {

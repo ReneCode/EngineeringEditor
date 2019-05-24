@@ -44,14 +44,14 @@ export const createPlacementAction = (
 
       const newPlacements = await apiCreatePlacements(placements);
 
-      // on new symbolref we have to update the .symbol property of the symbolref
-      const newSymbolRefs = newPlacements.filter(
-        (p: Placement) => p instanceof GraphicSymbolRef,
-      );
-      if (newSymbolRefs.length > 0) {
-        const symbols = getState().graphic.symbols;
-        updateAllSymbolRef(newPlacements, symbols);
-      }
+      // // on new symbolref we have to update the .symbol property of the symbolref
+      // const newSymbolRefs = newPlacements.filter(
+      //   (p: Placement) => p instanceof GraphicSymbolRef,
+      // );
+      // if (newSymbolRefs.length > 0) {
+      //   const symbols = getState().graphic.symbols;
+      //   updateAllSymbolRef(newPlacements, symbols);
+      // }
 
       const action = {
         type: actionTypes.ADD_PLACEMENT,
@@ -59,7 +59,7 @@ export const createPlacementAction = (
       };
       await dispatch(action);
 
-      await updateAutoconnection(dispatch, getState);
+      // await updateAutoconnection(dispatch, getState);
 
       return newPlacements;
     } catch (ex) {

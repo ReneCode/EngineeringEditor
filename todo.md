@@ -8,6 +8,7 @@ fixed - selected item in shown on top - even if it is below other items
 
 # TODO
 
+- fix undo of delete placement
 - switch to id => selectedPlacementIds (no selectedPaperItems, no selectedItems)
 
 - create item in frontEnd - to not wait for backend

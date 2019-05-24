@@ -1,7 +1,6 @@
 import { createStore, applyMiddleware, compose } from "redux";
 
 import reduxThunk from "redux-thunk";
-import drawCanvasMiddleware from "./drawCanvasMiddleware";
 
 import reducers from "../reducers";
 
@@ -11,7 +10,7 @@ const composeEnhancers =
 
 const store = createStore(
   reducers,
-  composeEnhancers(applyMiddleware(reduxThunk, drawCanvasMiddleware)),
+  composeEnhancers(applyMiddleware(reduxThunk)),
 );
 
 export default store;
