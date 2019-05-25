@@ -159,7 +159,11 @@ class IacSelect extends React.Component<IProps> {
       }
     }
 
-    this.props.dispatch(setSelectedPlacementIds(selectedIds));
+    if (
+      this.props.selectedPlacementIds.length !== selectedIds.length
+    ) {
+      this.props.dispatch(setSelectedPlacementIds(selectedIds));
+    }
   }
 
   getHitItemPlacementId(point: Paper.Point): string | null {
