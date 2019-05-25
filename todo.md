@@ -8,8 +8,19 @@ fixed - selected item in shown on top - even if it is below other items
 
 - TODO
 
+- Escape: to not remove IacHover
+-
+- box the pop-menu into visible area
+
+- remove edit-box on moving item
+
 * create item in frontEnd - to not wait for backend
 * select id after creating Line/Arc
+
+- panning
+
+  - move canvas
+  - move also popup-menu
 
 - no redraw after saving to backend
 

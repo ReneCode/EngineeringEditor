@@ -259,3 +259,30 @@ nav.menu .text {
 }
 .prop-value:read-only {
 }
+
+.html-canvas {
+  position: absolute;
+  left: 81px;
+  top: 45px;
+}
+
+.popup-menu {
+  position: absolute;
+  height: 50px;
+  background-color: $menu-background-color;
+  color: $menu-text-color;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  button {
+    font-size: 1.2rem;
+    margin: 4px;
+    width: 40px;
+    height: 40px;
+    color: #eee;
+    background: #333;
+  }
+  button:hover {
+    background-color: #777;
+  }
+}

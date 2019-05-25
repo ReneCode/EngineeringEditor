@@ -4,6 +4,7 @@ import Statusbar from "./Statusbar";
 import GraphicView from "./GraphicView";
 import ZoomToolbar from "./ZoomToolbar";
 import KeyboardHandler from "./KeyboardHandler";
+import PopupMenu from "../menu/PopupMenu";
 
 const GraphicFrame = () => {
   return (
@@ -11,6 +12,7 @@ const GraphicFrame = () => {
       <GraphicView />
       <ZoomToolbar />
       <KeyboardHandler />
+      <PopupMenu />
       <Statusbar />
     </div>
   );

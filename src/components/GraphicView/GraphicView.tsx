@@ -98,7 +98,7 @@ class GraphicView extends Component<IProps> {
       Paper.view.viewSize = new Paper.Size(width, height);
 
       // 0,0 point in left,bottom
-      Paper.view.matrix = new Paper.Matrix(1, 0, 0, -1, 0, height);
+      //Paper.view.matrix = new Paper.Matrix(1, 0, 0, -1, 0, height);
 
       // this.props.dispatch(setCanvasSize(rect.width, rect.height));
     }
