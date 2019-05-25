@@ -27,7 +27,7 @@ class IacEditItem extends React.Component<IProps> {
   oldFillColor: string | Paper.Color | null = null;
   editing: boolean = false;
   resizeBox: ResizeBox = new ResizeBox();
-  modus: "grip" | "item" | null = null;
+  modus: "grip" | "item" | "" = "";
 
   componentDidMount() {
     this.unsubscribeFn.push(
@@ -151,6 +151,7 @@ class IacEditItem extends React.Component<IProps> {
       );
       this.editing = false;
     }
+    this.modus = "";
   };
 
   startEdit() {

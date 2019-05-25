@@ -9,6 +9,7 @@ import PaperUtil from "../../utils/PaperUtil";
 import { ItemName } from "../ItemMetaData";
 import Placement from "../../model/Placement";
 import { concatUnique } from "../../utils/concatUnique";
+import configuration from "../configuration";
 
 interface IProps {
   dispatch: Function;
@@ -18,6 +19,9 @@ interface IProps {
 class IacSelect extends React.Component<IProps> {
   unsubscribeFn: any;
   addedId: string = "";
+  modus: "" | "boxselect" = "";
+  selectionBox: null | Paper.Item = null;
+  firstPoint: Paper.Point = new Paper.Point(0, 0);
 
   componentDidMount() {
     this.unsubscribeFn = appEventDispatcher.subscribe(
@@ -28,6 +32,11 @@ class IacSelect extends React.Component<IProps> {
     this.unsubscribeFn = appEventDispatcher.subscribe(
       "mouseUp",
       this.onMouseUp,
+    );
+
+    this.unsubscribeFn = appEventDispatcher.subscribe(
+      "mouseDrag",
+      this.onMouseDrag,
     );
   }
   componentWillUnmount() {
@@ -41,6 +50,12 @@ class IacSelect extends React.Component<IProps> {
                 do not remove, when dragEvent was before mouseUp
   */
   onMouseUp = (type: AppEventType, event: Paper.MouseEvent) => {
+    if (this.modus === "boxselect") {
+      if (this.selectionBox) {
+        this.selectionBox.remove();
+      }
+    }
+
     const id = this.getHitItemPlacementId(event.point);
     if (!id) {
       return;
@@ -66,10 +81,15 @@ class IacSelect extends React.Component<IProps> {
     let newSelectedPlacementIds: string[] = [];
     this.addedId = "";
 
+    this.modus = "";
     const result = PaperUtil.hitTest(event.point);
     if (!result) {
       // nothing selected - remove selection
       newSelectedPlacementIds = [];
+      this.modus = "boxselect";
+      this.selectionBox = null;
+      this.firstPoint = event.point;
+      this.drawSelectionBox(event.point);
     } else {
       const item = PaperUtil.getHitTestItem(result, ItemName.itemAny);
       if (!item) {
@@ -105,6 +125,42 @@ class IacSelect extends React.Component<IProps> {
       setSelectedPlacementIds(newSelectedPlacementIds),
     );
   };
+
+  onMouseDrag = (type: AppEventType, event: Paper.MouseEvent) => {
+    if (this.modus !== "boxselect") {
+      return;
+    }
+    this.drawSelectionBox(event.point);
+  };
+
+  private drawSelectionBox(p2: Paper.Point) {
+    const selectionRect = new Paper.Rectangle(this.firstPoint, p2);
+    const box = new Paper.Path.Rectangle(selectionRect);
+    box.strokeColor = configuration.boundingBoxStrokeColor;
+    if (this.selectionBox) {
+      this.selectionBox.remove();
+    }
+    this.selectionBox = box;
+
+    // select items touching that box
+    const selectedIds: string[] = [];
+    const project = Paper.project;
+    for (let item of project.activeLayer.children) {
+      if (
+        item.isInside(selectionRect) ||
+        item.intersects(this.selectionBox)
+      ) {
+        // if (selectionRect.intersects(item.bounds)) {
+        if (item.data) {
+          selectedIds.push(item.data);
+        } else {
+          // # TODO: check that quirky item
+        }
+      }
+    }
+
+    this.props.dispatch(setSelectedPlacementIds(selectedIds));
+  }
 
   getHitItemPlacementId(point: Paper.Point): string | null {
     let newSelectedPlacementIds: string[] = [];
