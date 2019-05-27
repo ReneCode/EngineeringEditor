@@ -1,6 +1,6 @@
 import Point from "../../common/point";
 import deepClone from "../../common/deepClone";
-import Placement from "../Placement";
+import Placement, { DrawMode } from "../Placement";
 import Paper from "paper";
 import { ItemName } from "../../common/ItemMetaData";
 import PaperUtil from "../../utils/PaperUtil";
@@ -37,15 +37,51 @@ class GraphicArc extends Placement {
     };
   }
 
-  paperDraw(): Paper.Item {
-    let item: Paper.Item;
-    // if (this.startAngle === 0 && this.endAngle === 2 * Math.PI) {
-    if (this.fullCircle) {
-      item = new Paper.Path.Circle(this.center, this.radius);
-    } else {
-      const pts = this.calcPoints();
-      item = new Paper.Path.Arc(pts.from, pts.through, pts.to);
+  setMode(drawMode: DrawMode) {
+    if (drawMode === this._drawMode) {
+      return;
     }
+    console.log("setMode:", drawMode);
+
+    this._drawMode = drawMode;
+    if (this._modeItems) {
+      for (let item of this._modeItems) {
+        item.remove();
+      }
+    }
+    this._modeItems = [];
+    switch (drawMode) {
+      case "hover":
+        {
+          const item = this.createPaperItem();
+          item.strokeColor = configuration.selectionColor;
+          item.strokeWidth = 2;
+          this._modeItems.push(item);
+        }
+        break;
+      case "select":
+        {
+          const item = this.createPaperItem();
+          item.strokeColor = configuration.selectionColor;
+          this._modeItems.push(item);
+        }
+        break;
+      case "edit":
+        {
+          const item = this.createPaperItem();
+          item.strokeColor = configuration.selectionColor;
+          this._modeItems.push(item);
+          const grips = this.createGrips();
+          for (let grip of grips) {
+            this._modeItems.push(grip);
+          }
+        }
+        break;
+    }
+  }
+
+  paperDraw(): Paper.Item {
+    let item: Paper.Item = this.createPaperItem();
     item.data = this.id;
     item.name = ItemName.itemArc;
     this.paperSetStyle(item);
@@ -58,22 +94,28 @@ class GraphicArc extends Placement {
     return item;
   }
 
-  setSelected(on: boolean) {
-    if (on) {
-      this.drawGrips();
+  private createPaperItem(): Paper.Item {
+    let item: Paper.Item;
+    if (this.fullCircle) {
+      item = new Paper.Path.Circle(this.center, this.radius);
     } else {
-      this.removeGrips();
+      const pts = this.calcPoints();
+      item = new Paper.Path.Arc(pts.from, pts.through, pts.to);
     }
+    return item;
+  }
+
+  setSelected(on: boolean) {
+    // if (on) {
+    //   this.drawGrips();
+    // } else {
+    //   this.removeGrips();
+    // }
   }
 
   private drawGrips(selectedGripId: number = 0) {
     this.removeGrips();
-    const pts = this.calcPoints();
-    this._grips = [
-      PaperUtil.createGrip(pts.from, 1),
-      PaperUtil.createGrip(pts.to, 2),
-      PaperUtil.createGrip(pts.through, 3),
-    ];
+    this._grips = this.createGrips();
     if (selectedGripId > 0) {
       const selectGrip = this._grips.find(
         g => g.data === selectedGripId,
@@ -82,6 +124,16 @@ class GraphicArc extends Placement {
         selectGrip.fillColor = configuration.gripDragFillColor;
       }
     }
+  }
+
+  private createGrips(): Paper.Item[] {
+    const pts = this.calcPoints();
+    const grips = [
+      PaperUtil.createGrip(pts.from, 1),
+      PaperUtil.createGrip(pts.to, 2),
+      PaperUtil.createGrip(pts.through, 3),
+    ];
+    return grips;
   }
 
   removeGrips() {
@@ -154,7 +206,9 @@ class GraphicArc extends Placement {
     if (this._item) {
       this.center = this.center.add(event.delta);
       this.paperDraw();
-      this.drawGrips();
+      for (let item of this._modeItems) {
+        item.position = item.position.add(event.delta);
+      }
     }
   }
 

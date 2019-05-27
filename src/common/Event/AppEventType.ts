@@ -1,5 +1,7 @@
 export type AppEventType =
   | ""
+  | "previousPage"
+  | "nextPage"
   | "selectAll"
   | "delete"
   | "undo"

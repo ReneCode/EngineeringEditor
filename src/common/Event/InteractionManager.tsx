@@ -18,6 +18,7 @@ class InteractionManager extends Component<IProps> {
     "SnapGrid",
     "Delete",
     "ZoomInOut",
+    "IacPreviousNextPage",
   ];
 
   idleInteractionNames = [

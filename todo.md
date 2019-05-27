@@ -8,6 +8,10 @@ fixed - selected item in shown on top - even if it is below other items
 
 - TODO
 
+* during selection-from-rectangle all items are: "selected" (also one item is selected - not edit)
+
+- hover-paint same as "edit" "selected" new Mode "hover"
+
 - Escape: to not remove IacHover
 -
 - box the pop-menu into visible area
@@ -26,9 +30,10 @@ fixed - selected item in shown on top - even if it is below other items
 
 * disable redux-dev-tools in production / https://medium.com/@zalmoxis/using-redux-devtools-in-production-4c5b56c5600f
 
-- cmd-A select all
 - cmd-C cmd-V copy paste
 
+* ok - cmd-A select all
+* ok - getPlacementFromIds() as 'global'function with cache. cache will be cleared on redraw Canvas
 * ok - select by drawing a selection box
 * ok - check undo/redo (setMetaData on PaperPlacement)
 * ok - fix undo of delete placement

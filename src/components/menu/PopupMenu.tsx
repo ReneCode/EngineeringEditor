@@ -3,6 +3,7 @@ import React from "react";
 import { IGlobalState } from "../../reducers";
 import { connect } from "react-redux";
 import Placement from "../../model/Placement";
+import { ItemName } from "../../common/ItemMetaData";
 
 interface IProps {
   selectedPlacementIds: string[];
@@ -11,10 +12,6 @@ interface IProps {
 
 class PopupMenu extends React.Component<IProps> {
   render() {
-    if (this.props.selectedPlacementIds.length !== 1) {
-      return null;
-    }
-
     const id = this.props.selectedPlacementIds[0];
     const placement = this.props.items.find(
       placement => placement.id === id,

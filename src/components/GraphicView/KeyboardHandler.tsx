@@ -34,7 +34,13 @@ class KeybaordHandler extends React.Component {
   onKeyDown = (type: AppEventType, event: KeyboardEvent) => {
     // TODO decide if mac or windows user
     // mac => metaKey,  windows => ctrlKey
-    if ((event.metaKey || event.ctrlKey) && event.key === "z") {
+
+    // shift on mac      event.key = "z"
+    // shift on windows: event.key = "Z"
+    if (
+      (event.metaKey || event.ctrlKey) &&
+      (event.key === "z" || event.key === "Z")
+    ) {
       if (event.shiftKey) {
         appEventDispatcher.dispatch("redo");
       } else {
@@ -43,7 +49,19 @@ class KeybaordHandler extends React.Component {
       event.preventDefault();
     }
 
+    console.log("key:", event.key);
+
     switch (event.key) {
+      case "PageUp":
+        appEventDispatcher.dispatch("previousPage");
+        event.preventDefault();
+
+        break;
+      case "PageDown":
+        appEventDispatcher.dispatch("nextPage");
+        event.preventDefault();
+        break;
+
       case "+":
         appEventDispatcher.dispatch("zoomIn", this.state.cursor);
         break;

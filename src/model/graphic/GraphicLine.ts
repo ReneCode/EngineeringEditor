@@ -1,5 +1,5 @@
 import deepClone from "../../common/deepClone";
-import Placement from "../Placement";
+import Placement, { DrawMode } from "../Placement";
 import Paper from "paper";
 import PaperUtil from "../../utils/PaperUtil";
 import { ItemName } from "../../common/ItemMetaData";
@@ -26,38 +26,109 @@ class GraphicLine extends Placement {
     };
   }
 
-  setSelected(on: boolean) {
-    if (on) {
-      this.drawGrips();
-    } else {
-      this.removeGrips();
+  setMode(drawMode: DrawMode) {
+    if (drawMode === this._drawMode) {
+      return;
+    }
+    this._drawMode = drawMode;
+    console.log("setMode:", drawMode);
+
+    this.drawTempItems();
+  }
+
+  private drawTempItems(selectedGripId: number = 0) {
+    if (this._modeItems) {
+      for (let item of this._modeItems) {
+        item.remove();
+      }
+    }
+    this._modeItems = [];
+    switch (this._drawMode) {
+      case "hover":
+        {
+          const item = this.createPaperItem();
+          item.strokeColor = configuration.selectionColor;
+          item.strokeWidth = 2;
+          this._modeItems.push(item);
+        }
+        break;
+      case "select":
+        {
+          const item = this.createPaperItem();
+          item.strokeColor = configuration.selectionColor;
+          this._modeItems.push(item);
+        }
+        break;
+      case "edit":
+        {
+          const item = this.createPaperItem();
+          item.strokeColor = configuration.selectionColor;
+          this._modeItems.push(item);
+          const grips = this.createGrips(selectedGripId);
+          for (let grip of grips) {
+            this._modeItems.push(grip);
+          }
+        }
+        break;
     }
   }
 
-  private drawGrips(selectedGripId: number = 0) {
-    this.removeGrips();
-    this._grips = [
+  private createGrips(selectedGripId: number = 0) {
+    const grips = [
       PaperUtil.createGrip(this.p1, 1),
       PaperUtil.createGrip(this.p2, 2),
     ];
-    if (selectedGripId > 0) {
-      const selectGrip = this._grips.find(
-        g => g.data === selectedGripId,
-      );
-      if (selectGrip) {
-        selectGrip.fillColor = configuration.gripDragFillColor;
-      }
+    const grip = grips.find(g => g.data === selectedGripId);
+    if (grip) {
+      grip.fillColor = configuration.gripDragFillColor;
     }
+    return grips;
   }
 
-  private removeGrips() {
-    if (this._grips) {
-      this._grips.forEach(g => g.remove());
-    }
-    this._grips = [];
+  private createPaperItem() {
+    return new Paper.Path.Line(
+      new Paper.Point(this.p1.x, this.p1.y),
+      new Paper.Point(this.p2.x, this.p2.y),
+    );
   }
+
+  // setSelected(on: boolean) {
+  //   if (on) {
+  //     this.drawGrips();
+  //   } else {
+  //     this.removeGrips();
+  //   }
+  // }
+
+  // private drawGrips(selectedGripId: number = 0) {
+  //   this.removeGrips();
+  //   this._grips = [
+  //     PaperUtil.createGrip(this.p1, 1),
+  //     PaperUtil.createGrip(this.p2, 2),
+  //   ];
+  //   if (selectedGripId > 0) {
+  //     const selectGrip = this._grips.find(
+  //       g => g.data === selectedGripId,
+  //     );
+  //     if (selectGrip) {
+  //       selectGrip.fillColor = configuration.gripDragFillColor;
+  //     }
+  //   }
+  // }
+
+  // private removeGrips() {
+  //   if (this._grips) {
+  //     this._grips.forEach(g => g.remove());
+  //   }
+  //   this._grips = [];
+  // }
 
   dragGrip(event: Paper.MouseEvent, gripItem: Paper.Item) {
+    if (this._drawMode !== "edit") {
+      throw new Error("dragGrip only in edit mode");
+      return;
+    }
+    console.log("dragGrip:", gripItem);
     gripItem.position = event.point;
     if (this._item) {
       switch (gripItem.data) {
@@ -71,7 +142,8 @@ class GraphicLine extends Placement {
           throw new Error(`bad index: ${gripItem.data}`);
       }
       this.paperDraw();
-      this.drawGrips(gripItem.data);
+      this.drawTempItems(gripItem.data);
+      // this.drawGrips(gripItem.data);
     }
   }
 
@@ -80,31 +152,23 @@ class GraphicLine extends Placement {
       this.p1 = this.p1.add(event.delta);
       this.p2 = this.p2.add(event.delta);
       this.paperDraw();
-      this.drawGrips();
+      for (let item of this._modeItems) {
+        item.position = item.position.add(event.delta);
+      }
     }
   }
 
   paperDraw(): Paper.Item {
-    const item = new Paper.Path.Line(
-      new Paper.Point(this.p1.x, this.p1.y),
-      new Paper.Point(this.p2.x, this.p2.y),
-    );
+    const item = this.createPaperItem();
     item.data = this.id;
     item.name = ItemName.itemLine;
     this.paperSetStyle(item);
 
     if (this._item) {
-      const ok = this._item.replaceWith(item);
+      this._item.replaceWith(item);
     }
     this._item = item;
     return item;
-  }
-
-  translate(pt: Paper.Point) {
-    const line: GraphicLine = deepClone(this);
-    line.p1 = line.p1.add(pt);
-    line.p2 = line.p2.add(pt);
-    return line;
   }
 }
 

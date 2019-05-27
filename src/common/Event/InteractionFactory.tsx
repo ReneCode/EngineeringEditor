@@ -12,11 +12,14 @@ import IacHoverItem from "../interaction/IacHoverItem";
 import IacCreateLine from "../interaction/IacCreateLine";
 import IacEditItem from "../interaction/IacEditItem";
 import IacSelect from "../interaction/IacSelect";
+import IacPreviousNextPage from "../interaction/IacPreviousNextPage";
 
 class InteractionFactory {
   static create(name: string): JSX.Element {
     const props = { key: name };
     switch (name) {
+      case "IacPreviousNextPage":
+        return <IacPreviousNextPage {...props} />;
       case "HoverItem":
         return <IacHoverItem {...props} />;
       case "Idle":

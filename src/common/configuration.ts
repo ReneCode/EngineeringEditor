@@ -29,10 +29,12 @@ class Configuration {
   gripHoverFillColor = accentColor;
   gripDragFillColor = accentColor;
 
-  defaultFillColor = "#bbdd4499";
+  defaultFillColor = "#bbdd44B9";
   defaultStrokeColor = "#442244";
 
   backgroundToolbox = "#DAE3EA";
+
+  selectionColor = accentColor;
 }
 
 const configuration = new Configuration();

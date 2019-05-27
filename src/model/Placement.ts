@@ -10,6 +10,8 @@ export type DrawOptions = {
   parent?: any;
 };
 
+export type DrawMode = "select" | "edit" | "hover" | null;
+
 class Placement {
   type: GraphicType;
   id: IdType;
@@ -21,6 +23,8 @@ class Placement {
 
   protected _grips: Paper.Item[] = [];
   protected _item: Paper.Item | null = null;
+  protected _drawMode: DrawMode = null;
+  protected _modeItems: Paper.Item[] = [];
 
   constructor(type: GraphicType) {
     this.type = type;
@@ -45,6 +49,10 @@ class Placement {
 
   getPaperItem(): Paper.Item | null {
     return this._item;
+  }
+
+  setMode(newMode: DrawMode) {
+    throw new Error(`overwrite setMode on object: ${this}`);
   }
 
   setSelected(on: boolean) {

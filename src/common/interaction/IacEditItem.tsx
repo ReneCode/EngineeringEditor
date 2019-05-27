@@ -1,7 +1,7 @@
 import React from "react";
 
 import Paper from "paper";
-import Placement from "../../model/Placement";
+import Placement, { DrawMode } from "../../model/Placement";
 import { connect } from "react-redux";
 import { IGlobalState } from "../../reducers";
 import { AppEventType } from "../Event/AppEventType";
@@ -12,6 +12,7 @@ import { updateElementAction } from "../../actions/changeElementActions";
 import appEventDispatcher from "../Event/AppEventDispatcher";
 import deepClone from "../deepClone";
 import ResizeBox from "./ResizeBox";
+import { debug } from "util";
 
 interface IProps {
   dispatch: Function;
@@ -50,6 +51,28 @@ class IacEditItem extends React.Component<IProps> {
         this.props.selectedPlacementIds ||
       prevProps.redrawn !== this.props.redrawn
     ) {
+      const oP = PaperUtil.getPlacementsById(
+        prevProps.selectedPlacementIds,
+      );
+      for (let p of oP) {
+        p.setMode(null);
+      }
+
+      const placements = PaperUtil.getPlacementsById(
+        this.props.selectedPlacementIds,
+      );
+      console.log("new Placements:", placements);
+      if (placements.length === 1) {
+        placements[0].setMode("edit");
+      }
+      if (placements.length > 1) {
+        for (let placement of placements) {
+          placement.setMode("select");
+        }
+      }
+
+      /*
+
       // remove old selection
       const oldSelectedPlacements = this.getPlacementsById(
         prevProps.selectedPlacementIds,
@@ -87,6 +110,8 @@ class IacEditItem extends React.Component<IProps> {
         this.resizeBox.create(paperItems);
       }
     }
+    */
+    }
   }
 
   onMouseDown = (type: AppEventType, event: Paper.MouseEvent) => {
@@ -114,19 +139,16 @@ class IacEditItem extends React.Component<IProps> {
   };
 
   onMouseDrag = (type: AppEventType, event: Paper.MouseEvent) => {
-    const len = this.selectedPlacements.length;
-    if (this.editItem && len > 0) {
+    if (this.editItem) {
       switch (this.modus) {
         case "grip":
-          if (len === 1) {
-            this.startEdit();
-            this.selectedPlacements[0].dragGrip(event, this.editItem);
-            return "stop";
-          }
+          this.startEdit("edit");
+          this.selectedPlacements[0].dragGrip(event, this.editItem);
+          return "stop";
           break;
 
         case "item":
-          this.startEdit();
+          this.startEdit("select");
           for (let placement of this.selectedPlacements) {
             placement.dragItem(event);
           }
@@ -146,44 +168,59 @@ class IacEditItem extends React.Component<IProps> {
     }
 
     if (this.editing && this.selectedPlacements.length > 0) {
-      this.props.dispatch(
-        updateElementAction("placement", this.selectedPlacements),
-      );
+      this.savePlacement();
       this.editing = false;
     }
     this.modus = "";
   };
 
-  startEdit() {
-    const len = this.selectedPlacements.length;
-    if (!this.editing && len > 0) {
-      if (len > 1) {
-        this.resizeBox.remove();
-      }
+  private async savePlacement() {
+    await this.props.dispatch(
+      updateElementAction("placement", this.selectedPlacements),
+    );
+  }
+
+  startEdit(drawMode: DrawMode) {
+    if (!this.editing) {
+      // if (len > 1) {
+      //   this.resizeBox.remove();
+      // }
+
+      const placements = PaperUtil.getPlacementsById(
+        this.props.selectedPlacementIds,
+      );
+
       // create a copy before editing
       this.editing = true;
       let newSelectedPlacements = [];
-      for (let placement of this.selectedPlacements) {
-        placement.setSelected(false);
-        const copyPlacement: Placement = deepClone(placement);
+      this.selectedPlacements = [];
+      for (let placement of placements) {
+        placement.setMode(null);
+        const newPlacement: Placement = deepClone(placement);
         const oldItem = placement.getPaperItem();
-        const copyItem = copyPlacement.paperDraw();
+        const copyItem = newPlacement.paperDraw();
         if (oldItem && copyItem) {
           oldItem.replaceWith(copyItem);
-          placement = copyPlacement;
-          newSelectedPlacements.push(placement);
-          placement.setSelected(true);
+          newSelectedPlacements.push(newPlacement);
+          newPlacement.setMode(drawMode);
         }
       }
       this.selectedPlacements = newSelectedPlacements;
     }
   }
 
-  getPlacementsById(ids: string[]): (Placement | undefined)[] {
-    return ids.map(id => {
-      return this.props.items.find(placement => placement.id === id);
-    });
-  }
+  // private getPlacementsById(ids: string[]): Placement[] {
+  //   let placements: Placement[] = [];
+  //   for (let id of ids) {
+  //     const placement = this.props.items.find(
+  //       placement => placement.id === id,
+  //     );
+  //     if (placement) {
+  //       placements.push(placement);
+  //     }
+  //   }
+  //   return placements;
+  // }
 
   render() {
     return null;

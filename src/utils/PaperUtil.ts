@@ -2,6 +2,9 @@ import Paper from "paper";
 import { ItemName } from "../common/ItemMetaData";
 import { makeArray } from "../model/dtoUtil";
 import configuration from "../common/configuration";
+import Placement from "../model/Placement";
+import store from "../store/index";
+import { IGlobalState } from "../reducers";
 
 class PaperUtil {
   static PointAsJSON(pt: Paper.Point): any {
@@ -80,6 +83,20 @@ class PaperUtil {
     grip.name = ItemName.grip;
     grip.data = id;
     return grip;
+  }
+
+  static getPlacementsById(ids: string[]): Placement[] {
+    let placements: Placement[] = [];
+    const state: IGlobalState = store.getState();
+    for (let id of ids) {
+      const placement = state.graphic.items.find(
+        placement => placement.id === id,
+      );
+      if (placement) {
+        placements.push(placement);
+      }
+    }
+    return placements;
   }
 }
 
