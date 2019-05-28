@@ -178,14 +178,12 @@ const graphicReducer = (state = initialState, action: IAction) => {
       };
 
     case actionTypes.ADD_PLACEMENT:
-      // console.log("addPlacement");
       return addPlacement(state, action);
 
     case actionTypes.DELETE_PLACEMENT:
       return deletePlacement(state, action);
 
     case actionTypes.UPDATE_PLACEMENT:
-      console.log("reducer update placement");
       return updatePlacements(state, action);
 
     case actionTypes.SET_CANVAS_SIZE:

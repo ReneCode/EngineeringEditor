@@ -1,4 +1,3 @@
-import deepClone from "../../common/deepClone";
 import Placement, { DrawMode } from "../Placement";
 import Paper from "paper";
 import PaperUtil from "../../utils/PaperUtil";
@@ -34,6 +33,51 @@ class GraphicLine extends Placement {
     console.log("setMode:", drawMode);
 
     this.drawTempItems();
+  }
+
+  paperDraw(): Paper.Item {
+    const item = this.createPaperItem();
+    item.data = this.id;
+    item.name = ItemName.itemLine;
+    this.paperSetStyle(item);
+
+    if (this._item) {
+      this._item.replaceWith(item);
+    }
+    this._item = item;
+    return item;
+  }
+
+  dragGrip(event: Paper.MouseEvent, gripItem: Paper.Item) {
+    if (this._drawMode !== "edit") {
+      throw new Error("dragGrip only in edit mode");
+    }
+    gripItem.position = event.point;
+    if (this._item) {
+      switch (gripItem.data) {
+        case 1:
+          this.p1 = event.point;
+          break;
+        case 2:
+          this.p2 = event.point;
+          break;
+        default:
+          throw new Error(`bad index: ${gripItem.data}`);
+      }
+      this.paperDraw();
+      this.drawTempItems(gripItem.data);
+    }
+  }
+
+  dragItem(event: Paper.MouseEvent) {
+    if (this._item) {
+      this.p1 = this.p1.add(event.delta);
+      this.p2 = this.p2.add(event.delta);
+      this.paperDraw();
+      for (let item of this._modeItems) {
+        item.position = item.position.add(event.delta);
+      }
+    }
   }
 
   private drawTempItems(selectedGripId: number = 0) {
@@ -73,7 +117,7 @@ class GraphicLine extends Placement {
     }
   }
 
-  private createGrips(selectedGripId: number = 0) {
+  private createGrips(selectedGripId: number = 0): Paper.Item[] {
     const grips = [
       PaperUtil.createGrip(this.p1, 1),
       PaperUtil.createGrip(this.p2, 2),
@@ -90,85 +134,6 @@ class GraphicLine extends Placement {
       new Paper.Point(this.p1.x, this.p1.y),
       new Paper.Point(this.p2.x, this.p2.y),
     );
-  }
-
-  // setSelected(on: boolean) {
-  //   if (on) {
-  //     this.drawGrips();
-  //   } else {
-  //     this.removeGrips();
-  //   }
-  // }
-
-  // private drawGrips(selectedGripId: number = 0) {
-  //   this.removeGrips();
-  //   this._grips = [
-  //     PaperUtil.createGrip(this.p1, 1),
-  //     PaperUtil.createGrip(this.p2, 2),
-  //   ];
-  //   if (selectedGripId > 0) {
-  //     const selectGrip = this._grips.find(
-  //       g => g.data === selectedGripId,
-  //     );
-  //     if (selectGrip) {
-  //       selectGrip.fillColor = configuration.gripDragFillColor;
-  //     }
-  //   }
-  // }
-
-  // private removeGrips() {
-  //   if (this._grips) {
-  //     this._grips.forEach(g => g.remove());
-  //   }
-  //   this._grips = [];
-  // }
-
-  dragGrip(event: Paper.MouseEvent, gripItem: Paper.Item) {
-    if (this._drawMode !== "edit") {
-      throw new Error("dragGrip only in edit mode");
-      return;
-    }
-    console.log("dragGrip:", gripItem);
-    gripItem.position = event.point;
-    if (this._item) {
-      switch (gripItem.data) {
-        case 1:
-          this.p1 = event.point;
-          break;
-        case 2:
-          this.p2 = event.point;
-          break;
-        default:
-          throw new Error(`bad index: ${gripItem.data}`);
-      }
-      this.paperDraw();
-      this.drawTempItems(gripItem.data);
-      // this.drawGrips(gripItem.data);
-    }
-  }
-
-  dragItem(event: Paper.MouseEvent) {
-    if (this._item) {
-      this.p1 = this.p1.add(event.delta);
-      this.p2 = this.p2.add(event.delta);
-      this.paperDraw();
-      for (let item of this._modeItems) {
-        item.position = item.position.add(event.delta);
-      }
-    }
-  }
-
-  paperDraw(): Paper.Item {
-    const item = this.createPaperItem();
-    item.data = this.id;
-    item.name = ItemName.itemLine;
-    this.paperSetStyle(item);
-
-    if (this._item) {
-      this._item.replaceWith(item);
-    }
-    this._item = item;
-    return item;
   }
 }
 
