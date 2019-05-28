@@ -24,7 +24,7 @@ class Placement {
   protected _grips: Paper.Item[] = [];
   protected _item: Paper.Item | null = null;
   protected _drawMode: DrawMode = null;
-  protected _modeItems: Paper.Item[] = [];
+  protected _tempItems: Paper.Item[] = [];
 
   constructor(type: GraphicType) {
     this.type = type;

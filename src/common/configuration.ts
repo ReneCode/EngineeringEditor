@@ -13,10 +13,10 @@ $color5: #0b2b7c;
 */
 
 const accentColor = "#4a7cf9";
+const accentColorDimmed1 = "#4a7cf977"; // brighter
+const accentColorDimmed2 = "#4a7cf911"; // nearly transparent
 
 class Configuration {
-  boundingBoxStrokeColor = "#1A9FE9";
-  boundingBoxHandleSize = 10;
   handleStrokeColor = "#222222";
   handleFillColor = "#eeeeee";
 
@@ -33,6 +33,12 @@ class Configuration {
   defaultStrokeColor = "#442244";
 
   backgroundToolbox = "#DAE3EA";
+
+  boundingBoxStrokeColor = accentColorDimmed1;
+  boundingBoxHandleSize = 10;
+
+  selectionBoxStrokeColor = accentColor;
+  selectionBoxFillColor = accentColorDimmed2;
 
   selectionColor = accentColor;
 }

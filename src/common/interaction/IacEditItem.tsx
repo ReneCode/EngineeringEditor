@@ -57,6 +57,7 @@ class IacEditItem extends React.Component<IProps> {
       for (let p of oP) {
         p.setMode(null);
       }
+      this.resizeBox.remove();
 
       const placements = PaperUtil.getPlacementsById(
         this.props.selectedPlacementIds,
@@ -69,6 +70,10 @@ class IacEditItem extends React.Component<IProps> {
         for (let placement of placements) {
           placement.setMode("select");
         }
+        const items: Paper.Item[] = placements.map(p =>
+          p.getPaperItem(),
+        ) as Paper.Item[];
+        this.resizeBox.create(items);
       }
 
       /*

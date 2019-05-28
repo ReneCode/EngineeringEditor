@@ -20,7 +20,9 @@ class IacSelect extends React.Component<IProps> {
   addedId: string = "";
   modus: "" | "boxselect" = "";
   selectionBox: null | Paper.Item = null;
+  selectedIds: string[] = [];
   firstPoint: Paper.Point = new Paper.Point(0, 0);
+  boundingBox: Paper.Item = new Paper.Item();
 
   componentDidMount() {
     this.unsubscribeFn = appEventDispatcher.subscribe(
@@ -53,6 +55,24 @@ class IacSelect extends React.Component<IProps> {
       if (this.selectionBox) {
         this.selectionBox.remove();
       }
+      console.log(
+        ":",
+        this.props.selectedPlacementIds,
+        this.selectedIds,
+      );
+      if (
+        this.props.selectedPlacementIds.length !==
+        this.selectedIds.length
+      ) {
+        this.props.dispatch(
+          setSelectedPlacementIds(this.selectedIds),
+        );
+      }
+      this.boundingBox.remove();
+      this.selectedIds = [];
+      this.selectionBox = null;
+      this.modus = "";
+      return;
     }
 
     const id = this.getHitItemPlacementId(event.point);
@@ -84,12 +104,12 @@ class IacSelect extends React.Component<IProps> {
     const result = PaperUtil.hitTest(event.point);
     if (!result) {
       // nothing selected - remove selection
-      newSelectedPlacementIds = [];
       this.modus = "boxselect";
       this.selectionBox = null;
       this.firstPoint = event.point;
       this.drawSelectionBox(event.point);
     } else {
+      // continue here f
       const item = PaperUtil.getHitTestItem(result, ItemName.itemAny);
       if (!item) {
         // other item-type selected
@@ -119,7 +139,6 @@ class IacSelect extends React.Component<IProps> {
         newSelectedPlacementIds = [id];
       }
     }
-
     this.props.dispatch(
       setSelectedPlacementIds(newSelectedPlacementIds),
     );
@@ -130,39 +149,60 @@ class IacSelect extends React.Component<IProps> {
       return;
     }
     this.drawSelectionBox(event.point);
+    const items = this.collectPaperItemsInSelectionBox();
+    this.selectedIds = items.map(item => item.data);
+    this.drawBoundingBox(items);
   };
 
   private drawSelectionBox(p2: Paper.Point) {
     const selectionRect = new Paper.Rectangle(this.firstPoint, p2);
     const box = new Paper.Path.Rectangle(selectionRect);
-    box.strokeColor = configuration.boundingBoxStrokeColor;
+    box.strokeColor = configuration.selectionBoxStrokeColor;
+    box.fillColor = configuration.selectionBoxFillColor;
+    box.strokeWidth = 0.5;
     if (this.selectionBox) {
       this.selectionBox.remove();
     }
     this.selectionBox = box;
+  }
 
-    // select items touching that box
-    const selectedIds: string[] = [];
-    const project = Paper.project;
-    for (let item of project.activeLayer.children) {
-      if (
-        item.isInside(selectionRect) ||
-        item.intersects(this.selectionBox)
-      ) {
-        // if (selectionRect.intersects(item.bounds)) {
-        if (item.data) {
-          selectedIds.push(item.data);
-        } else {
-          // # TODO: check that quirky item
+  private collectPaperItemsInSelectionBox(): Paper.Item[] {
+    const items: Paper.Item[] = [];
+    if (this.selectionBox) {
+      const selectionRect = this.selectionBox.bounds;
+
+      const project = Paper.project;
+      for (let item of project.activeLayer.children) {
+        if (
+          item.isInside(selectionRect) ||
+          item.intersects(this.selectionBox)
+        ) {
+          if (ItemName.match(ItemName.itemAny, item.name)) {
+            console.log(":", item.name);
+            items.push(item);
+          }
         }
       }
     }
+    return items;
+  }
 
-    if (
-      this.props.selectedPlacementIds.length !== selectedIds.length
-    ) {
-      this.props.dispatch(setSelectedPlacementIds(selectedIds));
+  private drawBoundingBox(items: Paper.Item[]) {
+    if (items.length === 0) {
+      return;
     }
+    let bbox = items[0].bounds;
+    for (let item of items) {
+      bbox = bbox.unite(item.bounds);
+    }
+
+    if (this.boundingBox) {
+      this.boundingBox.remove();
+    }
+    this.boundingBox = new Paper.Path.Rectangle(bbox);
+    this.boundingBox.name = ItemName.resizeBox;
+    this.boundingBox.strokeColor =
+      configuration.boundingBoxStrokeColor;
   }
 
   getHitItemPlacementId(point: Paper.Point): string | null {
