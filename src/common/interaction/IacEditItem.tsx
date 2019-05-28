@@ -75,47 +75,6 @@ class IacEditItem extends React.Component<IProps> {
         ) as Paper.Item[];
         this.resizeBox.create(items);
       }
-
-      /*
-
-      // remove old selection
-      const oldSelectedPlacements = this.getPlacementsById(
-        prevProps.selectedPlacementIds,
-      );
-      oldSelectedPlacements.forEach(p => {
-        if (p) {
-          p.setSelected(false);
-        }
-      });
-      this.resizeBox.remove();
-
-      this.selectedPlacements = [];
-      const newSelectedPlacements = this.getPlacementsById(
-        this.props.selectedPlacementIds,
-      ).filter(p => !!p);
-      if (newSelectedPlacements.length === 1) {
-        const placement = newSelectedPlacements[0];
-        if (placement) {
-          this.selectedPlacements = [placement];
-          placement.setSelected(true);
-        }
-      }
-      if (newSelectedPlacements.length > 1) {
-        const paperItems: Paper.Item[] = [];
-        for (let placement of newSelectedPlacements) {
-          if (placement) {
-            placement.setSelected(true);
-            const paperItem = placement.getPaperItem();
-            if (paperItem) {
-              paperItems.push(paperItem);
-            }
-            this.selectedPlacements.push(placement);
-          }
-        }
-        this.resizeBox.create(paperItems);
-      }
-    }
-    */
     }
   }
 
@@ -191,6 +150,7 @@ class IacEditItem extends React.Component<IProps> {
       //   this.resizeBox.remove();
       // }
 
+      this.resizeBox.remove();
       const placements = PaperUtil.getPlacementsById(
         this.props.selectedPlacementIds,
       );
