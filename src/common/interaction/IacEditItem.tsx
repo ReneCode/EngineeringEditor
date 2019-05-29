@@ -12,7 +12,6 @@ import { updateElementAction } from "../../actions/changeElementActions";
 import appEventDispatcher from "../Event/AppEventDispatcher";
 import deepClone from "../deepClone";
 import ResizeBox from "./ResizeBox";
-import { debug } from "util";
 
 interface IProps {
   dispatch: Function;
@@ -122,7 +121,7 @@ class IacEditItem extends React.Component<IProps> {
     }
   };
 
-  onMouseUp = (type: AppEventType, event: Paper.MouseEvent) => {
+  onMouseUp = () => {
     switch (this.modus) {
       case "grip":
         if (this.editItem) {
@@ -146,10 +145,6 @@ class IacEditItem extends React.Component<IProps> {
 
   startEdit(drawMode: DrawMode) {
     if (!this.editing) {
-      // if (len > 1) {
-      //   this.resizeBox.remove();
-      // }
-
       this.resizeBox.remove();
       const placements = PaperUtil.getPlacementsById(
         this.props.selectedPlacementIds,
@@ -173,19 +168,6 @@ class IacEditItem extends React.Component<IProps> {
       this.selectedPlacements = newSelectedPlacements;
     }
   }
-
-  // private getPlacementsById(ids: string[]): Placement[] {
-  //   let placements: Placement[] = [];
-  //   for (let id of ids) {
-  //     const placement = this.props.items.find(
-  //       placement => placement.id === id,
-  //     );
-  //     if (placement) {
-  //       placements.push(placement);
-  //     }
-  //   }
-  //   return placements;
-  // }
 
   render() {
     return null;

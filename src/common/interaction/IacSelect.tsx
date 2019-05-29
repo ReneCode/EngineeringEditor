@@ -9,6 +9,8 @@ import PaperUtil from "../../utils/PaperUtil";
 import { ItemName } from "../ItemMetaData";
 import { concatUnique } from "../../utils/concatUnique";
 import configuration from "../configuration";
+import containsTheSame from "../../utils/containsTheSame";
+import Placement, { DrawMode } from "../../model/Placement";
 
 interface IProps {
   dispatch: Function;
@@ -150,9 +152,23 @@ class IacSelect extends React.Component<IProps> {
     }
     this.drawSelectionBox(event.point);
     const items = this.collectPaperItemsInSelectionBox();
-    this.selectedIds = items.map(item => item.data);
+    const newSelecteIds = items.map(item => item.data);
+    if (containsTheSame(newSelecteIds, this.selectedIds)) {
+      return;
+    }
+
     this.drawBoundingBox(items);
+    this.setModeToPlacements(this.selectedIds, null);
+    this.setModeToPlacements(newSelecteIds, "select");
+    this.selectedIds = newSelecteIds;
   };
+
+  private setModeToPlacements(ids: string[], drawMode: DrawMode) {
+    const placements = PaperUtil.getPlacementsById(ids);
+    for (let placement of placements) {
+      placement.setMode(drawMode);
+    }
+  }
 
   private drawSelectionBox(p2: Paper.Point) {
     const selectionRect = new Paper.Rectangle(this.firstPoint, p2);
@@ -188,6 +204,9 @@ class IacSelect extends React.Component<IProps> {
   }
 
   private drawBoundingBox(items: Paper.Item[]) {
+    if (this.boundingBox) {
+      this.boundingBox.remove();
+    }
     if (items.length === 0) {
       return;
     }
@@ -196,9 +215,6 @@ class IacSelect extends React.Component<IProps> {
       bbox = bbox.unite(item.bounds);
     }
 
-    if (this.boundingBox) {
-      this.boundingBox.remove();
-    }
     this.boundingBox = new Paper.Path.Rectangle(bbox);
     this.boundingBox.name = ItemName.resizeBox;
     this.boundingBox.strokeColor =

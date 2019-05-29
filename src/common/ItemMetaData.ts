@@ -18,7 +18,6 @@ export class ItemName {
   static itemLine = ".line";
 
   static match(test: string, found: string | null) {
-    // if (test === ".") return true;
     if (!test) {
       // old data
       return true;
