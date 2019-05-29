@@ -30,7 +30,6 @@ class GraphicLine extends Placement {
       return;
     }
     this._drawMode = drawMode;
-    console.log("setMode:", drawMode);
 
     this.drawTempItems();
   }

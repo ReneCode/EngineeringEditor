@@ -57,11 +57,6 @@ class IacSelect extends React.Component<IProps> {
       if (this.selectionBox) {
         this.selectionBox.remove();
       }
-      console.log(
-        ":",
-        this.props.selectedPlacementIds,
-        this.selectedIds,
-      );
       if (
         this.props.selectedPlacementIds.length !==
         this.selectedIds.length
@@ -194,7 +189,6 @@ class IacSelect extends React.Component<IProps> {
           item.intersects(this.selectionBox)
         ) {
           if (ItemName.match(ItemName.itemAny, item.name)) {
-            console.log(":", item.name);
             items.push(item);
           }
         }

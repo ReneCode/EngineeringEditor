@@ -61,7 +61,6 @@ class IacEditItem extends React.Component<IProps> {
       const placements = PaperUtil.getPlacementsById(
         this.props.selectedPlacementIds,
       );
-      console.log("new Placements:", placements);
       if (placements.length === 1) {
         placements[0].setMode("edit");
       }

@@ -49,8 +49,6 @@ class KeybaordHandler extends React.Component {
       event.preventDefault();
     }
 
-    console.log("key:", event.key);
-
     switch (event.key) {
       case "PageUp":
         appEventDispatcher.dispatch("previousPage");
