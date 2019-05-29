@@ -8,6 +8,7 @@ import Paper from "paper";
 import Placement from "../../model/Placement";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 import InteractionManager from "../../common/Event/InteractionManager";
+import PaperUtil from "../../utils/PaperUtil";
 
 interface IProps {
   items: Placement[];
@@ -48,8 +49,7 @@ class GraphicView extends Component<IProps> {
 
   componentDidMount() {
     if (this.canvas) {
-      Paper.setup(this.canvas);
-      Paper.settings.handleSize = 8;
+      PaperUtil.setup(this.canvas);
 
       Paper.view.onMouseDown = this.onMouseDown;
       Paper.view.onMouseUp = this.onMouseUp;

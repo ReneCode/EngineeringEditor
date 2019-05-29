@@ -7,6 +7,28 @@ import store from "../store/index";
 import { IGlobalState } from "../reducers";
 
 class PaperUtil {
+  static setup(canvas: HTMLCanvasElement) {
+    Paper.setup(canvas);
+    Paper.settings.handleSize = 8;
+  }
+
+  // static activateLayer(name: "temp" | "default" | null): Paper.Layer {
+  //   const project = Paper.project;
+  //   const prevLayer = project.activeLayer;
+  //   switch (name) {
+  //     case null:
+  //     case "default":
+  //       project.layers[0].activate();
+  //       break;
+  //     case "temp":
+  //       project.layers[1].activate();
+  //       break;
+  //     default:
+  //       throw new Error("bad layer name:" + name);
+  //   }
+  //   return prevLayer;
+  // }
+
   static PointAsJSON(pt: Paper.Point): any {
     return { x: pt.x, y: pt.y };
   }
@@ -27,6 +49,16 @@ class PaperUtil {
       segments: true,
       stroke: true,
       fill: true,
+      match: function(result: Paper.HitResult) {
+        if (
+          result &&
+          result.item &&
+          result.item.name === ItemName.temp
+        ) {
+          return false;
+        }
+        return true;
+      },
     };
 
     const project = Paper.project;

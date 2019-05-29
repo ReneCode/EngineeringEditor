@@ -90,7 +90,7 @@ class GraphicLine extends Placement {
     switch (this._drawMode) {
       case "hover":
         {
-          const item = this.createPaperItem();
+          const item = this.createPaperItem(ItemName.temp);
           item.strokeColor = configuration.selectionColor;
           item.strokeWidth = 2;
           this._tempItems.push(item);
@@ -98,14 +98,15 @@ class GraphicLine extends Placement {
         break;
       case "select":
         {
-          const item = this.createPaperItem();
+          const item = this.createPaperItem(ItemName.temp);
           item.strokeColor = configuration.selectionColor;
+          item.data = "abc";
           this._tempItems.push(item);
         }
         break;
       case "edit":
         {
-          const item = this.createPaperItem();
+          const item = this.createPaperItem(ItemName.temp);
           item.strokeColor = configuration.selectionColor;
           this._tempItems.push(item);
           const grips = this.createGrips(selectedGripId);
@@ -129,11 +130,15 @@ class GraphicLine extends Placement {
     return grips;
   }
 
-  private createPaperItem() {
-    return new Paper.Path.Line(
+  private createPaperItem(name: string | undefined = undefined) {
+    const item = new Paper.Path.Line(
       new Paper.Point(this.p1.x, this.p1.y),
       new Paper.Point(this.p2.x, this.p2.y),
     );
+    if (name) {
+      item.name = name;
+    }
+    return item;
   }
 }
 

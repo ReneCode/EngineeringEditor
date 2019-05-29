@@ -40,7 +40,6 @@ class GraphicArc extends Placement {
       return;
     }
     this._drawMode = drawMode;
-    console.log("setMode:", drawMode);
     this.drawTempItems();
   }
 
@@ -144,6 +143,7 @@ class GraphicArc extends Placement {
   }
 
   private drawTempItems(selectedGripId: number = 0) {
+    // const prevLayer = PaperUtil.activateLayer("temp");
     if (this._tempItems) {
       for (let item of this._tempItems) {
         item.remove();
@@ -154,6 +154,7 @@ class GraphicArc extends Placement {
       case "hover":
         {
           const item = this.createPaperItem();
+          item.name = "temp";
           item.strokeColor = configuration.selectionColor;
           item.strokeWidth = 2;
           this._tempItems.push(item);
@@ -162,6 +163,8 @@ class GraphicArc extends Placement {
       case "select":
         {
           const item = this.createPaperItem();
+          item.name = "temp";
+
           item.strokeColor = configuration.selectionColor;
           this._tempItems.push(item);
         }
@@ -169,6 +172,7 @@ class GraphicArc extends Placement {
       case "edit":
         {
           const item = this.createPaperItem();
+          item.name = "temp";
           item.strokeColor = configuration.selectionColor;
           this._tempItems.push(item);
           const grips = this.createGrips(selectedGripId);
@@ -178,6 +182,7 @@ class GraphicArc extends Placement {
         }
         break;
     }
+    // prevLayer.activate();
   }
 
   private createGrips(selectedGripId: number = 0): Paper.Item[] {
