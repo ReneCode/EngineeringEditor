@@ -1,7 +1,6 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import PropTypes from "prop-types";
 
 import PageList from "./PageList";
 import PageModal from "./PageModal";
@@ -11,7 +10,6 @@ import {
   createPageAction,
 } from "../../../actions/projectActions";
 import { IGlobalState } from "../../../reducers";
-import { IdType } from "../../../model/types";
 import { RouteComponentProps } from "react-router";
 import toggleArrayItem from "../../../utils/toggleArrayItem";
 
@@ -22,19 +20,14 @@ interface IProps extends RouteComponentProps {
   pages: Page[];
 }
 
-class PageNavigator extends Component<IProps> {
+class PageNavigator extends React.Component<IProps> {
   state: {
     checkedPageIds: string[];
     showNewPageModal: boolean;
+  } = {
+    checkedPageIds: [],
+    showNewPageModal: false,
   };
-
-  constructor(props: IProps) {
-    super(props);
-    this.state = {
-      showNewPageModal: false,
-      checkedPageIds: [],
-    };
-  }
 
   async componentDidMount() {
     this.props.dispatch(loadPagesAction(this.props.projectId));

@@ -1,26 +1,24 @@
 import React from "react";
 
-import "./ZoomToolbar.scss";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
+import Toolbar, { ToolbarItemDef } from "./Toolbar";
 
-class ZoomToolbar extends React.Component {
-  onZoomIn = () => {
-    appEventDispatcher.dispatch("zoomIn");
-  };
-
-  onZoomOut = () => {
-    appEventDispatcher.dispatch("zoomOut");
-  };
-
-  render() {
-    return (
-      <div className="zoomview toolbar">
-        <button onClick={this.onZoomIn}>+</button>
-        <span> </span>
-        <button onClick={this.onZoomOut}>-</button>
-      </div>
-    );
-  }
-}
+const ZoomToolbar = () => {
+  const items: ToolbarItemDef[] = [
+    {
+      text: "+",
+      onClick: () => {
+        appEventDispatcher.dispatch("zoomIn");
+      },
+    },
+    {
+      text: "-",
+      onClick: () => {
+        appEventDispatcher.dispatch("zoomOut");
+      },
+    },
+  ];
+  return <Toolbar className="zoom-toolbar" items={items} />;
+};
 
 export default ZoomToolbar;

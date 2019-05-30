@@ -23,6 +23,7 @@ nav.menu {
   background-color: #444;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 5px;
 }
 nav.menu ul {
@@ -38,6 +39,16 @@ nav.menu ul li {
 nav.menu .text {
   padding: 8px;
   color: #eee;
+}
+
+.page-navigation {
+  display: flex;
+  align-items: center;
+  color: #eee;
+}
+
+.page-navigation__name {
+  margin: 0 5px 0 5px;
 }
 
 .link {
@@ -65,7 +76,7 @@ nav.menu .text {
 
 .button {
   background: #333;
-  color: #aee;
+  color: $text-color;
   padding: 6px;
   margin: 4px;
   border: 1px solid #777;
@@ -306,4 +317,29 @@ nav.menu .text {
   button:hover {
     background-color: #777;
   }
+}
+
+.toolbar {
+  border: 1px solid $text-color;
+  background-color: $back-toolbar;
+
+  button {
+    width: $tool-button-size;
+    height: $tool-button-size;
+    background-color: $back;
+    color: $text-color;
+    border-radius: 0px;
+    font-size: 22px;
+    border: 1px solid $back;
+    margin: 4px;
+  }
+  button:hover {
+    background-color: $back-hover;
+  }
+}
+
+.zoom-toolbar {
+  position: fixed;
+  bottom: 40px;
+  right: 20px;
 }

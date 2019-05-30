@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import PageNavigation from "./PageNavigation/PageNavigation";
 
-const Topbar = props => {
+const Topbar = (props: any) => {
   const userName = "Ann Smith";
 
   return (
@@ -12,6 +13,9 @@ const Topbar = props => {
             Engineering-Editor
           </Link>
         </li>
+      </ul>
+      <ul className="menu-center">
+        <PageNavigation />
       </ul>
       <ul className="menu-right">
         <li className="text">{userName}</li>

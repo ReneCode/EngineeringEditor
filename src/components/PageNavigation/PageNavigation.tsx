@@ -1,0 +1,58 @@
+import React from "react";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { RouteComponentProps } from "react-router";
+
+import { IGlobalState } from "../../reducers";
+import Page from "../../model/Page";
+import { loadPagesAction } from "../../actions/projectActions";
+
+interface IProps extends RouteComponentProps {
+  dispatch: Function;
+  projectId: string;
+  pageId: string;
+  pages: Page[];
+}
+
+class PageNavigation extends React.Component<IProps> {
+  constructor(props: IProps) {
+    super(props);
+  }
+
+  componentDidUpdate(prevProps: IProps) {
+    if (this.props.projectId !== prevProps.projectId) {
+      this.props.dispatch(loadPagesAction(this.props.projectId));
+    }
+  }
+
+  render() {
+    if (!this.props.pageId) {
+      return null;
+    }
+
+    const page = this.props.pages.find(
+      p => p.id === this.props.pageId,
+    );
+    let pageName = "";
+    if (page) {
+      pageName = page.name;
+    }
+    return (
+      <div className="page-navigation">
+        <div className="button">prev</div>
+        <div className="page-navigation__name">{pageName}</div>
+        <div className="button">next</div>
+      </div>
+    );
+  }
+}
+
+const mapStateToProps = (state: IGlobalState) => {
+  return {
+    projectId: state.project.projectId,
+    pageId: state.project.pageId,
+    pages: state.project.pages,
+  };
+};
+
+export default withRouter(connect(mapStateToProps)(PageNavigation));
