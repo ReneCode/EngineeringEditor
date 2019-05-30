@@ -320,26 +320,43 @@ nav.menu .text {
 }
 
 .toolbar {
+  display: flex;
   border: 1px solid $text-color;
-  background-color: $back-toolbar;
+  background-color: $tool-bar-back-color;
+  border: 1px solid $back;
 
   button {
     width: $tool-button-size;
     height: $tool-button-size;
-    background-color: $back;
-    color: $text-color;
+    background-color: $tool-button-back-color;
+    color: $tool-button-color;
     border-radius: 0px;
     font-size: 22px;
-    border: 1px solid $back;
-    margin: 4px;
+    border: none;
+    margin: 2px;
+    outline: none;
   }
   button:hover {
-    background-color: $back-hover;
+    background-color: $tool-button-hover-back-color;
+    color: $tool-button-hover-color;
   }
+}
+
+.flexdirection--column {
+  flex-direction: column;
+}
+.flexdirection--row {
+  flex-direction: row;
 }
 
 .zoom-toolbar {
   position: fixed;
   bottom: 40px;
   right: 20px;
+}
+
+.draw-toolbar {
+  position: fixed;
+  top: 60px;
+  left: 100px;
 }
