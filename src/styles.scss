@@ -184,13 +184,34 @@ nav.menu .text {
 }
 
 .list-item {
+  display: flex;
+  flex-direction: row;
   color: $text-color-dimmed;
   padding: 5px;
+  &:hover {
+    background-color: $bk-color-hover;
+    cursor: pointer;
+  }
+  .list-item__name {
+    flex-grow: 1;
+    &:hover + .show-on-select {
+      display: block;
+    }
+  }
 }
-.list-item:hover {
-  background-color: $bk-color-hover;
-  cursor: pointer;
+
+.show-on-select {
+  display: none;
+  &:hover {
+    display: block;
+  }
 }
+.list-item__select {
+  border-radius: 0px;
+  margin: 0px;
+  margin-left: auto;
+}
+
 .active {
   background: $bk-color-selected;
   color: $text-color;

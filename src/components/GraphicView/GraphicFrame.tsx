@@ -11,9 +11,9 @@ const GraphicFrame = () => {
     <div className="middle-content">
       <GraphicView />
       <ZoomToolbar />
-      <KeyboardHandler />
       <PopupMenu />
       <Statusbar />
+      <KeyboardHandler />
     </div>
   );
 };

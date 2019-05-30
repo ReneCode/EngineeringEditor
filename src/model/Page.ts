@@ -1,8 +1,8 @@
 import { IdType } from "./types";
 
 class Page {
-  id: IdType;
-  projectId: IdType;
+  id: string = "";
+  projectId: string = "";
   name: string;
 
   constructor(name: string) {

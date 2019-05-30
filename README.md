@@ -2,6 +2,12 @@
 
 # EngineeringEditor
 
+# Paper hitTest
+
+there are some items with name "temp" (bounding box, item for drawMode: 'select', 'hover', 'edit').
+they should not be be found by PaperJs hitTest(). So there is a 'match' function on the hitTest call.
+and the drawMode items are created with item.name = "temp"
+
 started on CodeSandbox
 
 Layout inspired by CodeSandbox ;-)

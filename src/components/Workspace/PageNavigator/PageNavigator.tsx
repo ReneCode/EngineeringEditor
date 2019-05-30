@@ -10,12 +10,29 @@ import {
   loadPagesAction,
   createPageAction,
 } from "../../../actions/projectActions";
+import { IGlobalState } from "../../../reducers";
+import { IdType } from "../../../model/types";
+import { RouteComponentProps } from "react-router";
+import toggleArrayItem from "../../../utils/toggleArrayItem";
 
-class PageNavigator extends Component {
-  constructor(props) {
+interface IProps extends RouteComponentProps {
+  dispatch: Function;
+  projectId: string;
+  pageId: string;
+  pages: Page[];
+}
+
+class PageNavigator extends Component<IProps> {
+  state: {
+    checkedPageIds: string[];
+    showNewPageModal: boolean;
+  };
+
+  constructor(props: IProps) {
     super(props);
     this.state = {
       showNewPageModal: false,
+      checkedPageIds: [],
     };
   }
 
@@ -29,7 +46,7 @@ class PageNavigator extends Component {
     });
   };
 
-  onCloseModal = async name => {
+  onCloseModal = async (name: string) => {
     this.setState({
       showNewPageModal: false,
     });
@@ -44,9 +61,19 @@ class PageNavigator extends Component {
     this.onClickPage(newPage);
   };
 
-  onClickPage = page => {
+  onClickPage = (page: Page) => {
     const url = `/p/${this.props.projectId}/s/${page.id}`;
     this.props.history.push(url);
+  };
+
+  onCheckPage = (page: Page) => {
+    const newIds = toggleArrayItem(
+      this.state.checkedPageIds,
+      page.id,
+    );
+    this.setState({
+      checkedPageIds: newIds,
+    });
   };
 
   render() {
@@ -56,9 +83,10 @@ class PageNavigator extends Component {
           Create Page
         </div>
         <PageList
-          className="pagelist"
           pages={this.props.pages}
+          checkedIds={this.state.checkedPageIds}
           activePageId={this.props.pageId}
+          onCheckPage={this.onCheckPage}
           onClickPage={this.onClickPage}
         />
         <PageModal
@@ -70,11 +98,7 @@ class PageNavigator extends Component {
   }
 }
 
-PageNavigator.propTypes = {
-  projectId: PropTypes.string.isRequired,
-};
-
-const mapStateToProps = state => {
+const mapStateToProps = (state: IGlobalState) => {
   return {
     projectId: state.project.projectId,
     pageId: state.project.pageId,
@@ -82,4 +106,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(withRouter(PageNavigator));
+export default withRouter(connect(mapStateToProps)(PageNavigator));

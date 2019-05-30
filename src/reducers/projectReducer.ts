@@ -5,8 +5,8 @@ import Page from "../model/Page";
 import { IAction } from "../actions/action";
 
 export interface IProjectState {
-  projectId: IdType;
-  pageId: IdType;
+  projectId: string;
+  pageId: string;
   pages: Page[];
   showModalId: ModalId;
   pageViewports: {};
