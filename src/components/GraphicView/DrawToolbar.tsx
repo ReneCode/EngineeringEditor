@@ -6,21 +6,21 @@ import Toolbar, { ToolbarItemDef } from "./Toolbar";
 const DrawToolbar = () => {
   const items: ToolbarItemDef[] = [
     {
-      text: "1",
+      text: "S",
       onClick: () => {
-        appEventDispatcher.dispatch("zoomIn");
+        appEventDispatcher.dispatch("stopInteraction");
       },
     },
     {
-      text: "2",
+      text: "C",
       onClick: () => {
-        appEventDispatcher.dispatch("zoomOut");
+        appEventDispatcher.dispatch("startInteraction", "CreateArc");
       },
     },
     {
       text: "L",
       onClick: () => {
-        appEventDispatcher.dispatch("zoomOut");
+        appEventDispatcher.dispatch("startInteraction", "CreateLine");
       },
     },
   ];

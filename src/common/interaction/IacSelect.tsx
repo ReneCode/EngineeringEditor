@@ -18,7 +18,7 @@ interface IProps {
 }
 
 class IacSelect extends React.Component<IProps> {
-  unsubscribeFn: any;
+  unsubscribeFn: Function[] = [];
   addedId: string = "";
   modus: "" | "boxselect" = "";
   selectionBox: null | Paper.Item = null;
@@ -27,23 +27,24 @@ class IacSelect extends React.Component<IProps> {
   boundingBox: Paper.Item = new Paper.Item();
 
   componentDidMount() {
-    this.unsubscribeFn = appEventDispatcher.subscribe(
-      "mouseDown",
-      this.onMouseDown,
+    console.log("select-mount", this);
+
+    this.unsubscribeFn.push(
+      appEventDispatcher.subscribe("mouseDown", this.onMouseDown),
     );
 
-    this.unsubscribeFn = appEventDispatcher.subscribe(
-      "mouseUp",
-      this.onMouseUp,
+    this.unsubscribeFn.push(
+      appEventDispatcher.subscribe("mouseUp", this.onMouseUp),
     );
 
-    this.unsubscribeFn = appEventDispatcher.subscribe(
-      "mouseDrag",
-      this.onMouseDrag,
+    this.unsubscribeFn.push(
+      appEventDispatcher.subscribe("mouseDrag", this.onMouseDrag),
     );
   }
   componentWillUnmount() {
-    this.unsubscribeFn();
+    console.log("select-unmount", this);
+
+    this.unsubscribeFn.forEach(fn => fn());
   }
 
   /*
