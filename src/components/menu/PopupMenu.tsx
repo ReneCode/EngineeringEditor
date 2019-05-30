@@ -1,6 +1,6 @@
 import Paper from "paper";
 import React from "react";
-import { IGlobalState } from "../../reducers";
+import { IGlobalState } from "../../store/reducers";
 import { connect } from "react-redux";
 import Placement from "../../model/Placement";
 import { ItemName } from "../../common/ItemMetaData";

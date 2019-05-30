@@ -1,5 +1,7 @@
 # ISSUES
 
+use ghooks / pre-commit => npm run test / https://www.npmjs.com/package/ghooks
+
 ## TODO
 
 - handles of the resizeBox has fixed size - independent on zoom.

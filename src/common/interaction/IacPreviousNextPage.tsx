@@ -6,7 +6,7 @@ import Page from "../../model/Page";
 import appEventDispatcher from "../Event/AppEventDispatcher";
 import { AppEventType } from "../Event/AppEventType";
 import { connect } from "react-redux";
-import { IGlobalState } from "../../reducers";
+import { IGlobalState } from "../../store/reducers";
 import { RouteComponentProps } from "react-router";
 import { IdType } from "../../model/types";
 

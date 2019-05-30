@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 
 import * as actionTypes from "../../actions/actionTypes";
 
-import { IGlobalState } from "../../reducers";
+import { IGlobalState } from "../../store/reducers";
 import Paper from "paper";
 import Placement from "../../model/Placement";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";

@@ -4,8 +4,7 @@ import Paper from "paper";
 import appEventDispatcher from "../Event/AppEventDispatcher";
 import { AppEventType } from "../Event/AppEventType";
 import { connect } from "react-redux";
-import { IGlobalState } from "../../reducers";
-import PaperUtil from "../../utils/PaperUtil";
+import { IGlobalState } from "../../store/reducers";
 
 interface IProps {
   selectedPlacementIds: string[];

@@ -1,7 +1,7 @@
 import React from "react";
 import Paper from "paper";
 import { connect } from "react-redux";
-import { IGlobalState } from "../../reducers";
+import { IGlobalState } from "../../store/reducers";
 import appEventDispatcher from "../Event/AppEventDispatcher";
 import Placement from "../../model/Placement";
 import { setSelectedPlacementIds } from "../../actions/graphicActions";

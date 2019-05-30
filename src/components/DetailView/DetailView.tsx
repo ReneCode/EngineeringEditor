@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { IGlobalState } from "../../reducers";
+import { IGlobalState } from "../../store/reducers";
 import PageDetailView from "./PageDetailView";
 import PlacementDetailView from "./PlacementDetailView";
 import Placement from "../../model/Placement";

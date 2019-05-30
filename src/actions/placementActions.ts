@@ -1,7 +1,6 @@
 import Placement from "../model/Placement";
 
 import * as actionTypes from "./actionTypes";
-import { IGlobalState } from "../reducers";
 import GraphicSymbolRef from "../model/graphic/GraphicSymbolRef";
 import apiCreatePlacements from "../common/api/apiCreatePlacement";
 import apiDeletePlacements from "../common/api/apiDeletePlacements";
@@ -12,6 +11,7 @@ import { updateAllSymbolRef } from "../model/updateSymbolRef";
 import { GetGlobalStateFunction, LayerType } from "../model/types";
 import { IAction } from "./action";
 import deepClone from "../common/deepClone";
+import { IGlobalState } from "../store/reducers";
 
 export const deleteLayerAction = (payload: LayerType): IAction => {
   return {

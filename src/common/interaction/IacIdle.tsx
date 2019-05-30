@@ -5,7 +5,7 @@ import { ItemName } from "../ItemMetaData";
 import { updateElementAction } from "../../actions/changeElementActions";
 import Placement from "../../model/Placement";
 import { connect } from "react-redux";
-import { IGlobalState } from "../../reducers";
+import { IGlobalState } from "../../store/reducers";
 import ResizeBox from "./ResizeBox";
 import appEventDispatcher from "../Event/AppEventDispatcher";
 import { AppEventType } from "../Event/AppEventType";

@@ -1,7 +1,7 @@
 import * as actionTypes from "./actionTypes";
-import { IGlobalState } from "../reducers";
 import Box from "../common/box";
 import Point from "../common/point";
+import { IGlobalState } from "../store/reducers";
 
 export const zoomFullAction = () => {
   return async (dispatch: any, getState: () => IGlobalState) => {

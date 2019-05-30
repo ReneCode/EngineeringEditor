@@ -1,10 +1,10 @@
 import Paper from "paper";
 import * as actionTypes from "../actions/actionTypes";
-import Point from "../common/point";
 import Placement from "../model/Placement";
 import GraphicSymbol from "../model/graphic/GraphicSymbol";
 import { IAction } from "../actions/action";
 import { makeArray } from "../model/dtoUtil";
+import containsWithSameId from "../utils/containsWithSameId";
 
 export interface IGraphicState {
   symbols: GraphicSymbol[];
@@ -52,13 +52,6 @@ const initialState: IGraphicState = {
     gridY: 4,
     useGrid: true,
   },
-};
-
-export const containsWithSameId = (
-  items: Placement[],
-  item: Placement,
-) => {
-  return items.findIndex(i => i.id === item.id) >= 0;
 };
 
 /*

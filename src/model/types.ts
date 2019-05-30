@@ -1,4 +1,4 @@
-import { IGlobalState } from "../reducers";
+import { IGlobalState } from "../store/reducers";
 import { IaEventType } from "../components/interaction/IaBase";
 import { SyntheticEvent } from "react";
 import Point from "../common/point";

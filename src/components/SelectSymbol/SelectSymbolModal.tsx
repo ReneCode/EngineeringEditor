@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Modal from "react-modal";
 import * as actions from "../../actions";
 import { connect } from "react-redux";
-import { IGlobalState } from "../../reducers";
+import { IGlobalState } from "../../store/reducers";
 import SymbolList from "./SymbolList";
 import GraphicSymbol from "../../model/graphic/GraphicSymbol";
 import { IA_CREATE_SYMBOLREF } from "../../actions/interactionTypes";

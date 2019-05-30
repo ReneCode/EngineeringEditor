@@ -22,17 +22,13 @@ export const DELETE_LAYER = "DELETE_LAYER";
 
 export const UPDATE_PLACEMENT = "UPDATE_PLACEMENT";
 
+export const SET_INTERACTION = "SET_INTERACTION";
+
 // Symbols
 export const SET_SYMBOLS = "SET_SYMBOLS";
 export const ADD_SYMBOL = "ADD_SYMBOL";
 
 export const SET_TEMP_ITEM = "SET_TEMP_ITEM";
-
-export const ADD_EVENT_HANDLER = "ADD_EVENT_HANDLER";
-export const REMOVE_EVENT_HANDLER = "REMOVE_EVENT_HANDLER";
-
-export const SET_DO_INTERACTION_HANDLER =
-  "SET_START_INTERACTION_HANDLER";
 
 export const SET_PROJECT_ID = "SET_PROJECT_ID";
 export const SET_PAGE_ID = "SET_PAGE_ID";

@@ -1,9 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
-import { IGlobalState } from "../../reducers";
 import { deleteElementAction } from "../../actions/changeElementActions";
 import Placement from "../../model/Placement";
+import { IGlobalState } from "../../store/reducers";
 
 interface IProps {
   dispatch: any;

@@ -3,7 +3,7 @@ import React from "react";
 import Paper from "paper";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 import { AppEventType } from "../../common/Event/AppEventType";
-import { IGlobalState } from "../../reducers";
+import { IGlobalState } from "../../store/reducers";
 import { connect } from "react-redux";
 import Placement from "../../model/Placement";
 

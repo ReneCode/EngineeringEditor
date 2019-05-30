@@ -1,15 +1,9 @@
 import * as actionTypes from "./actionTypes";
-import { IGlobalState } from "../reducers";
 import {
   UNDO_REDO_ADD_START_MARKER,
   UNDO_REDO_ADD,
   UNDO_REDO_SET_INDEX,
 } from "./actionTypes";
-
-import {
-  UndoRedoListEntry,
-  UndoRedoListType,
-} from "../reducers/undoRedoReducer";
 
 import {
   deletePlacementAction,
@@ -18,6 +12,11 @@ import {
 } from "./placementActions";
 
 import { RefType } from "../model/types";
+import {
+  UndoRedoListEntry,
+  UndoRedoListType,
+} from "../store/undoRedoReducer";
+import { IGlobalState } from "../store/reducers";
 
 export const undoRedoAddStartMarkerCommit = () => {
   return {

@@ -9,7 +9,7 @@ import {
   loadPagesAction,
   createPageAction,
 } from "../../../actions/projectActions";
-import { IGlobalState } from "../../../reducers";
+import { IGlobalState } from "../../../store/reducers";
 import { RouteComponentProps } from "react-router";
 import toggleArrayItem from "../../../utils/toggleArrayItem";
 

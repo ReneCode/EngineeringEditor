@@ -1,5 +1,4 @@
 import * as actionTypes from "./actionTypes";
-import { IGlobalState } from "../reducers";
 import Placement from "../model/Placement";
 import AutoConnectionUtil from "../model/AutoConnectionUtil";
 import GraphicLine from "../model/graphic/GraphicLine";

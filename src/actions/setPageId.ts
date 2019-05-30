@@ -1,8 +1,8 @@
 import * as actionTypes from "./actionTypes";
 import { IdType } from "../model/types";
-import { IGlobalState } from "../reducers";
 import apiLoadPlacement from "../common/api/apiLoadPlacement";
 import { updateAllSymbolRef } from "../model/updateSymbolRef";
+import { IGlobalState } from "../store/reducers";
 
 const setPageId = (projectId: IdType, pageId: IdType) => {
   return async (dispatch: any, getState: () => IGlobalState) => {

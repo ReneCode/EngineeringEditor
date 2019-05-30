@@ -1,4 +1,3 @@
-import * as actionTypes from "./actionTypes";
 import {
   GetGlobalStateFunction,
   RefType,
@@ -8,7 +7,6 @@ import {
   undoRedoAddStartMarkerCommit,
   undoRedoAddCommit,
 } from "./undoRedo";
-import apiCreatePlacements from "../common/api/apiCreatePlacement";
 import Placement from "../model/Placement";
 import {
   createPlacementAction,
@@ -16,16 +14,14 @@ import {
   updatePlacementAction,
 } from "./placementActions";
 import { makeArray } from "../model/dtoUtil";
-import { containsWithSameId } from "../reducers/graphicReducer";
+import containsWithSameId from "../utils/containsWithSameId";
+import { IGlobalState } from "../store/reducers";
 
 export const createElementAction = (
   ref: RefType,
   element: Placement,
 ) => {
-  return async (
-    dispatch: any,
-    getState: GetGlobalStateFunction,
-  ): Promise<any> => {
+  return async (dispatch: any): Promise<any> => {
     try {
       const newPlacement = await dispatch(
         createPlacementAction(element),
@@ -47,8 +43,8 @@ export const deleteElementAction = (
     try {
       const elements: Placement[] = makeArray(element);
 
-      const oldPlacements = getState().graphic.items.filter(i =>
-        containsWithSameId(elements, i),
+      const oldPlacements = (getState() as IGlobalState).graphic.items.filter(
+        i => containsWithSameId(elements, i),
       );
       await dispatch(undoRedoAddStartMarkerCommit());
       await dispatch(undoRedoAddCommit(ref, oldPlacements, null));
@@ -66,8 +62,8 @@ export const updateElementAction = (
   return async (dispatch: any, getState: GetGlobalStateFunction) => {
     try {
       const elements: Placement[] = makeArray(element);
-      const oldPlacements = getState().graphic.items.filter(i =>
-        containsWithSameId(elements, i),
+      const oldPlacements = (getState() as IGlobalState).graphic.items.filter(
+        i => containsWithSameId(elements, i),
       );
       await dispatch(undoRedoAddStartMarkerCommit());
       await dispatch(undoRedoAddCommit(ref, oldPlacements, elements));

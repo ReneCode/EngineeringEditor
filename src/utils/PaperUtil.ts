@@ -4,7 +4,7 @@ import { makeArray } from "../model/dtoUtil";
 import configuration from "../common/configuration";
 import Placement from "../model/Placement";
 import store from "../store/index";
-import { IGlobalState } from "../reducers";
+import { IGlobalState } from "../store/reducers";
 
 class PaperUtil {
   static setup(canvas: HTMLCanvasElement) {

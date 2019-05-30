@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { RouteComponentProps } from "react-router";
 
-import { IGlobalState } from "../../reducers";
+import { IGlobalState } from "../../store/reducers";
 import Page from "../../model/Page";
 import { loadPagesAction } from "../../actions/projectActions";
 
