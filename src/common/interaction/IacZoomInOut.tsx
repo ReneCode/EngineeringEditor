@@ -46,6 +46,9 @@ class IacZoomInOut extends React.Component<IProps> {
       return Paper.view.center;
     }
 
+    return Paper.view.center;
+
+    // get center from selected items
     const items: Paper.Item[] = [];
     const ids = this.props.selectedPlacementIds;
     for (let item of Paper.project.activeLayer.children) {

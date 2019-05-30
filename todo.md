@@ -28,8 +28,20 @@ use ghooks / pre-commit => npm run test / https://www.npmjs.com/package/ghooks
 
 * panning
 
-  - move canvas
-  - move also popup-menu
+```
+http://bencentra.com/code/2014/12/05/html5-canvas-touch-events.html
+
+// pan-movement
+var toolPan = new Tool();
+toolPan.onMouseDrag = function(event) {
+    var offset = event.downPoint - event.point;
+    view.center += offset;
+};
+
+```
+
+- move canvas
+- move also popup-menu
 
 - disable redux-dev-tools in production / https://medium.com/@zalmoxis/using-redux-devtools-in-production-4c5b56c5600f
 

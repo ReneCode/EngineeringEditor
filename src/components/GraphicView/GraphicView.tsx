@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import * as actionTypes from "../../actions/actionTypes";
 
 import { IGlobalState } from "../../store/reducers";
-import Paper from "paper";
+import Paper, { Point } from "paper";
 import Placement from "../../model/Placement";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 import InteractionManager from "../../common/Event/InteractionManager";
@@ -55,14 +55,20 @@ class GraphicView extends Component<IProps> {
       Paper.view.onMouseUp = this.onMouseUp;
       Paper.view.onMouseMove = this.onMouseMove;
       Paper.view.onMouseDrag = this.onMouseDrag;
+
+      // use navite addEventListener and no onWheel of <canvas ...>
+      // because with native event preventDefault() is possible
+      this.canvas.addEventListener("wheel", this.onWheel);
     }
 
     window.addEventListener("resize", this.onResize);
+
     this.onResize();
   }
 
   componentWillUnmount() {
     window.removeEventListener("resize", this.onResize);
+    window.removeEventListener("wheel", this.onWheel);
   }
 
   private onMouseDown = (event: Paper.MouseEvent) => {
@@ -79,6 +85,26 @@ class GraphicView extends Component<IProps> {
 
   onMouseMove = (event: Paper.MouseEvent) => {
     appEventDispatcher.dispatch("mouseMove", event);
+  };
+
+  onTouchStart = (event: React.TouchEvent<HTMLCanvasElement>) => {
+    console.log(":", event);
+  };
+
+  onTouchMove = (event: React.TouchEvent<HTMLCanvasElement>) => {
+    console.log(":", event);
+  };
+
+  // onWheel = (event: React.WheelEvent<HTMLCanvasElement>) => {
+  onWheel = (event: WheelEvent) => {
+    // console.log(":", event.deltaX, event.deltaY, event.deltaZ);
+
+    Paper.view.center = Paper.view.center.add(
+      new Point(event.deltaX, event.deltaY),
+    );
+
+    event.preventDefault();
+    // event.stopPropagation();
   };
 
   onResize = () => {
@@ -117,7 +143,10 @@ class GraphicView extends Component<IProps> {
           ref={canvas => (this.canvas = canvas)}
           width={this.state.width}
           height={this.state.height}
-          onContextMenu={this.onContextMenu}
+          // onContextMenu={this.onContextMenu}
+          onTouchStart={this.onTouchStart}
+          onTouchMove={this.onTouchMove}
+          // onWheel={this.onWheel}
         />
         <InteractionManager />
       </div>
