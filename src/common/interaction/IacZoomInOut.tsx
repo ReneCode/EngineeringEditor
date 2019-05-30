@@ -3,8 +3,15 @@ import Paper from "paper";
 
 import appEventDispatcher from "../Event/AppEventDispatcher";
 import { AppEventType } from "../Event/AppEventType";
+import { connect } from "react-redux";
+import { IGlobalState } from "../../reducers";
+import PaperUtil from "../../utils/PaperUtil";
 
-class IacZoomInOut extends React.Component {
+interface IProps {
+  selectedPlacementIds: string[];
+}
+
+class IacZoomInOut extends React.Component<IProps> {
   private unsubscribeFn: Function[] = [];
 
   componentDidMount() {
@@ -21,10 +28,7 @@ class IacZoomInOut extends React.Component {
   }
 
   zoomInHandler = (type: AppEventType, center: Paper.Point) => {
-    if (!center) {
-      center = Paper.view.center;
-    }
-    Paper.view.scale(1.2, center);
+    Paper.view.scale(1.2, this.getCenter(center));
   };
 
   zoomOutHandler = (type: AppEventType, center: Paper.Point) => {
@@ -34,9 +38,41 @@ class IacZoomInOut extends React.Component {
     Paper.view.scale(0.8, center);
   };
 
+  getCenter = (center: Paper.Point): Paper.Point => {
+    if (center) {
+      return center;
+    }
+
+    if (this.props.selectedPlacementIds.length === 0) {
+      return Paper.view.center;
+    }
+
+    const items: Paper.Item[] = [];
+    const ids = this.props.selectedPlacementIds;
+    for (let item of Paper.project.activeLayer.children) {
+      if (ids.includes(item.data)) {
+        items.push(item);
+      }
+    }
+    if (items.length === 0) {
+      return Paper.view.center;
+    }
+    let bbox = items[0].bounds;
+    for (let item of items) {
+      bbox = bbox.unite(item.bounds);
+    }
+    return bbox.center;
+  };
+
   render() {
     return null;
   }
 }
 
-export default IacZoomInOut;
+const mapStateToProps = (state: IGlobalState) => {
+  return {
+    selectedPlacementIds: state.graphic.selectedPlacementIds,
+  };
+};
+
+export default connect(mapStateToProps)(IacZoomInOut);

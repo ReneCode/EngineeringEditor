@@ -27,8 +27,6 @@ class IacSelect extends React.Component<IProps> {
   boundingBox: Paper.Item = new Paper.Item();
 
   componentDidMount() {
-    console.log("select-mount", this);
-
     this.unsubscribeFn.push(
       appEventDispatcher.subscribe("mouseDown", this.onMouseDown),
     );
@@ -42,8 +40,6 @@ class IacSelect extends React.Component<IProps> {
     );
   }
   componentWillUnmount() {
-    console.log("select-unmount", this);
-
     this.unsubscribeFn.forEach(fn => fn());
   }
 

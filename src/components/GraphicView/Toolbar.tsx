@@ -17,8 +17,12 @@ const Toolbar = (props: IProps) => {
   className = `${className} flexdirection--${direction}`;
   return (
     <div className={className}>
-      {props.items.map(item => {
-        return <button onClick={item.onClick}>{item.text}</button>;
+      {props.items.map((item, index) => {
+        return (
+          <button key={index} onClick={item.onClick}>
+            {item.text}
+          </button>
+        );
       })}
     </div>
   );

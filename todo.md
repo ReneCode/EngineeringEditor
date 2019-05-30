@@ -1,37 +1,52 @@
 # ISSUES
 
-fixed - selected item in shown on top - even if it is below other items
+## TODO
 
-- Questions
+- handles of the resizeBox has fixed size - independent on zoom.
+- resize without keepRatio on Rectangle
 
-* when importJson into a new createdItem => that item is not shown
+* resize of that box resizes the items inside
+* with SHIFT the with-height ratio is fixed on resizing the box
+  (- with ctrl the center of the resize-box will be fixed)
 
-- TODO
+* no separate interactions.
+  handleMouse... on the component where it starts.
+* undo -> dispatch(setSelection) with last changed item
 
-* during selection-from-rectangle all items are: "selected" (also one item is selected - not edit)
+- Undo / Redo: after Undo/Redo select the "undo-ed" items
+  remove the current selection
 
-- hover-paint same as "edit" "selected" new Mode "hover"
+- Undo => changes the items in the state => no more subscription on redux-store.
+  update the view on the changed placements. (do not use redux-store)
 
-- Escape: to not remove IacHover
--
-- box the pop-menu into visible area
+* box the pop-menu into visible area
+* cmd-C cmd-V copy paste
 
-- remove edit-box on moving item
+- select id after creating Line/Arc
 
-* create item in frontEnd - to not wait for backend
-* select id after creating Line/Arc
-
-- panning
+* panning
 
   - move canvas
   - move also popup-menu
 
-- no redraw after saving to backend
+- disable redux-dev-tools in production / https://medium.com/@zalmoxis/using-redux-devtools-in-production-4c5b56c5600f
 
-* disable redux-dev-tools in production / https://medium.com/@zalmoxis/using-redux-devtools-in-production-4c5b56c5600f
+## DONE
 
-- cmd-C cmd-V copy paste
+- ok - zoom into selected items (center of bounding box)
 
+- ok - selected item in shown on top - even if it is below other items
+
+- ok - multi-selection expands the resize-box
+
+- ok - do not move the resize-box
+- ok - create item in frontEnd - to not wait for backend
+- ok - redraw after store.items change
+
+* ok - hover-paint same as "edit" "selected" new Mode "hover"
+* ok - remove edit-box on moving item
+* ok - no redraw after saving to backend
+* ok - during selection-from-rectangle all items are: "selected" (also one item is selected - not edit)
 * ok - cmd-A select all
 * ok - getPlacementFromIds() as 'global'function with cache. cache will be cleared on redraw Canvas
 * ok - select by drawing a selection box
@@ -44,29 +59,6 @@ fixed - selected item in shown on top - even if it is below other items
 * ok - ONE resize-box
 * ok - delete
 * ok - hover-color on resize-handle
-
-* handles of the resizeBox has fixed size - independent on zoom.
-* resize without keepRatio on Rectangle
-* change z-index for items (to background/foreground)
-* create metaData on a new drawn placement
-
-- multi-selection expands the resize-box
-- resize of that box resizes the items inside
-- with SHIFT the with-height ratio is fixed on resizing the box
-  (- with ctrl the center of the resize-box will be fixed)
-
-- no separate interactions.
-  handleMouse... on the component where it starts.
-- redraw after store.items change
-- undo -> dispatch(setSelection) with last changed item
-
-* Undo / Redo: after Undo/Redo select the "undo-ed" items
-  remove the current selection
-
-* Undo => changes the items in the state => no more subscription on redux-store.
-  update the view on the changed placements. (do not use redux-store)
-
-* do not move the resize-box
 
 ## State machine
 
@@ -96,6 +88,10 @@ function send(event): string {
   }
 }
 ```
+
+# TOUCH
+
+https://ux.stackexchange.com/questions/52259/web-standard-for-minimum-size-of-touch-icons
 
 ## Selection
 
