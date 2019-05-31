@@ -1,5 +1,6 @@
 export type AppEventType =
   | ""
+  | "changeProperty"
   | "exportSvg"
   | "previousPage"
   | "nextPage"

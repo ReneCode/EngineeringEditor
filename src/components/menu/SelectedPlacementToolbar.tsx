@@ -55,6 +55,18 @@ class SelectedPlacementMenu extends React.Component<IProps> {
             }>
             ex
           </button>
+          <button
+            onClick={() =>
+              appEventDispatcher.dispatch("changeProperty", {
+                placements,
+                changes: [
+                  { property: "fill", value: "orange" },
+                  { property: "color", value: "red" },
+                ],
+              })
+            }>
+            color
+          </button>
           <button>7</button>
           <button>8</button>
         </Toolbar>

@@ -20,6 +20,7 @@ class InteractionManager extends Component<IProps> {
     "ZoomInOut",
     "IacPreviousNextPage",
     "IacExportSvg",
+    "IacChangeProperty",
   ];
 
   idleInteractionNames = [

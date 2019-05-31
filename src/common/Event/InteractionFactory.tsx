@@ -14,11 +14,14 @@ import IacEditItem from "../interaction/IacEditItem";
 import IacSelect from "../interaction/IacSelect";
 import IacPreviousNextPage from "../interaction/IacPreviousNextPage";
 import IacExportSvg from "../interaction/IacExportSvg";
+import IacChangeProperty from "../interaction/IacChangeProperty";
 
 class InteractionFactory {
   static create(name: string): JSX.Element {
     const props = { key: name };
     switch (name) {
+      case "IacChangeProperty":
+        return <IacChangeProperty {...props} />;
       case "IacExportSvg":
         return <IacExportSvg {...props} />;
       case "IacPreviousNextPage":
