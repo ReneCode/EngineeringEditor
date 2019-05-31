@@ -298,29 +298,9 @@ nav.menu .text {
   top: 45px;
 }
 
-.popup-menu {
-  position: absolute;
-  height: 50px;
-  background-color: $menu-background-color;
-  color: $menu-text-color;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  button {
-    font-size: 1.2rem;
-    margin: 4px;
-    width: 40px;
-    height: 40px;
-    color: #eee;
-    background: #333;
-  }
-  button:hover {
-    background-color: #777;
-  }
-}
-
 .toolbar {
   display: flex;
+  align-items: center;
   border: 1px solid $text-color;
   background-color: $tool-bar-back-color;
   border: 1px solid $back;

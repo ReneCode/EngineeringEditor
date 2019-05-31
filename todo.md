@@ -4,6 +4,10 @@ use ghooks / pre-commit => npm run test / https://www.npmjs.com/package/ghooks
 
 ## TODO
 
+- generic PopupMenu
+- create Symbol
+- use Symbol
+
 - handles of the resizeBox has fixed size - independent on zoom.
 - resize without keepRatio on Rectangle
 
