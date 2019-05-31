@@ -97,11 +97,30 @@ class GraphicView extends Component<IProps> {
 
   // onWheel = (event: React.WheelEvent<HTMLCanvasElement>) => {
   onWheel = (event: WheelEvent) => {
-    // console.log(":", event.deltaX, event.deltaY, event.deltaZ);
+    // console.log(
+    //   ":",
+    //   event.deltaMode,
+    //   event.deltaX,
+    //   event.deltaY,
+    //   event.deltaZ,
+    // );
 
+    // if (event.deltaX === -0) {
+    //   // pinch
+    //   const center = Paper.view.center;
+    //   let scale = 1.0;
+    //   if (event.deltaY > 0) {
+    //     scale = 1 - event.deltaY * 0.005;
+    //   } else {
+    //     scale = 1 - event.deltaY * 0.005;
+    //   }
+    //   Paper.view.scale(scale, center);
+    // } else {
+    // panning
     Paper.view.center = Paper.view.center.add(
       new Point(event.deltaX, event.deltaY),
     );
+    // }
 
     event.preventDefault();
     // event.stopPropagation();
