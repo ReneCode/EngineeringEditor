@@ -13,11 +13,14 @@ import IacCreateLine from "../interaction/IacCreateLine";
 import IacEditItem from "../interaction/IacEditItem";
 import IacSelect from "../interaction/IacSelect";
 import IacPreviousNextPage from "../interaction/IacPreviousNextPage";
+import IacExportSvg from "../interaction/IacExportSvg";
 
 class InteractionFactory {
   static create(name: string): JSX.Element {
     const props = { key: name };
     switch (name) {
+      case "IacExportSvg":
+        return <IacExportSvg {...props} />;
       case "IacPreviousNextPage":
         return <IacPreviousNextPage {...props} />;
       case "HoverItem":

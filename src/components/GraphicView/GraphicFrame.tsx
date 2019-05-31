@@ -2,10 +2,10 @@ import React from "react";
 
 import Statusbar from "./Statusbar";
 import GraphicView from "./GraphicView";
-import ZoomToolbar from "./ZoomToolbar";
 import KeyboardHandler from "./KeyboardHandler";
-import PopupMenu from "../menu/PopupMenu";
-import DrawToolbar from "./DrawToolbar";
+import DrawToolbar from "../menu/DrawToolbar";
+import ZoomToolbar from "../menu/ZoomToolbar";
+import SelectedPlacementToolbar from "../menu/SelectedPlacementToolbar";
 
 const GraphicFrame = () => {
   return (
@@ -13,7 +13,7 @@ const GraphicFrame = () => {
       <GraphicView />
       <DrawToolbar />
       <ZoomToolbar />
-      <PopupMenu />
+      <SelectedPlacementToolbar />
       <Statusbar />
       <KeyboardHandler />
     </div>

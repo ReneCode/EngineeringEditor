@@ -19,6 +19,7 @@ class InteractionManager extends Component<IProps> {
     "Delete",
     "ZoomInOut",
     "IacPreviousNextPage",
+    "IacExportSvg",
   ];
 
   idleInteractionNames = [
@@ -73,14 +74,14 @@ class InteractionManager extends Component<IProps> {
     }
     return (
       <React.Fragment>
+        {this.fixInteractionNames.map(name => {
+          return InteractionFactory.create(name);
+        })}
         {this.state.idle &&
           this.idleInteractionNames.map(name => {
             return InteractionFactory.create(name);
           })}
 
-        {this.fixInteractionNames.map(name => {
-          return InteractionFactory.create(name);
-        })}
         {currentInteraction}
       </React.Fragment>
     );

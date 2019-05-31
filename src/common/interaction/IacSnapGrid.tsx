@@ -3,6 +3,7 @@ import React from "react";
 import Paper from "paper";
 import appEventDispatcher from "../Event/AppEventDispatcher";
 import { AppEventType } from "../Event/AppEventType";
+import { snap } from "../snap";
 
 class IacSnapGrid extends React.Component {
   unsubscribeFn: Function[] = [];
@@ -26,32 +27,28 @@ class IacSnapGrid extends React.Component {
   }
 
   onMouseDown = (type: AppEventType, event: Paper.MouseEvent) => {
-    event.point = new Paper.Point(
-      Math.round(event.point.x),
-      Math.round(event.point.y),
-    );
+    event.point = this.snap(event);
   };
 
   onMouseMove = (type: AppEventType, event: Paper.MouseEvent) => {
-    event.point = new Paper.Point(
-      Math.round(event.point.x),
-      Math.round(event.point.y),
-    );
+    event.point = this.snap(event);
   };
 
   onMouseDrag = (type: AppEventType, event: Paper.MouseEvent) => {
-    event.point = new Paper.Point(
-      Math.round(event.point.x),
-      Math.round(event.point.y),
-    );
+    event.point = this.snap(event);
   };
 
   onMouseUp = (type: AppEventType, event: Paper.MouseEvent) => {
-    event.point = new Paper.Point(
-      Math.round(event.point.x),
-      Math.round(event.point.y),
-    );
+    event.point = this.snap(event);
   };
+
+  private snap(event: Paper.MouseEvent): Paper.Point {
+    const grid = 4;
+    return new Paper.Point(
+      snap(event.point.x, grid),
+      snap(event.point.y, grid),
+    );
+  }
 
   render() {
     return null;

@@ -4,6 +4,7 @@ use ghooks / pre-commit => npm run test / https://www.npmjs.com/package/ghooks
 
 ## TODO
 
+- change color for selected Placements
 - generic PopupMenu
 - create Symbol
 - use Symbol

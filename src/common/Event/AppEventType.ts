@@ -1,5 +1,6 @@
 export type AppEventType =
   | ""
+  | "exportSvg"
   | "previousPage"
   | "nextPage"
   | "selectAll"

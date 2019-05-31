@@ -1,7 +1,7 @@
 
 # Created by https://www.gitignore.io/api/node
 
-
+/temp/
 .cypress
 db.json
 build
@@ -13,6 +13,7 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+yarn.lock
 
 # Runtime data
 pids
