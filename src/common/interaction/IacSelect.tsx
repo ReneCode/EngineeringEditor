@@ -218,10 +218,11 @@ class IacSelect extends React.Component<IProps> {
     if (!result) {
       return null;
     }
-    const item = PaperUtil.getHitTestItem(result, ItemName.itemAny);
+    let item = PaperUtil.getHitTestItem(result, ItemName.itemAny);
     if (!item) {
       return null;
     }
+
     const id = item.data;
     if (!id) {
       throw new Error("item with no data (placment-id)");

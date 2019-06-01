@@ -53,8 +53,8 @@ class Statusbar extends React.Component<IProps> {
 
   render() {
     let selIds = "";
-    for (let idx of this.props.selectedPlacementIds) {
-      selIds = `${selIds} ${idx}`;
+    for (let id of this.props.selectedPlacementIds) {
+      selIds = `${selIds} ${id.substr(0, 8)}`;
       if (selIds.length > 100) {
         break;
       }

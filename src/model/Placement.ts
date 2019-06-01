@@ -63,6 +63,10 @@ class Placement {
     }
   }
 
+  createPaperItem(): Paper.Item {
+    return new Paper.Item();
+  }
+
   paperDraw(): Paper.Item | null {
     return null;
   }

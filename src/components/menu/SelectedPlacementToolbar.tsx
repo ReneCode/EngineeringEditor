@@ -46,6 +46,20 @@ class SelectedPlacementMenu extends React.Component<IProps> {
       left: viewPoint.x,
     };
 
+    let groupButton = null;
+    if (placements.length > 1) {
+      groupButton = (
+        <button
+          onClick={() =>
+            appEventDispatcher.dispatch("createGroup", {
+              placements,
+            })
+          }>
+          grp
+        </button>
+      );
+    }
+
     return (
       <div className="html-canvas">
         <Toolbar className="" style={style}>
@@ -53,7 +67,7 @@ class SelectedPlacementMenu extends React.Component<IProps> {
             onClick={() =>
               appEventDispatcher.dispatch("exportSvg", items)
             }>
-            ex
+            exp
           </button>
           <button
             onClick={() =>
@@ -65,8 +79,9 @@ class SelectedPlacementMenu extends React.Component<IProps> {
                 ],
               })
             }>
-            color
+            col
           </button>
+          {groupButton}
           <button>7</button>
           <button>8</button>
         </Toolbar>

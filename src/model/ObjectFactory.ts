@@ -10,6 +10,7 @@ import GraphicRect from "./graphic/GraphicRect";
 import PaperPlacement from "./graphic/PaperPlacement";
 import GraphicArc from "./graphic/GraphicArc";
 import Placement from "./Placement";
+import GraphicGroup from "./graphic/GraphicGroup";
 
 class ObjectFactory {
   static fromJSON(json: any): object | object[] {
@@ -33,6 +34,8 @@ class ObjectFactory {
     }
 
     switch (json.type) {
+      case "group":
+        return GraphicGroup.fromJSON(json);
       case "arc":
         return GraphicArc.fromJSON(json);
       case "rect":

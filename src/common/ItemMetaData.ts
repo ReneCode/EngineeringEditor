@@ -17,6 +17,7 @@ export class ItemName {
   static itemAny = ".";
   static itemArc = ".arc";
   static itemLine = ".line";
+  static itemGroup = ".group";
 
   static match(test: string, found: string | null) {
     if (!test) {

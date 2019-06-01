@@ -131,7 +131,7 @@ class GraphicArc extends Placement {
     }
   }
 
-  private createPaperItem(): Paper.Item {
+  createPaperItem(): Paper.Item {
     let item: Paper.Item;
     if (this.fullCircle) {
       item = new Paper.Path.Circle(this.center, this.radius);
@@ -139,6 +139,8 @@ class GraphicArc extends Placement {
       const pts = this.calcPoints();
       item = new Paper.Path.Arc(pts.from, pts.through, pts.to);
     }
+    item.fillColor = "#44225577";
+    item.strokeColor = "green";
     return item;
   }
 

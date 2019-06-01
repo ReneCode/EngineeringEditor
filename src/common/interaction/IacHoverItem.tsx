@@ -34,12 +34,19 @@ class IacHoverItem extends React.Component<IProps> {
     const result = PaperUtil.hitTest(event.point);
 
     if (result) {
-      const hitItem = PaperUtil.getHitTestItem(result, [
+      let hitItem = PaperUtil.getHitTestItem(result, [
         ItemName.itemAny,
         ItemName.grip,
       ]);
 
       if (hitItem) {
+        if (
+          hitItem.parent &&
+          hitItem.parent.name === ItemName.itemGroup
+        ) {
+          hitItem = hitItem.parent;
+        }
+
         if (this.hoverItem !== hitItem) {
           let newStrokeColor = configuration.itemHoverColor;
           let newFillColor = hitItem.fillColor;
@@ -54,7 +61,9 @@ class IacHoverItem extends React.Component<IProps> {
           this.oldStrokeWidth = hitItem.strokeWidth;
           this.hoverItem = hitItem;
           this.hoverItem.strokeColor = newStrokeColor;
-          this.hoverItem.fillColor = newFillColor;
+          if (newFillColor) {
+            this.hoverItem.fillColor = newFillColor;
+          }
           this.hoverItem.strokeWidth = 2;
         }
       }
@@ -66,7 +75,9 @@ class IacHoverItem extends React.Component<IProps> {
 
   redrawOldHoverItem() {
     if (this.hoverItem) {
-      this.hoverItem.fillColor = this.oldFillColor;
+      if (this.oldFillColor) {
+        this.hoverItem.fillColor = this.oldFillColor;
+      }
       this.hoverItem.strokeColor = this.oldStrokeColor;
       this.hoverItem.strokeWidth = this.oldStrokeWidth;
     }

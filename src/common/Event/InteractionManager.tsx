@@ -21,6 +21,7 @@ class InteractionManager extends Component<IProps> {
     "IacPreviousNextPage",
     "IacExportSvg",
     "IacChangeProperty",
+    "IacCreateGroup",
   ];
 
   idleInteractionNames = [

@@ -129,13 +129,18 @@ class GraphicLine extends Placement {
     return grips;
   }
 
-  private createPaperItem(name: string | undefined = undefined) {
+  createPaperItem(name: string | undefined = undefined) {
     const item = new Paper.Path.Line(
       new Paper.Point(this.p1.x, this.p1.y),
       new Paper.Point(this.p2.x, this.p2.y),
     );
     if (name) {
       item.name = name;
+      // item.dashArray = [4, 6];
+      // item.strokeWidth = 3;
+      // item.onFrame = () => {
+      //   item.dashOffset = (item.dashOffset + 0.1) % 10;
+      // };
     }
     return item;
   }

@@ -15,11 +15,14 @@ import IacSelect from "../interaction/IacSelect";
 import IacPreviousNextPage from "../interaction/IacPreviousNextPage";
 import IacExportSvg from "../interaction/IacExportSvg";
 import IacChangeProperty from "../interaction/IacChangeProperty";
+import IacCreateGroup from "../interaction/IacCreateGroup";
 
 class InteractionFactory {
   static create(name: string): JSX.Element {
     const props = { key: name };
     switch (name) {
+      case "IacCreateGroup":
+        return <IacCreateGroup {...props} />;
       case "IacChangeProperty":
         return <IacChangeProperty {...props} />;
       case "IacExportSvg":

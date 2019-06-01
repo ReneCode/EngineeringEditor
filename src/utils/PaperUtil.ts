@@ -71,10 +71,14 @@ class PaperUtil {
     itemName: string | string[],
   ): Paper.Item | null {
     if (result && result.item) {
+      let item = result.item;
+      if (item.parent && item.parent.name === ItemName.itemGroup) {
+        item = item.parent;
+      }
       const itemNames = makeArray(itemName);
       for (let name of itemNames) {
-        if (ItemName.match(name, result.item.name)) {
-          return result.item;
+        if (ItemName.match(name, item.name)) {
+          return item;
         }
       }
     }

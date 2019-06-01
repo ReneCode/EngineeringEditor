@@ -1,5 +1,6 @@
 export type AppEventType =
   | ""
+  | "createGroup"
   | "changeProperty"
   | "exportSvg"
   | "previousPage"
