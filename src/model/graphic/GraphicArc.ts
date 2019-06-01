@@ -45,9 +45,6 @@ class GraphicArc extends Placement {
 
   paperDraw(): Paper.Item {
     let item: Paper.Item = this.createPaperItem();
-    item.data = this.id;
-    item.name = ItemName.itemArc;
-    this.paperSetStyle(item);
 
     if (this._item) {
       this._item.replaceWith(item);
@@ -131,7 +128,7 @@ class GraphicArc extends Placement {
     }
   }
 
-  createPaperItem(): Paper.Item {
+  createPaperItem(name: string | undefined = undefined): Paper.Item {
     let item: Paper.Item;
     if (this.fullCircle) {
       item = new Paper.Path.Circle(this.center, this.radius);
@@ -139,8 +136,21 @@ class GraphicArc extends Placement {
       const pts = this.calcPoints();
       item = new Paper.Path.Arc(pts.from, pts.through, pts.to);
     }
-    item.fillColor = "#44225577";
-    item.strokeColor = "green";
+    item.data = this.id;
+    if (name) {
+      item.name = name;
+    } else {
+      item.name = ItemName.itemArc;
+    }
+
+    if (this.fill) {
+      item.fillColor = this.fill;
+    }
+    if (this.color) {
+      item.strokeColor = this.color;
+    } else {
+      item.strokeColor = "grey";
+    }
     return item;
   }
 
@@ -155,8 +165,7 @@ class GraphicArc extends Placement {
     switch (this._drawMode) {
       case "hover":
         {
-          const item = this.createPaperItem();
-          item.name = "temp";
+          const item = this.createPaperItem(ItemName.temp);
           item.strokeColor = configuration.selectionColor;
           item.strokeWidth = 2;
           this._tempItems.push(item);
@@ -164,8 +173,7 @@ class GraphicArc extends Placement {
         break;
       case "select":
         {
-          const item = this.createPaperItem();
-          item.name = "temp";
+          const item = this.createPaperItem(ItemName.temp);
 
           item.strokeColor = configuration.selectionColor;
           this._tempItems.push(item);
@@ -173,8 +181,7 @@ class GraphicArc extends Placement {
         break;
       case "edit":
         {
-          const item = this.createPaperItem();
-          item.name = "temp";
+          const item = this.createPaperItem(ItemName.temp);
           item.strokeColor = configuration.selectionColor;
           this._tempItems.push(item);
           const grips = this.createGrips(selectedGripId);

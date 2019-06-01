@@ -34,20 +34,7 @@ class GraphicGroup extends Placement {
   }
 
   paperDraw(): Paper.Item {
-    console.log(":draw group");
     const item = this.createPaperItem();
-    // const childItems: Paper.Item[] = [];
-    // for (let child of this.children) {
-    //   const childItem = child.paperDraw();
-    //   if (childItem) {
-    //     childItems.push(childItem);
-    //   }
-    // }
-    // item.addChildren(childItems);
-
-    item.data = this.id;
-    item.name = ItemName.itemGroup;
-    // this.paperSetStyle(item);
 
     if (this._item) {
       this._item.replaceWith(item);
@@ -142,6 +129,9 @@ class GraphicGroup extends Placement {
 
   createPaperItem(name: string | undefined = undefined): Paper.Group {
     const group = new Paper.Group();
+    group.data = this.id;
+    group.name = ItemName.itemGroup;
+
     if (name) {
       group.name = name;
     }

@@ -46,7 +46,7 @@ class GraphicCircle extends Placement {
       new Paper.Point([this.pt.x, this.pt.y]),
       this.radius,
     );
-    this.paperSetStyle(circle);
+    // this.paperSetStyle(circle);
     return circle;
   }
 
@@ -75,7 +75,7 @@ class GraphicCircle extends Placement {
       new Paper.Point(cx, cy),
       height / 2,
     );
-    this.paperSetStyle(circle);
+    // this.paperSetStyle(circle);
     return circle;
   }
 

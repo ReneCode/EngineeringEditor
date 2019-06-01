@@ -3,6 +3,7 @@ import Paper from "paper";
 import PaperUtil from "../../utils/PaperUtil";
 import { ItemName } from "../../common/ItemMetaData";
 import configuration from "../../common/configuration";
+import { debug } from "util";
 
 class GraphicLine extends Placement {
   constructor(public p1: Paper.Point, public p2: Paper.Point) {
@@ -36,9 +37,6 @@ class GraphicLine extends Placement {
 
   paperDraw(): Paper.Item {
     const item = this.createPaperItem();
-    item.data = this.id;
-    item.name = ItemName.itemLine;
-    this.paperSetStyle(item);
 
     if (this._item) {
       this._item.replaceWith(item);
@@ -136,12 +134,21 @@ class GraphicLine extends Placement {
     );
     if (name) {
       item.name = name;
-      // item.dashArray = [4, 6];
-      // item.strokeWidth = 3;
-      // item.onFrame = () => {
-      //   item.dashOffset = (item.dashOffset + 0.1) % 10;
-      // };
     }
+    item.data = this.id;
+    item.name = ItemName.itemLine;
+
+    if (this.color) {
+      item.strokeColor = this.color;
+    } else {
+      item.strokeColor = "grey";
+    }
+
+    // item.dashArray = [4, 6];
+    // item.strokeWidth = 3;
+    // item.onFrame = () => {
+    //   item.dashOffset = (item.dashOffset + 0.1) % 10;
+    // };
     return item;
   }
 }

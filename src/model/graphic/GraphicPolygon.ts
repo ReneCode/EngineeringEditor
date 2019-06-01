@@ -126,7 +126,7 @@ class GraphicPolygon extends Placement {
       return new Paper.Point(p.x, p.y);
     });
     const path = new Paper.Path(segments);
-    this.paperSetStyle(path);
+    // this.paperSetStyle(path);
     return path;
   }
 }

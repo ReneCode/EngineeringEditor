@@ -71,12 +71,6 @@ class Placement {
     return null;
   }
 
-  paperSetStyle(item: Paper.Item) {
-    item.strokeColor = this.color || "#221111";
-    item.fillColor = this.fill || "#ddddddfe";
-    item.strokeWidth = 1;
-  }
-
   draw(
     context: CanvasRenderingContext2D,
     transform: TransformCoordinate,
