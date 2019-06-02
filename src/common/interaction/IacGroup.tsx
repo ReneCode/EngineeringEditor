@@ -2,13 +2,8 @@ import React from "react";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 import Placement from "../../model/Placement";
 import { AppEventType } from "../Event/AppEventType";
-import deepClone from "../deepClone";
 import { connect } from "react-redux";
-import {
-  updateElementAction,
-  createElementAction,
-  deleteElementAction,
-} from "../../actions/changeElementActions";
+import { cudElementAction } from "../../actions/changeElementActions";
 import GraphicGroup from "../../model/graphic/GraphicGroup";
 
 interface IPayload {
@@ -41,17 +36,15 @@ class IacGroup extends React.Component<IProps> {
     ) {
       throw new Error("payload not suitable");
     }
-
-    const group = new GraphicGroup(payload.placements);
-
-    // const editPlacements = payload.placements.map(p => deepClone(p));
-    // for (let placement of editPlacements) {
-    // }
+    const placements = payload.placements;
+    const group = new GraphicGroup(placements);
 
     this.props.dispatch(
-      deleteElementAction("placement", payload.placements),
+      cudElementAction("placement", {
+        delete: placements,
+        create: group,
+      }),
     );
-    this.props.dispatch(createElementAction("placement", group));
   };
 
   render() {

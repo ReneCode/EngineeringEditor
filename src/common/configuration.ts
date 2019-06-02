@@ -20,7 +20,7 @@ class Configuration {
   handleStrokeColor = "#222222";
   handleFillColor = "#eeeeee";
 
-  itemHoverColor = "magenta";
+  itemHoverColor = accentColor; //"magenta";
   handleHoverColor = "#bb22bb";
 
   gripStrokeColor = accentColor;
@@ -40,9 +40,9 @@ class Configuration {
   selectionBoxStrokeColor = accentColor;
   selectionBoxFillColor = accentColorDimmed2;
 
-  modeHoverColor = "purple";
-  modeSelectColor = "red";
-  modeEditColor = "orange";
+  modeHoverColor = accentColor; //"purple";
+  modeSelectColor = accentColor; //"red";
+  modeEditColor = accentColor; //"orange";
 }
 
 const configuration = new Configuration();

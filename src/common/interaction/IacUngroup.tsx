@@ -2,13 +2,8 @@ import React from "react";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 import Placement from "../../model/Placement";
 import { AppEventType } from "../Event/AppEventType";
-import deepClone from "../deepClone";
 import { connect } from "react-redux";
-import {
-  updateElementAction,
-  createElementAction,
-  deleteElementAction,
-} from "../../actions/changeElementActions";
+import { cudElementAction } from "../../actions/changeElementActions";
 import GraphicGroup from "../../model/graphic/GraphicGroup";
 
 interface IPayload {
@@ -43,7 +38,17 @@ class IacUngroup extends React.Component<IProps> {
       throw new Error("payload not suitable");
     }
 
-    console.log("ungroup: do something useful");
+    const group = payload.placements[0];
+    if (group instanceof GraphicGroup) {
+      const items = group.children;
+
+      this.props.dispatch(
+        cudElementAction("placement", {
+          create: items,
+          delete: group,
+        }),
+      );
+    }
   };
 
   render() {

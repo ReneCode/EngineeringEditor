@@ -17,9 +17,60 @@ import { makeArray } from "../model/dtoUtil";
 import containsWithSameId from "../utils/containsWithSameId";
 import { IGlobalState } from "../store/reducers";
 
+export const cudElementAction = (
+  ref: RefType,
+  cud: {
+    create?: Placement | Placement[] | null;
+    update?: Placement | Placement[] | null;
+    delete?: Placement | Placement[] | null;
+  },
+) => {
+  if (!cud || (!cud.create && !cud.delete && !cud.update)) {
+    return Promise.resolve();
+  }
+
+  return async (
+    dispatch: any,
+    getState: GetGlobalStateFunction,
+  ): Promise<any> => {
+    try {
+      await dispatch(undoRedoAddStartMarkerCommit());
+
+      if (cud.create) {
+        const elements: Placement[] = makeArray(cud.create);
+        await dispatch(createPlacementAction(elements));
+        await dispatch(undoRedoAddCommit(ref, null, elements));
+      }
+
+      if (cud.delete) {
+        const elements: Placement[] = makeArray(cud.delete);
+
+        const oldPlacements = (getState() as IGlobalState).graphic.items.filter(
+          i => containsWithSameId(elements, i),
+        );
+        await dispatch(undoRedoAddCommit(ref, oldPlacements, null));
+        await dispatch(deletePlacementAction(elements));
+      }
+
+      if (cud.update) {
+        const elements: Placement[] = makeArray(cud.update);
+        const oldPlacements = (getState() as IGlobalState).graphic.items.filter(
+          i => containsWithSameId(elements, i),
+        );
+        await dispatch(
+          undoRedoAddCommit(ref, oldPlacements, elements),
+        );
+        await dispatch(updatePlacementAction(elements));
+      }
+    } catch (ex) {
+      console.error(ex);
+    }
+  };
+};
+
 export const createElementAction = (
   ref: RefType,
-  element: Placement,
+  element: Placement | Placement[],
 ) => {
   return async (dispatch: any): Promise<any> => {
     try {

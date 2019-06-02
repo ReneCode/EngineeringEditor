@@ -101,7 +101,6 @@ class GraphicLine extends Placement {
         {
           const item = this.createOutline(ItemName.temp);
           item.strokeColor = configuration.modeSelectColor;
-          item.data = "abc";
           this._tempItems.push(item);
         }
         break;
