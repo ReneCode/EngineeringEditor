@@ -85,7 +85,6 @@ class IaBase {
       canvas,
       viewport,
       items,
-      cursor,
     } = this.context.getState().graphic;
     const transform = new TransformCoordinate(viewport, canvas);
     const pickRadius = transform.canvasLengthToWc(

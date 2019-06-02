@@ -1,7 +1,6 @@
 import IaBase, { IaContext, IaEventType } from "./IaBase";
 import Point from "../../common/point";
 import GraphicCircle from "../../model/graphic/GraphicCircle";
-import { setTempItem } from "../../actions";
 import { createPlacementAction } from "../../actions/placementActions";
 import GraphicText from "../../model/graphic/GraphicText";
 import { createElementAction } from "../../actions/changeElementActions";

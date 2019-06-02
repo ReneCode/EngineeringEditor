@@ -4,8 +4,6 @@ export const REDRAWN = "REDRAWN";
 export const SET_SELECTED_PLACEMENT_IDS =
   "SET_SELECTED_PLACEMENT_IDS";
 
-export const SET_CURSOR_POINT = "SET_CURSOR_POINT";
-
 export const UNDO_REDO_ADD_START_MARKER =
   "UNDO_REDO_ADD_START_MARKER";
 export const UNDO_REDO_ADD = "UNDO_REDO_ADD";
@@ -25,8 +23,6 @@ export const UPDATE_PLACEMENT = "UPDATE_PLACEMENT";
 // Symbols
 export const SET_SYMBOLS = "SET_SYMBOLS";
 export const ADD_SYMBOL = "ADD_SYMBOL";
-
-export const SET_TEMP_ITEM = "SET_TEMP_ITEM";
 
 export const SET_PROJECT_ID = "SET_PROJECT_ID";
 export const SET_PAGE_ID = "SET_PAGE_ID";

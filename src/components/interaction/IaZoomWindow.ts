@@ -2,7 +2,6 @@ import IaBase, { IaContext, IaEventType } from "./IaBase";
 import Point from "../../common/point";
 import GraphicRect from "../../model/graphic/GraphicRect";
 import TransformCoordinate from "../../common/transformCoordinate";
-import { setTempItem } from "../../actions";
 import { setViewportAction } from "../../actions/graphicActions";
 
 class IaZoomWindow extends IaBase {

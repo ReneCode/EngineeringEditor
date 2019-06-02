@@ -1,7 +1,6 @@
 import GraphicLine from "../../model/graphic/GraphicLine";
 import IaBase, { IaContext, IaEventType } from "./IaBase";
 import Point from "../../common/point";
-import { setTempItem } from "../../actions";
 import { createPlacementAction } from "../../actions/placementActions";
 import { createElementAction } from "../../actions/changeElementActions";
 

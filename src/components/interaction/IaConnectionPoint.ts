@@ -4,7 +4,7 @@ import GraphicConnectionPoint, {
   ConnectionPointDirection,
 } from "../../model/graphic/GraphicConnectionPoint";
 import Point, { RelativeDirection } from "../../common/point";
-import { setTempItem } from "../../actions";
+// import { setTempItem } from "../../actions";
 import { createPlacementAction } from "../../actions/placementActions";
 
 class IaConnectionPoint extends IaBase {

@@ -1,7 +1,6 @@
 import IaBase, { IaContext, IaEventType } from "./IaBase";
 import GraphicSymbolRef from "../../model/graphic/GraphicSymbolRef";
 import Point from "../../common/point";
-import { setTempItem } from "../../actions";
 import { createPlacementAction } from "../../actions/placementActions";
 
 class IaSymbolRef extends IaBase {

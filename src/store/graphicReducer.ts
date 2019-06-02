@@ -11,10 +11,6 @@ export interface IGraphicState {
   redrawn: number;
   items: Placement[];
   selectedPlacementIds: string[];
-  tempItems: Placement[];
-  cursor: {
-    pt: Paper.Point;
-  };
   viewport: {
     x: number;
     y: number;
@@ -35,10 +31,6 @@ const initialState: IGraphicState = {
   symbols: [],
   items: [],
   selectedPlacementIds: [],
-  tempItems: [],
-  cursor: {
-    pt: new Paper.Point(0, 0),
-  },
   viewport: {
     x: -500,
     y: 200,
@@ -85,7 +77,6 @@ const setPlacement = (state: IGraphicState, action: any) => {
   return {
     ...state,
     items: items,
-    selectedItems: [],
   };
 };
 
@@ -164,11 +155,6 @@ const graphicReducer = (state = initialState, action: IAction) => {
         ...state,
         symbols: action.payload,
       };
-    case actionTypes.SET_TEMP_ITEM:
-      return {
-        ...state,
-        tempItems: [].concat(action.payload ? action.payload : []),
-      };
 
     case actionTypes.ADD_PLACEMENT:
       return addPlacement(state, action);
@@ -198,15 +184,6 @@ const graphicReducer = (state = initialState, action: IAction) => {
           y: action.payload.y,
           width: action.payload.width,
           height: action.payload.height,
-        },
-      };
-
-    case actionTypes.SET_CURSOR_POINT:
-      return {
-        ...state,
-        cursor: {
-          ...state.cursor,
-          pt: action.payload,
         },
       };
 
