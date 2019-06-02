@@ -68,13 +68,17 @@ class GraphicLine extends Placement {
 
   dragItem(event: Paper.MouseEvent) {
     if (this._item) {
-      this.p1 = this.p1.add(event.delta);
-      this.p2 = this.p2.add(event.delta);
+      this.translate(event.delta);
       this.paperDraw();
       for (let item of this._tempItems) {
         item.position = item.position.add(event.delta);
       }
     }
+  }
+
+  translate(delta: Paper.Point) {
+    this.p1 = this.p1.add(delta);
+    this.p2 = this.p2.add(delta);
   }
 
   private drawTempItems(selectedGripId: number = 0) {
@@ -87,24 +91,24 @@ class GraphicLine extends Placement {
     switch (this._drawMode) {
       case "hover":
         {
-          const item = this.createPaperItem(ItemName.temp);
-          item.strokeColor = configuration.selectionColor;
+          const item = this.createOutline(ItemName.temp);
+          item.strokeColor = configuration.modeHoverColor;
           item.strokeWidth = 2;
           this._tempItems.push(item);
         }
         break;
       case "select":
         {
-          const item = this.createPaperItem(ItemName.temp);
-          item.strokeColor = configuration.selectionColor;
+          const item = this.createOutline(ItemName.temp);
+          item.strokeColor = configuration.modeSelectColor;
           item.data = "abc";
           this._tempItems.push(item);
         }
         break;
       case "edit":
         {
-          const item = this.createPaperItem(ItemName.temp);
-          item.strokeColor = configuration.selectionColor;
+          const item = this.createOutline(ItemName.temp);
+          item.strokeColor = configuration.modeEditColor;
           this._tempItems.push(item);
           const grips = this.createGrips(selectedGripId);
           for (let grip of grips) {
@@ -127,16 +131,18 @@ class GraphicLine extends Placement {
     return grips;
   }
 
-  createPaperItem(name: string | undefined = undefined) {
+  private createOutline(name: string): Paper.Item {
     const item = new Paper.Path.Line(
       new Paper.Point(this.p1.x, this.p1.y),
       new Paper.Point(this.p2.x, this.p2.y),
     );
-    if (name) {
-      item.name = name;
-    }
+    item.name = name;
+    return item;
+  }
+
+  createPaperItem() {
+    const item = this.createOutline(ItemName.itemLine);
     item.data = this.id;
-    item.name = ItemName.itemLine;
 
     if (this.color) {
       item.strokeColor = this.color;

@@ -134,6 +134,17 @@ class PaperUtil {
     }
     return placements;
   }
+
+  static createBoundingBox(items: Paper.Item[]): Paper.Rectangle {
+    if (items.length === 0) {
+      throw new Error("can't create bounding box of nothing");
+    }
+    let bbox = items[0].bounds;
+    for (let item of items) {
+      bbox = bbox.unite(item.bounds);
+    }
+    return bbox;
+  }
 }
 
 export default PaperUtil;

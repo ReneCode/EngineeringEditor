@@ -120,7 +120,7 @@ class GraphicArc extends Placement {
 
   dragItem(event: Paper.MouseEvent) {
     if (this._item) {
-      this.center = this.center.add(event.delta);
+      this.translate(event.delta);
       this.paperDraw();
       for (let item of this._tempItems) {
         item.position = item.position.add(event.delta);
@@ -128,20 +128,13 @@ class GraphicArc extends Placement {
     }
   }
 
-  createPaperItem(name: string | undefined = undefined): Paper.Item {
-    let item: Paper.Item;
-    if (this.fullCircle) {
-      item = new Paper.Path.Circle(this.center, this.radius);
-    } else {
-      const pts = this.calcPoints();
-      item = new Paper.Path.Arc(pts.from, pts.through, pts.to);
-    }
+  translate(delta: Paper.Point) {
+    this.center = this.center.add(delta);
+  }
+
+  createPaperItem(): Paper.Item {
+    const item = this.createOutline(ItemName.itemArc);
     item.data = this.id;
-    if (name) {
-      item.name = name;
-    } else {
-      item.name = ItemName.itemArc;
-    }
 
     if (this.fill) {
       item.fillColor = this.fill;
@@ -165,24 +158,24 @@ class GraphicArc extends Placement {
     switch (this._drawMode) {
       case "hover":
         {
-          const item = this.createPaperItem(ItemName.temp);
-          item.strokeColor = configuration.selectionColor;
+          const item = this.createOutline(ItemName.temp);
+          item.strokeColor = configuration.modeHoverColor;
           item.strokeWidth = 2;
           this._tempItems.push(item);
         }
         break;
       case "select":
         {
-          const item = this.createPaperItem(ItemName.temp);
+          const item = this.createOutline(ItemName.temp);
 
-          item.strokeColor = configuration.selectionColor;
+          item.strokeColor = configuration.modeSelectColor;
           this._tempItems.push(item);
         }
         break;
       case "edit":
         {
-          const item = this.createPaperItem(ItemName.temp);
-          item.strokeColor = configuration.selectionColor;
+          const item = this.createOutline(ItemName.temp);
+          item.strokeColor = configuration.modeEditColor;
           this._tempItems.push(item);
           const grips = this.createGrips(selectedGripId);
           for (let grip of grips) {
@@ -192,6 +185,20 @@ class GraphicArc extends Placement {
         break;
     }
     // prevLayer.activate();
+  }
+
+  private createOutline(name: string | undefined): Paper.Item {
+    let item: Paper.Item;
+    if (this.fullCircle) {
+      item = new Paper.Path.Circle(this.center, this.radius);
+    } else {
+      const pts = this.calcPoints();
+      item = new Paper.Path.Arc(pts.from, pts.through, pts.to);
+    }
+    if (name) {
+      item.name = name;
+    }
+    return item;
   }
 
   private createGrips(selectedGripId: number = 0): Paper.Item[] {

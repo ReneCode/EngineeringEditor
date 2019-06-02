@@ -7,6 +7,7 @@ import { ItemName } from "../../common/ItemMetaData";
 import PaperUtil from "../../utils/PaperUtil";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 import Toolbar from "./Toolbar";
+import ToolbarButtonFactory from "./ToolbarButtonFactory";
 
 interface IProps {
   selectedPlacementIds: string[];
@@ -48,16 +49,16 @@ class SelectedPlacementMenu extends React.Component<IProps> {
 
     let groupButton = null;
     if (placements.length > 1) {
-      groupButton = (
-        <button
-          onClick={() =>
-            appEventDispatcher.dispatch("createGroup", {
-              placements,
-            })
-          }>
-          grp
-        </button>
-      );
+      groupButton = ToolbarButtonFactory.create("group", {
+        placements,
+      });
+    }
+
+    let ungroupButton = null;
+    if (placements.length === 1 && placements[0].type === "group") {
+      ungroupButton = ToolbarButtonFactory.create("ungroup", {
+        placements,
+      });
     }
 
     return (
@@ -82,8 +83,7 @@ class SelectedPlacementMenu extends React.Component<IProps> {
             col
           </button>
           {groupButton}
-          <button>7</button>
-          <button>8</button>
+          {ungroupButton}
         </Toolbar>
       </div>
     );

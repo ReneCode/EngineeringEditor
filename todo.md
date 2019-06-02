@@ -4,7 +4,9 @@ use ghooks / pre-commit => npm run test / https://www.npmjs.com/package/ghooks
 
 ## TODO
 
-- change color for selected Placements
+- move group
+- ungroup
+- global react error catching component
 - generic PopupMenu
 - create Symbol
 - use Symbol
@@ -45,12 +47,15 @@ toolPan.onMouseDrag = function(event) {
 
 ```
 
-- move canvas
 - move also popup-menu
 
 - disable redux-dev-tools in production / https://medium.com/@zalmoxis/using-redux-devtools-in-production-4c5b56c5600f
 
 ## DONE
+
+- ok - move canvas
+
+- ok - change color for selected Placements
 
 - ok - zoom into selected items (center of bounding box)
 

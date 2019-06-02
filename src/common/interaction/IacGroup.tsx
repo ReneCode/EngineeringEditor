@@ -19,12 +19,12 @@ interface IProps {
   dispatch: Function;
 }
 
-class IacCreateGroup extends React.Component<IProps> {
+class IacGroup extends React.Component<IProps> {
   private unsubscribeFn: any;
 
   componentDidMount() {
     this.unsubscribeFn = appEventDispatcher.subscribe(
-      "createGroup",
+      "group",
       this.onCreateGroup,
     );
   }
@@ -59,4 +59,4 @@ class IacCreateGroup extends React.Component<IProps> {
   }
 }
 
-export default connect()(IacCreateGroup);
+export default connect()(IacGroup);

@@ -103,7 +103,7 @@ class Placement {
     throw new Error("insideBox has to be overwritten by:" + this);
   }
 
-  translate(pt: Paper.Point): Placement {
+  translate(event: Paper.Point) {
     throw new Error("translate has to be overwritten by:" + this);
   }
 
