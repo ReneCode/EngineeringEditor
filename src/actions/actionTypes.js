@@ -22,8 +22,6 @@ export const DELETE_LAYER = "DELETE_LAYER";
 
 export const UPDATE_PLACEMENT = "UPDATE_PLACEMENT";
 
-export const SET_INTERACTION = "SET_INTERACTION";
-
 // Symbols
 export const SET_SYMBOLS = "SET_SYMBOLS";
 export const ADD_SYMBOL = "ADD_SYMBOL";
