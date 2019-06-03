@@ -4,8 +4,7 @@ use ghooks / pre-commit => npm run test / https://www.npmjs.com/package/ghooks
 
 ## TODO
 
-- move group
-- ungroup
+- group in group
 - global react error catching component
 - generic PopupMenu
 - create Symbol
@@ -53,10 +52,10 @@ toolPan.onMouseDrag = function(event) {
 
 ## DONE
 
+- ok - move group
+- ok - ungroup
 - ok - move canvas
-
 - ok - change color for selected Placements
-
 - ok - zoom into selected items (center of bounding box)
 
 - ok - selected item in shown on top - even if it is below other items
