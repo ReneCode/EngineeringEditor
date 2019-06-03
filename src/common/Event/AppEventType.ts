@@ -1,5 +1,6 @@
 export type AppEventType =
   | ""
+  | "createSymbolAndSymbolRef"
   | "ungroup"
   | "group"
   | "changeProperty"

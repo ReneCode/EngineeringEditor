@@ -43,7 +43,7 @@ class PaperUtil {
     fill: true,
   };
 
-  static hitTest(point: Paper.Point): Paper.HitResult {
+  static hitTest(point: Paper.Point): Paper.HitResult | null {
     const hitTestOptions: Paper.IHitTestOptions = {
       tolerance: 4,
       segments: true,
