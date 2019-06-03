@@ -3,7 +3,6 @@ import Paper from "paper";
 import PaperUtil from "../../utils/PaperUtil";
 import { ItemName } from "../../common/ItemMetaData";
 import configuration from "../../common/configuration";
-import { debug } from "util";
 
 class GraphicLine extends Placement {
   constructor(public p1: Paper.Point, public p2: Paper.Point) {

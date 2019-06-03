@@ -10,7 +10,7 @@ import { ItemName } from "../ItemMetaData";
 import { concatUnique } from "../../utils/concatUnique";
 import configuration from "../configuration";
 import containsTheSame from "../../utils/containsTheSame";
-import Placement, { DrawMode } from "../../model/Placement";
+import { DrawMode } from "../../model/Placement";
 
 interface IProps {
   dispatch: Function;

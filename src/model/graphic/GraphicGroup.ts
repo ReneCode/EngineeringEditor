@@ -47,10 +47,14 @@ class GraphicGroup extends Placement {
 
   dragItem(event: Paper.MouseEvent) {
     if (this._item) {
-      for (let child of this.children) {
-        child.translate(event.delta);
-      }
+      this.translate(event.delta);
       this.paperDraw();
+    }
+  }
+
+  translate(delta: Paper.Point) {
+    for (let child of this.children) {
+      child.translate(delta);
     }
   }
 
@@ -102,6 +106,12 @@ class GraphicGroup extends Placement {
     const childItems = this.children.map(c => c.createPaperItem());
 
     group.addChildren(childItems);
+    if (this.color) {
+      group.strokeColor = this.color;
+    }
+    if (this.fill) {
+      group.fillColor = this.fill;
+    }
 
     return group;
   }

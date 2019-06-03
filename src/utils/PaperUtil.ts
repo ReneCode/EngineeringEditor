@@ -72,7 +72,9 @@ class PaperUtil {
   ): Paper.Item | null {
     if (result && result.item) {
       let item = result.item;
-      if (item.parent && item.parent.name === ItemName.itemGroup) {
+
+      // get the top most group
+      while (item.parent && item.parent.name === ItemName.itemGroup) {
         item = item.parent;
       }
       const itemNames = makeArray(itemName);

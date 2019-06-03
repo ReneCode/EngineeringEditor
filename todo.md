@@ -4,7 +4,7 @@ use ghooks / pre-commit => npm run test / https://www.npmjs.com/package/ghooks
 
 ## TODO
 
-- group in group
+- hover item - color from/to the individual item
 - global react error catching component
 - generic PopupMenu
 - create Symbol
@@ -51,6 +51,8 @@ toolPan.onMouseDrag = function(event) {
 - disable redux-dev-tools in production / https://medium.com/@zalmoxis/using-redux-devtools-in-production-4c5b56c5600f
 
 ## DONE
+
+- ok - group in group
 
 - ok - move group
 - ok - ungroup

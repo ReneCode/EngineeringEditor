@@ -40,12 +40,12 @@ class IacHoverItem extends React.Component<IProps> {
       ]);
 
       if (hitItem) {
-        if (
-          hitItem.parent &&
-          hitItem.parent.name === ItemName.itemGroup
-        ) {
-          hitItem = hitItem.parent;
-        }
+        // if (
+        //   hitItem.parent &&
+        //   hitItem.parent.name === ItemName.itemGroup
+        // ) {
+        //   hitItem = hitItem.parent;
+        // }
 
         if (this.hoverItem !== hitItem) {
           let newStrokeColor = configuration.itemHoverColor;
@@ -59,6 +59,9 @@ class IacHoverItem extends React.Component<IProps> {
           this.oldFillColor = hitItem.fillColor;
           this.oldStrokeColor = hitItem.strokeColor;
           this.oldStrokeWidth = hitItem.strokeWidth;
+
+          console.log(`oldStrokeColor: ${this.oldStrokeColor}.`);
+
           this.hoverItem = hitItem;
           this.hoverItem.strokeColor = newStrokeColor;
           if (newFillColor) {
@@ -78,7 +81,13 @@ class IacHoverItem extends React.Component<IProps> {
       if (this.oldFillColor) {
         this.hoverItem.fillColor = this.oldFillColor;
       }
-      this.hoverItem.strokeColor = this.oldStrokeColor;
+      if (this.oldStrokeColor === undefined) {
+        delete this.hoverItem.strokeColor;
+      } else {
+        this.hoverItem.strokeColor = this.oldStrokeColor;
+      }
+      console.log(`restored StrokeColor: ${this.oldStrokeColor}.`);
+
       this.hoverItem.strokeWidth = this.oldStrokeWidth;
     }
   }
