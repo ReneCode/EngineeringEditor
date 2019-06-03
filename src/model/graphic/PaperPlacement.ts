@@ -10,7 +10,7 @@ class PaperPlacement extends Placement {
   }
 
   toJsonContent(): string {
-    return this._paperItem.exportJSON({ asString: false });
+    return this._paperItem.exportJSON({ asString: true });
   }
 
   translate(pt: Paper.Point): Placement {
