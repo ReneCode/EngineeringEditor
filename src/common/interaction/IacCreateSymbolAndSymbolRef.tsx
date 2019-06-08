@@ -106,7 +106,7 @@ class IacCreateSymbolAndSymbolRef extends React.Component<IProps> {
     const symbolRef = new GraphicSymbolRef(symbolName, point);
     this.props.dispatch(
       cudElementAction("placement", {
-        create: symbolRef,
+        // create: symbolRef, TODO
         delete: placements,
       }),
     );
