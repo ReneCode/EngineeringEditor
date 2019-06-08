@@ -35,10 +35,10 @@ class GraphicConnectionPoint extends Placement {
     });
   }
 
-  asJSON(): any {
+  toJSON(): any {
     return {
-      ...super.asJSON(),
-      pt: PaperUtil.PointAsJSON(this.pt),
+      ...super.toJSON(),
+      pt: PaperUtil.PointToJSON(this.pt),
       direction: this.direction,
     };
   }

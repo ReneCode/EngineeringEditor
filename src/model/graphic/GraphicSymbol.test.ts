@@ -1,16 +1,14 @@
 import { Point } from "paper";
 import GraphicSymbol from "./GraphicSymbol";
-import GraphicCircle from "./GraphicCircle";
 import GraphicLine from "./GraphicLine";
 import { DtoElement } from "../dtoUtil";
-import ElementFactory from "../ElementFactory";
 import GraphicArc from "./GraphicArc";
 
 describe("GraphicSymbol", () => {
   let symbol: GraphicSymbol;
   let dto: DtoElement;
 
-  it.only("asJSON / fromJSON", () => {
+  it.only("toJSON / fromJSON", () => {
     const line = new GraphicLine(new Point(5, 6), new Point(3, 20));
     const arc = new GraphicArc(new Point(10, 10), 40);
 
@@ -19,7 +17,7 @@ describe("GraphicSymbol", () => {
 
     expect(symbolA.placements).toHaveLength(2);
 
-    const json = symbolA.asJSON();
+    const json = symbolA.toJSON();
     expect(json.type).toEqual("symbol");
 
     const symbolB = GraphicSymbol.fromJSON(json);

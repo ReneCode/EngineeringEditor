@@ -27,10 +27,10 @@ class GraphicArc extends Placement {
     });
   }
 
-  asJSON(): any {
+  toJSON(): any {
     return {
-      ...super.asJSON(),
-      center: PaperUtil.PointAsJSON(this.center),
+      ...super.toJSON(),
+      center: PaperUtil.PointToJSON(this.center),
       radius: this.radius,
       startAngle: this.startAngle,
       endAngle: this.endAngle,

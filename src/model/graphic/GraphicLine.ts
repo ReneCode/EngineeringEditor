@@ -18,11 +18,11 @@ class GraphicLine extends Placement {
     });
   }
 
-  asJSON(): any {
+  toJSON(): any {
     return {
-      ...super.asJSON(),
-      p1: PaperUtil.PointAsJSON(this.p1),
-      p2: PaperUtil.PointAsJSON(this.p2),
+      ...super.toJSON(),
+      p1: PaperUtil.PointToJSON(this.p1),
+      p2: PaperUtil.PointToJSON(this.p2),
     };
   }
 

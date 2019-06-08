@@ -54,8 +54,8 @@ class ObjectFactory {
       return obj.map((o: any) => ObjectFactory.toJSON(o));
     }
 
-    if (obj.asJSON && typeof obj.asJSON === "function") {
-      return obj.asJSON();
+    if (obj.toJSON && typeof obj.toJSON === "function") {
+      return obj.toJSON();
     } else {
       throw new Error("toJSON missing on object:" + obj);
     }

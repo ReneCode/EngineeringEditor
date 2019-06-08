@@ -29,7 +29,7 @@ class PaperUtil {
   //   return prevLayer;
   // }
 
-  static PointAsJSON(pt: Paper.Point): any {
+  static PointToJSON(pt: Paper.Point): any {
     if (!pt) {
       return { x: 0, y: 0 };
     }

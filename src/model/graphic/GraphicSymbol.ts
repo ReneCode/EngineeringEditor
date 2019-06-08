@@ -35,13 +35,13 @@ class GraphicSymbol {
     });
   }
 
-  asJSON(): any {
+  toJSON(): any {
     return {
       type: this.type,
       projectId: this.projectId,
       id: this.id,
       name: this.name,
-      insertPt: PaperUtil.PointAsJSON(this.insertPt),
+      insertPt: PaperUtil.PointToJSON(this.insertPt),
       placements: ObjectFactory.toJSON(this.placements),
     };
   }

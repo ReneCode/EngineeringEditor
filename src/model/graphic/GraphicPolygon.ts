@@ -23,10 +23,10 @@ class GraphicPolygon extends Placement {
     });
   }
 
-  asJSON(): any {
+  toJSON(): any {
     return {
-      ...super.asJSON(),
-      points: this.points.map(p => PaperUtil.PointAsJSON(p)),
+      ...super.toJSON(),
+      points: this.points.map(p => PaperUtil.PointToJSON(p)),
     };
   }
 

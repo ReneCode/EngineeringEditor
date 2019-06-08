@@ -23,10 +23,10 @@ class GraphicSymbolRef extends Placement {
     });
   }
 
-  asJSON(): any {
+  toJSON(): any {
     return {
-      ...super.asJSON(),
-      pt: PaperUtil.PointAsJSON(this.pt),
+      ...super.toJSON(),
+      pt: PaperUtil.PointToJSON(this.pt),
       name: this.name,
       _symbol: undefined,
     };

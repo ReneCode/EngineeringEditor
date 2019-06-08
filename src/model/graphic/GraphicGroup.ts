@@ -17,10 +17,10 @@ class GraphicGroup extends Placement {
     });
   }
 
-  asJSON(): any {
+  toJSON(): any {
     return {
-      ...super.asJSON(),
-      children: this.children.map(c => c.asJSON()),
+      ...super.toJSON(),
+      children: this.children.map(c => c.toJSON()),
     };
   }
 

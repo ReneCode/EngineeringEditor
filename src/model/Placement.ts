@@ -31,7 +31,7 @@ class Placement {
     this.id = createId("P");
   }
 
-  asJSON(): any {
+  toJSON(): any {
     return {
       type: this.type,
       id: this.id,
@@ -44,7 +44,7 @@ class Placement {
   }
 
   toJsonContent(): string {
-    return this.asJSON();
+    return this.toJSON();
   }
 
   getPaperItem(): Paper.Item | null {

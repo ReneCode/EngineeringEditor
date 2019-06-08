@@ -26,7 +26,7 @@ describe("GraphicSymbolRef", () => {
     symbolRef.setSymbol(symbol);
     expect(symbolRef.getSymbol).toBeTruthy();
 
-    const json = symbolRef.asJSON();
+    const json = symbolRef.toJSON();
     const newSymbolRef = GraphicSymbolRef.fromJSON(json);
     expect(newSymbolRef.name).toEqual(symbolRef.name);
     expect(newSymbolRef.id).toEqual(symbolRef.id);
