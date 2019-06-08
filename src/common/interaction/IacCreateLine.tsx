@@ -5,7 +5,10 @@ import appEventDispatcher from "../Event/AppEventDispatcher";
 import { AppEventType } from "../Event/AppEventType";
 import configuration from "../configuration";
 import GraphicLine from "../../model/graphic/GraphicLine";
-import { createElementAction } from "../../actions/changeElementActions";
+import {
+  createElementAction,
+  cudElementAction,
+} from "../../actions/changeElementActions";
 
 interface IProps {
   dispatch: Function;
@@ -78,7 +81,7 @@ class IacCreateLine extends React.Component<IProps> {
     }
 
     await this.props.dispatch(
-      createElementAction("placement", this.line),
+      cudElementAction("placement", { create: this.line }),
     );
 
     // await this.props.dispatch(setSelectedItemAction(this.line));
