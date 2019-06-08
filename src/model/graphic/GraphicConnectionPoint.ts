@@ -3,6 +3,7 @@ import TransformCoordinate from "../../common/transformCoordinate";
 import deepClone from "../../common/deepClone";
 import Box from "../../common/box";
 import Placement from "../Placement";
+import PaperUtil from "../../utils/PaperUtil";
 
 // https://www.cadlinecommunity.co.uk/hc/en-us/articles/360000136085-AutoCAD-Electrical-2018-Schematic-Symbol-Wire-Connection-Attributes
 export enum ConnectionPointDirection {
@@ -17,29 +18,32 @@ const RADIUS_CANVAS = 5;
 class GraphicConnectionPoint extends Placement {
   direction: ConnectionPointDirection = ConnectionPointDirection.DOWN;
   index: number;
+  pt: Paper.Point;
 
-  constructor(public pt: Paper.Point) {
+  constructor(pt: Paper.Point) {
     super("connectionpoint");
+    this.pt = pt;
     this.index = 0;
   }
-  /*
+
   static fromJSON(json: any): GraphicConnectionPoint {
     const connectionPoint = Object.create(
       GraphicConnectionPoint.prototype,
     );
     return (<any>Object).assign(connectionPoint, json, {
-      pt: Point.fromJSON(json.pt),
+      pt: PaperUtil.PointFromJSON(json.pt),
     });
   }
 
-  nearPoint(pt: Point, radius: number): boolean {
-    return this.pt.sub(pt).length() <= radius;
+  asJSON(): any {
+    return {
+      ...super.asJSON(),
+      pt: PaperUtil.PointAsJSON(this.pt),
+      direction: this.direction,
+    };
   }
 
-  insideBox(box: Box): boolean {
-    return box.isPointInside(this.pt);
-  }
-
+  /*
   draw(
     context: CanvasRenderingContext2D,
     transform: TransformCoordinate,

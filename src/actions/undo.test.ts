@@ -1,9 +1,9 @@
-import undoRedoReducer from "../reducers/undoRedoReducer";
 import {
   undoRedoAddStartMarkerCommit,
   undoRedoAddCommit,
 } from "./undoRedo";
 import { UNDO_REDO_SET_INDEX } from "./actionTypes";
+import undoRedoReducer from "../store/undoRedoReducer";
 
 describe("undoredo", () => {
   it("setIndex", () => {

@@ -2,7 +2,7 @@ import Paper from "paper";
 import GraphicArc from "./GraphicArc";
 
 describe("GraphicArc", () => {
-  it("toJSON", () => {
+  it("toJSON / fromJSON", () => {
     const arc = new GraphicArc(new Paper.Point(4, 5), 10);
     arc.layer = "grip";
     const json = arc.asJSON();

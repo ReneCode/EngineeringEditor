@@ -1,14 +1,12 @@
-import Paper from "paper";
 import GraphicLine from "./graphic/GraphicLine";
 import GraphicPolygon from "./graphic/GraphicPolygon";
-import GraphicCircle from "./graphic/GraphicCircle";
 import GraphicSymbolRef from "./graphic/GraphicSymbolRef";
 import GraphicSymbol from "./graphic/GraphicSymbol";
 import GraphicText from "./graphic/GraphicText";
 import GraphicRect from "./graphic/GraphicRect";
 import GraphicArc from "./graphic/GraphicArc";
-import Placement from "./Placement";
 import GraphicGroup from "./graphic/GraphicGroup";
+import GraphicConnectionPoint from "./graphic/GraphicConnectionPoint";
 
 class ObjectFactory {
   static fromJSON(json: any): object | object[] | null {
@@ -38,16 +36,12 @@ class ObjectFactory {
         return GraphicLine.fromJSON(json);
       case "polygon":
         return GraphicPolygon.fromJSON(json);
-      case "circle":
-        return GraphicCircle.fromJSON(json);
       case "symbolref":
         return GraphicSymbolRef.fromJSON(json);
       case "symbol":
         return GraphicSymbol.fromJSON(json);
-      //   return GraphicSymbol.fromJSON(json);
       case "connectionpoint":
-        return new Placement(json.type);
-      //   return GraphicConnectionPoint.fromJSON(json);
+        return GraphicConnectionPoint.fromJSON(json);
       case "text":
         return GraphicText.fromJSON(json);
       default:

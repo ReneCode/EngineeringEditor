@@ -1,11 +1,8 @@
 import Paper from "paper";
 import Point from "../../common/point";
-import Line from "../../common/line";
-import TransformCoordinate from "../../common/transformCoordinate";
 import deepClone from "../../common/deepClone";
-import Box from "../../common/box";
-import Placement, { DrawOptions } from "../Placement";
-import GraphicGrip from "./GraphicGrip";
+import Placement from "../Placement";
+import PaperUtil from "../../utils/PaperUtil";
 
 class GraphicPolygon extends Placement {
   points: Paper.Point[] = [];
@@ -15,70 +12,25 @@ class GraphicPolygon extends Placement {
 
   static fromJSON(json: any): GraphicPolygon {
     const polygon = Object.create(GraphicPolygon.prototype);
+    let points = [];
+    if (json.points) {
+      points = json.points.map((p: any) =>
+        PaperUtil.PointFromJSON(p),
+      );
+    }
     return (<any>Object).assign(polygon, json, {
-      points: json.points.map((p: any) => Point.fromJSON(p)),
+      points: points,
     });
   }
+
+  asJSON(): any {
+    return {
+      ...super.asJSON(),
+      points: this.points.map(p => PaperUtil.PointAsJSON(p)),
+    };
+  }
+
   /*
-  nearPoint(pt: Point, radius: number): boolean {
-    const len = this.points.length;
-    for (let i = 0; i < len - 1; i++) {
-      const line = new Line(this.points[i], this.points[i + 1]);
-      const near = line.nearPoint(pt, radius);
-      if (near) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  insideBox(box: Box): boolean {
-    const len = this.points.length;
-    for (let i = 0; i < len - 1; i++) {
-      const line = new Line(this.points[i], this.points[i + 1]);
-      if (box.isLineInside(line)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  draw(
-    context: CanvasRenderingContext2D,
-    transform: TransformCoordinate,
-    options: DrawOptions,
-  ): void {
-    this.drawWithOptions(context, options);
-
-    context.beginPath();
-    const len = this.points.length;
-    for (let i = 0; i < len; i++) {
-      const p = transform.wcToCanvas(this.points[i]);
-      if (i === 0) {
-        context.moveTo(p.x, p.y);
-      } else {
-        context.lineTo(p.x, p.y);
-      }
-    }
-    context.stroke();
-  }
-
-  getGrips(): GraphicGrip[] {
-    const len = this.points.length;
-    const grips = [];
-    for (let i = 0; i < len; i++) {
-      const g = new GraphicGrip(this.points[i], this, i);
-      grips.push(g);
-    }
-    return grips;
-  }
-*/
-  translate(pt: Paper.Point): GraphicPolygon {
-    const polygon: GraphicPolygon = deepClone(this);
-    polygon.points = polygon.points.map(p => p.add(pt));
-    return polygon;
-  }
-
   fitToRect(rectangle: Paper.Rectangle): GraphicPolygon {
     const polygon: GraphicPolygon = deepClone(this);
 
@@ -104,22 +56,6 @@ class GraphicPolygon extends Placement {
     return polygon;
   }
 
-  // getBoundingBox(): Box {
-  //   let box = new Box(this.points[0], this.points[0]);
-  //   this.points.forEach(pt => {
-  //     box = box.expandByPoint(pt);
-  //   });
-  //   return box;
-  // }
-
-  // first and last point are equal
-  // closed(): boolean {
-  //   const len = this.points.length;
-  //   if (len < 2) {
-  //     return false;
-  //   }
-  //   return this.points[len - 1].equal(this.points[0]);
-  // }
 
   paperDraw(): Paper.Item {
     const segments = this.points.map(p => {
@@ -129,6 +65,7 @@ class GraphicPolygon extends Placement {
     // this.paperSetStyle(path);
     return path;
   }
+  */
 }
 
 export default GraphicPolygon;
