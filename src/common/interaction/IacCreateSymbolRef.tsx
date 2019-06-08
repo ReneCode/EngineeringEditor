@@ -3,7 +3,10 @@ import { connect } from "react-redux";
 import Paper from "paper";
 import appEventDispatcher from "../Event/AppEventDispatcher";
 import { AppEventType } from "../Event/AppEventType";
-import { createElementAction } from "../../actions/changeElementActions";
+import {
+  createElementAction,
+  cudElementAction,
+} from "../../actions/changeElementActions";
 import GraphicSymbolRef from "../../model/graphic/GraphicSymbolRef";
 import { IGlobalState } from "../../store/reducers";
 import GraphicSymbol from "../../model/graphic/GraphicSymbol";
@@ -34,18 +37,23 @@ class IacCreateSymbolRef extends React.Component<IProps> {
   }
 
   onMouseDown = (type: AppEventType, event: Paper.MouseEvent) => {
-    const symbolName = "Symbol-21";
+    const symbolName = "Symbol-24";
     const symbol = this.props.symbols.find(
       s => s.name === symbolName,
     );
     if (!symbol) {
       throw new Error("symbol not found:" + symbolName);
     }
+    console.log(symbol);
 
     const point = event.point;
-    const paperSymbol = symbol.getPaperSymbol();
+    // const paperSymbol = symbol.getPaperSymbol();
 
-    const placedSymbol = paperSymbol.place(point);
+    const symbolRef = new GraphicSymbolRef(symbolName, point);
+    this.props.dispatch(
+      cudElementAction("placement", { create: [symbolRef] }),
+    );
+    // const placedSymbol = paperSymbol.place(point);
 
     // this.symbolRef = new GraphicSymbolRef(symbolName, point, symbol);
   };

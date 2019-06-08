@@ -3,6 +3,7 @@ import { IdType, GraphicType } from "../types";
 import Placement from "../Placement";
 import ObjectFactory from "../ObjectFactory";
 import PaperUtil from "../../utils/PaperUtil";
+import createId from "../createId";
 
 class GraphicSymbol {
   type: GraphicType = "symbol";
@@ -15,6 +16,7 @@ class GraphicSymbol {
   projectId: IdType;
 
   constructor(placements: Placement[]) {
+    this.id = createId("S");
     this.placements = placements;
   }
 

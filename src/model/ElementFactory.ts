@@ -1,9 +1,11 @@
 import { decodeJson, encodeJson, DtoElement } from "./dtoUtil";
 import ObjectFactory from "./ObjectFactory";
 import GraphicSymbol from "./graphic/GraphicSymbol";
+import { GraphicType } from "./types";
 
 class ElementFactory {
-  static toDTO(obj: GraphicSymbol): DtoElement {
+  static toDTO(symbol: GraphicSymbol): DtoElement {
+    /*
     const rawItems = obj.placements.map(p => {
       return {
         ...p,
@@ -18,12 +20,26 @@ class ElementFactory {
       items: rawItems,
     };
     const json = Object.assign({}, modifiedObject);
+    */
+
+    let json: {
+      type?: GraphicType;
+      id?: string;
+      projectId?: string;
+      name?: string;
+    } = {};
+    json = ObjectFactory.toJSON(symbol);
+    delete json.id;
+    delete json.projectId;
+    delete json.type;
+    delete json.name;
+
     const content = encodeJson(json);
     return {
-      projectId: obj.projectId,
-      name: obj.name,
-      id: obj.id,
-      type: "symbol",
+      projectId: symbol.projectId,
+      name: symbol.name,
+      id: symbol.id,
+      type: symbol.type,
       content: content,
     };
   }
@@ -44,6 +60,7 @@ class ElementFactory {
     symbol.id = dto.id;
     symbol.projectId = dto.projectId;
     symbol.name = dto.name;
+    symbol.type = dto.type;
     return symbol;
   }
 }

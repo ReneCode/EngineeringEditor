@@ -19,11 +19,11 @@ export const createSymbolAction = (symbol: GraphicSymbol): any => {
 
       const action = {
         type: actionTypes.ADD_SYMBOL,
-        payload: newSymbol,
+        payload: symbol,
       };
       await dispatch(action);
 
-      return newSymbol;
+      return symbol;
     } catch (ex) {
       throw new Error("Exception:" + ex);
     }

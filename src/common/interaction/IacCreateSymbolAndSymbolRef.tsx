@@ -50,7 +50,7 @@ class IacCreateSymbolAndSymbolRef extends React.Component<IProps> {
     const pl2 = symbol.place(new Paper.Point(140, 50));
   };
 
-  onCreateSymbolAndSymbolRef = (
+  T2onCreateSymbolAndSymbolRef = (
     type: AppEventType,
     payload: IPayload,
   ) => {
@@ -76,7 +76,7 @@ class IacCreateSymbolAndSymbolRef extends React.Component<IProps> {
     r2.paperDraw();
   };
 
-  OrgonCreateSymbolAndSymbolRef = (
+  onCreateSymbolAndSymbolRef = (
     type: AppEventType,
     payload: IPayload,
   ) => {
@@ -95,13 +95,19 @@ class IacCreateSymbolAndSymbolRef extends React.Component<IProps> {
     const symbol = new GraphicSymbol(placements);
     symbol.name = symbolName;
     symbol.projectId = projectId;
+
+    // const json = ElementFactory.toDTO(symbol);
+    // console.log(json);
+
+    // const symbolB = ElementFactory.fromDTO(json) as GraphicSymbol;
+
     this.props.dispatch(createSymbolAction(symbol));
 
     const symbolRef = new GraphicSymbolRef(symbolName, point);
     this.props.dispatch(
       cudElementAction("placement", {
         create: [symbolRef],
-        delete: placements,
+        // delete: placements,
       }),
     );
   };
