@@ -1,5 +1,4 @@
 import React from "react";
-import IacCircle from "../interaction/IacCircle";
 import IacUndoRedo from "../interaction/IacUndoRedo";
 import IacSnapGrid from "../interaction/IacSnapGrid";
 import IacRectangle from "../interaction/IacRectangle";
@@ -58,8 +57,6 @@ class InteractionFactory {
         return <IacCreateArc {...props} />;
       case "CreateLine":
         return <IacCreateLine {...props} />;
-      case "Circle":
-        return <IacCircle {...props} />;
       case "Rectangle":
         return <IacRectangle {...props} />;
       case "UndoRedo":
