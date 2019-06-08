@@ -7,6 +7,7 @@ import { ItemMetaData } from "../../common/ItemMetaData";
 class PaperPlacement extends Placement {
   constructor(private _paperItem: Paper.Item) {
     super("#paper");
+    debugger;
   }
 
   toJsonContent(): string {

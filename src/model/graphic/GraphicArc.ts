@@ -21,6 +21,9 @@ class GraphicArc extends Placement {
     }
     return (<any>Object).assign(arc, json, {
       center: PaperUtil.PointFromJSON(json.center),
+      _item: undefined,
+      _tempItems: undefined,
+      _grips: undefined,
     });
   }
 
@@ -36,6 +39,7 @@ class GraphicArc extends Placement {
   }
 
   setMode(drawMode: DrawMode) {
+    console.log("setMode:", drawMode);
     if (drawMode === this._drawMode) {
       return;
     }

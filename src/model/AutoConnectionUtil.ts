@@ -81,24 +81,25 @@ class AutoConnectionUtil {
     acc: IPlacementAndConnectionPoint[],
     symbolRef: GraphicSymbolRef,
   ): IPlacementAndConnectionPoint[] => {
-    if (symbolRef && symbolRef.symbol) {
-      const symbol = symbolRef.symbol;
-      const symbolPt = symbolRef.pt.subtract(symbol.insertPt);
-      const cpsWithSymbolRef = symbol.items
-        .filter(g => g.type === "connectionpoint")
-        .map(g => g as GraphicConnectionPoint)
-        .map((cp, index) => {
-          return {
-            placement: symbolRef,
-            index: index,
-            pt: symbolPt.add(cp.pt),
-            direction: cp.direction,
-          };
-        });
-      return acc.concat(cpsWithSymbolRef);
-    } else {
-      return acc;
+    if (symbolRef) {
+      const symbol = symbolRef.getSymbol();
+      if (symbol) {
+        const symbolPt = symbolRef.pt.subtract(symbol.insertPt);
+        const cpsWithSymbolRef = symbol.placements
+          .filter(g => g.type === "connectionpoint")
+          .map(g => g as GraphicConnectionPoint)
+          .map((cp, index) => {
+            return {
+              placement: symbolRef,
+              index: index,
+              pt: symbolPt.add(cp.pt),
+              direction: cp.direction,
+            };
+          });
+        return acc.concat(cpsWithSymbolRef);
+      }
     }
+    return acc;
   };
   private sortConnectionPoints = (
     a: IPlacementAndConnectionPoint,

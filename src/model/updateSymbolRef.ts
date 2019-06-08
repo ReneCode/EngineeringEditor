@@ -26,7 +26,7 @@ const updateOneSymbolRef = (
 ): GraphicSymbol | null => {
   const symbol = symbols.find(s => s.name === symbolRef.name);
   if (symbol) {
-    symbolRef.symbol = symbol;
+    symbolRef.setSymbol(symbol);
     return symbol;
   }
   console.log("Symbol missing:", symbolRef.name);

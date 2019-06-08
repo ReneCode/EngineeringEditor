@@ -9,9 +9,12 @@ import Placement from "../../model/Placement";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 import InteractionManager from "../../common/Event/InteractionManager";
 import PaperUtil from "../../utils/PaperUtil";
+import GraphicSymbol from "../../model/graphic/GraphicSymbol";
+import GraphicSymbolRef from "../../model/graphic/GraphicSymbolRef";
 
 interface IProps {
   items: Placement[];
+  symbols: GraphicSymbol[];
   dispatch: Function;
 }
 
@@ -34,17 +37,33 @@ class GraphicView extends Component<IProps> {
   }
 
   componentDidUpdate(prevProps: IProps) {
-    if (prevProps.items !== this.props.items) {
+    if (
+      prevProps.items !== this.props.items ||
+      prevProps.symbols !== this.props.symbols
+    ) {
       console.log("draw Canvas:", this.props.items.length);
+
       const project = Paper.project;
       project.activeLayer.removeChildren();
       for (let placement of this.props.items) {
-        placement.paperDraw();
+        if (placement instanceof GraphicSymbolRef) {
+          const symbol = this.getSymbol(placement.name);
+          if (symbol) {
+            placement.setSymbol(symbol);
+            placement.paperDraw();
+          }
+        } else {
+          placement.paperDraw();
+        }
       }
 
       // now the other components can work with the drawn Paper items
       this.props.dispatch({ type: actionTypes.REDRAWN });
     }
+  }
+
+  getSymbol(name: string): GraphicSymbol | undefined {
+    return this.props.symbols.find(s => s.name === name);
   }
 
   componentDidMount() {
@@ -176,6 +195,7 @@ class GraphicView extends Component<IProps> {
 const mapStateToProps = (state: IGlobalState) => {
   return {
     items: state.graphic.items,
+    symbols: state.graphic.symbols,
   };
 };
 

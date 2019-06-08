@@ -12,8 +12,8 @@ const setPageId = (projectId: IdType, pageId: IdType) => {
     try {
       const placements = await apiLoadPlacement(projectId, pageId);
 
-      const symbols = getState().graphic.symbols;
-      updateAllSymbolRef(placements, symbols);
+      // const symbols = getState().graphic.symbols;
+      // updateAllSymbolRef(placements, symbols);
 
       await dispatch({
         type: actionTypes.SET_PLACEMENT,

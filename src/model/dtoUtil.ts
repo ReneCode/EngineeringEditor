@@ -10,7 +10,7 @@ export interface DtoPlacement {
 
 export interface DtoElement {
   id: IdType;
-  type: GraphicType;
+  type: "symbol";
   projectId: IdType;
   name: string;
   content: string;

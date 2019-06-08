@@ -30,9 +30,15 @@ class PaperUtil {
   // }
 
   static PointAsJSON(pt: Paper.Point): any {
+    if (!pt) {
+      return { x: 0, y: 0 };
+    }
     return { x: pt.x, y: pt.y };
   }
   static PointFromJSON(json: any): Paper.Point {
+    if (!json) {
+      return new Paper.Point(0, 0);
+    }
     return new Paper.Point(json.x, json.y);
   }
 

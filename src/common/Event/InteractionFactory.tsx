@@ -17,11 +17,17 @@ import IacExportSvg from "../interaction/IacExportSvg";
 import IacChangeProperty from "../interaction/IacChangeProperty";
 import IacGroup from "../interaction/IacGroup";
 import IacUngroup from "../interaction/IacUngroup";
+import IacCreateSymbolAndSymbolRef from "../interaction/IacCreateSymbolAndSymbolRef";
+import IacCreateSymbolRef from "../interaction/IacCreateSymbolRef";
 
 class InteractionFactory {
   static create(name: string): JSX.Element {
     const props = { key: name };
     switch (name) {
+      case "IacCreateSymbolRef":
+        return <IacCreateSymbolRef {...props} />;
+      case "IacCreateSymbolAndSymbolRef":
+        return <IacCreateSymbolAndSymbolRef {...props} />;
       case "IacGroup":
         return <IacGroup {...props} />;
       case "IacUngroup":

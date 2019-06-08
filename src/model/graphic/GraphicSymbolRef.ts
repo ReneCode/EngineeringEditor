@@ -1,34 +1,41 @@
-import Paper from "paper";
-import Point from "../../common/point";
-import TransformCoordinate from "../../common/transformCoordinate";
+import Paper, { Point } from "paper";
 import GraphicSymbol from "./GraphicSymbol";
-import Box from "../../common/box";
-import Placement, { DrawOptions } from "../Placement";
+import Placement from "../Placement";
+import PaperUtil from "../../utils/PaperUtil";
 
 class GraphicSymbolRef extends Placement {
   name: string = "";
-  symbol: GraphicSymbol | undefined = undefined;
+  _symbol: GraphicSymbol | undefined = undefined;
   pt: Paper.Point = new Paper.Point(0, 0);
 
-  constructor(
-    name: string,
-    pt: Paper.Point = new Paper.Point(0, 0),
-    symbol: GraphicSymbol | undefined = undefined,
-  ) {
+  constructor(name: string, pt: Paper.Point) {
     super("symbolref");
     this.name = name;
     this.pt = pt;
-    this.symbol = symbol;
+  }
+
+  setSymbol(symbol: GraphicSymbol) {
+    this._symbol = symbol;
+  }
+
+  getSymbol(): GraphicSymbol | undefined {
+    return this._symbol;
   }
 
   paperDraw() {
-    return new Paper.Item();
+    if (!this._symbol) {
+      throw new Error("symbol missing");
+    }
+
+    const symbolItem = this._symbol.getPaperSymbol();
+    const item = symbolItem.place(this.pt);
+    return item;
   }
 
   static fromJSON(json: any): GraphicSymbolRef {
     const group = Object.create(GraphicSymbolRef.prototype);
     return (<any>Object).assign(group, json, {
-      pt: Point.fromJSON(json.pt),
+      pt: PaperUtil.PointFromJSON(json.pt),
       name: json.name,
     });
   }

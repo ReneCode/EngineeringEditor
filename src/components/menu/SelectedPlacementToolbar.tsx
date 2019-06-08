@@ -61,6 +61,11 @@ class SelectedPlacementMenu extends React.Component<IProps> {
       });
     }
 
+    const createSymbolButton = ToolbarButtonFactory.create(
+      "createSymbol",
+      { placements },
+    );
+
     return (
       <div className="html-canvas">
         <Toolbar className="" style={style}>
@@ -84,6 +89,7 @@ class SelectedPlacementMenu extends React.Component<IProps> {
           </button>
           {groupButton}
           {ungroupButton}
+          {createSymbolButton}
         </Toolbar>
       </div>
     );

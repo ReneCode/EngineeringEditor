@@ -12,7 +12,7 @@ export const setProjectId = (projectId: IdType) => {
     // symbol-items can be SymbolRef - that has to be connected
     // to the right symbol
     symbols.forEach(symbol => {
-      updateAllSymbolRef(symbol.items, symbols, true);
+      updateAllSymbolRef(symbol.placements, symbols, true);
     });
 
     await dispatch({

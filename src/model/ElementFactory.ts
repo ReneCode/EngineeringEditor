@@ -4,10 +4,9 @@ import GraphicSymbol from "./graphic/GraphicSymbol";
 
 class ElementFactory {
   static toDTO(obj: GraphicSymbol): DtoElement {
-    const rawItems = obj.items.map(p => {
+    const rawItems = obj.placements.map(p => {
       return {
         ...p,
-        projectId: undefined,
         pageId: undefined,
         id: undefined,
         symbol:
@@ -19,17 +18,13 @@ class ElementFactory {
       items: rawItems,
     };
     const json = Object.assign({}, modifiedObject);
-    delete json.id;
-    delete json.name;
-    delete json.projectId;
-    delete json.type;
     const content = encodeJson(json);
     return {
       projectId: obj.projectId,
       name: obj.name,
       id: obj.id,
-      type: obj.type,
-      content: encodeJson(json),
+      type: "symbol",
+      content: content,
     };
   }
 
@@ -47,7 +42,6 @@ class ElementFactory {
     let symbol = ObjectFactory.fromJSON(json) as GraphicSymbol;
 
     symbol.id = dto.id;
-    symbol.type = dto.type;
     symbol.projectId = dto.projectId;
     symbol.name = dto.name;
     return symbol;

@@ -14,8 +14,8 @@ export const createSymbolAction = (symbol: GraphicSymbol): any => {
       // if there are symbolRef in ths new symbol
       // the GraphicSymbol .symbol property is no more set
       // we have to update it
-      const symbols = getState().graphic.symbols;
-      updateAllSymbolRef(newSymbol.items, symbols);
+      // const symbols = getState().graphic.symbols;
+      // updateAllSymbolRef(newSymbol.placements, symbols);
 
       const action = {
         type: actionTypes.ADD_SYMBOL,

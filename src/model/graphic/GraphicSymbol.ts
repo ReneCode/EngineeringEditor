@@ -1,17 +1,62 @@
 import Paper from "paper";
-import TransformCoordinate from "../../common/transformCoordinate";
 import { IdType, GraphicType } from "../types";
 import Placement from "../Placement";
 import ObjectFactory from "../ObjectFactory";
-import Box from "../../common/box";
+import PaperUtil from "../../utils/PaperUtil";
 
 class GraphicSymbol {
-  projectId: IdType;
+  type: GraphicType = "symbol";
   name: string = "";
   insertPt: Paper.Point = new Paper.Point(0, 0);
-  items: Placement[] = [];
+  placements: Placement[];
+  _item: Paper.Symbol | null = null;
+
   id: IdType;
-  type: GraphicType = "symbol";
+  projectId: IdType;
+
+  constructor(placements: Placement[]) {
+    this.placements = placements;
+  }
+
+  static fromJSON(json: any): GraphicSymbol {
+    const symbol = Object.create(GraphicSymbol.prototype);
+    let placements: Placement[] = [];
+    if (json.placements) {
+      placements = ObjectFactory.fromJSON(
+        json.placements,
+      ) as Placement[];
+    }
+    return (<any>Object).assign(symbol, json, {
+      insertPt: PaperUtil.PointFromJSON(json.insertPt),
+      placements: placements,
+      _item: undefined,
+    });
+  }
+
+  asJSON(): any {
+    return {
+      type: this.type,
+      projectId: this.projectId,
+      id: this.id,
+      name: this.name,
+      insertPt: PaperUtil.PointAsJSON(this.insertPt),
+      placements: ObjectFactory.toJSON(this.placements),
+    };
+  }
+
+  getPaperSymbol(): Paper.Symbol {
+    if (this._item) {
+      return this._item;
+    }
+
+    const items = this.placements.map(p => p.paperDraw());
+    const group = new Paper.Group(items);
+    const item = new Paper.Symbol(group);
+    this._item = item;
+
+    return item;
+  }
+
   /*
   constructor(projectId: IdType, name: string) {
     this.projectId = projectId;

@@ -29,11 +29,6 @@ class PlacementFactory {
       json = Object.assign({}, obj);
     }
 
-    // special dto
-    if (json.type === "symbolref") {
-      delete (json as GraphicSymbolRef).symbol;
-    }
-
     delete json.id;
     delete json.pageId;
     delete json.projectId;
@@ -49,18 +44,24 @@ class PlacementFactory {
 
   static fromDTO(
     dto: DtoPlacement | DtoPlacement[],
-  ): Placement | Placement[] {
+  ): Placement | Placement[] | null {
     if (Array.isArray(dto)) {
-      return dto.map((item: any) => {
-        return <Placement>PlacementFactory.fromDTO(item);
-      });
+      const placements: Placement[] = [];
+      for (let item of dto) {
+        const placement = PlacementFactory.fromDTO(item);
+        if (placement) {
+          placements.push(placement as Placement);
+        }
+      }
+      return placements;
     }
 
     const json = decodeJson(dto.content);
     json.type = dto.type;
     const placement = ObjectFactory.fromJSON(json) as Placement;
-
-    // console.log("::placement:" placement);
+    if (!placement) {
+      return null;
+    }
 
     placement.id = dto.id;
     placement.type = dto.type;

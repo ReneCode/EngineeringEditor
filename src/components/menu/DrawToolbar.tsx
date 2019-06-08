@@ -2,31 +2,23 @@ import React from "react";
 
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 import Toolbar from "./Toolbar";
+import ToolbarButtonFactory from "./ToolbarButtonFactory";
 
 const DrawToolbar = () => {
+  const stopInteractionButton = ToolbarButtonFactory.create(
+    "stopInteraction",
+  );
+  const createArcButton = ToolbarButtonFactory.create("createArc");
+  const createLineButton = ToolbarButtonFactory.create("createLine");
+  const createSymbolRefButton = ToolbarButtonFactory.create(
+    "createSymbolRef",
+  );
   return (
     <Toolbar className="draw-toolbar" direction="column">
-      <button
-        onClick={() =>
-          appEventDispatcher.dispatch("stopInteraction")
-        }>
-        S
-      </button>
-      <button
-        onClick={() =>
-          appEventDispatcher.dispatch("startInteraction", "CreateArc")
-        }>
-        C
-      </button>
-      <button
-        onClick={() =>
-          appEventDispatcher.dispatch(
-            "startInteraction",
-            "CreateLine",
-          )
-        }>
-        L
-      </button>
+      {stopInteractionButton}
+      {createLineButton}
+      {createArcButton}
+      {createSymbolRefButton}
     </Toolbar>
   );
 };

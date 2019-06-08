@@ -1,14 +1,36 @@
+import { Point } from "paper";
 import GraphicSymbol from "./GraphicSymbol";
-import Point from "../../common/point";
 import GraphicCircle from "./GraphicCircle";
 import GraphicLine from "./GraphicLine";
 import { DtoElement } from "../dtoUtil";
 import ElementFactory from "../ElementFactory";
+import GraphicArc from "./GraphicArc";
 
 describe("GraphicSymbol", () => {
   let symbol: GraphicSymbol;
   let dto: DtoElement;
 
+  it.only("asJSON / fromJSON", () => {
+    const line = new GraphicLine(new Point(5, 6), new Point(3, 20));
+    const arc = new GraphicArc(new Point(10, 10), 40);
+
+    const symbolA = new GraphicSymbol([line, arc]);
+    symbolA.name = "testSymbol";
+
+    expect(symbolA.placements).toHaveLength(2);
+
+    const json = symbolA.asJSON();
+    expect(json.type).toEqual("symbol");
+
+    const symbolB = GraphicSymbol.fromJSON(json);
+    expect(symbolB).toBeInstanceOf(GraphicSymbol);
+    expect(symbolB.name).toEqual(symbolA.name);
+    expect(symbolB.placements).toHaveLength(2);
+    expect(symbolB.placements[0]).toBeInstanceOf(GraphicLine);
+    expect(symbolB.placements[1]).toBeInstanceOf(GraphicArc);
+  });
+
+  /*
   beforeEach(() => {
     const projectId = "prjId";
     const symbolName = "mySymbol";
@@ -77,4 +99,5 @@ describe("GraphicSymbol", () => {
     });
     expect(newSymbol).toEqual(symbol);
   });
+  */
 });

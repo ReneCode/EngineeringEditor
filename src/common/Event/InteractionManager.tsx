@@ -23,6 +23,7 @@ class InteractionManager extends Component<IProps> {
     "IacChangeProperty",
     "IacGroup",
     "IacUngroup",
+    "IacCreateSymbolAndSymbolRef",
   ];
 
   idleInteractionNames = [

@@ -4,33 +4,27 @@ import GraphicPolygon from "./graphic/GraphicPolygon";
 import GraphicCircle from "./graphic/GraphicCircle";
 import GraphicSymbolRef from "./graphic/GraphicSymbolRef";
 import GraphicSymbol from "./graphic/GraphicSymbol";
-import GraphicConnectionPoint from "./graphic/GraphicConnectionPoint";
 import GraphicText from "./graphic/GraphicText";
 import GraphicRect from "./graphic/GraphicRect";
-import PaperPlacement from "./graphic/PaperPlacement";
 import GraphicArc from "./graphic/GraphicArc";
 import Placement from "./Placement";
 import GraphicGroup from "./graphic/GraphicGroup";
 
 class ObjectFactory {
-  static fromJSON(json: any): object | object[] {
+  static fromJSON(json: any): object | object[] | null {
     if (Array.isArray(json)) {
-      if (typeof json[0] === "string") {
-        // Paper Json
-        let paperItem: Paper.Item = new Paper.Item();
-        // className of Paper Item
-        switch (json[0]) {
-          case "Path":
-            paperItem = new Paper.Path();
-            break;
-          default:
-            throw new Error("bad paper className:" + json[0]);
+      const objects = [];
+      for (let o of json) {
+        if (o.type) {
+          objects.push(ObjectFactory.fromJSON(o));
+        } else {
+          console.warn("bad json:", json);
         }
-        paperItem.importJSON(json as any);
-        return new PaperPlacement(paperItem);
-      } else {
-        return json.map((obj: any) => ObjectFactory.fromJSON(obj));
       }
+      if (objects.length > 0) {
+        return objects;
+      }
+      return null;
     }
 
     switch (json.type) {
@@ -49,9 +43,10 @@ class ObjectFactory {
       case "symbolref":
         return GraphicSymbolRef.fromJSON(json);
       case "symbol":
-        return new Placement(json.type);
+        return GraphicSymbol.fromJSON(json);
       //   return GraphicSymbol.fromJSON(json);
-      // case "connectionpoint":
+      case "connectionpoint":
+        return new Placement(json.type);
       //   return GraphicConnectionPoint.fromJSON(json);
       case "text":
         return GraphicText.fromJSON(json);
@@ -62,11 +57,11 @@ class ObjectFactory {
 
   static toJSON(obj: any | object[]): any {
     if (Array.isArray(obj)) {
-      return obj.map((o: any) => ObjectFactory.fromJSON(o));
+      return obj.map((o: any) => ObjectFactory.toJSON(o));
     }
 
-    if (obj.toJSON && typeof obj.toJSON === "function") {
-      return obj.toJSON();
+    if (obj.asJSON && typeof obj.asJSON === "function") {
+      return obj.asJSON();
     } else {
       throw new Error("toJSON missing on object:" + obj);
     }
