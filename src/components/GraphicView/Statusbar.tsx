@@ -5,7 +5,6 @@ import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 import { AppEventType } from "../../common/Event/AppEventType";
 import { IGlobalState } from "../../store/reducers";
 import { connect } from "react-redux";
-import Placement from "../../model/Placement";
 
 interface IProps {
   selectedPlacementIds: string[];

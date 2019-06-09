@@ -3,7 +3,6 @@ import React from "react";
 import { IGlobalState } from "../../store/reducers";
 import { connect } from "react-redux";
 import Placement from "../../model/Placement";
-import { ItemName } from "../../common/ItemMetaData";
 import PaperUtil from "../../utils/PaperUtil";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 import Toolbar from "./Toolbar";

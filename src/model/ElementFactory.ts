@@ -49,7 +49,7 @@ class ElementFactory {
   ): GraphicSymbol | GraphicSymbol[] {
     if (Array.isArray(dto)) {
       return dto.map((item: any) => {
-        return <GraphicSymbol>ElementFactory.fromDTO(item);
+        return ElementFactory.fromDTO(item) as GraphicSymbol;
       });
     }
 

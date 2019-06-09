@@ -50,7 +50,7 @@ class IacHoverItem extends React.Component<IProps> {
         if (this.hoverItem !== hitItem) {
           let newStrokeColor = configuration.itemHoverColor;
           let newFillColor = hitItem.fillColor;
-          if (hitItem.name == ItemName.grip) {
+          if (hitItem.name === ItemName.grip) {
             newStrokeColor = configuration.gripHoverStrokeColor;
             newFillColor = configuration.gripHoverFillColor;
           }

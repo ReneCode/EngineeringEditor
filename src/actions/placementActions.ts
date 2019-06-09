@@ -1,16 +1,13 @@
 import Placement from "../model/Placement";
 
 import * as actionTypes from "./actionTypes";
-import GraphicSymbolRef from "../model/graphic/GraphicSymbolRef";
 import apiCreatePlacements from "../common/api/apiCreatePlacement";
 import apiDeletePlacements from "../common/api/apiDeletePlacements";
 import apiUpdatePlacement from "../common/api/apiUpdatePlacement";
 import updateAutoconnection from "./updateAutoconnection";
 import { makeArray } from "../model/dtoUtil";
-import { updateAllSymbolRef } from "../model/updateSymbolRef";
 import { GetGlobalStateFunction, LayerType } from "../model/types";
 import { IAction } from "./action";
-import deepClone from "../common/deepClone";
 import { IGlobalState } from "../store/reducers";
 
 export const deleteLayerAction = (payload: LayerType): IAction => {

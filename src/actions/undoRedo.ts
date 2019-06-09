@@ -48,7 +48,7 @@ export const undoAction = () => {
       }
 
       let index = undoRedo.currentIndex;
-      while (index >= 0 && undoRedo.urList[index] != "START") {
+      while (index >= 0 && undoRedo.urList[index] !== "START") {
         const urEntry = undoRedo.urList[index];
         await dispatch(undoOneEntryAction(urEntry));
         index--;

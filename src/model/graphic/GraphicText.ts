@@ -3,7 +3,6 @@ import Placement, { DrawOptions } from "../Placement";
 import Point from "../../common/point";
 import TransformCoordinate from "../../common/transformCoordinate";
 import Box from "../../common/box";
-import deepClone from "../../common/deepClone";
 
 class GraphicText extends Placement {
   pt: Point;
@@ -24,7 +23,7 @@ class GraphicText extends Placement {
 
   static fromJSON(json: any): GraphicText {
     const text = Object.create(GraphicText.prototype);
-    return (<any>Object).assign(text, json, {
+    return Object.assign(text, json, {
       pt: Point.fromJSON(json.pt),
     });
   }

@@ -48,22 +48,22 @@ class IacZoomInOut extends React.Component<IProps> {
 
     return Paper.view.center;
 
-    // get center from selected items
-    const items: Paper.Item[] = [];
-    const ids = this.props.selectedPlacementIds;
-    for (let item of Paper.project.activeLayer.children) {
-      if (ids.includes(item.data)) {
-        items.push(item);
-      }
-    }
-    if (items.length === 0) {
-      return Paper.view.center;
-    }
-    let bbox = items[0].bounds;
-    for (let item of items) {
-      bbox = bbox.unite(item.bounds);
-    }
-    return bbox.center;
+    // // get center from selected items
+    // const items: Paper.Item[] = [];
+    // const ids = this.props.selectedPlacementIds;
+    // for (let item of Paper.project.activeLayer.children) {
+    //   if (ids.includes(item.data)) {
+    //     items.push(item);
+    //   }
+    // }
+    // if (items.length === 0) {
+    //   return Paper.view.center;
+    // }
+    // let bbox = items[0].bounds;
+    // for (let item of items) {
+    //   bbox = bbox.unite(item.bounds);
+    // }
+    // return bbox.center;
   };
 
   render() {

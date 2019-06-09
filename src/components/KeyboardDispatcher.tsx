@@ -10,7 +10,7 @@ class KeyboardDispatcher extends React.Component {
     document.removeEventListener("keydown", this.onKeyDown);
   }
 
-  onKeyDown = () => {
+  onKeyDown = (event: any) => {
     appEventDispatcher.dispatch("keyDown", event);
   };
 
