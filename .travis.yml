@@ -4,6 +4,8 @@ dist: trusty
 sudo: required
 
 install:
+  - npm uninstall typescript --no-save
+  - npm uninstall tslint --no-save
   - yarn install
 
 script:
