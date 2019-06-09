@@ -80,22 +80,22 @@ class IaBase {
     return this.context.getState().project.pageId;
   };
 
-  pickItems(pt: Point): Placement[] {
-    const {
-      canvas,
-      viewport,
-      items,
-    } = this.context.getState().graphic;
-    const transform = new TransformCoordinate(viewport, canvas);
-    const pickRadius = transform.canvasLengthToWc(
-      //      cursor.radiusScreen,
-      10,
-    );
-    const pickedPlacements = items.filter(
-      p => p.pickable() && p.nearPoint(pt, pickRadius),
-    );
-    return pickedPlacements;
-  }
+  // pickItems(pt: Point): Placement[] {
+  //   const {
+  //     canvas,
+  //     viewport,
+  //     items,
+  //   } = this.context.getState().graphic;
+  //   const transform = new TransformCoordinate(viewport, canvas);
+  //   const pickRadius = transform.canvasLengthToWc(
+  //     //      cursor.radiusScreen,
+  //     10,
+  //   );
+  //   const pickedPlacements = items.filter(
+  //     p => p.pickable() && p.nearPoint(pt, pickRadius),
+  //   );
+  //   return pickedPlacements;
+  // }
 }
 
 export default IaBase;

@@ -47,10 +47,13 @@ class GraphicView extends Component<IProps> {
       project.activeLayer.removeChildren();
       for (let placement of this.props.items) {
         if (placement instanceof GraphicSymbolRef) {
-          const symbol = this.getSymbol(placement.name);
+          const symbolName = placement.getName();
+          const symbol = this.getSymbol(symbolName);
           if (symbol) {
             placement.setSymbol(symbol);
             placement.paperDraw();
+          } else {
+            console.warn("symbol not found:", symbolName);
           }
         } else {
           placement.paperDraw();

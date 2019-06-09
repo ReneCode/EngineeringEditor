@@ -35,44 +35,6 @@ class IacCreateSymbolAndSymbolRef extends React.Component<IProps> {
     this.unsubscribeFn();
   }
 
-  try_onCreateSymbolAndSymbolRef = (
-    type: AppEventType,
-    payload: IPayload,
-  ) => {
-    const placements = payload.placements;
-    const items = placements.map(p => p.getPaperItem());
-    const group = new Paper.Group(items);
-    const symbol = new Paper.Symbol(group);
-    const pl1 = symbol.place(new Paper.Point(40, 50));
-    const pl2 = symbol.place(new Paper.Point(140, 50));
-  };
-
-  T2onCreateSymbolAndSymbolRef = (
-    type: AppEventType,
-    payload: IPayload,
-  ) => {
-    const placements = payload.placements;
-
-    const symbolName = `Symbol-${this.props.symbols.length + 1}`;
-    const point = new Paper.Point(50, 50);
-    const symA = new GraphicSymbol(placements);
-
-    const json = ElementFactory.toDTO(symA);
-    console.log(json);
-    const symbol = ElementFactory.fromDTO(json) as GraphicSymbol;
-
-    const symbolRef = new GraphicSymbolRef(symbolName, point);
-    symbolRef.setSymbol(symbol);
-    symbolRef.paperDraw();
-
-    const r2 = new GraphicSymbolRef(
-      symbolName,
-      point.add(new Paper.Point(200, 50)),
-    );
-    r2.setSymbol(symbol);
-    r2.paperDraw();
-  };
-
   onCreateSymbolAndSymbolRef = (
     type: AppEventType,
     payload: IPayload,
@@ -93,17 +55,12 @@ class IacCreateSymbolAndSymbolRef extends React.Component<IProps> {
     symbol.name = symbolName;
     symbol.projectId = projectId;
 
-    // const json = ElementFactory.toDTO(symbol);
-    // console.log(json);
-
-    // const symbolB = ElementFactory.fromDTO(json) as GraphicSymbol;
-
     this.props.dispatch(createSymbolAction(symbol));
 
     const symbolRef = new GraphicSymbolRef(symbolName, point);
-    this.props.dispatch(
-      cudElementAction("placement", symbolRef, undefined, placements),
-    );
+    // this.props.dispatch(
+    //   cudElementAction("placement", symbolRef, undefined, placements),
+    // );
   };
 
   render() {

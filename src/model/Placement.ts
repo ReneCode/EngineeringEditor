@@ -43,9 +43,9 @@ class Placement {
     };
   }
 
-  toJsonContent(): string {
-    return this.toJSON();
-  }
+  // toJsonContent(): string {
+  //   return this.toJSON();
+  // }
 
   getPaperItem(): Paper.Item | null {
     return this._item;
@@ -55,13 +55,13 @@ class Placement {
     throw new Error(`overwrite setMode on object: ${this}`);
   }
 
-  setSelected(on: boolean) {
-    console.log("select:", on, this.id);
+  // setSelected(on: boolean) {
+  //   console.log("select:", on, this.id);
 
-    if (this._item) {
-      this._item.selected = on;
-    }
-  }
+  //   if (this._item) {
+  //     this._item.selected = on;
+  //   }
+  // }
 
   createPaperItem(): Paper.Item {
     return new Paper.Item();
@@ -71,12 +71,8 @@ class Placement {
     return null;
   }
 
-  draw(
-    context: CanvasRenderingContext2D,
-    transform: TransformCoordinate,
-    option: DrawOptions = {},
-  ) {
-    throw new Error("draw has to be overwritten by:" + this);
+  translate(event: Paper.Point) {
+    throw new Error("translate has to be overwritten by:" + this);
   }
 
   dragGrip(event: Paper.MouseEvent, gripItem: Paper.Item) {}
@@ -90,69 +86,6 @@ class Placement {
   gripChanged(pt: Point, payload: any): Placement {
     return this;
   }
-
-  pickable(): boolean {
-    return true;
-  }
-
-  nearPoint(pt: Point, radius: number): boolean {
-    throw new Error("nearPoint has to be overwritten by:" + this);
-  }
-
-  insideBox(box: Box): boolean {
-    throw new Error("insideBox has to be overwritten by:" + this);
-  }
-
-  translate(event: Paper.Point) {
-    throw new Error("translate has to be overwritten by:" + this);
-  }
-
-  fitToRect(rectangle: Paper.Rectangle): Placement {
-    throw new Error("fitToRect has to be overwritten by:" + this);
-  }
-
-  updateFromHandles(handles: Paper.Item[]): Placement {
-    throw new Error(
-      "updateFromHandles has to be overwritten by:" + this,
-    );
-  }
-
-  changeAfterResize(points: Point[]): Placement {
-    throw new Error(
-      "changeAfterResize has to be overwritten by:" + this,
-    );
-  }
-
-  getBoundingBox(): Box {
-    throw new Error(
-      "getBoundingBox has to be overwritten by:" + this,
-    );
-  }
-
-  protected drawWithOptions(
-    context: CanvasRenderingContext2D,
-    options: DrawOptions,
-  ) {
-    if (this.color) {
-      context.strokeStyle = this.color;
-      context.fillStyle = this.color;
-    }
-    if (options) {
-      if (options.mode === "selected") {
-        context.setLineDash([3, 3]);
-      }
-    }
-  }
-
-  // translate(pt: Point) {
-  //   const placement = new Placement(
-  //     this.projectId,
-  //     this.pageId,
-  //     this.graphic.translate(pt),
-  //   );
-  //   placement.id = this.id;
-  //   return placement;
-  // }
 }
 
 export default Placement;

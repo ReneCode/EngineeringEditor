@@ -4,9 +4,9 @@ import Placement from "../Placement";
 import PaperUtil from "../../utils/PaperUtil";
 
 class GraphicSymbolRef extends Placement {
-  name: string = "";
-  _symbol: GraphicSymbol | undefined = undefined;
-  pt: Paper.Point = new Paper.Point(0, 0);
+  private name: string = "";
+  private _symbol: GraphicSymbol | undefined = undefined;
+  private pt: Paper.Point = new Paper.Point(0, 0);
 
   constructor(name: string, pt: Paper.Point) {
     super("symbolref");
@@ -30,6 +30,18 @@ class GraphicSymbolRef extends Placement {
       name: this.name,
       _symbol: undefined,
     };
+  }
+
+  setName(name: string) {
+    this.name = name;
+  }
+
+  getName(): string {
+    return this.name;
+  }
+
+  getPoint(): Paper.Point {
+    return this.pt;
   }
 
   setSymbol(symbol: GraphicSymbol) {

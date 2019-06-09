@@ -20,15 +20,15 @@ export const updateAllSymbolRef = (
   // });
 };
 
-const updateOneSymbolRef = (
-  symbolRef: GraphicSymbolRef,
-  symbols: GraphicSymbol[],
-): GraphicSymbol | null => {
-  const symbol = symbols.find(s => s.name === symbolRef.name);
-  if (symbol) {
-    symbolRef.setSymbol(symbol);
-    return symbol;
-  }
-  console.log("Symbol missing:", symbolRef.name);
-  return null;
-};
+// const updateOneSymbolRef = (
+//   symbolRef: GraphicSymbolRef,
+//   symbols: GraphicSymbol[],
+// ): GraphicSymbol | null => {
+//   const symbol = symbols.find(s => s.name === symbolRef.name);
+//   if (symbol) {
+//     symbolRef.setSymbol(symbol);
+//     return symbol;
+//   }
+//   console.log("Symbol missing:", symbolRef.name);
+//   return null;
+// };

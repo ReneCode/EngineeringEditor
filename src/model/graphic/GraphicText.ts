@@ -39,7 +39,7 @@ class GraphicText extends Placement {
   ) {
     context.save();
     context.fillStyle = "black";
-    this.drawWithOptions(context, options);
+    // this.drawWithOptions(context, options);
     context.beginPath();
 
     const sizeCanvas = transform.wcLengthToCanvas(this.fontSize);

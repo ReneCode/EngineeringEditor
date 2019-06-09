@@ -22,12 +22,13 @@ class PlacementFactory {
       projectId?: string;
     } = {};
 
-    const jsonContent = obj.toJsonContent();
-    if (jsonContent) {
-      json = jsonContent as any;
-    } else {
-      json = Object.assign({}, obj);
-    }
+    // const jsonContent = obj.toJsonContent();
+    // if (jsonContent) {
+    //   json = jsonContent as any;
+    // } else {
+    //   json = Object.assign({}, obj);
+    // }
+    json = obj.toJSON();
 
     delete json.id;
     delete json.pageId;
