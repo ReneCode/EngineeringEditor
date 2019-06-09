@@ -20,9 +20,9 @@ import { IGlobalState } from "../store/reducers";
 export const cudElementAction = (
   ref: RefType,
   cud: {
-    create?: Placement | Placement[] | null;
-    update?: Placement | Placement[] | null;
-    delete?: Placement | Placement[] | null;
+    create?: Placement | Placement[];
+    update?: Placement | Placement[];
+    delete?: Placement | Placement[];
   },
 ) => {
   if (!cud || (!cud.create && !cud.delete && !cud.update)) {
