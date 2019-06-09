@@ -43,6 +43,10 @@ class GraphicSymbolRef extends Placement {
     return this.name;
   }
 
+  setPoint(pt: Paper.Point) {
+    this.pt = pt;
+  }
+
   getPoint(): Paper.Point {
     return this.pt;
   }

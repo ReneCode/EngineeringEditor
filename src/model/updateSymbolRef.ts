@@ -1,33 +1,32 @@
 import GraphicSymbol from "./graphic/GraphicSymbol";
 import Placement from "./Placement";
+import GraphicSymbolRef from "./graphic/GraphicSymbolRef";
+import GraphicGroup from "./graphic/GraphicGroup";
 
-export const updateAllSymbolRef = (
-  graphics: Placement[],
+const updateSymbolRef = (
+  items: Placement[],
   symbols: GraphicSymbol[],
-  recursive: boolean = false,
 ) => {
-  // graphics.forEach((graphic: Placement) => {
-  //   if (graphic.type === "symbolref") {
-  //     const symbol = updateOneSymbolRef(
-  //       <GraphicSymbolRef>graphic,
-  //       symbols,
-  //     );
-  //     if (recursive && symbol) {
-  //       updateAllSymbolRef(symbol.items, symbols);
-  //     }
-  //   }
-  // });
+  const getSymbol = (name: string): GraphicSymbol => {
+    const symbol = symbols.find(s => s.name === name);
+
+    if (!symbol) {
+      console.warn(`Symbol: ${name} not found`);
+      return new GraphicSymbol([]);
+    }
+    return symbol;
+  };
+
+  for (let placement of items) {
+    if (placement instanceof GraphicSymbolRef) {
+      const symbolName = placement.getName();
+      let symbol = getSymbol(symbolName);
+      placement.setSymbol(symbol);
+    } else if (placement instanceof GraphicGroup) {
+      const childItems = placement.children;
+      updateSymbolRef(childItems, symbols);
+    }
+  }
 };
 
-// const updateOneSymbolRef = (
-//   symbolRef: GraphicSymbolRef,
-//   symbols: GraphicSymbol[],
-// ): GraphicSymbol | null => {
-//   const symbol = symbols.find(s => s.name === symbolRef.name);
-//   if (symbol) {
-//     symbolRef.setSymbol(symbol);
-//     return symbol;
-//   }
-//   console.log("Symbol missing:", symbolRef.name);
-//   return null;
-// };
+export default updateSymbolRef;

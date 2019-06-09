@@ -10,7 +10,7 @@ import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 import InteractionManager from "../../common/Event/InteractionManager";
 import PaperUtil from "../../utils/PaperUtil";
 import GraphicSymbol from "../../model/graphic/GraphicSymbol";
-import GraphicSymbolRef from "../../model/graphic/GraphicSymbolRef";
+import updateSymbolRef from "../../model/updateSymbolRef";
 
 interface IProps {
   items: Placement[];
@@ -45,28 +45,15 @@ class GraphicView extends Component<IProps> {
 
       const project = Paper.project;
       project.activeLayer.removeChildren();
+
+      updateSymbolRef(this.props.items, this.props.symbols);
       for (let placement of this.props.items) {
-        if (placement instanceof GraphicSymbolRef) {
-          const symbolName = placement.getName();
-          const symbol = this.getSymbol(symbolName);
-          if (symbol) {
-            placement.setSymbol(symbol);
-            placement.paperDraw();
-          } else {
-            console.warn("symbol not found:", symbolName);
-          }
-        } else {
-          placement.paperDraw();
-        }
+        placement.paperDraw();
       }
 
       // now the other components can work with the drawn Paper items
       this.props.dispatch({ type: actionTypes.REDRAWN });
     }
-  }
-
-  getSymbol(name: string): GraphicSymbol | undefined {
-    return this.props.symbols.find(s => s.name === name);
   }
 
   componentDidMount() {
