@@ -40,10 +40,7 @@ class IacGroup extends React.Component<IProps> {
     const group = new GraphicGroup(placements);
 
     this.props.dispatch(
-      cudElementAction("placement", {
-        delete: placements,
-        create: group,
-      }),
+      cudElementAction("placement", group, undefined, placements),
     );
   };
 

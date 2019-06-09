@@ -3,10 +3,7 @@ import React from "react";
 import { connect } from "react-redux";
 import Paper, { Point } from "paper";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
-import {
-  deleteElementAction,
-  cudElementAction,
-} from "../../actions/changeElementActions";
+import { cudElementAction } from "../../actions/changeElementActions";
 import Placement from "../../model/Placement";
 import { IGlobalState } from "../../store/reducers";
 import { AppEventType } from "../Event/AppEventType";
@@ -105,10 +102,7 @@ class IacCreateSymbolAndSymbolRef extends React.Component<IProps> {
 
     const symbolRef = new GraphicSymbolRef(symbolName, point);
     this.props.dispatch(
-      cudElementAction("placement", {
-        // create: symbolRef, TODO
-        delete: placements,
-      }),
+      cudElementAction("placement", symbolRef, undefined, placements),
     );
   };
 

@@ -43,10 +43,7 @@ class IacUngroup extends React.Component<IProps> {
       const items = group.children;
 
       this.props.dispatch(
-        cudElementAction("placement", {
-          create: items,
-          delete: group,
-        }),
+        cudElementAction("placement", items, undefined, group),
       );
     }
   };

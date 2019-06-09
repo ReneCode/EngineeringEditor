@@ -3,10 +3,7 @@ import { connect } from "react-redux";
 import Paper from "paper";
 import appEventDispatcher from "../Event/AppEventDispatcher";
 import { AppEventType } from "../Event/AppEventType";
-import {
-  createElementAction,
-  cudElementAction,
-} from "../../actions/changeElementActions";
+import { cudElementAction } from "../../actions/changeElementActions";
 import GraphicSymbolRef from "../../model/graphic/GraphicSymbolRef";
 import { IGlobalState } from "../../store/reducers";
 import GraphicSymbol from "../../model/graphic/GraphicSymbol";
@@ -50,9 +47,7 @@ class IacCreateSymbolRef extends React.Component<IProps> {
     // const paperSymbol = symbol.getPaperSymbol();
 
     const symbolRef = new GraphicSymbolRef(symbolName, point);
-    this.props.dispatch(
-      cudElementAction("placement", { create: symbolRef }),
-    );
+    this.props.dispatch(cudElementAction("placement", symbolRef));
     // const placedSymbol = paperSymbol.place(point);
 
     // this.symbolRef = new GraphicSymbolRef(symbolName, point, symbol);

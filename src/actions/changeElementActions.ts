@@ -19,13 +19,11 @@ import { IGlobalState } from "../store/reducers";
 
 export const cudElementAction = (
   ref: RefType,
-  cud: {
-    create?: Placement | Placement[];
-    update?: Placement | Placement[];
-    delete?: Placement | Placement[];
-  },
+  createElement?: Placement | Placement[],
+  updateElement?: Placement | Placement[],
+  deleteElement?: Placement | Placement[],
 ) => {
-  if (!cud || (!cud.create && !cud.delete && !cud.update)) {
+  if (!createElement && !deleteElement && !updateElement) {
     return Promise.resolve();
   }
 
@@ -36,14 +34,14 @@ export const cudElementAction = (
     try {
       await dispatch(undoRedoAddStartMarkerCommit());
 
-      if (cud.create) {
-        const elements: Placement[] = makeArray(cud.create);
+      if (createElement) {
+        const elements: Placement[] = makeArray(createElement);
         await dispatch(createPlacementAction(elements));
         await dispatch(undoRedoAddCommit(ref, null, elements));
       }
 
-      if (cud.delete) {
-        const elements: Placement[] = makeArray(cud.delete);
+      if (deleteElement) {
+        const elements: Placement[] = makeArray(deleteElement);
 
         const oldPlacements = (getState() as IGlobalState).graphic.items.filter(
           i => containsWithSameId(elements, i),
@@ -52,8 +50,8 @@ export const cudElementAction = (
         await dispatch(deletePlacementAction(elements));
       }
 
-      if (cud.update) {
-        const elements: Placement[] = makeArray(cud.update);
+      if (updateElement) {
+        const elements: Placement[] = makeArray(updateElement);
         const oldPlacements = (getState() as IGlobalState).graphic.items.filter(
           i => containsWithSameId(elements, i),
         );
