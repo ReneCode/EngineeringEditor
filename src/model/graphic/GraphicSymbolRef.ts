@@ -88,7 +88,7 @@ class GraphicSymbolRef extends Placement {
           const bounds = this.symbol.getPaperSymbol().definition
             .bounds;
           const rect = new Paper.Path.Rectangle(bounds);
-          rect.strokeColor = configuration.symbolRefHoverStrokeColor;
+          rect.strokeColor = configuration.itemHoverStrokeColor;
           rect.position = this.pt;
           this._tempItems.push(rect);
         }
