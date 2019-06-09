@@ -3,9 +3,9 @@ node_js: 11.10.0
 dist: trusty
 sudo: required
 
+cache: yarn
+
 install:
-  - npm uninstall typescript --no-save
-  - npm uninstall tslint --no-save
   - yarn install
 
 script:
