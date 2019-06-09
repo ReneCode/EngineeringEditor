@@ -1,5 +1,5 @@
 export type AppEventType =
-  | ""
+  | "placeSymbol"
   | "createSymbolAndSymbolRef"
   | "ungroup"
   | "group"
@@ -19,4 +19,5 @@ export type AppEventType =
   | "mouseUp"
   | "keyDown"
   | "stopInteraction"
-  | "startInteraction";
+  | "startInteraction"
+  | "";

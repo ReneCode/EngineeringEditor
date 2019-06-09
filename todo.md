@@ -9,8 +9,6 @@
 - hover item - color from/to the individual item
 - global react error catching component
 - generic PopupMenu
-- create Symbol
-- use Symbol
 
 - handles of the resizeBox has fixed size - independent on zoom.
 - resize without keepRatio on Rectangle
@@ -53,6 +51,9 @@ toolPan.onMouseDrag = function(event) {
 - disable redux-dev-tools in production / https://medium.com/@zalmoxis/using-redux-devtools-in-production-4c5b56c5600f
 
 ## DONE
+
+- ok - create Symbol
+- ok - use Symbol
 
 - ok - group in group
 

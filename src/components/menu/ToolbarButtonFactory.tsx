@@ -3,6 +3,7 @@ import Placement from "../../model/Placement";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 
 type ToolbarButtonName =
+  | "placeSymbol"
   | "createSymbolRef"
   | "stopInteraction"
   | "createArc"
@@ -17,6 +18,16 @@ class ToolbarButtonFactory {
     options: { placements?: Placement[] } = {},
   ) {
     switch (name) {
+      case "placeSymbol":
+        return (
+          <button
+            onClick={() =>
+              appEventDispatcher.dispatch("placeSymbol")
+            }>
+            /sy
+          </button>
+        );
+
       case "createSymbolRef":
         return (
           <button

@@ -12,12 +12,16 @@ const DrawToolbar = () => {
   const createSymbolRefButton = ToolbarButtonFactory.create(
     "createSymbolRef",
   );
+  const placeSymbolButton = ToolbarButtonFactory.create(
+    "placeSymbol",
+  );
   return (
     <Toolbar className="draw-toolbar" direction="column">
       {stopInteractionButton}
       {createLineButton}
       {createArcButton}
       {createSymbolRefButton}
+      {placeSymbolButton}
     </Toolbar>
   );
 };
