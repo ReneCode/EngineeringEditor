@@ -21,7 +21,10 @@ class Configuration {
   handleStrokeColor = "#222222";
   handleFillColor = "#eeeeee";
 
-  itemHoverColor = accentColor; //"magenta";
+  symbolRefHoverStrokeColor = "magenta";
+  itemHoverStrokeColor = accentColor; //"magenta";
+  hoverStrokeWidth = 2;
+
   handleHoverColor = "#bb22bb";
 
   gripStrokeColor = accentColor;

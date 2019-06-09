@@ -79,6 +79,7 @@ class PaperUtil {
     if (result && result.item) {
       let item = result.item;
 
+      // console.log("hit:", item);
       // get the top most group
       while (item.parent && item.parent.name === ItemName.itemGroup) {
         item = item.parent;

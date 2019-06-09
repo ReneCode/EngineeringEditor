@@ -8,10 +8,9 @@ import { AppEventType } from "../Event/AppEventType";
 import PaperUtil from "../../utils/PaperUtil";
 import { connect } from "react-redux";
 import { IGlobalState } from "../../store/reducers";
-import Placement from "../../model/Placement";
 
 interface IProps {
-  items: Placement[];
+  selectedPlacementIds: string[];
 }
 
 class IacHoverItem extends React.Component<IProps> {
@@ -21,6 +20,8 @@ class IacHoverItem extends React.Component<IProps> {
   oldStrokeWidth: number = 0;
   oldFillColor: string | Paper.Color | null = null;
 
+  _tempItem: Paper.Item | null = null;
+
   componentDidMount() {
     this.unsubscribeFn.push(
       appEventDispatcher.subscribe("mouseMove", this.onMouseMove),
@@ -28,6 +29,17 @@ class IacHoverItem extends React.Component<IProps> {
   }
   componentWillUnmount() {
     this.unsubscribeFn.forEach(fn => fn());
+  }
+
+  componentDidUpdate(prevProps: IProps) {
+    if (
+      prevProps.selectedPlacementIds !==
+      this.props.selectedPlacementIds
+    ) {
+      if (this._tempItem) {
+        this.removeHover();
+      }
+    }
   }
 
   onMouseMove = (type: AppEventType, event: Paper.MouseEvent) => {
@@ -48,7 +60,17 @@ class IacHoverItem extends React.Component<IProps> {
         // }
 
         if (this.hoverItem !== hitItem) {
-          let newStrokeColor = configuration.itemHoverColor;
+          if (this.hoverItem) {
+            this.removeHover();
+          }
+
+          if (this.drawHover(hitItem)) {
+            this.hoverItem = hitItem;
+
+            return;
+          }
+
+          let newStrokeColor = configuration.itemHoverStrokeColor;
           let newFillColor = hitItem.fillColor;
           if (hitItem.name === ItemName.grip) {
             newStrokeColor = configuration.gripHoverStrokeColor;
@@ -60,8 +82,6 @@ class IacHoverItem extends React.Component<IProps> {
           this.oldStrokeColor = hitItem.strokeColor;
           this.oldStrokeWidth = hitItem.strokeWidth;
 
-          console.log(`oldStrokeWirth: ${this.oldStrokeWidth}.`);
-
           this.hoverItem = hitItem;
           this.hoverItem.strokeColor = newStrokeColor;
           if (newFillColor) {
@@ -71,10 +91,47 @@ class IacHoverItem extends React.Component<IProps> {
         }
       }
     } else {
+      if (this.hoverItem) {
+        this.removeHover();
+      }
+
       this.redrawOldHoverItem();
       this.hoverItem = null;
     }
   };
+
+  private removeHover() {
+    if (this._tempItem) {
+      this._tempItem.remove();
+      this._tempItem = null;
+    }
+  }
+
+  private drawHover(item: Paper.Item): boolean {
+    const id = item.data;
+    if (this.props.selectedPlacementIds.includes(id)) {
+      return true;
+    }
+
+    switch (item.name) {
+      case ItemName.itemSymbolRef: {
+        const paperSymbolRef = item as Paper.PlacedSymbol;
+        const bounds = paperSymbolRef.symbol.definition.bounds;
+        const rect = new Paper.Path.Rectangle(bounds);
+        rect.position = paperSymbolRef.position;
+
+        rect.strokeColor = configuration.itemHoverStrokeColor;
+        rect.strokeWidth = configuration.hoverStrokeWidth;
+
+        this._tempItem = rect;
+        return true;
+      }
+
+      default: {
+        return false;
+      }
+    }
+  }
 
   redrawOldHoverItem() {
     if (this.hoverItem) {
@@ -88,7 +145,6 @@ class IacHoverItem extends React.Component<IProps> {
       } else {
         delete this.hoverItem.strokeColor;
       }
-      console.log(`restored StrokeColor: ${this.oldStrokeWidth}.`);
 
       this.hoverItem.strokeWidth = this.oldStrokeWidth;
     }
@@ -100,7 +156,7 @@ class IacHoverItem extends React.Component<IProps> {
 }
 const mapStateToProps = (state: IGlobalState) => {
   return {
-    items: state.graphic.items,
+    selectedPlacementIds: state.graphic.selectedPlacementIds,
   };
 };
 

@@ -10,7 +10,7 @@ install:
 
 script:
   - scripts/prebuild.sh
-  # - yarn test
+  - yarn test
   - yarn build
 
 before_deploy:

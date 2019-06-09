@@ -7,7 +7,7 @@ export type DrawOptions = {
   parent?: any;
 };
 
-export type DrawMode = "select" | "edit" | "hover" | null;
+export type DrawMode = "select" | "edit" | null;
 
 class Placement {
   type: GraphicType;
@@ -21,11 +21,12 @@ class Placement {
   protected _grips: Paper.Item[] = [];
   protected _item: Paper.Item | null = null;
   protected _drawMode: DrawMode = null;
-  protected _tempItems: Paper.Item[] = [];
+  protected _tempItems: Paper.Item[];
 
   constructor(type: GraphicType) {
     this.type = type;
     this.id = createId("P");
+    this._tempItems = [];
   }
 
   toJSON(): any {

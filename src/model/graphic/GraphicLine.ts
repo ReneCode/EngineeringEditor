@@ -89,14 +89,6 @@ class GraphicLine extends Placement {
     }
     this._tempItems = [];
     switch (this._drawMode) {
-      case "hover":
-        {
-          const item = this.createOutline(ItemName.temp);
-          item.strokeColor = configuration.modeHoverColor;
-          item.strokeWidth = 2;
-          this._tempItems.push(item);
-        }
-        break;
       case "select":
         {
           const item = this.createOutline(ItemName.temp);
