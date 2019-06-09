@@ -1,11 +1,4 @@
-import Paper from "paper";
-import IaBase, { IaContext, IaEventType } from "./IaBase";
-import GraphicConnectionPoint, {
-  ConnectionPointDirection,
-} from "../../model/graphic/GraphicConnectionPoint";
-import Point, { RelativeDirection } from "../../common/point";
-// import { setTempItem } from "../../actions";
-import { createPlacementAction } from "../../actions/placementActions";
+import IaBase from "./IaBase";
 
 class IaConnectionPoint extends IaBase {
   /*

@@ -19,7 +19,7 @@ class GraphicArc extends Placement {
     if (!json.center) {
       json.center = { x: 0, y: 0 };
     }
-    return (<any>Object).assign(arc, json, {
+    return Object.assign(arc, json, {
       center: PaperUtil.PointFromJSON(json.center),
       _item: undefined,
       _tempItems: undefined,
@@ -75,7 +75,7 @@ class GraphicArc extends Placement {
           .add(new Paper.Point(this.radius, 0))
           .rotate(angle, this.center);
         gripItem.position = ptOnArc;
-        if (gripItem.data == 1) {
+        if (gripItem.data === 1) {
           this.startAngle = angle;
         } else {
           this.endAngle = angle;

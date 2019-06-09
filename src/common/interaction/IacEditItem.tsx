@@ -107,7 +107,6 @@ class IacEditItem extends React.Component<IProps> {
           this.startEdit("edit");
           this.selectedPlacements[0].dragGrip(event, this.editItem);
           return "stop";
-          break;
 
         case "item":
           this.startEdit("select");
@@ -115,7 +114,6 @@ class IacEditItem extends React.Component<IProps> {
             placement.dragItem(event);
           }
           return "stop";
-          break;
       }
     }
   };

@@ -1,6 +1,4 @@
 import IaBase from "./IaBase";
-// import { setCursorModeAction } from "../../actions/setCursorPoint";
-import GraphicGrip from "../../model/graphic/GraphicGrip";
 
 class IaSelect extends IaBase {
   /*

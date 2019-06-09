@@ -1,6 +1,6 @@
 import * as actionTypes from "../actions/actionTypes";
 
-import { ModalId, IdType } from "../model/types";
+import { ModalId } from "../model/types";
 import Page from "../model/Page";
 import { IAction } from "../actions/action";
 

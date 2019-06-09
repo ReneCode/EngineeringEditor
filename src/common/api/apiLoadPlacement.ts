@@ -16,7 +16,7 @@ const apiLoadPlacement = async (
   };
   const result = await graphql(query, variables);
   const json = result.placements;
-  const placements = <Placement[]>PlacementFactory.fromDTO(json);
+  const placements = PlacementFactory.fromDTO(json) as Placement[];
   return placements;
 };
 

@@ -1,8 +1,4 @@
 import Paper from "paper";
-import Point from "../../common/point";
-import Line from "../../common/line";
-import TransformCoordinate from "../../common/transformCoordinate";
-import deepClone from "../../common/deepClone";
 import Placement from "../Placement";
 import PaperUtil from "../../utils/PaperUtil";
 
@@ -13,7 +9,7 @@ class GraphicRect extends Placement {
 
   static fromJSON(json: any): GraphicRect {
     const rect = Object.create(GraphicRect.prototype);
-    return (<any>Object).assign(rect, json, {
+    return Object.assign(rect, json, {
       p1: PaperUtil.PointFromJSON(json.p1),
       p2: PaperUtil.PointFromJSON(json.p2),
     });

@@ -15,7 +15,7 @@ interface IProps {
 
 class IacCreateSymbolRef extends React.Component<IProps> {
   private unsubscribeFn: Function[] = [];
-  private symbolRef: GraphicSymbolRef | null = null;
+  // private symbolRef: GraphicSymbolRef | null = null;
 
   componentDidMount() {
     this.unsubscribeFn.push(
@@ -44,10 +44,9 @@ class IacCreateSymbolRef extends React.Component<IProps> {
     console.log(symbol);
 
     const point = event.point;
-    // const paperSymbol = symbol.getPaperSymbol();
 
     const symbolRef = new GraphicSymbolRef(symbolName, point);
-    // this.props.dispatch(cudElementAction("placement", symbolRef));
+    this.props.dispatch(cudElementAction("placement", symbolRef));
   };
 
   onMouseUp = () => {};

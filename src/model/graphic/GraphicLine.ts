@@ -11,7 +11,7 @@ class GraphicLine extends Placement {
 
   static fromJSON(json: any): GraphicLine {
     const line = Object.create(GraphicLine.prototype);
-    return (<any>Object).assign(line, json, {
+    return Object.assign(line, json, {
       p1: PaperUtil.PointFromJSON(json.p1),
       p2: PaperUtil.PointFromJSON(json.p2),
       _item: undefined,

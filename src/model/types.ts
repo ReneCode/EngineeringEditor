@@ -40,10 +40,10 @@ export interface IIaEvent {
 export type IIaEventHandler = (ev: IIaEvent) => {};
 
 ///
-interface Element {
-  ref: string;
-  data: any;
-}
+// interface Element {
+//   ref: string;
+//   data: any;
+// }
 
 export type RefType = "placement";
 export type ElementType = Placement | Placement[];

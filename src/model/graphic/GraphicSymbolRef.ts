@@ -1,4 +1,4 @@
-import Paper, { Point } from "paper";
+import Paper from "paper";
 import GraphicSymbol from "./GraphicSymbol";
 import Placement from "../Placement";
 import PaperUtil from "../../utils/PaperUtil";
@@ -16,7 +16,7 @@ class GraphicSymbolRef extends Placement {
 
   static fromJSON(json: any): GraphicSymbolRef {
     const symbolRef = Object.create(GraphicSymbolRef.prototype);
-    return (<any>Object).assign(symbolRef, json, {
+    return Object.assign(symbolRef, json, {
       pt: PaperUtil.PointFromJSON(json.pt),
       name: json.name,
       _symbol: undefined,
@@ -59,7 +59,7 @@ class GraphicSymbolRef extends Placement {
 
     const symbolItem = this._symbol.getPaperSymbol();
     const item: Paper.PlacedSymbol = symbolItem.place(this.pt);
-    return <Paper.Item>(<unknown>item);
+    return item;
   }
 }
 

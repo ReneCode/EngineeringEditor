@@ -1,6 +1,5 @@
 import GraphicSymbol from "./graphic/GraphicSymbol";
 import Placement from "./Placement";
-import GraphicSymbolRef from "./graphic/GraphicSymbolRef";
 
 export const updateAllSymbolRef = (
   graphics: Placement[],

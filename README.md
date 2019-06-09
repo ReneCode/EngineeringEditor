@@ -19,7 +19,7 @@ and the drawMode items are created with item.name = "temp"
 
 started on CodeSandbox
 
-Layout inspired by CodeSandbox ;-)
+Layout inspired by CodeSandbox ;-) / Whimsical
 
 ## backend for the first days
 

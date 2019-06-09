@@ -1,7 +1,6 @@
 import { DtoPlacement, decodeJson, encodeJson } from "./dtoUtil";
 import Placement from "./Placement";
 import ObjectFactory from "./ObjectFactory";
-import GraphicSymbolRef from "./graphic/GraphicSymbolRef";
 
 class PlacementFactory {
   static toDTO(
@@ -12,7 +11,7 @@ class PlacementFactory {
     }
 
     if (Array.isArray(obj)) {
-      return obj.map(o => <DtoPlacement>PlacementFactory.toDTO(o));
+      return obj.map(o => PlacementFactory.toDTO(o) as DtoPlacement);
     }
 
     let json: {

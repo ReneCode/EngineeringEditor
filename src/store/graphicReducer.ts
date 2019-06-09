@@ -1,4 +1,3 @@
-import Paper from "paper";
 import * as actionTypes from "../actions/actionTypes";
 import Placement from "../model/Placement";
 import GraphicSymbol from "../model/graphic/GraphicSymbol";

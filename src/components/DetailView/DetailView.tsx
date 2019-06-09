@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { IGlobalState } from "../../store/reducers";
-import PageDetailView from "./PageDetailView";
-import PlacementDetailView from "./PlacementDetailView";
 import Placement from "../../model/Placement";
 import { IdType } from "../../model/types";
 import Page from "../../model/Page";

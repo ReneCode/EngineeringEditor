@@ -1,8 +1,6 @@
 import React from "react";
 
 import "./IconButton.scss";
-import SvgExport from "./SvgExport";
-import SvgImport from "./SvgImport";
 import SvgDots from "./SvgDots";
 
 import { ReactComponent as Upload } from "./svg/icon-upload.svg";

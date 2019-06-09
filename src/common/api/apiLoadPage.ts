@@ -18,7 +18,7 @@ const apiLoadPages = async (projectId: IdType): Promise<Page[]> => {
     // create typed Page objects
     const pageObjects = pages.map((p: any) => {
       const page = Object.create(Page.prototype);
-      return (<any>Object).assign(page, p);
+      return Object.assign(page, p);
     });
     return pageObjects;
   }

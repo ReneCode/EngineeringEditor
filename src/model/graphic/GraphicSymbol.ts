@@ -28,7 +28,7 @@ class GraphicSymbol {
         json.placements,
       ) as Placement[];
     }
-    return (<any>Object).assign(symbol, json, {
+    return Object.assign(symbol, json, {
       insertPt: PaperUtil.PointFromJSON(json.insertPt),
       placements: placements,
       _item: undefined,

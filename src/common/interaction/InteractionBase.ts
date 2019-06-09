@@ -1,7 +1,4 @@
 import Paper from "paper";
-import { IAction } from "../../actions/action";
-import { ThunkAction } from "redux-thunk";
-import { GetGlobalStateFunction } from "../../model/types";
 
 export type InteractionContext = {
   dispatch: any; // ReduxAction | ReduxThunkAction;

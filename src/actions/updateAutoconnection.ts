@@ -1,9 +1,4 @@
-import * as actionTypes from "./actionTypes";
-import Placement from "../model/Placement";
-import AutoConnectionUtil from "../model/AutoConnectionUtil";
-import GraphicLine from "../model/graphic/GraphicLine";
 import { GetGlobalStateFunction } from "../model/types";
-import { deleteLayerAction } from "./placementActions";
 
 const updateAutoconnection = async (
   dispatch: any,

@@ -1,7 +1,4 @@
 import Paper from "paper";
-import TransformCoordinate from "../../common/transformCoordinate";
-import deepClone from "../../common/deepClone";
-import Box from "../../common/box";
 import Placement from "../Placement";
 import PaperUtil from "../../utils/PaperUtil";
 
@@ -13,7 +10,7 @@ export enum ConnectionPointDirection {
   DOWN = 8,
 }
 
-const RADIUS_CANVAS = 5;
+// const RADIUS_CANVAS = 5;
 
 class GraphicConnectionPoint extends Placement {
   direction: ConnectionPointDirection = ConnectionPointDirection.DOWN;
@@ -30,7 +27,7 @@ class GraphicConnectionPoint extends Placement {
     const connectionPoint = Object.create(
       GraphicConnectionPoint.prototype,
     );
-    return (<any>Object).assign(connectionPoint, json, {
+    return Object.assign(connectionPoint, json, {
       pt: PaperUtil.PointFromJSON(json.pt),
     });
   }

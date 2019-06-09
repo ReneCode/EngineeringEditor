@@ -1,5 +1,3 @@
-import { IdType } from "./types";
-
 class Page {
   id: string = "";
   projectId: string = "";

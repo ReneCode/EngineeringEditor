@@ -5,11 +5,7 @@ import { connect } from "react-redux";
 import { IGlobalState } from "../../store/reducers";
 import SymbolList from "./SymbolList";
 import GraphicSymbol from "../../model/graphic/GraphicSymbol";
-import { IA_CREATE_SYMBOLREF } from "../../actions/interactionTypes";
 import CanvasFullSize from "../CanvasFullSize";
-import TransformCoordinate, {
-  IViewport,
-} from "../../common/transformCoordinate";
 
 interface IProps {
   show: boolean;
@@ -35,7 +31,7 @@ class SelectSymbolModal extends Component<IProps> {
   };
 
   onClickSymbol = (symbol: GraphicSymbol) => {
-    const name = symbol.name;
+    // const name = symbol.name;
     if (symbol && symbol === this.state.activeSymbol) {
       this.props.dispatch(actions.showModal(""));
       // this.props.dispatch(

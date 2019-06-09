@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Point from "../common/point";
-import { debug } from "util";
 
 const paper = require("paper");
 
@@ -45,7 +44,7 @@ class Test extends Component {
     const layer = paper.project.activeLayer;
     layer.strokeColor = "red";
     // layer.dashArray = [8, 4];
-    let scale = 1.05;
+    // let scale = 1.05;
     // setInterval(() => {
     //   layer.rotation = layer.rotation + 1;
     //   paper.view.scale(scale);

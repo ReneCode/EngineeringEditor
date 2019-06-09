@@ -1,7 +1,4 @@
-import IaBase, { IaContext, IaEventType } from "./IaBase";
-import GraphicSymbolRef from "../../model/graphic/GraphicSymbolRef";
-import Point from "../../common/point";
-import { createPlacementAction } from "../../actions/placementActions";
+import IaBase from "./IaBase";
 
 class IaSymbolRef extends IaBase {
   /*

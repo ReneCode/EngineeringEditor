@@ -1,15 +1,8 @@
 import React from "react";
 
-import Paper from "paper";
-import { ItemName } from "../ItemMetaData";
-import { updateElementAction } from "../../actions/changeElementActions";
 import Placement from "../../model/Placement";
 import { connect } from "react-redux";
 import { IGlobalState } from "../../store/reducers";
-import ResizeBox from "./ResizeBox";
-import appEventDispatcher from "../Event/AppEventDispatcher";
-import { AppEventType } from "../Event/AppEventType";
-import configuration from "../configuration";
 
 interface IProps {
   dispatch: Function;

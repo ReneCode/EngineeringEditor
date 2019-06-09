@@ -15,10 +15,6 @@ interface IProps extends RouteComponentProps {
 }
 
 class PageNavigation extends React.Component<IProps> {
-  constructor(props: IProps) {
-    super(props);
-  }
-
   componentDidUpdate(prevProps: IProps) {
     if (this.props.projectId !== prevProps.projectId) {
       this.props.dispatch(loadPagesAction(this.props.projectId));

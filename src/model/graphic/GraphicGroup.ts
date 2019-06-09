@@ -1,6 +1,5 @@
 import Placement, { DrawMode } from "../Placement";
 import Paper from "paper";
-import PaperUtil from "../../utils/PaperUtil";
 import { ItemName } from "../../common/ItemMetaData";
 import configuration from "../../common/configuration";
 import ObjectFactory from "../ObjectFactory";
@@ -12,7 +11,7 @@ class GraphicGroup extends Placement {
 
   static fromJSON(json: any): GraphicGroup {
     const group = Object.create(GraphicGroup.prototype);
-    return (<any>Object).assign(group, json, {
+    return Object.assign(group, json, {
       children: ObjectFactory.fromJSON(json.children),
     });
   }

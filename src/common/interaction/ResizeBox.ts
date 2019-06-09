@@ -1,4 +1,4 @@
-import Paper, { Path, Point } from "paper";
+import Paper from "paper";
 import configuration from "../configuration";
 import { ItemName } from "../ItemMetaData";
 import correctP2WithRatio from "../../utils/correctP2WithRatio";

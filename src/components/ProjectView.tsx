@@ -1,19 +1,15 @@
-import React, { Component, createRef } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
-import * as actions from "../actions";
-
 import Sidebar, { ISidebarButton } from "./Sidebar";
 import Workspace from "./Workspace/Workspace";
-import GraphicView from "./GraphicView/GraphicView";
 import SelectSymbolModal from "./SelectSymbol/SelectSymbolModal";
 import { RouteComponentProps } from "react-router";
 import { IGlobalState } from "../store/reducers";
 import { IdType } from "../model/types";
 import setPageId from "../actions/setPageId";
 import { setProjectId } from "../actions/projectActions";
-import DetailView from "./DetailView/DetailView";
 import GraphicFrame from "./GraphicView/GraphicFrame";
 import KeyboardDispatcher from "./KeyboardDispatcher";
 

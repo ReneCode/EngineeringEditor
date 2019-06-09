@@ -1,5 +1,4 @@
 import { IGlobalState } from "../../store/reducers";
-import Placement from "../../model/Placement";
 import Point from "../../common/point";
 import TransformCoordinate from "../../common/transformCoordinate";
 import { DispatchFunction } from "../../model/types";

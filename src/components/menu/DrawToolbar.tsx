@@ -1,6 +1,5 @@
 import React from "react";
 
-import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 import Toolbar from "./Toolbar";
 import ToolbarButtonFactory from "./ToolbarButtonFactory";
 

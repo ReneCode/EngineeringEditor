@@ -1,6 +1,4 @@
 import Paper from "paper";
-import Point from "../../common/point";
-import deepClone from "../../common/deepClone";
 import Placement from "../Placement";
 import PaperUtil from "../../utils/PaperUtil";
 
@@ -18,7 +16,7 @@ class GraphicPolygon extends Placement {
         PaperUtil.PointFromJSON(p),
       );
     }
-    return (<any>Object).assign(polygon, json, {
+    return Object.assign(polygon, json, {
       points: points,
     });
   }

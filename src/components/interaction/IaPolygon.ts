@@ -1,7 +1,4 @@
-import IaBase, { IaContext, IaEventType } from "./IaBase";
-import GraphicPolygon from "../../model/graphic/GraphicPolygon";
-import { createPlacementAction } from "../../actions/placementActions";
-import { createElementAction } from "../../actions/changeElementActions";
+import IaBase, { IaContext } from "./IaBase";
 
 class IaPolygon extends IaBase {
   constructor(config: IaContext) {

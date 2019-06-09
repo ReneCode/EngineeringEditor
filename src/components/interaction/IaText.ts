@@ -1,8 +1,4 @@
-import IaBase, { IaContext, IaEventType } from "./IaBase";
-import Point from "../../common/point";
-import { createPlacementAction } from "../../actions/placementActions";
-import GraphicText from "../../model/graphic/GraphicText";
-import { createElementAction } from "../../actions/changeElementActions";
+import IaBase from "./IaBase";
 
 class IaText extends IaBase {
   /*

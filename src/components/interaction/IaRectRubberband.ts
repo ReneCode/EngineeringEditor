@@ -1,8 +1,5 @@
-import * as actions from "../../actions";
-import IaBase, { IaContext, IaEventType } from "./IaBase";
+import IaBase, { IaContext } from "./IaBase";
 import Point from "../../common/point";
-import Placement from "../../model/Placement";
-import GraphicRect from "../../model/graphic/GraphicRect";
 
 export type IaRectRubberbandResult = { p1: Point; p2: Point };
 

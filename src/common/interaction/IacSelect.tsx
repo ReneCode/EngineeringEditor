@@ -213,7 +213,6 @@ class IacSelect extends React.Component<IProps> {
   }
 
   getHitItemPlacementId(point: Paper.Point): string | null {
-    let newSelectedPlacementIds: string[] = [];
     const result = PaperUtil.hitTest(point);
     if (!result) {
       return null;

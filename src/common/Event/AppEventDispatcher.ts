@@ -42,11 +42,11 @@ class AppEventDispatcher {
         // if DEBUG
         throw ex;
         // if RELEASE
-        console.error(
-          `Exception on dispatching Event: ${type} + ${payload} to ${
-            eh.handler
-          }`,
-        );
+        // console.error(
+        //   `Exception on dispatching Event: ${type} + ${payload} to ${
+        //     eh.handler
+        //   }`,
+        // );
       }
     }
   }

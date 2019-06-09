@@ -1,6 +1,5 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
-import Paper from "paper";
 
 import Page from "../../model/Page";
 import appEventDispatcher from "../Event/AppEventDispatcher";

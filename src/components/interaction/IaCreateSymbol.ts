@@ -1,11 +1,4 @@
-import IaBase, { IaContext, IaEventType } from "./IaBase";
-import GraphicSymbol from "../../model/graphic/GraphicSymbol";
-import GraphicSymbolRef from "../../model/graphic/GraphicSymbolRef";
-import { createSymbolAction } from "../../actions/createSymbol";
-import {
-  createPlacementAction,
-  deletePlacementAction,
-} from "../../actions/placementActions";
+import IaBase, { IaContext } from "./IaBase";
 
 class IaCreateSymbol extends IaBase {
   constructor(config: IaContext) {

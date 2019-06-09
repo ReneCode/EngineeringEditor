@@ -1,10 +1,6 @@
 import React from "react";
-import { connect } from "react-redux";
-import Paper, { Point } from "paper";
+import Paper from "paper";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
-import { deleteElementAction } from "../../actions/changeElementActions";
-import Placement from "../../model/Placement";
-import { IGlobalState } from "../../store/reducers";
 import { AppEventType } from "../Event/AppEventType";
 
 interface IProps {}

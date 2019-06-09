@@ -1,7 +1,7 @@
 import React from "react";
 
 import { connect } from "react-redux";
-import Paper, { Point } from "paper";
+import Paper from "paper";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 import { cudElementAction } from "../../actions/changeElementActions";
 import Placement from "../../model/Placement";
@@ -10,7 +10,6 @@ import { AppEventType } from "../Event/AppEventType";
 import GraphicSymbol from "../../model/graphic/GraphicSymbol";
 import { createSymbolAction } from "../../actions/createSymbol";
 import GraphicSymbolRef from "../../model/graphic/GraphicSymbolRef";
-import ElementFactory from "../../model/ElementFactory";
 
 interface IPayload {
   placements: Placement[];

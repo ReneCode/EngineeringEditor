@@ -1,7 +1,4 @@
-import * as actions from "../../actions";
-import IaBase, { IaContext, IaEventType } from "./IaBase";
-import Point from "../../common/point";
-import Placement from "../../model/Placement";
+import IaBase, { IaContext } from "./IaBase";
 // import { setCursorModeAction } from "../../actions/setCursorPoint";
 
 class IaPickItem extends IaBase {

@@ -1,8 +1,6 @@
 import Paper from "paper";
 import Placement from "../Placement";
 import deepClone from "../../common/deepClone";
-import Point from "../../common/point";
-import { ItemMetaData } from "../../common/ItemMetaData";
 
 class PaperPlacement extends Placement {
   constructor(private _paperItem: Paper.Item) {
@@ -26,7 +24,6 @@ class PaperPlacement extends Placement {
     // newPaperItem.data.placement = newPlacement;
     newPlacement.paperItem = newPaperItem;
     // console.log(":", newPlacement._paperItem.position);
-    this.setMetaData();
     return newPlacement;
   }
 
@@ -35,21 +32,11 @@ class PaperPlacement extends Placement {
     const newPlacement = deepClone(this);
     newPaperItem.fitBounds(rect);
     newPlacement._paperItem = newPaperItem;
-    this.setMetaData();
     return newPlacement;
   }
 
   getPaperItem() {
     return this._paperItem;
-  }
-
-  setMetaData() {
-    const metaData: ItemMetaData = {
-      placement: this,
-      rev: 1,
-    };
-    // TODO currently not working with Undo/Redo :-(
-    // this._paperItem.data = metaData;
   }
 }
 

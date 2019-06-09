@@ -2,12 +2,7 @@ import React from "react";
 import Paper from "paper";
 import appEventDispatcher from "../Event/AppEventDispatcher";
 import { AppEventType } from "../Event/AppEventType";
-import configuration from "../configuration";
 import { connect } from "react-redux";
-import Point from "../point";
-import { createElementAction } from "../../actions/changeElementActions";
-import Box from "../box";
-import GraphicPolygon from "../../model/graphic/GraphicPolygon";
 
 interface IProps {
   dispatch: Function;
@@ -15,7 +10,6 @@ interface IProps {
 
 class IacRectangle extends React.Component<IProps> {
   private unsubscribeFn: Function[] = [];
-  private firstPoint: Paper.Point = new Paper.Point(0, 0);
   private rectangle: Paper.Path | null = null;
 
   componentDidMount() {
@@ -35,15 +29,14 @@ class IacRectangle extends React.Component<IProps> {
   }
 
   onMouseDown = (type: AppEventType, event: Paper.MouseEvent) => {
-    this.firstPoint = event.point;
-    this.createRectangle(event.point);
+    this.createRectangle();
   };
 
   onMouseUp = (type: AppEventType, event: Paper.MouseEvent) => {
     if (!this.rectangle) {
       throw new Error("rectangle missing");
     }
-    this.createRectangle(event.point);
+    this.createRectangle();
 
     // this.saveRectangle(this.firstPoint, event.point);
     this.rectangle = null;
@@ -54,10 +47,10 @@ class IacRectangle extends React.Component<IProps> {
       throw new Error("rectangle missing");
     }
 
-    this.createRectangle(event.point);
+    this.createRectangle();
   };
 
-  private createRectangle(secondPoint: Paper.Point) {
+  private createRectangle() {
     //   if (this.rectangle) {
     //     this.rectangle.remove();
     //   }

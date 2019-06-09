@@ -20,7 +20,7 @@ export default class Point {
 
   // http://choly.ca/post/typescript-json/
   toJSON(): object {
-    return (<any>Object).assign({}, this);
+    return Object.assign({}, this);
   }
 
   static fromJSON(json: object): Point {
@@ -29,7 +29,7 @@ export default class Point {
     // }
     const point = Object.create(Point.prototype);
     // const point = new Point();
-    return (<any>Object).assign(point, json);
+    return Object.assign(point, json);
   }
 
   invert(): Point {
@@ -111,6 +111,6 @@ export default class Point {
         return RelativeDirection.Down;
       }
     }
-    return RelativeDirection.None;
+    // return RelativeDirection.None;
   }
 }

@@ -13,7 +13,7 @@ const apiUpdatePage = async (page: Page) => {
     },
   };
 
-  const result = await graphql(query, variables);
+  await graphql(query, variables);
 };
 
 export default apiUpdatePage;
