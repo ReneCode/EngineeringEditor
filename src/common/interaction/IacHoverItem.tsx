@@ -78,13 +78,15 @@ class IacHoverItem extends React.Component<IProps> {
 
   redrawOldHoverItem() {
     if (this.hoverItem) {
-      if (this.oldStrokeColor === undefined) {
-        delete this.hoverItem.strokeColor;
-      } else {
+      if (this.oldStrokeColor) {
         this.hoverItem.strokeColor = this.oldStrokeColor;
+      } else {
+        delete this.hoverItem.strokeColor;
       }
       if (this.oldFillColor) {
         this.hoverItem.fillColor = this.oldFillColor;
+      } else {
+        delete this.hoverItem.strokeColor;
       }
       console.log(`restored StrokeColor: ${this.oldStrokeWidth}.`);
 

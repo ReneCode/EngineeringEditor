@@ -1,3 +1,4 @@
+import Paper from "paper";
 /*
 
 for picking use:
@@ -12,7 +13,7 @@ $color4: #ccdaff;
 $color5: #0b2b7c;
 */
 
-const accentColor = "#4a7cf9";
+const accentColor = new Paper.Color("#4a7cf9");
 const accentColorDimmed1 = "#4a7cf977"; // brighter
 const accentColorDimmed2 = "#4a7cf911"; // nearly transparent
 

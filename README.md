@@ -1,5 +1,14 @@
 [![Build Status](https://travis-ci.org/ReneCode/EngineeringEditor.svg?branch=master)](https://travis-ci.org/ReneCode/EngineeringEditor)
 
+# PaperJS
+
+fix to version - to not get in trouble:
+
+```
+"@types/paper": "0.11.9",
+"paper": "0.12.0",
+```
+
 # EngineeringEditor
 
 # Paper hitTest

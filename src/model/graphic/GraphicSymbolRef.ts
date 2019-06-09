@@ -52,14 +52,14 @@ class GraphicSymbolRef extends Placement {
     return this._symbol;
   }
 
-  paperDraw() {
+  paperDraw(): Paper.Item {
     if (!this._symbol) {
       throw new Error("symbol missing");
     }
 
     const symbolItem = this._symbol.getPaperSymbol();
-    const item = symbolItem.place(this.pt);
-    return item;
+    const item: Paper.PlacedSymbol = symbolItem.place(this.pt);
+    return <Paper.Item>(<unknown>item);
   }
 }
 

@@ -123,7 +123,7 @@ class IacEditItem extends React.Component<IProps> {
   onMouseUp = () => {
     switch (this.modus) {
       case "grip":
-        if (this.editItem) {
+        if (this.editItem && this.oldFillColor) {
           this.editItem.fillColor = this.oldFillColor;
         }
         break;
