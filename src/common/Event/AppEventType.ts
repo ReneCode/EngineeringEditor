@@ -1,6 +1,6 @@
 export type AppEventType =
+  | "showModal"
   | "placeSymbol"
-  | "selectPlaceSymbol"
   | "createSymbolAndSymbolRef"
   | "ungroup"
   | "group"

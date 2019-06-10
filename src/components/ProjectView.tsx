@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 
 import Sidebar, { ISidebarButton } from "./Sidebar";
 import Workspace from "./Workspace/Workspace";
-import SelectSymbolModal from "./SelectSymbol/SelectSymbolModal";
+// import SelectSymbolModal from "./SelectSymbol/SelectSymbolModal";
 import { RouteComponentProps } from "react-router";
 import { IGlobalState } from "../store/reducers";
 import { IdType } from "../model/types";
@@ -14,7 +14,7 @@ import GraphicFrame from "./GraphicView/GraphicFrame";
 import KeyboardDispatcher from "./KeyboardDispatcher";
 
 interface IProps extends RouteComponentProps<any> {
-  showModalId: string;
+  // showModalId: string;
   projectId: IdType;
   dispatch: Function;
 }
@@ -87,9 +87,9 @@ class ProjectView extends Component<IProps> {
         <GraphicFrame />
         {/* <DetailView /> */}
         <KeyboardDispatcher />
-        <SelectSymbolModal
+        {/* <SelectSymbolModal
           show={this.props.showModalId === "selectSymbol"}
-        />
+        /> */}
       </React.Fragment>
     );
   }
@@ -97,7 +97,7 @@ class ProjectView extends Component<IProps> {
 
 const mapStateToProps = (state: IGlobalState) => {
   return {
-    showModalId: state.project.showModalId,
+    // showModalId: state.project.currentModalId,
   };
 };
 

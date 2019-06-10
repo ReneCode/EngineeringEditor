@@ -1,7 +1,7 @@
 import * as actionTypes from "./actionTypes";
-import { ModalId } from "../model/types";
+import { ModalIdType } from "../model/types";
 
-export const showModal = (id: ModalId) => {
+export const showModal = (id: ModalIdType) => {
   return {
     type: actionTypes.SHOW_MODAL,
     payload: id,

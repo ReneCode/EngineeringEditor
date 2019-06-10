@@ -17,14 +17,14 @@ import IacChangeProperty from "../interaction/IacChangeProperty";
 import IacGroup from "../interaction/IacGroup";
 import IacUngroup from "../interaction/IacUngroup";
 import IacCreateSymbolAndSymbolRef from "../interaction/IacCreateSymbolAndSymbolRef";
-import IacCreateSymbolRef from "../interaction/IacCreateSymbolRef";
+import IacPlaceSymbol from "../interaction/IacPlaceSymbol";
 
 class InteractionFactory {
   static create(name: string, iaProps: any = {}): JSX.Element {
     const props = { ...iaProps, key: name };
     switch (name) {
-      case "IacCreateSymbolRef":
-        return <IacCreateSymbolRef {...props} />;
+      case "IacPlaceSymbol":
+        return <IacPlaceSymbol {...props} />;
       case "IacCreateSymbolAndSymbolRef":
         return <IacCreateSymbolAndSymbolRef {...props} />;
       case "IacGroup":

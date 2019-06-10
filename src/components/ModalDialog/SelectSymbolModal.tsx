@@ -4,19 +4,15 @@ import SymbolList from "./SymbolList";
 
 interface IProps {}
 
-class SelectSymbolToolbar extends React.Component<IProps> {
+class SelectSymbolModal extends React.Component<IProps> {
   private unsubscribeFn: Function[] = [];
   state = {
-    show: false,
-    top: 10,
-    left: 10,
+    top: 195,
+    left: 151,
   };
   componentDidMount() {
     this.unsubscribeFn.push(
-      appEventDispatcher.subscribe(
-        "selectPlaceSymbol",
-        this.onSelectPlaceSymbol,
-      ),
+      appEventDispatcher.subscribe("keyDown", this.onKeyDown),
     );
   }
 
@@ -24,14 +20,28 @@ class SelectSymbolToolbar extends React.Component<IProps> {
     this.unsubscribeFn.forEach(fn => fn());
   }
 
+  onKeyDown = (type: string, event: KeyboardEvent) => {
+    if (event && event.key === "Escape") {
+      appEventDispatcher.dispatch("showModal", "");
+    }
+    console.log(":symbolModal-key");
+    return "stop";
+  };
+
   onSelectPlaceSymbol = (type: string, event: MouseEvent) => {
+    if (!event) {
+      this.setState({
+        top: 195,
+        left: 151,
+      });
+      return;
+    }
     const ele: HTMLElement = event.target as HTMLElement;
     if (ele) {
       // calc the position where to place the toolbar
       const rect = ele.getClientRects()[0];
       const GAP = 8;
       this.setState({
-        show: !this.state.show,
         top: rect.top,
         left: rect.left + ele.clientWidth + GAP,
       });
@@ -42,19 +52,14 @@ class SelectSymbolToolbar extends React.Component<IProps> {
     this.setState({
       show: false,
     });
-    console.log("symbol:", name);
     appEventDispatcher.dispatch(
       "startInteraction",
-      "IacCreateSymbolRef",
-      { symbolName: name },
+      "IacPlaceSymbol",
+      { symbolName: name }, // props for IacPlaceSymbol
     );
   };
 
   render() {
-    if (!this.state.show) {
-      return false;
-    }
-
     const style = {
       // width: "100px",
       // height: "80px",
@@ -70,4 +75,4 @@ class SelectSymbolToolbar extends React.Component<IProps> {
   }
 }
 
-export default SelectSymbolToolbar;
+export default SelectSymbolModal;

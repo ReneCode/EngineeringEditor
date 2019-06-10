@@ -1,5 +1,11 @@
 [![Build Status](https://travis-ci.org/ReneCode/EngineeringEditor.svg?branch=master)](https://travis-ci.org/ReneCode/EngineeringEditor)
 
+# Modal Dialog
+
+    appEventDispatcher.dispatch("showModal", <ModalId>)
+
+    if modalId === "" then the keyboard-handler will be active
+
 # PaperJS
 
 fix to version - to not get in trouble:

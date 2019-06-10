@@ -1,5 +1,10 @@
 @import "./variables.scss";
 
+input:focus,
+textarea:focus {
+  outline: none;
+}
+
 html,
 body {
   font-family: arial, sans-serif;
@@ -311,7 +316,7 @@ nav.menu .text {
     background-color: $tool-button-back-color;
     color: $tool-button-color;
     border-radius: 0px;
-    font-size: 22px;
+    font-size: 1.5rem;
     border: none;
     margin: 2px;
     padding: 0px;
@@ -347,13 +352,33 @@ nav.menu .text {
 }
 
 .symbol-list {
+  background-color: $tool-bar-back-color;
+  width: 200px;
   .header {
-    text-align: center;
-    padding: 5px;
+    input {
+      box-sizing: border-box;
+      width: 100%;
+      font-size: 1.2rem;
+      padding: 5px;
+      margin: 0px;
+      border: none;
+      background-color: $dark-color;
+      color: $bright-color;
+    }
+  }
+  .list {
+    height: 250px;
+    overflow-y: auto;
   }
   .item {
-    padding: 2px;
-    margin: 1px;
+    background-color: $tool-button-back-color;
+    color: $tool-button-color;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 1.2rem;
+    padding: 3px;
+    margin: 2px;
     &:hover {
       background-color: #aaa;
       cursor: pointer;

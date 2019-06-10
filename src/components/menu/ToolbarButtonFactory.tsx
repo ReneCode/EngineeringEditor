@@ -3,7 +3,6 @@ import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 
 type ToolbarButtonName =
   | "selectPlaceSymbol"
-  | "createSymbolRef"
   | "stopInteraction"
   | "createArc"
   | "createLine"
@@ -18,22 +17,13 @@ class ToolbarButtonFactory {
         return (
           <button
             onClick={event =>
-              appEventDispatcher.dispatch("selectPlaceSymbol", event)
-            }>
-            /sy
-          </button>
-        );
-
-      case "createSymbolRef":
-        return (
-          <button
-            onClick={() =>
               appEventDispatcher.dispatch(
-                "startInteraction",
-                "IacCreateSymbolRef",
+                "showModal",
+                "selectSymbol",
+                event,
               )
             }>
-            syR
+            sy
           </button>
         );
 
@@ -43,7 +33,7 @@ class ToolbarButtonFactory {
             onClick={() =>
               appEventDispatcher.dispatch("stopInteraction")
             }>
-            S
+            {"/"}
           </button>
         );
 

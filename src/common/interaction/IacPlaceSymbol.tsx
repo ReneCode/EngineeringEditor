@@ -14,7 +14,7 @@ interface IProps {
   dispatch: Function;
 }
 
-class IacCreateSymbolRef extends React.Component<IProps> {
+class IacPlaceSymbol extends React.Component<IProps> {
   private unsubscribeFn: Function[] = [];
   private item: Paper.Item = new Paper.Item();
   private symbolRef: GraphicSymbolRef | null = null;
@@ -86,4 +86,4 @@ const mapStateToProps = (state: IGlobalState) => {
   };
 };
 
-export default connect(mapStateToProps)(IacCreateSymbolRef);
+export default connect(mapStateToProps)(IacPlaceSymbol);

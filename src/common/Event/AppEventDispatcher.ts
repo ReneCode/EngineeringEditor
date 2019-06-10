@@ -32,10 +32,12 @@ class AppEventDispatcher {
 
   dispatch(type: AppEventType, ...params: any) {
     // console.log(":dispatch:", type, params);
+    let handled = false;
     for (let eh of this.eventHandlers) {
       try {
         if (eh.type === type) {
           const result = eh.handler(type, ...params);
+          handled = true;
           if (result === "stop") {
             break;
           }
@@ -50,6 +52,9 @@ class AppEventDispatcher {
         //   }`,
         // );
       }
+    }
+    if (!handled) {
+      console.warn("no appEventHandler found for:", type);
     }
   }
 }
