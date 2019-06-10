@@ -6,10 +6,6 @@ import { connect } from "react-redux";
 import { cudElementAction } from "../../actions/changeElementActions";
 import GraphicGroup from "../../model/graphic/GraphicGroup";
 
-interface IPayload {
-  placements: Placement[];
-}
-
 interface IProps {
   dispatch: Function;
 }
@@ -28,17 +24,16 @@ class IacUngroup extends React.Component<IProps> {
     this.unsubscribeFn();
   }
 
-  onUngroup = (type: AppEventType, payload: IPayload) => {
+  onUngroup = (type: AppEventType, placements: Placement[]) => {
     if (
-      !payload ||
-      !payload.placements ||
-      payload.placements.length !== 1 ||
-      payload.placements[0].type !== "group"
+      !placements ||
+      placements.length !== 1 ||
+      placements[0].type !== "group"
     ) {
       throw new Error("payload not suitable");
     }
 
-    const group = payload.placements[0];
+    const group = placements[0];
     if (group instanceof GraphicGroup) {
       const items = group.children;
 

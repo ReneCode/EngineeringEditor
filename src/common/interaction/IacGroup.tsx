@@ -6,10 +6,6 @@ import { connect } from "react-redux";
 import { cudElementAction } from "../../actions/changeElementActions";
 import GraphicGroup from "../../model/graphic/GraphicGroup";
 
-interface IPayload {
-  placements: Placement[];
-}
-
 interface IProps {
   dispatch: Function;
 }
@@ -28,15 +24,10 @@ class IacGroup extends React.Component<IProps> {
     this.unsubscribeFn();
   }
 
-  onCreateGroup = (type: AppEventType, payload: IPayload) => {
-    if (
-      !payload ||
-      !payload.placements ||
-      payload.placements.length <= 1
-    ) {
+  onCreateGroup = (type: AppEventType, placements: Placement[]) => {
+    if (!placements || placements.length <= 1) {
       throw new Error("payload not suitable");
     }
-    const placements = payload.placements;
     const group = new GraphicGroup(placements);
 
     this.props.dispatch(

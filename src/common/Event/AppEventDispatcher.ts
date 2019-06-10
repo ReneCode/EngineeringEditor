@@ -9,7 +9,7 @@ import createId from "../../model/createId";
 
 type AppEventHandler = (
   type: AppEventType,
-  payload: any,
+  ...params: any
 ) => void | string;
 
 class AppEventDispatcher {
@@ -30,12 +30,12 @@ class AppEventDispatcher {
     };
   }
 
-  dispatch(type: AppEventType, payload: any = undefined) {
-    // console.log(":dispatch:", type, payload);
+  dispatch(type: AppEventType, ...params: any) {
+    // console.log(":dispatch:", type, params);
     for (let eh of this.eventHandlers) {
       try {
         if (eh.type === type) {
-          const result = eh.handler(type, payload);
+          const result = eh.handler(type, ...params);
           if (result === "stop") {
             break;
           }

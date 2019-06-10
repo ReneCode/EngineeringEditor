@@ -6,6 +6,8 @@
 
 ## TODO
 
+- save symbol with save project
+
 - hover item - color from/to the individual item
 - global react error catching component
 - generic PopupMenu

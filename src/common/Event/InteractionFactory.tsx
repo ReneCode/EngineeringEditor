@@ -20,8 +20,8 @@ import IacCreateSymbolAndSymbolRef from "../interaction/IacCreateSymbolAndSymbol
 import IacCreateSymbolRef from "../interaction/IacCreateSymbolRef";
 
 class InteractionFactory {
-  static create(name: string): JSX.Element {
-    const props = { key: name };
+  static create(name: string, iaProps: any = {}): JSX.Element {
+    const props = { ...iaProps, key: name };
     switch (name) {
       case "IacCreateSymbolRef":
         return <IacCreateSymbolRef {...props} />;

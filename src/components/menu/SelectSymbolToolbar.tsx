@@ -46,6 +46,7 @@ class SelectSymbolToolbar extends React.Component<IProps> {
     appEventDispatcher.dispatch(
       "startInteraction",
       "IacCreateSymbolRef",
+      { symbolName: name },
     );
   };
 

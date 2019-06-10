@@ -30,4 +30,16 @@ describe("appEventDispatcher", () => {
     expect(called).toEqual(1);
     expect(calledPayload).toEqual(15);
   });
+
+  it("send with more parameters", () => {
+    let calledParameters;
+
+    const fn = (type: AppEventType, p1: any, p2: any, p3: any) => {
+      calledParameters = [p1, p2, p3];
+    };
+    const unsubscribeFn = appEventDispatcher.subscribe("undo", fn);
+    appEventDispatcher.dispatch("undo", "abc", 42, true);
+    expect(calledParameters).toEqual(["abc", 42, true]);
+    unsubscribeFn();
+  });
 });

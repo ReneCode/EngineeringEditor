@@ -83,7 +83,7 @@ class ToolbarButtonFactory {
             onClick={() => {
               appEventDispatcher.dispatch(
                 "createSymbolAndSymbolRef",
-                { placements: options.placements },
+                options.placements,
               );
             }}>
             sym
@@ -94,9 +94,10 @@ class ToolbarButtonFactory {
         return (
           <button
             onClick={() =>
-              appEventDispatcher.dispatch("ungroup", {
-                placements: options.placements,
-              })
+              appEventDispatcher.dispatch(
+                "ungroup",
+                options.placements,
+              )
             }>
             ungr
           </button>
@@ -107,9 +108,7 @@ class ToolbarButtonFactory {
         return (
           <button
             onClick={() =>
-              appEventDispatcher.dispatch("group", {
-                placements: options.placements,
-              })
+              appEventDispatcher.dispatch("group", options.placements)
             }>
             grp
           </button>

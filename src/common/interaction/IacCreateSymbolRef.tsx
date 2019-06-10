@@ -10,6 +10,7 @@ import GraphicSymbol from "../../model/graphic/GraphicSymbol";
 
 interface IProps {
   symbols: GraphicSymbol[];
+  symbolName: string;
   dispatch: Function;
 }
 
@@ -56,7 +57,7 @@ class IacCreateSymbolRef extends React.Component<IProps> {
 
   private createSymbolRef(pt: Paper.Point) {
     if (!this.symbolRef) {
-      const symbolName = "Symbol-24";
+      const symbolName = this.props.symbolName;
       const symbol = this.props.symbols.find(
         s => s.name === symbolName,
       );
