@@ -1,4 +1,5 @@
 import { AppEventType } from "./AppEventType";
+import createId from "../../model/createId";
 // import { IAppEventHandler } from "./IAppEventHandler";
 
 // export interface AppEvent {
@@ -19,8 +20,9 @@ class AppEventDispatcher {
   }[] = [];
 
   subscribe(type: AppEventType, handler: AppEventHandler) {
-    const id = `${Math.floor(Math.random() * 10e10)}`;
+    const id = createId("evH-");
     this.eventHandlers.push({ id, type, handler });
+    // return a function to unsubscribe
     return () => {
       this.eventHandlers = this.eventHandlers.filter(
         eh => eh.id !== id,

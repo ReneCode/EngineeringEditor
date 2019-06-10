@@ -341,3 +341,22 @@ nav.menu .text {
   top: 60px;
   left: 100px;
 }
+
+.place-symbol-toolbar {
+  position: fixed;
+}
+
+.symbol-list {
+  .header {
+    text-align: center;
+    padding: 5px;
+  }
+  .item {
+    padding: 2px;
+    margin: 1px;
+    &:hover {
+      background-color: #aaa;
+      cursor: pointer;
+    }
+  }
+}

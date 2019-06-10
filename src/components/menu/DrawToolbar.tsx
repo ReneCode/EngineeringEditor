@@ -13,7 +13,7 @@ const DrawToolbar = () => {
     "createSymbolRef",
   );
   const placeSymbolButton = ToolbarButtonFactory.create(
-    "placeSymbol",
+    "selectPlaceSymbol",
   );
   return (
     <Toolbar className="draw-toolbar" direction="column">

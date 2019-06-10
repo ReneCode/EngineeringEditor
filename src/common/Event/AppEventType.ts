@@ -1,5 +1,6 @@
 export type AppEventType =
   | "placeSymbol"
+  | "selectPlaceSymbol"
   | "createSymbolAndSymbolRef"
   | "ungroup"
   | "group"
