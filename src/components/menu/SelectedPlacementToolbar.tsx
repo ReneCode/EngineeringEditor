@@ -48,21 +48,20 @@ class SelectedPlacementMenu extends React.Component<IProps> {
 
     let groupButton = null;
     if (placements.length > 1) {
-      groupButton = ToolbarButtonFactory.create("group", {
-        placements,
-      });
+      groupButton = ToolbarButtonFactory.create("group", placements);
     }
 
     let ungroupButton = null;
     if (placements.length === 1 && placements[0].type === "group") {
-      ungroupButton = ToolbarButtonFactory.create("ungroup", {
+      ungroupButton = ToolbarButtonFactory.create(
+        "ungroup",
         placements,
-      });
+      );
     }
 
     const createSymbolButton = ToolbarButtonFactory.create(
       "createSymbol",
-      { placements },
+      placements,
     );
 
     return (

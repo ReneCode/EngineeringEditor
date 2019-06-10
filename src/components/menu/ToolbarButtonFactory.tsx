@@ -1,5 +1,4 @@
 import React from "react";
-import Placement from "../../model/Placement";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 
 type ToolbarButtonName =
@@ -13,10 +12,7 @@ type ToolbarButtonName =
   | "createSymbol";
 
 class ToolbarButtonFactory {
-  static create(
-    name: ToolbarButtonName,
-    options: { placements?: Placement[] } = {},
-  ) {
+  static create(name: ToolbarButtonName, ...params: any) {
     switch (name) {
       case "selectPlaceSymbol":
         return (
@@ -83,7 +79,7 @@ class ToolbarButtonFactory {
             onClick={() => {
               appEventDispatcher.dispatch(
                 "createSymbolAndSymbolRef",
-                options.placements,
+                ...params,
               );
             }}>
             sym
@@ -94,10 +90,7 @@ class ToolbarButtonFactory {
         return (
           <button
             onClick={() =>
-              appEventDispatcher.dispatch(
-                "ungroup",
-                options.placements,
-              )
+              appEventDispatcher.dispatch("ungroup", ...params)
             }>
             ungr
           </button>
@@ -108,7 +101,7 @@ class ToolbarButtonFactory {
         return (
           <button
             onClick={() =>
-              appEventDispatcher.dispatch("group", options.placements)
+              appEventDispatcher.dispatch("group", ...params)
             }>
             grp
           </button>
