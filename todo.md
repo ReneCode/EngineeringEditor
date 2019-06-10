@@ -6,7 +6,7 @@
 
 ## TODO
 
-- save symbol with save project
+- scroll the symbollist
 
 - hover item - color from/to the individual item
 - global react error catching component
@@ -53,6 +53,8 @@ toolPan.onMouseDrag = function(event) {
 - disable redux-dev-tools in production / https://medium.com/@zalmoxis/using-redux-devtools-in-production-4c5b56c5600f
 
 ## DONE
+
+- ok - save symbol with save project
 
 - ok - create Symbol
 - ok - use Symbol

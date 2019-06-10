@@ -1,6 +1,7 @@
 import * as actionTypes from "./actionTypes";
 import GraphicSymbol from "../model/graphic/GraphicSymbol";
 import { GetGlobalStateFunction } from "../model/types";
+import apiCreateSymbol from "../common/api/apiCreateSymbol";
 
 export const createSymbolAction = (symbol: GraphicSymbol): any => {
   return async (
@@ -8,12 +9,7 @@ export const createSymbolAction = (symbol: GraphicSymbol): any => {
     getState: GetGlobalStateFunction,
   ): Promise<GraphicSymbol> => {
     try {
-      // const newSymbol = await apiCreateSymbol(symbol);
-      // if there are symbolRef in ths new symbol
-      // the GraphicSymbol .symbol property is no more set
-      // we have to update it
-      // const symbols = getState().graphic.symbols;
-      // updateAllSymbolRef(newSymbol.placements, symbols);
+      await apiCreateSymbol(symbol);
 
       const action = {
         type: actionTypes.ADD_SYMBOL,
