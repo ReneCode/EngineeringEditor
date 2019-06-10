@@ -1,4 +1,5 @@
 import { AppEventType } from "./AppEventType";
+import createId from "../../model/createId";
 // import { IAppEventHandler } from "./IAppEventHandler";
 
 // export interface AppEvent {
@@ -8,7 +9,7 @@ import { AppEventType } from "./AppEventType";
 
 type AppEventHandler = (
   type: AppEventType,
-  payload: any,
+  ...params: any
 ) => void | string;
 
 class AppEventDispatcher {
@@ -19,8 +20,9 @@ class AppEventDispatcher {
   }[] = [];
 
   subscribe(type: AppEventType, handler: AppEventHandler) {
-    const id = `${Math.floor(Math.random() * 10e10)}`;
+    const id = createId("evH-");
     this.eventHandlers.push({ id, type, handler });
+    // return a function to unsubscribe
     return () => {
       this.eventHandlers = this.eventHandlers.filter(
         eh => eh.id !== id,
@@ -28,12 +30,15 @@ class AppEventDispatcher {
     };
   }
 
-  dispatch(type: AppEventType, payload: any = undefined) {
-    // console.log(":dispatch:", type, payload);
-    for (let eh of this.eventHandlers) {
+  dispatch(type: AppEventType, ...params: any) {
+    // console.log(":dispatch:", type, params);
+    let handled = false;
+    const eventHandlers = [...this.eventHandlers];
+    for (let eh of eventHandlers) {
       try {
         if (eh.type === type) {
-          const result = eh.handler(type, payload);
+          const result = eh.handler(type, ...params);
+          handled = true;
           if (result === "stop") {
             break;
           }
@@ -48,6 +53,9 @@ class AppEventDispatcher {
         //   }`,
         // );
       }
+    }
+    if (!handled) {
+      console.warn("no appEventHandler found for:", type);
     }
   }
 }

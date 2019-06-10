@@ -10,10 +10,7 @@ import { AppEventType } from "../Event/AppEventType";
 import GraphicSymbol from "../../model/graphic/GraphicSymbol";
 import { createSymbolAction } from "../../actions/createSymbol";
 import GraphicSymbolRef from "../../model/graphic/GraphicSymbolRef";
-
-interface IPayload {
-  placements: Placement[];
-}
+import PaperUtil from "../../utils/PaperUtil";
 
 interface IProps {
   symbols: GraphicSymbol[];
@@ -36,19 +33,14 @@ class IacCreateSymbolAndSymbolRef extends React.Component<IProps> {
 
   onCreateSymbolAndSymbolRef = (
     type: AppEventType,
-    payload: IPayload,
+    placements: Placement[],
   ) => {
-    if (
-      !payload ||
-      !payload.placements ||
-      payload.placements.length === 0
-    ) {
+    if (!placements || placements.length === 0) {
       return;
     }
 
-    const point = new Paper.Point(0, 0);
+    const point = this.getInsertPoint(placements);
     const symbolName = `Symbol-${this.props.symbols.length + 1}`;
-    const placements = payload.placements;
     const projectId = placements[0].projectId;
     const symbol = new GraphicSymbol(placements);
     symbol.name = symbolName;
@@ -61,6 +53,12 @@ class IacCreateSymbolAndSymbolRef extends React.Component<IProps> {
       cudElementAction("placement", symbolRef, undefined, placements),
     );
   };
+
+  getInsertPoint(placements: Placement[]): Paper.Point {
+    const items = placements.map(p => p.getPaperItem());
+    const bbox = PaperUtil.createBoundingBox(items);
+    return bbox.center.clone();
+  }
 
   render() {
     return null;

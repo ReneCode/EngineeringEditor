@@ -1,9 +1,8 @@
 import React from "react";
-import Placement from "../../model/Placement";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 
 type ToolbarButtonName =
-  | "createSymbolRef"
+  | "selectPlaceSymbol"
   | "stopInteraction"
   | "createArc"
   | "createLine"
@@ -12,21 +11,19 @@ type ToolbarButtonName =
   | "createSymbol";
 
 class ToolbarButtonFactory {
-  static create(
-    name: ToolbarButtonName,
-    options: { placements?: Placement[] } = {},
-  ) {
+  static create(name: ToolbarButtonName, ...params: any) {
     switch (name) {
-      case "createSymbolRef":
+      case "selectPlaceSymbol":
         return (
           <button
-            onClick={() =>
+            onClick={event =>
               appEventDispatcher.dispatch(
-                "startInteraction",
-                "IacCreateSymbolRef",
+                "showModal",
+                "selectSymbol",
+                event,
               )
             }>
-            syR
+            sy
           </button>
         );
 
@@ -36,7 +33,7 @@ class ToolbarButtonFactory {
             onClick={() =>
               appEventDispatcher.dispatch("stopInteraction")
             }>
-            S
+            {"/"}
           </button>
         );
 
@@ -72,7 +69,7 @@ class ToolbarButtonFactory {
             onClick={() => {
               appEventDispatcher.dispatch(
                 "createSymbolAndSymbolRef",
-                { placements: options.placements },
+                ...params,
               );
             }}>
             sym
@@ -83,9 +80,7 @@ class ToolbarButtonFactory {
         return (
           <button
             onClick={() =>
-              appEventDispatcher.dispatch("ungroup", {
-                placements: options.placements,
-              })
+              appEventDispatcher.dispatch("ungroup", ...params)
             }>
             ungr
           </button>
@@ -96,9 +91,7 @@ class ToolbarButtonFactory {
         return (
           <button
             onClick={() =>
-              appEventDispatcher.dispatch("group", {
-                placements: options.placements,
-              })
+              appEventDispatcher.dispatch("group", ...params)
             }>
             grp
           </button>

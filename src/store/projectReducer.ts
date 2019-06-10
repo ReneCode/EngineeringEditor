@@ -1,6 +1,6 @@
 import * as actionTypes from "../actions/actionTypes";
 
-import { ModalId } from "../model/types";
+import { ModalIdType } from "../model/types";
 import Page from "../model/Page";
 import { IAction } from "../actions/action";
 
@@ -8,7 +8,7 @@ export interface IProjectState {
   projectId: string;
   pageId: string;
   pages: Page[];
-  showModalId: ModalId;
+  currentModalId: ModalIdType;
   pageViewports: {};
 }
 
@@ -16,7 +16,7 @@ const initialState: IProjectState = {
   projectId: "",
   pageId: "",
   pages: [],
-  showModalId: "",
+  currentModalId: "",
   pageViewports: {},
 };
 
@@ -56,7 +56,7 @@ const projectReducer = (state = initialState, action: IAction) => {
     case actionTypes.SHOW_MODAL: {
       return {
         ...state,
-        showModalId: action.payload,
+        currentModalId: action.payload,
       };
     }
     case actionTypes.SET_PAGES:

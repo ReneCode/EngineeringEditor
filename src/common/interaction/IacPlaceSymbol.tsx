@@ -10,10 +10,11 @@ import GraphicSymbol from "../../model/graphic/GraphicSymbol";
 
 interface IProps {
   symbols: GraphicSymbol[];
+  symbolName: string;
   dispatch: Function;
 }
 
-class IacCreateSymbolRef extends React.Component<IProps> {
+class IacPlaceSymbol extends React.Component<IProps> {
   private unsubscribeFn: Function[] = [];
   private item: Paper.Item = new Paper.Item();
   private symbolRef: GraphicSymbolRef | null = null;
@@ -28,10 +29,16 @@ class IacCreateSymbolRef extends React.Component<IProps> {
     this.unsubscribeFn.push(
       appEventDispatcher.subscribe("mouseDown", this.onMouseDown),
     );
+    this.unsubscribeFn.push(
+      appEventDispatcher.subscribe("mouseMove", this.onMouseMove),
+    );
   }
 
   componentWillUnmount() {
     this.unsubscribeFn.forEach(fn => fn());
+    if (this.item) {
+      this.item.remove();
+    }
   }
 
   onMouseDown = (type: AppEventType, event: Paper.MouseEvent) => {
@@ -50,13 +57,17 @@ class IacCreateSymbolRef extends React.Component<IProps> {
     this.symbolRef = null;
   };
 
+  onMouseMove = (type: AppEventType, event: Paper.MouseEvent) => {
+    this.createSymbolRef(event.point);
+  };
+
   onMouseDrag = (type: AppEventType, event: Paper.MouseEvent) => {
     this.createSymbolRef(event.point);
   };
 
   private createSymbolRef(pt: Paper.Point) {
     if (!this.symbolRef) {
-      const symbolName = "Symbol-24";
+      const symbolName = this.props.symbolName;
       const symbol = this.props.symbols.find(
         s => s.name === symbolName,
       );
@@ -85,4 +96,4 @@ const mapStateToProps = (state: IGlobalState) => {
   };
 };
 
-export default connect(mapStateToProps)(IacCreateSymbolRef);
+export default connect(mapStateToProps)(IacPlaceSymbol);

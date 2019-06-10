@@ -3,6 +3,7 @@ import appEventDispatcher from "./AppEventDispatcher";
 import { Component } from "react";
 import { AppEventType } from "./AppEventType";
 import InteractionFactory from "./InteractionFactory";
+import { any } from "prop-types";
 
 interface IProps {}
 
@@ -10,6 +11,7 @@ class InteractionManager extends Component<IProps> {
   unsubscribeFn: Function[] = [];
   state = {
     interactionName: "",
+    props: any,
     idle: true,
   };
 
@@ -55,9 +57,14 @@ class InteractionManager extends Component<IProps> {
     this.unsubscribeFn.forEach(fn => fn());
   }
 
-  startInteraction = (type: AppEventType, payload: any) => {
+  startInteraction = (
+    type: AppEventType,
+    name: string,
+    props: any,
+  ) => {
     this.setState({
-      interactionName: payload,
+      interactionName: name,
+      props: props,
       idle: false,
     });
   };
@@ -74,6 +81,7 @@ class InteractionManager extends Component<IProps> {
     if (this.state.interactionName) {
       currentInteraction = InteractionFactory.create(
         this.state.interactionName,
+        this.state.props,
       );
     }
     return (

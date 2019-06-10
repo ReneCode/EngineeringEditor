@@ -93,7 +93,17 @@ class KeybaordHandler extends React.Component {
       case "O":
         appEventDispatcher.dispatch("startInteraction", "CreateArc");
         break;
+
+      case "s":
+      case "S":
+        appEventDispatcher.dispatch("showModal", "selectSymbol");
+        break;
+
+      default:
+        return;
     }
+    event.stopPropagation();
+    event.preventDefault();
   };
 
   mouseEventHandler = (
