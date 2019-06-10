@@ -32,8 +32,6 @@ class KeybaordHandler extends React.Component {
   }
 
   onKeyDown = (type: AppEventType, event: KeyboardEvent) => {
-    console.log("keyhandler");
-
     // TODO decide if mac or windows user
     // mac => metaKey,  windows => ctrlKey
 
@@ -100,7 +98,12 @@ class KeybaordHandler extends React.Component {
       case "S":
         appEventDispatcher.dispatch("showModal", "selectSymbol");
         break;
+
+      default:
+        return;
     }
+    event.stopPropagation();
+    event.preventDefault();
   };
 
   mouseEventHandler = (

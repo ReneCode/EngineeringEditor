@@ -21,9 +21,7 @@ class SelectedPlacementMenu extends React.Component<IProps> {
     }
 
     const placements = PaperUtil.getPlacementsById(ids);
-    const items: Paper.Item[] = placements
-      .map(p => p.getPaperItem())
-      .filter(i => !!i) as Paper.Item[];
+    const items: Paper.Item[] = placements.map(p => p.getPaperItem());
 
     if (items.length === 0) {
       return null;

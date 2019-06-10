@@ -29,10 +29,16 @@ class IacPlaceSymbol extends React.Component<IProps> {
     this.unsubscribeFn.push(
       appEventDispatcher.subscribe("mouseDown", this.onMouseDown),
     );
+    this.unsubscribeFn.push(
+      appEventDispatcher.subscribe("mouseMove", this.onMouseMove),
+    );
   }
 
   componentWillUnmount() {
     this.unsubscribeFn.forEach(fn => fn());
+    if (this.item) {
+      this.item.remove();
+    }
   }
 
   onMouseDown = (type: AppEventType, event: Paper.MouseEvent) => {
@@ -49,6 +55,10 @@ class IacPlaceSymbol extends React.Component<IProps> {
       cudElementAction("placement", this.symbolRef),
     );
     this.symbolRef = null;
+  };
+
+  onMouseMove = (type: AppEventType, event: Paper.MouseEvent) => {
+    this.createSymbolRef(event.point);
   };
 
   onMouseDrag = (type: AppEventType, event: Paper.MouseEvent) => {

@@ -68,9 +68,7 @@ class IacEditItem extends React.Component<IProps> {
         for (let placement of placements) {
           placement.setMode("select");
         }
-        const items: Paper.Item[] = placements.map(p =>
-          p.getPaperItem(),
-        ) as Paper.Item[];
+        const items = placements.map(p => p.getPaperItem());
         this.resizeBox.create(items);
       }
     }
@@ -154,6 +152,7 @@ class IacEditItem extends React.Component<IProps> {
       for (let placement of placements) {
         placement.setMode(null);
         const newPlacement: Placement = deepClone(placement);
+        debugger;
         const oldItem = placement.getPaperItem();
         const copyItem = newPlacement.paperDraw();
         if (oldItem && copyItem) {

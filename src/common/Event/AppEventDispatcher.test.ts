@@ -42,4 +42,23 @@ describe("appEventDispatcher", () => {
     expect(calledParameters).toEqual(["abc", 42, true]);
     unsubscribeFn();
   });
+
+  it("do not dispatch new events in dispatch-loop", () => {
+    let calledA = 0;
+    let calledB = 0;
+
+    const fA = (type: AppEventType) => {
+      calledA++;
+      unsubscribeFn.push(appEventDispatcher.subscribe("undo", fB));
+    };
+    const fB = (type: AppEventType) => {
+      calledB++;
+    };
+    const unsubscribeFn = [];
+    unsubscribeFn.push(appEventDispatcher.subscribe("undo", fA));
+    appEventDispatcher.dispatch("undo");
+    expect(calledA).toEqual(1);
+    expect(calledB).toEqual(0);
+    unsubscribeFn.forEach(fn => fn());
+  });
 });

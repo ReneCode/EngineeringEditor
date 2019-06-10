@@ -19,7 +19,7 @@ class Placement {
   layer: LayerType = undefined;
 
   protected _grips: Paper.Item[] = [];
-  protected _item: Paper.Item | null = null;
+  protected _item: Paper.Item = new Paper.Item();
   protected _drawMode: DrawMode = null;
   protected _tempItems: Paper.Item[];
 
@@ -41,7 +41,7 @@ class Placement {
     };
   }
 
-  getPaperItem(): Paper.Item | null {
+  getPaperItem(): Paper.Item {
     return this._item;
   }
 

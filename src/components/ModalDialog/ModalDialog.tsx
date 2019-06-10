@@ -37,6 +37,8 @@ class ModalDialog extends React.Component<IProps> {
       case "selectSymbol":
         return <SelectSymbolModal />;
       case "":
+      case undefined:
+      case null:
         return <KeyboardHandler />;
       default:
         throw new Error(`bad ModalId: ${this.props.currentModalId}`);

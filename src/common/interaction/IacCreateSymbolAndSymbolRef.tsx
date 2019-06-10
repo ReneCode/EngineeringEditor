@@ -10,6 +10,7 @@ import { AppEventType } from "../Event/AppEventType";
 import GraphicSymbol from "../../model/graphic/GraphicSymbol";
 import { createSymbolAction } from "../../actions/createSymbol";
 import GraphicSymbolRef from "../../model/graphic/GraphicSymbolRef";
+import PaperUtil from "../../utils/PaperUtil";
 
 interface IProps {
   symbols: GraphicSymbol[];
@@ -38,7 +39,7 @@ class IacCreateSymbolAndSymbolRef extends React.Component<IProps> {
       return;
     }
 
-    const point = new Paper.Point(0, 0);
+    const point = this.getInsertPoint(placements);
     const symbolName = `Symbol-${this.props.symbols.length + 1}`;
     const projectId = placements[0].projectId;
     const symbol = new GraphicSymbol(placements);
@@ -52,6 +53,12 @@ class IacCreateSymbolAndSymbolRef extends React.Component<IProps> {
       cudElementAction("placement", symbolRef, undefined, placements),
     );
   };
+
+  getInsertPoint(placements: Placement[]): Paper.Point {
+    const items = placements.map(p => p.getPaperItem());
+    const bbox = PaperUtil.createBoundingBox(items);
+    return bbox.center;
+  }
 
   render() {
     return null;

@@ -10,6 +10,7 @@ class SelectSymbolModal extends React.Component<IProps> {
     top: 195,
     left: 151,
   };
+
   componentDidMount() {
     this.unsubscribeFn.push(
       appEventDispatcher.subscribe("keyDown", this.onKeyDown),
@@ -24,39 +25,41 @@ class SelectSymbolModal extends React.Component<IProps> {
     if (event && event.key === "Escape") {
       appEventDispatcher.dispatch("showModal", "");
     }
-    console.log(":symbolModal-key");
-    return "stop";
   };
 
-  onSelectPlaceSymbol = (type: string, event: MouseEvent) => {
-    if (!event) {
-      this.setState({
-        top: 195,
-        left: 151,
-      });
-      return;
-    }
-    const ele: HTMLElement = event.target as HTMLElement;
-    if (ele) {
-      // calc the position where to place the toolbar
-      const rect = ele.getClientRects()[0];
-      const GAP = 8;
-      this.setState({
-        top: rect.top,
-        left: rect.left + ele.clientWidth + GAP,
-      });
-    }
-  };
+  // onSelectPlaceSymbol = (type: string, event: MouseEvent) => {
+  //   if (!event) {
+  //     this.setState({
+  //       top: 195,
+  //       left: 151,
+  //     });
+  //     return;
+  //   }
+  //   const ele: HTMLElement = event.target as HTMLElement;
+  //   if (ele) {
+  //     // calc the position where to place the toolbar
+  //     const rect = ele.getClientRects()[0];
+  //     const GAP = 8;
+  //     this.setState({
+  //       top: rect.top,
+  //       left: rect.left + ele.clientWidth + GAP,
+  //     });
+  //   }
+  // };
 
   onClickSymbol = (name: string) => {
-    this.setState({
-      show: false,
-    });
+    // remove my dialog
+    appEventDispatcher.dispatch("showModal", null);
+    // start placing that selected symbol
     appEventDispatcher.dispatch(
       "startInteraction",
       "IacPlaceSymbol",
       { symbolName: name }, // props for IacPlaceSymbol
     );
+  };
+
+  onClose = () => {
+    appEventDispatcher.dispatch("showModal", null);
   };
 
   render() {
@@ -69,7 +72,10 @@ class SelectSymbolModal extends React.Component<IProps> {
 
     return (
       <div style={style} className="toolbar place-symbol-toolbar">
-        <SymbolList onClickSymbol={this.onClickSymbol} />
+        <SymbolList
+          onClickSymbol={this.onClickSymbol}
+          onClose={this.onClose}
+        />
       </div>
     );
   }

@@ -39,7 +39,6 @@ class GraphicArc extends Placement {
   }
 
   setMode(drawMode: DrawMode) {
-    console.log("setMode:", drawMode);
     if (drawMode === this._drawMode) {
       return;
     }

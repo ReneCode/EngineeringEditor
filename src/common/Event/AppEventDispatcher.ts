@@ -33,7 +33,8 @@ class AppEventDispatcher {
   dispatch(type: AppEventType, ...params: any) {
     // console.log(":dispatch:", type, params);
     let handled = false;
-    for (let eh of this.eventHandlers) {
+    const eventHandlers = [...this.eventHandlers];
+    for (let eh of eventHandlers) {
       try {
         if (eh.type === type) {
           const result = eh.handler(type, ...params);

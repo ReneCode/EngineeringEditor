@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 interface IProps {
   symbols: GraphicSymbol[];
   onClickSymbol: Function;
+  onClose: Function;
 }
 
 class SymbolList extends React.Component<IProps> {
@@ -23,7 +24,7 @@ class SymbolList extends React.Component<IProps> {
   render() {
     return (
       <div className="symbol-list">
-        <div className="header">
+        <div className="search">
           <input
             autoFocus
             type="text"
@@ -31,10 +32,15 @@ class SymbolList extends React.Component<IProps> {
             value={this.state.filter}
             onChange={this.onChangeFilter}
           />
+          <button onClick={() => this.props.onClose()}>x</button>
         </div>
         <div className="list">
           {this.props.symbols
-            .filter(s => s.name.includes(this.state.filter))
+            .filter(s =>
+              s.name
+                .toLowerCase()
+                .includes(this.state.filter.toLowerCase()),
+            )
             .map((s, idx) => {
               return (
                 <div

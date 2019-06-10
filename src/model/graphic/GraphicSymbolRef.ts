@@ -14,7 +14,6 @@ class GraphicSymbolRef extends Placement {
     super("symbolref");
     this.name = name;
     this.pt = pt;
-    this.color = "red";
   }
 
   static fromJSON(json: any): GraphicSymbolRef {
