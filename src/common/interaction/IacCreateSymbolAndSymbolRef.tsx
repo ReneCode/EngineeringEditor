@@ -57,7 +57,7 @@ class IacCreateSymbolAndSymbolRef extends React.Component<IProps> {
   getInsertPoint(placements: Placement[]): Paper.Point {
     const items = placements.map(p => p.getPaperItem());
     const bbox = PaperUtil.createBoundingBox(items);
-    return bbox.center;
+    return bbox.center.clone();
   }
 
   render() {

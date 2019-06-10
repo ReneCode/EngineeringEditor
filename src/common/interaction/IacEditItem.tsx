@@ -10,7 +10,6 @@ import { ItemName } from "../ItemMetaData";
 import configuration from "../configuration";
 import { updateElementAction } from "../../actions/changeElementActions";
 import appEventDispatcher from "../Event/AppEventDispatcher";
-import deepClone from "../deepClone";
 import ResizeBox from "./ResizeBox";
 
 interface IProps {
@@ -151,8 +150,8 @@ class IacEditItem extends React.Component<IProps> {
       this.selectedPlacements = [];
       for (let placement of placements) {
         placement.setMode(null);
-        const newPlacement: Placement = deepClone(placement);
-        debugger;
+        const newPlacement: Placement = placement.clone();
+        // debugger;
         const oldItem = placement.getPaperItem();
         const copyItem = newPlacement.paperDraw();
         if (oldItem && copyItem) {

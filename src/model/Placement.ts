@@ -1,6 +1,7 @@
 import { IdType, GraphicType, LayerType } from "./types";
 import Paper from "paper";
 import createId from "./createId";
+import deepClone from "../common/deepClone";
 
 export type DrawOptions = {
   mode?: "selected" | "temp";
@@ -39,6 +40,10 @@ class Placement {
       fill: this.fill,
       layer: this.layer,
     };
+  }
+
+  clone(): Placement {
+    return deepClone(this);
   }
 
   getPaperItem(): Paper.Item {

@@ -5,12 +5,9 @@ import GraphicSymbolRef from "./GraphicSymbolRef";
 import TransformCoordinate from "../../common/transformCoordinate";
 import { DtoPlacement } from "../dtoUtil";
 import PlacementFactory from "../PlacementFactory";
-import Placement from "../Placement";
 
 describe("GraphicSymbolRef", () => {
   let symbolRef: GraphicSymbolRef;
-  let json: any;
-  let dto: DtoPlacement;
 
   beforeEach(() => {
     const symbolName = "symbolName";
@@ -21,6 +18,12 @@ describe("GraphicSymbolRef", () => {
     symbolRef.id = "id";
   });
 
+  it("clone", () => {
+    const copy = symbolRef.clone();
+    expect(copy.getName()).toEqual(symbolRef.getName());
+    expect(copy.getPoint()).toEqual(symbolRef.getPoint());
+  });
+
   it("toJSON / fromJSON", () => {
     const symbol = new GraphicSymbol([]);
     symbolRef.setSymbol(symbol);
@@ -28,7 +31,7 @@ describe("GraphicSymbolRef", () => {
 
     const json = symbolRef.toJSON();
     const newSymbolRef = GraphicSymbolRef.fromJSON(json);
-    expect(newSymbolRef.name).toEqual(symbolRef.name);
+    expect(newSymbolRef.getName()).toEqual(symbolRef.getName());
     expect(newSymbolRef.id).toEqual(symbolRef.id);
     expect(newSymbolRef.getSymbol()).toBeFalsy();
   });
@@ -40,7 +43,7 @@ describe("GraphicSymbolRef", () => {
     ) as GraphicSymbolRef;
     expect(newSymbolRef).toBeTruthy();
     expect(newSymbolRef instanceof GraphicSymbolRef).toBeTruthy();
-    expect(newSymbolRef.name).toEqual(symbolRef.name);
+    expect(newSymbolRef.getName()).toEqual(symbolRef.getName());
     expect(newSymbolRef.id).toEqual(symbolRef.id);
     expect(newSymbolRef.getSymbol()).toBeFalsy();
   });
