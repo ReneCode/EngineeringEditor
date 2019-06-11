@@ -126,12 +126,18 @@ nav.menu .text {
   background-color: #eee;
 }
 
-.status {
-  background-color: #222;
-  color: #bbb;
-  flex-grow: 0;
+.status-bar {
+  position: fixed;
+  bottom: 15px;
+  left: 15px;
+  min-width: 500px;
 
-  height: 25px;
+  border: 1px solid $text-color;
+  background-color: $tool-button-back-color;
+  color: $bk-color;
+  border: 1px solid $tool-bar-back-color;
+  font-size: 0.8rem;
+
   display: flex;
   flex-direction: row;
   div {
@@ -344,7 +350,7 @@ nav.menu .text {
 .draw-toolbar {
   position: fixed;
   top: 60px;
-  left: 100px;
+  left: 10px;
 }
 
 .place-symbol-toolbar {

@@ -5,15 +5,15 @@ import { connect } from "react-redux";
 import Placement from "../../model/Placement";
 import PaperUtil from "../../utils/PaperUtil";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
-import Toolbar from "./Toolbar";
-import ToolbarButtonFactory from "./ToolbarButtonFactory";
+import ToolbarButtonFactory from "../menu/ToolbarButtonFactory";
+import Toolbar from "../menu/Toolbar";
 
 interface IProps {
   selectedPlacementIds: string[];
   items: Placement[];
 }
 
-class SelectedPlacementMenu extends React.Component<IProps> {
+class SelectedPlacementToolbar extends React.Component<IProps> {
   render() {
     const ids = this.props.selectedPlacementIds;
     if (ids.length === 0) {
@@ -27,20 +27,16 @@ class SelectedPlacementMenu extends React.Component<IProps> {
       return null;
     }
 
-    let bbox = items[0].bounds;
-    for (let item of items) {
-      bbox = bbox.unite(item.bounds);
-    }
+    let bbox = PaperUtil.createBoundingBox(items);
     const pt = bbox.topLeft;
     const viewPoint = Paper.view.projectToView(pt);
 
-    const popMenuHeight = 46;
-    const gap = 0;
+    const gap = 10;
 
     const style = {
-      position: "absolute",
+      position: "fixed",
 
-      top: viewPoint.y - popMenuHeight - gap,
+      top: viewPoint.y - gap,
       left: viewPoint.x,
     };
 
@@ -99,4 +95,4 @@ const mapStateToProps = (state: IGlobalState) => {
   };
 };
 
-export default connect(mapStateToProps)(SelectedPlacementMenu);
+export default connect(mapStateToProps)(SelectedPlacementToolbar);

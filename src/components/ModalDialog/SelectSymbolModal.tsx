@@ -8,7 +8,7 @@ class SelectSymbolModal extends React.Component<IProps> {
   private unsubscribeFn: Function[] = [];
   state = {
     top: 195,
-    left: 151,
+    left: 60,
   };
 
   componentDidMount() {

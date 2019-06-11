@@ -36,6 +36,8 @@ class ModalDialog extends React.Component<IProps> {
     switch (this.props.currentModalId) {
       case "selectSymbol":
         return <SelectSymbolModal />;
+      // case "placementTools":
+      //   return <PlacementToolsModal />;
       case "":
       case undefined:
       case null:

@@ -2,9 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
-import Sidebar, { ISidebarButton } from "./Sidebar";
-import Workspace from "./Workspace/Workspace";
-// import SelectSymbolModal from "./SelectSymbol/SelectSymbolModal";
 import { RouteComponentProps } from "react-router";
 import { IGlobalState } from "../store/reducers";
 import { IdType } from "../model/types";
@@ -12,6 +9,7 @@ import setPageId from "../actions/setPageId";
 import { setProjectId } from "../actions/projectActions";
 import GraphicFrame from "./GraphicView/GraphicFrame";
 import KeyboardDispatcher from "./KeyboardDispatcher";
+import ErrorBoundary from "./ErrorBoundary";
 
 interface IProps extends RouteComponentProps<any> {
   // showModalId: string;
@@ -46,51 +44,43 @@ class ProjectView extends Component<IProps> {
     await this.props.dispatch(setPageId(projectId, pageId));
   };
 
-  clickSidebar = (sidebarButton: ISidebarButton) => {
-    const id = sidebarButton.id;
-    if (sidebarButton.workspace) {
-      let workspaceId: string | null = id;
+  // clickSidebar = (sidebarButton: ISidebarButton) => {
+  //   const id = sidebarButton.id;
+  //   if (sidebarButton.workspace) {
+  //     let workspaceId: string | null = id;
 
-      if (id === this.state.activeWorkspaceId) {
-        // click on active workspace will remove it
-        workspaceId = null;
-      }
-      const resizeGraphicFrame =
-        !workspaceId || !this.state.activeWorkspaceId;
+  //     if (id === this.state.activeWorkspaceId) {
+  //       // click on active workspace will remove it
+  //       workspaceId = null;
+  //     }
+  //     const resizeGraphicFrame =
+  //       !workspaceId || !this.state.activeWorkspaceId;
 
-      this.setState({ activeWorkspaceId: workspaceId }, () => {
-        if (resizeGraphicFrame) {
-          window.dispatchEvent(new Event("resize"));
-        }
-      });
-    }
-  };
+  //     this.setState({ activeWorkspaceId: workspaceId }, () => {
+  //       if (resizeGraphicFrame) {
+  //         window.dispatchEvent(new Event("resize"));
+  //       }
+  //     });
+  //   }
+  // };
 
   render() {
-    const sidebarButtons = [
-      { id: "pages", text: "Pages", workspace: true },
-      { id: "devices", text: "Devices", workspace: true },
-      { id: "parts", text: "Parts", workspace: true },
-      { id: "drawing", text: "Drawing", workspace: true },
-      { id: "settings", text: "Settings" },
-    ];
-
     // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/26871
     return (
-      <React.Fragment>
-        <Sidebar
+      <ErrorBoundary>
+        {/* <Sidebar
           buttons={sidebarButtons}
           active={this.state.activeWorkspaceId}
           onClick={this.clickSidebar}
         />
-        <Workspace workspace={this.state.activeWorkspaceId} />
+        <Workspace workspace={this.state.activeWorkspaceId} /> */}
         <GraphicFrame />
         {/* <DetailView /> */}
         <KeyboardDispatcher />
         {/* <SelectSymbolModal
           show={this.props.showModalId === "selectSymbol"}
         /> */}
-      </React.Fragment>
+      </ErrorBoundary>
     );
   }
 }
