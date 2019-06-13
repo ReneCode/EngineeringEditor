@@ -3,10 +3,20 @@ import React from "react";
 import * as CSS from "csstype";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 import { AppEventType } from "../../common/Event/AppEventType";
+import { connect } from "react-redux";
+import GraphicText from "../../model/graphic/GraphicText";
+import { cudElementAction } from "../../actions/changeElementActions";
+import PaperUtil from "../../utils/PaperUtil";
 
-class TextEditView extends React.Component {
+interface IProps {
+  dispatch: Function;
+}
+
+class TextEditView extends React.Component<IProps> {
   private unsubscribeFn: any;
-
+  private divRef = React.createRef<HTMLDivElement>();
+  private placementId: string = "";
+  private startText = "";
   public state = {
     show: false,
     text: "",
@@ -15,7 +25,7 @@ class TextEditView extends React.Component {
 
   componentDidMount() {
     this.unsubscribeFn = appEventDispatcher.subscribe(
-      "showEditText",
+      "startEditText",
       this.onShowEditText,
     );
   }
@@ -26,6 +36,8 @@ class TextEditView extends React.Component {
 
   onShowEditText = (type: AppEventType, options: any) => {
     console.log("onShowEditText:", options);
+    this.placementId = options.placementId;
+    this.startText = options.text;
     this.setState({
       show: options.show,
       text: options.text,
@@ -37,15 +49,51 @@ class TextEditView extends React.Component {
         color: options.color,
       },
     });
+
+    const node = this.divRef.current;
+    if (node) {
+      node.focus();
+    }
   };
 
   onRootMouseDown = (event: React.MouseEvent) => {
     this.setState({
       show: false,
     });
-    event.preventDefault();
+    const node = this.divRef.current;
+    let text = "";
+    if (node) {
+      text = node.innerHTML;
+    }
+
+    appEventDispatcher.dispatch("finishEditText", {
+      content: text,
+    });
+
+    const placements = PaperUtil.getPlacementsById([
+      this.placementId,
+    ]);
+    if (placements.length > 0) {
+      const graphicText = placements[0] as GraphicText;
+      graphicText.switchState("reset");
+      if (text !== this.startText) {
+        this.savePlacement(graphicText, text);
+      }
+    }
+  };
+
+  onTextMouseDown = (event: React.MouseEvent) => {
+    // to not send event to the root (my parent div)
     event.stopPropagation();
   };
+
+  savePlacement(graphicText: GraphicText, newText: string) {
+    const newGraphicText = graphicText.clone();
+    newGraphicText.setText(newText);
+    this.props.dispatch(
+      cudElementAction("placement", undefined, newGraphicText),
+    );
+  }
 
   render() {
     if (!this.state.show) {
@@ -56,25 +104,33 @@ class TextEditView extends React.Component {
       ...this.state.style,
       position: "absolute",
       border: "1px solid black",
+      overflowWrap: "break-word",
+      whiteSpace: "pre-wrap",
+      outline: "none",
     };
 
-    // const rootStyle: CSS.Properties = {
-    //   position: "absolute",
-    //   width: "100%",
-    //   height: "100%",
-    //   top: 0,
-    //   left: 0,
-    //   backgroundColor: "#44444422",
-    // };
+    const rootStyle: CSS.Properties = {
+      position: "absolute",
+      width: "100%",
+      height: "100%",
+      top: 0,
+      left: 0,
+      // backgroundColor: "#44444422",
+    };
 
     return (
-      // <div style={rootStyle} onMouseDown={this.onRootMouseDown}>
-      <div contentEditable style={style}>
-        {this.state.text}
+      <div style={rootStyle} onMouseDown={this.onRootMouseDown}>
+        <div
+          ref={this.divRef}
+          contentEditable
+          style={style}
+          onMouseDown={this.onTextMouseDown}
+          suppressContentEditableWarning={true}>
+          {this.state.text}
+        </div>
       </div>
-      // </div>
     );
   }
 }
 
-export default TextEditView;
+export default connect()(TextEditView);

@@ -125,10 +125,10 @@ class IacHoverItem extends React.Component<IProps> {
         return true;
       }
       case ItemName.itemText: {
-        const rect = new Paper.Path.Rectangle(item.bounds);
-        rect.strokeColor = configuration.itemHoverStrokeColor;
-        rect.strokeWidth = configuration.hoverStrokeWidth;
-        this._tempItem = rect;
+        // const rect = new Paper.Path.Rectangle(item.bounds);
+        // rect.strokeColor = configuration.itemHoverStrokeColor;
+        // rect.strokeWidth = configuration.hoverStrokeWidth;
+        // this._tempItem = rect;
         return true;
       }
 
