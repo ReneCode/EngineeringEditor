@@ -1,91 +1,151 @@
 import Paper from "paper";
-import Placement, { DrawOptions } from "../Placement";
-import Point from "../../common/point";
-import TransformCoordinate from "../../common/transformCoordinate";
-import Box from "../../common/box";
+import Placement, { DrawMode } from "../Placement";
+import PaperUtil from "../../utils/PaperUtil";
+import { ItemName } from "../../common/ItemMetaData";
+import configuration from "../../common/configuration";
+import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 
 class GraphicText extends Placement {
-  pt: Point;
+  pt: Paper.Point;
   text: string;
-  font: string = "Arial";
-  fontSize: number = 12;
-  ref: string = "";
+  fontFamily: string = "Arial";
+  fontSize: number = 48;
 
-  constructor(text: string, pt: Point) {
+  constructor(text: string, pt: Paper.Point) {
     super("text");
     this.text = text;
     this.pt = pt;
   }
 
-  paperDraw() {
-    return new Paper.Item();
-  }
-
   static fromJSON(json: any): GraphicText {
     const text = Object.create(GraphicText.prototype);
     return Object.assign(text, json, {
-      pt: Point.fromJSON(json.pt),
+      pt: PaperUtil.PointFromJSON(json.pt),
+      text: json.text,
+      fontFamily: json.fontFamily,
+      fontSize: json.fontSize,
     });
   }
 
-  nearPoint(pt: Point, radius: number): boolean {
-    return this.pt.sub(pt).length() <= radius;
+  toJSON(): any {
+    return {
+      ...super.toJSON(),
+      pt: PaperUtil.PointToJSON(this.pt),
+      text: this.text,
+      fontFamily: this.fontFamily,
+      fontSize: this.fontSize,
+    };
   }
 
-  draw(
-    context: CanvasRenderingContext2D,
-    transform: TransformCoordinate,
-    options: DrawOptions = {},
-  ) {
-    context.save();
-    context.fillStyle = "black";
-    // this.drawWithOptions(context, options);
-    context.beginPath();
+  setMode(drawMode: DrawMode) {
+    if (drawMode === this._drawMode) {
+      return;
+    }
+    this._drawMode = drawMode;
+    this.drawTempItems();
+  }
 
-    const sizeCanvas = transform.wcLengthToCanvas(this.fontSize);
-    const ptCanvas = transform.wcToCanvas(this.pt);
-    let italic = "";
-    let text = this.text;
-    if (this.ref) {
-      if (options && options.parent) {
-        try {
-          const obj = options.parent;
-          text = obj[this.ref];
-        } catch (e) {
-          console.log(e);
-        }
-      } else {
-        text = `ref#${this.ref}`;
-        // italic = "italic";
+  dragItem(event: Paper.MouseEvent) {
+    if (this._item) {
+      this.translate(event.delta);
+      this.paperDraw();
+      for (let item of this._tempItems) {
+        item.position = item.position.add(event.delta);
       }
     }
-    context.font = `${italic} ${sizeCanvas}px ${this.font}`;
-    context.fillText(text, ptCanvas.x, ptCanvas.y);
-    context.stroke();
+  }
 
-    if (options && options.mode === "selected") {
-      const textMetrics = context.measureText(this.text);
-      context.beginPath();
-      context.moveTo(ptCanvas.x, ptCanvas.y);
-      context.lineTo(ptCanvas.x + textMetrics.width, ptCanvas.y);
-      context.stroke();
+  translate(delta: Paper.Point) {
+    this.pt = this.pt.add(delta);
+  }
+
+  paperDraw(): Paper.Item {
+    const item = this.createPaperItem();
+    if (this._item) {
+      this._item.replaceWith(item);
     }
-
-    context.restore();
+    this._item = item;
+    return item;
   }
 
-  // translate(pt: Point): GraphicText {
-  //   const text = deepClone(this);
-  //   text.pt = text.pt.add(pt);
-  //   return text;
-  // }
-
-  getBoundingBox(): Box {
-    return new Box(this.pt, this.pt);
+  createPaperItem(): Paper.Item {
+    const item = new Paper.PointText(this.pt);
+    item.name = ItemName.itemText;
+    item.data = this.id;
+    item.content = this.text;
+    if (this.color) {
+      item.fillColor = this.color;
+    }
+    // item.fillColor = "red";
+    item.fontSize = this.fontSize;
+    item.fontFamily = this.fontFamily;
+    item.leading = this.fontSize * 1.0;
+    return item;
   }
 
-  insideBox(box: Box): boolean {
-    return box.isPointInside(this.pt);
+  private drawTempItems() {
+    if (this._tempItems) {
+      for (let item of this._tempItems) {
+        item.remove();
+      }
+    }
+    appEventDispatcher.dispatch("showEditText", {
+      show: false,
+    });
+
+    this._tempItems = [];
+    switch (this._drawMode) {
+      case "select":
+        {
+          const item = this.createBoundingRect(ItemName.temp);
+
+          item.strokeColor = configuration.modeSelectColor;
+          this._tempItems.push(item);
+        }
+        break;
+      case "edit":
+        {
+          const item = this.createBoundingRect(ItemName.temp);
+          item.strokeColor = configuration.modeSelectColor;
+          item.fillColor = "#2e2e2e11";
+          this._tempItems.push(item);
+          item.onMouseDown = this.startEditText.bind(this);
+        }
+        break;
+    }
+    // prevLayer.activate();
+  }
+
+  private startEditText() {
+    const bbox = this._item.bounds;
+    const bottomLeftView = Paper.view.projectToView(bbox.bottomLeft);
+
+    const topLeftView = Paper.view.projectToView(bbox.topLeft);
+    const heightView = bottomLeftView.y - topLeftView.y;
+    // difference of bbox of paper text and <div> text
+    // factor tried out
+    const deltaHeight = 0.17 * heightView;
+    const MENU_HEIGHT = 40;
+    appEventDispatcher.dispatch("showEditText", {
+      show: true,
+      text: this.text,
+      left: `${topLeftView.x}px`,
+      top: `${topLeftView.y + MENU_HEIGHT - deltaHeight}px`,
+      color: "green", // this.color,
+      fontFamily: this.fontFamily,
+      fontSize: `${heightView}px`,
+    });
+    // this._item.visible = false;
+  }
+
+  createBoundingRect(name: string): Paper.Item {
+    if (!this._item) {
+      return new Paper.Item();
+    }
+    const bbox = this._item.bounds;
+    let item = new Paper.Path.Rectangle(bbox);
+    item.name = name;
+    return item;
   }
 }
 

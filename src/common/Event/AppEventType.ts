@@ -1,4 +1,5 @@
 export type AppEventType =
+  | "showEditText"
   | "showModal"
   | "placeSymbol"
   | "createSymbolAndSymbolRef"

@@ -36,9 +36,7 @@ class IacHoverItem extends React.Component<IProps> {
       prevProps.selectedPlacementIds !==
       this.props.selectedPlacementIds
     ) {
-      if (this._tempItem) {
-        this.removeHover();
-      }
+      this.removeHover();
     }
   }
 
@@ -60,9 +58,7 @@ class IacHoverItem extends React.Component<IProps> {
         // }
 
         if (this.hoverItem !== hitItem) {
-          if (this.hoverItem) {
-            this.removeHover();
-          }
+          this.removeHover();
 
           if (this.drawHover(hitItem)) {
             this.hoverItem = hitItem;
@@ -91,8 +87,8 @@ class IacHoverItem extends React.Component<IProps> {
         }
       }
     } else {
-      if (this.hoverItem) {
-        this.removeHover();
+      if (this.removeHover()) {
+        return;
       }
 
       this.redrawOldHoverItem();
@@ -104,7 +100,9 @@ class IacHoverItem extends React.Component<IProps> {
     if (this._tempItem) {
       this._tempItem.remove();
       this._tempItem = null;
+      return true;
     }
+    return false;
   }
 
   private drawHover(item: Paper.Item): boolean {
@@ -123,6 +121,13 @@ class IacHoverItem extends React.Component<IProps> {
         rect.strokeColor = configuration.itemHoverStrokeColor;
         rect.strokeWidth = configuration.hoverStrokeWidth;
 
+        this._tempItem = rect;
+        return true;
+      }
+      case ItemName.itemText: {
+        const rect = new Paper.Path.Rectangle(item.bounds);
+        rect.strokeColor = configuration.itemHoverStrokeColor;
+        rect.strokeWidth = configuration.hoverStrokeWidth;
         this._tempItem = rect;
         return true;
       }

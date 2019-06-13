@@ -18,6 +18,7 @@ import IacGroup from "../interaction/IacGroup";
 import IacUngroup from "../interaction/IacUngroup";
 import IacCreateSymbolAndSymbolRef from "../interaction/IacCreateSymbolAndSymbolRef";
 import IacPlaceSymbol from "../interaction/IacPlaceSymbol";
+import IacCreateText from "../interaction/IacCreateText";
 
 class InteractionFactory {
   static create(name: string, iaProps: any = {}): JSX.Element {
@@ -53,6 +54,8 @@ class InteractionFactory {
       // case "Line":
       //   interaction = new InteractionLine(context);
       //   break;
+      case "CreateText":
+        return <IacCreateText {...props} />;
       case "CreateArc":
         return <IacCreateArc {...props} />;
       case "CreateLine":

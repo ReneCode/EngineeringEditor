@@ -17,6 +17,7 @@ export class ItemName {
   static itemAny = ".";
   static itemArc = ".arc";
   static itemLine = ".line";
+  static itemText = ".text";
   static itemGroup = ".group";
   static itemSymbolRef = ".symref";
 

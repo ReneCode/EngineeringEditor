@@ -2,6 +2,7 @@ import React from "react";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 
 type ToolbarButtonName =
+  | "createText"
   | "selectPlaceSymbol"
   | "stopInteraction"
   | "createArc"
@@ -34,6 +35,19 @@ class ToolbarButtonFactory {
               appEventDispatcher.dispatch("stopInteraction")
             }>
             {"/"}
+          </button>
+        );
+
+      case "createText":
+        return (
+          <button
+            onClick={() =>
+              appEventDispatcher.dispatch(
+                "startInteraction",
+                "CreateText",
+              )
+            }>
+            T
           </button>
         );
 

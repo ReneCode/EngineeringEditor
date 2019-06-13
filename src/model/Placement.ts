@@ -51,7 +51,7 @@ class Placement {
   }
 
   setMode(newMode: DrawMode) {
-    throw new Error(`overwrite setMode on object: ${this}`);
+    // throw new Error(`overwrite setMode on object: ${this}`);
   }
 
   createPaperItem(): Paper.Item {
@@ -66,9 +66,13 @@ class Placement {
     throw new Error("translate has to be overwritten by:" + this);
   }
 
-  dragGrip(event: Paper.MouseEvent, gripItem: Paper.Item) {}
+  dragGrip(event: Paper.MouseEvent, gripItem: Paper.Item) {
+    throw new Error("dragGrip has to be overwritten by:" + this);
+  }
 
-  dragItem(event: Paper.MouseEvent) {}
+  dragItem(event: Paper.MouseEvent) {
+    throw new Error("dragItem has to be overwritten by:" + this);
+  }
 }
 
 export default Placement;

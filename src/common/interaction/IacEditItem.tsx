@@ -106,7 +106,7 @@ class IacEditItem extends React.Component<IProps> {
           return "stop";
 
         case "item":
-          this.startEdit("select");
+          this.startEdit(null);
           for (let placement of this.selectedPlacements) {
             placement.dragItem(event);
           }

@@ -6,6 +6,8 @@
 
 ## TODO
 
+- PaperUtil.getHitTest refactor (return all hitItemType / grip, item, temp)
+- change IacHoverItem to drawHover/removeHover (for each ItemName)
 - SelectedPlacementToobar as ModalToolbar (as SelectSymbolModal)
 - statusbar as flowing debug-output
 - Logic Item (SymbolRef + Data)
