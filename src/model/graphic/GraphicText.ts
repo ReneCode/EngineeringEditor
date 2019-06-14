@@ -112,8 +112,14 @@ class GraphicText extends Placement {
   }
 
   private onMouseEnter() {
-    const bbox = this._item.bounds;
-    const item = new Paper.Path.Rectangle(bbox);
+    this.showHoverBoundingBox();
+  }
+  private onMouseLeave() {
+    this.hideBoundingBox();
+  }
+
+  private showHoverBoundingBox() {
+    const item = this.createBoundingRect("");
     item.strokeColor = configuration.itemHoverStrokeColor;
     item.strokeWidth = configuration.hoverStrokeWidth;
     if (this._boundingBox) {
@@ -121,10 +127,6 @@ class GraphicText extends Placement {
     } else {
       this._boundingBox = item;
     }
-  }
-
-  private onMouseLeave() {
-    this.hideBoundingBox();
   }
 
   private hideBoundingBox() {
@@ -147,7 +149,6 @@ class GraphicText extends Placement {
     switch (this._currentState) {
       case "edit":
         {
-          this.hideBoundingBox();
           this.removeTempItems();
           const item = this.createBoundingRect(ItemName.temp);
           item.strokeColor = configuration.modeSelectColor;
@@ -165,15 +166,10 @@ class GraphicText extends Placement {
 
       case "idle":
         {
-          // this.paperDraw();
-          // appEventDispatcher.dispatch("startEditText", {
-          //   show: false,
-          // });
+          this.paperDraw();
         }
         break;
     }
-
-    console.log("state:", this._currentState);
   }
 
   private removeTempItems() {
@@ -193,10 +189,9 @@ class GraphicText extends Placement {
     if (this.color) {
       item.fillColor = this.color;
     }
-    // item.fillColor = "red";
     item.fontSize = this.fontSize;
     item.fontFamily = this.fontFamily;
-    item.leading = this.fontSize * 1.0;
+    item.leading = this.fontSize;
     return item;
   }
 
@@ -251,7 +246,6 @@ class GraphicText extends Placement {
       fontFamily: this.fontFamily,
       fontSize: `${heightView}px`,
     });
-    // this._item.visible = false;
   }
 
   createBoundingRect(name: string): Paper.Item {

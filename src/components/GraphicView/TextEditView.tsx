@@ -75,6 +75,7 @@ class TextEditView extends React.Component<IProps> {
     ]);
     if (placements.length > 0) {
       const graphicText = placements[0] as GraphicText;
+      graphicText.setText(text);
       graphicText.switchState("reset");
       if (text !== this.startText) {
         this.savePlacement(graphicText, text);
@@ -115,7 +116,6 @@ class TextEditView extends React.Component<IProps> {
       height: "100%",
       top: 0,
       left: 0,
-      // backgroundColor: "#44444422",
     };
 
     return (
