@@ -2,8 +2,14 @@ import React from "react";
 import Paper from "paper";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 import { AppEventType } from "../../common/Event/AppEventType";
+import { IGlobalState } from "../../store/reducers";
+import { connect } from "react-redux";
 
-class KeybaordHandler extends React.Component {
+interface IProps {
+  enableKeyboardHandler: boolean;
+}
+
+class KeyboardHandler extends React.Component<IProps> {
   unsubscribeFn: Function[] = [];
   state = {
     cursor: new Paper.Point(0, 0),
@@ -32,6 +38,10 @@ class KeybaordHandler extends React.Component {
   }
 
   onKeyDown = (type: AppEventType, event: KeyboardEvent) => {
+    if (!this.props.enableKeyboardHandler) {
+      return;
+    }
+
     // TODO decide if mac or windows user
     // mac => metaKey,  windows => ctrlKey
 
@@ -99,6 +109,11 @@ class KeybaordHandler extends React.Component {
         appEventDispatcher.dispatch("showModal", "selectSymbol");
         break;
 
+      case "t":
+      case "T":
+        appEventDispatcher.dispatch("startInteraction", "CreateText");
+        break;
+
       default:
         return;
     }
@@ -120,4 +135,10 @@ class KeybaordHandler extends React.Component {
   }
 }
 
-export default KeybaordHandler;
+const mapStateToProps = (state: IGlobalState) => {
+  return {
+    enableKeyboardHandler: state.project.enableKeyboardHandler,
+  };
+};
+
+export default connect(mapStateToProps)(KeyboardHandler);

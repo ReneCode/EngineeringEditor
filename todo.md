@@ -6,6 +6,7 @@
 
 ## TODO
 
+- use draft.js for text-editing (https://draftjs.org/)
 - PaperUtil.getHitTest refactor (return all hitItemType / grip, item, temp)
 - change IacHoverItem to drawHover/removeHover (for each ItemName)
 - SelectedPlacementToobar as ModalToolbar (as SelectSymbolModal)

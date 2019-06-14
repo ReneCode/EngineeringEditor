@@ -9,6 +9,7 @@ export interface IProjectState {
   pageId: string;
   pages: Page[];
   currentModalId: ModalIdType;
+  enableKeyboardHandler: boolean;
   pageViewports: {};
 }
 
@@ -17,6 +18,7 @@ const initialState: IProjectState = {
   pageId: "",
   pages: [],
   currentModalId: "",
+  enableKeyboardHandler: true,
   pageViewports: {},
 };
 
@@ -53,6 +55,13 @@ const setViewport = (
 
 const projectReducer = (state = initialState, action: IAction) => {
   switch (action.type) {
+    case actionTypes.ENABLE_KEYBOARD_HANDLER: {
+      return {
+        ...state,
+        enableKeyboardHandler: action.payload,
+      };
+    }
+
     case actionTypes.SHOW_MODAL: {
       return {
         ...state,

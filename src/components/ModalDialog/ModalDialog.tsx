@@ -7,7 +7,7 @@ import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 import { AppEventType } from "../../common/Event/AppEventType";
 import { showModal } from "../../actions";
 import SelectSymbolModal from "./SelectSymbolModal";
-import KeyboardHandler from "./KeyboardHandler";
+// import KeyboardHandler from "./KeyboardHandler";
 
 interface IProps {
   currentModalId: ModalIdType;
@@ -39,9 +39,10 @@ class ModalDialog extends React.Component<IProps> {
       // case "placementTools":
       //   return <PlacementToolsModal />;
       case "":
-      case undefined:
-      case null:
-        return <KeyboardHandler />;
+        return null;
+      // case undefined:
+      // case null:
+      //   return <KeyboardHandler />;
       default:
         throw new Error(`bad ModalId: ${this.props.currentModalId}`);
     }

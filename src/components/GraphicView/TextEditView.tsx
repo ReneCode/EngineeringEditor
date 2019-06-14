@@ -7,13 +7,14 @@ import { connect } from "react-redux";
 import GraphicText from "../../model/graphic/GraphicText";
 import { cudElementAction } from "../../actions/changeElementActions";
 import PaperUtil from "../../utils/PaperUtil";
+import { enableKeyboardHandlerAction } from "../../actions/projectActions";
 
 interface IProps {
   dispatch: Function;
 }
 
 class TextEditView extends React.Component<IProps> {
-  private unsubscribeFn: any;
+  private unsubscribeFn: any[] = [];
   private divRef = React.createRef<HTMLDivElement>();
   private placementId: string = "";
   private startText = "";
@@ -24,17 +25,37 @@ class TextEditView extends React.Component<IProps> {
   };
 
   componentDidMount() {
-    this.unsubscribeFn = appEventDispatcher.subscribe(
-      "startEditText",
-      this.onShowEditText,
+    this.unsubscribeFn.push(
+      appEventDispatcher.subscribe("startEditText", this.startEdit),
+    );
+    this.unsubscribeFn.push(
+      appEventDispatcher.subscribe("keyDown", this.onKeyDown),
     );
   }
 
   componentWillUnmount() {
-    this.unsubscribeFn();
+    this.unsubscribeFn.forEach(fn => fn());
   }
 
-  onShowEditText = (type: AppEventType, options: any) => {
+  onRootMouseDown = (event: React.MouseEvent) => {
+    this.endEdit();
+  };
+
+  onTextMouseDown = (event: React.MouseEvent) => {
+    // to not send event to the root (my parent div)
+    event.stopPropagation();
+  };
+
+  onKeyDown = (type: AppEventType, event: KeyboardEvent) => {
+    switch (event.key) {
+      case "Escape":
+        this.endEdit();
+        break;
+    }
+  };
+
+  private startEdit = (type: AppEventType, options: any) => {
+    this.props.dispatch(enableKeyboardHandlerAction(false));
     console.log("onShowEditText:", options);
     this.placementId = options.placementId;
     this.startText = options.text;
@@ -56,15 +77,15 @@ class TextEditView extends React.Component<IProps> {
     }
   };
 
-  onRootMouseDown = (event: React.MouseEvent) => {
-    this.setState({
-      show: false,
-    });
+  private endEdit() {
     const node = this.divRef.current;
     let text = "";
     if (node) {
       text = node.innerHTML;
     }
+    this.setState({
+      show: false,
+    });
 
     appEventDispatcher.dispatch("finishEditText", {
       content: text,
@@ -81,14 +102,10 @@ class TextEditView extends React.Component<IProps> {
         this.savePlacement(graphicText, text);
       }
     }
-  };
+    this.props.dispatch(enableKeyboardHandlerAction(true));
+  }
 
-  onTextMouseDown = (event: React.MouseEvent) => {
-    // to not send event to the root (my parent div)
-    event.stopPropagation();
-  };
-
-  savePlacement(graphicText: GraphicText, newText: string) {
+  private savePlacement(graphicText: GraphicText, newText: string) {
     const newGraphicText = graphicText.clone();
     newGraphicText.setText(newText);
     this.props.dispatch(

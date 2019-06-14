@@ -242,7 +242,7 @@ class GraphicText extends Placement {
       text: this.text,
       left: `${topLeftView.x}px`,
       top: `${topLeftView.y + MENU_HEIGHT - deltaHeight}px`,
-      color: "green", // this.color,
+      color: this.color,
       fontFamily: this.fontFamily,
       fontSize: `${heightView}px`,
     });
