@@ -25,6 +25,7 @@ class IacSelect extends React.Component<IProps> {
   selectedIds: string[] = [];
   firstPoint: Paper.Point = new Paper.Point(0, 0);
   boundingBox: Paper.Item = new Paper.Item();
+  canDrag: boolean = false;
 
   componentDidMount() {
     this.unsubscribeFn.push(
@@ -46,26 +47,20 @@ class IacSelect extends React.Component<IProps> {
   /*
     TODO: (see on whimsical)
     mouseDown => add to selection
-    mouseUp => remove to selection (if it was already selected on mouseDown)
+    mouseUp => remove from selection (if it was already selected on mouseDown)
                 do not remove, when dragEvent was before mouseUp
   */
   onMouseUp = (type: AppEventType, event: Paper.MouseEvent) => {
     if (this.modus === "boxselect") {
-      if (this.selectionBox) {
-        this.selectionBox.remove();
-      }
+      this.modus = "";
+      this.removeSelectionBox();
       if (
         this.props.selectedPlacementIds.length !==
         this.selectedIds.length
       ) {
-        this.props.dispatch(
-          setSelectedPlacementIds(this.selectedIds),
-        );
+        this.dispatchSetSelectedPlacementIds(this.selectedIds);
       }
       this.boundingBox.remove();
-      this.selectedIds = [];
-      this.selectionBox = null;
-      this.modus = "";
       return;
     }
 
@@ -73,6 +68,7 @@ class IacSelect extends React.Component<IProps> {
     if (!id) {
       return;
     }
+    console.log(":", this.modus);
 
     if (event.modifiers.shift) {
       if (this.addedId !== id) {
@@ -82,8 +78,8 @@ class IacSelect extends React.Component<IProps> {
 
         // but do not remote the last id
         if (newSelectedPlacementIds.length > 0) {
-          this.props.dispatch(
-            setSelectedPlacementIds(newSelectedPlacementIds),
+          this.dispatchSetSelectedPlacementIds(
+            newSelectedPlacementIds,
           );
         }
       }
@@ -91,17 +87,22 @@ class IacSelect extends React.Component<IProps> {
   };
 
   onMouseDown = (type: AppEventType, event: Paper.MouseEvent) => {
-    let newSelectedPlacementIds: string[] = [];
     this.addedId = "";
 
     this.modus = "";
     const result = PaperUtil.hitTest(event.point);
+    this.canDrag = false;
     if (!result) {
+      this.canDrag = true;
+      this.setModeToPlacements(this.selectedIds, null);
+
       // nothing selected - remove selection
-      this.modus = "boxselect";
       this.selectionBox = null;
       this.firstPoint = event.point;
-      this.drawSelectionBox(event.point);
+      if (this.props.selectedPlacementIds.length > 0) {
+        this.dispatchSetSelectedPlacementIds([]);
+      }
+      return;
     } else {
       const item = PaperUtil.getHitTestItem(result, ItemName.itemAny);
       if (!item) {
@@ -122,26 +123,34 @@ class IacSelect extends React.Component<IProps> {
       }
 
       this.addedId = id;
+      let newIds: string[] = [];
       const append = event.modifiers.shift;
       if (append) {
-        newSelectedPlacementIds = concatUnique<string>(
+        newIds = concatUnique<string>(
           this.props.selectedPlacementIds,
           id,
         );
       } else {
-        newSelectedPlacementIds = [id];
+        newIds = [id];
       }
+      this.dispatchSetSelectedPlacementIds(newIds);
     }
-    this.props.dispatch(
-      setSelectedPlacementIds(newSelectedPlacementIds),
-    );
   };
 
+  dispatchSetSelectedPlacementIds(ids: string[]) {
+    this.setModeToPlacements(this.props.selectedPlacementIds, null);
+    this.setModeToPlacements(ids, "select");
+
+    this.props.dispatch(setSelectedPlacementIds(ids));
+  }
+
   onMouseDrag = (type: AppEventType, event: Paper.MouseEvent) => {
-    if (this.modus !== "boxselect") {
+    if (!this.canDrag) {
       return;
     }
-    this.drawSelectionBox(event.point);
+    this.modus = "boxselect";
+
+    this.crateSelectionBox(event.point);
     const items = this.collectPaperItemsInSelectionBox();
     const newSelecteIds = items.map(item => item.data);
     if (containsTheSame(newSelecteIds, this.selectedIds)) {
@@ -161,7 +170,7 @@ class IacSelect extends React.Component<IProps> {
     }
   }
 
-  private drawSelectionBox(p2: Paper.Point) {
+  private crateSelectionBox(p2: Paper.Point) {
     const selectionRect = new Paper.Rectangle(this.firstPoint, p2);
     const box = new Paper.Path.Rectangle(selectionRect);
     box.strokeColor = configuration.selectionBoxStrokeColor;
@@ -171,6 +180,13 @@ class IacSelect extends React.Component<IProps> {
       this.selectionBox.remove();
     }
     this.selectionBox = box;
+  }
+
+  private removeSelectionBox() {
+    if (this.selectionBox) {
+      this.selectionBox.remove();
+      this.selectionBox = null;
+    }
   }
 
   private collectPaperItemsInSelectionBox(): Paper.Item[] {

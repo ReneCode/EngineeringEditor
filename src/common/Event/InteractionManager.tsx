@@ -29,7 +29,7 @@ class InteractionManager extends Component<IProps> {
   ];
 
   idleInteractionNames = [
-    "IacEditItem",
+    // "IacEditItem",
     "IacSelectAll",
     "IacSelect",
     "HoverItem",
