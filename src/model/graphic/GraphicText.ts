@@ -140,13 +140,13 @@ class GraphicText extends Placement {
       this._currentState,
       event,
     ).value;
-    console.log(
-      "transition:",
-      event,
-      oldState,
-      "=>",
-      this._currentState,
-    );
+    // console.log(
+    //   "transition:",
+    //   event,
+    //   oldState,
+    //   "=>",
+    //   this._currentState,
+    // );
     if (oldState === this._currentState) {
       return;
     }

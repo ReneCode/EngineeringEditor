@@ -103,7 +103,6 @@ class IacSelect extends React.Component<IProps> {
       this.firstPoint = event.point;
       this.drawSelectionBox(event.point);
     } else {
-      // continue here f
       const item = PaperUtil.getHitTestItem(result, ItemName.itemAny);
       if (!item) {
         // other item-type selected

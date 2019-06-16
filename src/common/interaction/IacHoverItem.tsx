@@ -47,7 +47,6 @@ class IacHoverItem extends React.Component<IProps> {
       ]);
 
       if (hitItem) {
-        console.log("hover:", this.hoverItem);
         if (this.hoverItem !== hitItem) {
           this.removeHover();
 
@@ -87,16 +86,16 @@ class IacHoverItem extends React.Component<IProps> {
           const paperSymbolRef = item as Paper.PlacedSymbol;
           const bounds = paperSymbolRef.symbol.definition.bounds;
           const rect = new Paper.Path.Rectangle(bounds);
+          rect.name = ItemName.temp;
           rect.position = paperSymbolRef.position;
-
           rect.strokeColor = configuration.itemHoverStrokeColor;
           rect.strokeWidth = configuration.hoverStrokeWidth;
-
           this._tempItem = rect;
         }
         break;
       default: {
         const rect = new Paper.Path.Rectangle(item.bounds);
+        rect.name = ItemName.temp;
         rect.strokeColor = configuration.itemHoverStrokeColor;
         rect.strokeWidth = configuration.hoverStrokeWidth;
         this._tempItem = rect;
