@@ -29,7 +29,9 @@ nav.menu {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 5px;
+  height: 40px;
+  padding: 0px;
+  margin: 0px;
 }
 nav.menu ul {
   margin: 0;
@@ -400,4 +402,10 @@ nav.menu .text {
       cursor: pointer;
     }
   }
+}
+
+[contenteditable="true"]:active,
+[contenteditable="true"]:focus {
+  border: none;
+  outline: none;
 }

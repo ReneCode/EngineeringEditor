@@ -39,9 +39,6 @@ class GraphicArc extends Placement {
   }
 
   setMode(drawMode: DrawMode) {
-    if (drawMode === this._drawMode) {
-      return;
-    }
     this._drawMode = drawMode;
     this.drawTempItems();
   }
@@ -58,7 +55,7 @@ class GraphicArc extends Placement {
   }
 
   dragGrip(event: Paper.MouseEvent, gripItem: Paper.Item) {
-    if (this._drawMode !== "edit") {
+    if (this._drawMode !== "select") {
       throw new Error("dragGrip only in edit mode");
     }
     if (!this._item) {
@@ -159,18 +156,18 @@ class GraphicArc extends Placement {
     }
     this._tempItems = [];
     switch (this._drawMode) {
-      case "select":
+      case "highlight":
         {
           const item = this.createOutline(ItemName.temp);
 
-          item.strokeColor = configuration.modeSelectColor;
+          item.strokeColor = configuration.modeHighlightColor;
           this._tempItems.push(item);
         }
         break;
-      case "edit":
+      case "select":
         {
           const item = this.createOutline(ItemName.temp);
-          item.strokeColor = configuration.modeEditColor;
+          item.strokeColor = configuration.modeSelectColor;
           this._tempItems.push(item);
           const grips = this.createGrips(selectedGripId);
           for (let grip of grips) {

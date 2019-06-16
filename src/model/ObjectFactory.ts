@@ -7,6 +7,7 @@ import GraphicRect from "./graphic/GraphicRect";
 import GraphicArc from "./graphic/GraphicArc";
 import GraphicGroup from "./graphic/GraphicGroup";
 import GraphicConnectionPoint from "./graphic/GraphicConnectionPoint";
+import GraphicDummy from "./graphic/GraphicDummy";
 
 class ObjectFactory {
   static fromJSON(json: any): object | object[] | null {
@@ -26,6 +27,8 @@ class ObjectFactory {
     }
 
     switch (json.type) {
+      case "circle":
+        return GraphicDummy.fromJSON(json);
       case "group":
         return GraphicGroup.fromJSON(json);
       case "arc":

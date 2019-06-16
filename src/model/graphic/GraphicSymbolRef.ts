@@ -75,11 +75,7 @@ class GraphicSymbolRef extends Placement {
   }
 
   setMode(drawMode: DrawMode) {
-    if (drawMode === this._drawMode) {
-      return;
-    }
     this._drawMode = drawMode;
-    console.log(":", drawMode, this._tempItems);
     if (this._tempItems) {
       for (let item of this._tempItems) {
         item.remove();
@@ -92,8 +88,8 @@ class GraphicSymbolRef extends Placement {
     }
 
     switch (drawMode) {
-      case "edit":
       case "select":
+      case "highlight":
         {
           const bounds = this._symbol.getPaperSymbol().definition
             .bounds;

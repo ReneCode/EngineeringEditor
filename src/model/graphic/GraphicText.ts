@@ -1,91 +1,171 @@
 import Paper from "paper";
-import Placement, { DrawOptions } from "../Placement";
-import Point from "../../common/point";
-import TransformCoordinate from "../../common/transformCoordinate";
-import Box from "../../common/box";
+import Placement, { DrawMode } from "../Placement";
+import PaperUtil from "../../utils/PaperUtil";
+import { ItemName } from "../../common/ItemMetaData";
+import configuration from "../../common/configuration";
+import appEventDispatcher from "../../common/Event/AppEventDispatcher";
+import deepClone from "../../common/deepClone";
 
 class GraphicText extends Placement {
-  pt: Point;
+  pt: Paper.Point;
   text: string;
-  font: string = "Arial";
-  fontSize: number = 12;
-  ref: string = "";
+  fontFamily: string = "Arial";
+  fontSize: number = 48;
 
-  constructor(text: string, pt: Point) {
+  editStartPoint: Paper.Point = new Paper.Point(0, 0);
+  editDrag: boolean = false;
+  editMouseDown: boolean = false;
+
+  constructor(text: string, pt: Paper.Point) {
     super("text");
     this.text = text;
     this.pt = pt;
   }
 
-  paperDraw() {
-    return new Paper.Item();
+  clone() {
+    return deepClone(this) as GraphicText;
   }
 
   static fromJSON(json: any): GraphicText {
     const text = Object.create(GraphicText.prototype);
     return Object.assign(text, json, {
-      pt: Point.fromJSON(json.pt),
+      pt: PaperUtil.PointFromJSON(json.pt),
+      text: json.text,
+      fontFamily: json.fontFamily,
+      fontSize: json.fontSize,
     });
   }
 
-  nearPoint(pt: Point, radius: number): boolean {
-    return this.pt.sub(pt).length() <= radius;
+  toJSON(): any {
+    return {
+      ...super.toJSON(),
+      pt: PaperUtil.PointToJSON(this.pt),
+      text: this.text,
+      fontFamily: this.fontFamily,
+      fontSize: this.fontSize,
+    };
   }
 
-  draw(
-    context: CanvasRenderingContext2D,
-    transform: TransformCoordinate,
-    options: DrawOptions = {},
-  ) {
-    context.save();
-    context.fillStyle = "black";
-    // this.drawWithOptions(context, options);
-    context.beginPath();
+  public setText(text: string) {
+    this.text = text;
+  }
 
-    const sizeCanvas = transform.wcLengthToCanvas(this.fontSize);
-    const ptCanvas = transform.wcToCanvas(this.pt);
-    let italic = "";
-    let text = this.text;
-    if (this.ref) {
-      if (options && options.parent) {
-        try {
-          const obj = options.parent;
-          text = obj[this.ref];
-        } catch (e) {
-          console.log(e);
-        }
-      } else {
-        text = `ref#${this.ref}`;
-        // italic = "italic";
+  setMode(drawMode: DrawMode) {
+    this._drawMode = drawMode;
+
+    this.paperDraw();
+  }
+
+  dragItem(event: Paper.MouseEvent) {
+    if (this._item) {
+      this.translate(event.delta);
+      this.paperDraw();
+      for (let item of this._tempItems) {
+        item.position = item.position.add(event.delta);
       }
     }
-    context.font = `${italic} ${sizeCanvas}px ${this.font}`;
-    context.fillText(text, ptCanvas.x, ptCanvas.y);
-    context.stroke();
+  }
 
-    if (options && options.mode === "selected") {
-      const textMetrics = context.measureText(this.text);
-      context.beginPath();
-      context.moveTo(ptCanvas.x, ptCanvas.y);
-      context.lineTo(ptCanvas.x + textMetrics.width, ptCanvas.y);
-      context.stroke();
+  translate(delta: Paper.Point) {
+    this.pt = this.pt.add(delta);
+  }
+
+  paperDraw(): Paper.Item {
+    switch (this._drawMode) {
+      case null:
+      case undefined:
+        this.removeTempItems();
+        this.setPaperItem(this.createPaperItem());
+        break;
+
+      case "highlight":
+        this.removeTempItems();
+        this.addTempItem(this.createBoundingRect());
+        break;
+      case "select":
+        this.removeTempItems();
+        this.editReset();
+        this._item.onMouseDown = this.onMouseDown.bind(this);
+        this._item.onMouseDrag = this.onMouseDrag.bind(this);
+        this._item.onMouseUp = this.onMouseUp.bind(this);
+        this.addTempItem(this.createBoundingRect());
+        break;
+
+      default:
+        throw new Error("bad drawMode:" + this._drawMode);
     }
 
-    context.restore();
+    return this.getPaperItem();
   }
 
-  // translate(pt: Point): GraphicText {
-  //   const text = deepClone(this);
-  //   text.pt = text.pt.add(pt);
-  //   return text;
-  // }
-
-  getBoundingBox(): Box {
-    return new Box(this.pt, this.pt);
+  onMouseDown(event: Paper.MouseEvent) {
+    this.editMouseDown = true;
+  }
+  onMouseDrag(event: Paper.MouseEvent) {
+    this.editDrag = true;
   }
 
-  insideBox(box: Box): boolean {
-    return box.isPointInside(this.pt);
+  onMouseUp(event: Paper.MouseEvent) {
+    if (!this.editDrag && this.editMouseDown) {
+      console.log("startEditText");
+      this.removeTempItems();
+
+      this.startEditText();
+    }
+    this.editReset();
+  }
+
+  editReset() {
+    this.editDrag = false;
+    this.editMouseDown = false;
+  }
+
+  createPaperItem(): Paper.Item {
+    const item = new Paper.PointText(this.pt);
+    item.name = ItemName.itemText;
+    item.data = this.id;
+    item.content = this.text;
+    if (this.color) {
+      item.fillColor = this.color;
+    }
+    item.fontSize = this.fontSize;
+    item.fontFamily = this.fontFamily;
+    item.leading = this.fontSize;
+    return item;
+  }
+
+  private startEditText() {
+    this.getPaperItem().visible = false;
+    const bbox = this._item.bounds;
+    const bottomLeftView = Paper.view.projectToView(bbox.bottomLeft);
+
+    const topLeftView = Paper.view.projectToView(bbox.topLeft);
+    const heightView = bottomLeftView.y - topLeftView.y;
+    // difference of bbox of paper text and <div> text
+    // factor tried out
+    const deltaHeight = 0.17 * heightView;
+    const MENU_HEIGHT = 40;
+    appEventDispatcher.dispatch("startEditText", {
+      placementId: this.id,
+      show: true,
+      text: this.text,
+      left: `${topLeftView.x}px`,
+      top: `${topLeftView.y + MENU_HEIGHT - deltaHeight}px`,
+      color: this.color,
+      fontFamily: this.fontFamily,
+      fontSize: `${heightView}px`,
+    });
+  }
+
+  createBoundingRect(): Paper.Item {
+    if (!this._item) {
+      return new Paper.Item();
+    }
+    const bbox = this._item.bounds;
+    let item = new Paper.Path.Rectangle(bbox);
+    item.strokeColor = configuration.modeHighlightColor;
+    item.name = ItemName.temp;
+    return item;
   }
 }
 

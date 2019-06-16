@@ -49,23 +49,17 @@ class IacEditItem extends React.Component<IProps> {
         this.props.selectedPlacementIds ||
       prevProps.redrawn !== this.props.redrawn
     ) {
-      const oP = PaperUtil.getPlacementsById(
-        prevProps.selectedPlacementIds,
-      );
-      for (let p of oP) {
-        p.setMode(null);
-      }
       this.resizeBox.remove();
 
       const placements = PaperUtil.getPlacementsById(
         this.props.selectedPlacementIds,
       );
       if (placements.length === 1) {
-        placements[0].setMode("edit");
+        placements[0].setMode("select");
       }
       if (placements.length > 1) {
         for (let placement of placements) {
-          placement.setMode("select");
+          placement.setMode("highlight");
         }
         const items = placements.map(p => p.getPaperItem());
         this.resizeBox.create(items);
@@ -101,12 +95,12 @@ class IacEditItem extends React.Component<IProps> {
     if (this.editItem) {
       switch (this.modus) {
         case "grip":
-          this.startEdit("edit");
+          this.startEdit("select");
           this.selectedPlacements[0].dragGrip(event, this.editItem);
           return "stop";
 
         case "item":
-          this.startEdit("select");
+          this.startEdit(null);
           for (let placement of this.selectedPlacements) {
             placement.dragItem(event);
           }

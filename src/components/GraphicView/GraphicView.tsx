@@ -60,6 +60,12 @@ class GraphicView extends Component<IProps> {
     if (this.canvas) {
       PaperUtil.setup(this.canvas);
 
+      // // https://github.com/sasensi/paperjs-layers-panel
+      // (window as any).paperjsLayersPanel.create({
+      //   project: Paper.project,
+      //   parent: this.canvas.parentElement,
+      // });
+
       Paper.view.onMouseDown = this.onMouseDown;
       Paper.view.onMouseUp = this.onMouseUp;
       Paper.view.onMouseMove = this.onMouseMove;

@@ -5,6 +5,13 @@ import apiCreatePage from "../common/api/apiCreatePage";
 import Page from "../model/Page";
 import apiLoadSymbols from "../common/api/apiLoadSymbol";
 
+export const enableKeyboardHandlerAction = (enable: boolean) => {
+  return {
+    type: actionTypes.ENABLE_KEYBOARD_HANDLER,
+    payload: enable,
+  };
+};
+
 export const setProjectId = (projectId: IdType) => {
   return async (dispatch: any): Promise<any> => {
     const symbols = await apiLoadSymbols(projectId);

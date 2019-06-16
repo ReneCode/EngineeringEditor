@@ -9,6 +9,10 @@ const DrawToolbar = () => {
   );
   const createArcButton = ToolbarButtonFactory.create("createArc");
   const createLineButton = ToolbarButtonFactory.create("createLine");
+  const createTextButton = ToolbarButtonFactory.create("createText");
+  const createConnectionPointButton = ToolbarButtonFactory.create(
+    "createConnectionPoint",
+  );
   const placeSymbolButton = ToolbarButtonFactory.create(
     "selectPlaceSymbol",
   );
@@ -17,6 +21,8 @@ const DrawToolbar = () => {
       {stopInteractionButton}
       {createLineButton}
       {createArcButton}
+      {createTextButton}
+      {createConnectionPointButton}
       {placeSymbolButton}
     </Toolbar>
   );

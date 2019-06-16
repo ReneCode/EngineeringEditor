@@ -25,7 +25,7 @@ class ResizeBox {
     this.startBoundingBox = bbox;
 
     this.rect = new Paper.Path.Rectangle(bbox);
-    this.rect.name = ItemName.resizeBox;
+    this.rect.name = ItemName.temp;
     const items: Paper.Item[] = [];
     items.push(this.rect);
     this.rect.strokeColor = configuration.boundingBoxStrokeColor;
@@ -92,7 +92,7 @@ class ResizeBox {
       this.handles[3].position,
       this.handles[1].position,
     );
-    newRect.name = ItemName.resizeBox;
+    newRect.name = ItemName.temp;
     newRect.strokeColor = configuration.boundingBoxStrokeColor;
     if (this.rect) {
       this.rect.replaceWith(newRect);

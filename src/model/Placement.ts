@@ -3,12 +3,7 @@ import Paper from "paper";
 import createId from "./createId";
 import deepClone from "../common/deepClone";
 
-export type DrawOptions = {
-  mode?: "selected" | "temp";
-  parent?: any;
-};
-
-export type DrawMode = "select" | "edit" | null;
+export type DrawMode = "highlight" | "select" | null;
 
 class Placement {
   type: GraphicType;
@@ -46,12 +41,34 @@ class Placement {
     return deepClone(this);
   }
 
+  setPaperItem(item: Paper.Item) {
+    if (this._item) {
+      this._item.replaceWith(item);
+    }
+    this._item = item;
+  }
   getPaperItem(): Paper.Item {
     return this._item;
   }
 
+  protected removeTempItems() {
+    if (this._tempItems) {
+      for (let item of this._tempItems) {
+        item.remove();
+      }
+    }
+    this._tempItems = [];
+  }
+
+  protected addTempItem(item: Paper.Item) {
+    if (!this._tempItems) {
+      this._tempItems = [];
+    }
+    this._tempItems.push(item);
+  }
+
   setMode(newMode: DrawMode) {
-    throw new Error(`overwrite setMode on object: ${this}`);
+    // throw new Error(`overwrite setMode on object: ${this}`);
   }
 
   createPaperItem(): Paper.Item {
@@ -66,9 +83,13 @@ class Placement {
     throw new Error("translate has to be overwritten by:" + this);
   }
 
-  dragGrip(event: Paper.MouseEvent, gripItem: Paper.Item) {}
+  dragGrip(event: Paper.MouseEvent, gripItem: Paper.Item) {
+    throw new Error("dragGrip has to be overwritten by:" + this);
+  }
 
-  dragItem(event: Paper.MouseEvent) {}
+  dragItem(event: Paper.MouseEvent) {
+    throw new Error("dragItem has to be overwritten by:" + this);
+  }
 }
 
 export default Placement;

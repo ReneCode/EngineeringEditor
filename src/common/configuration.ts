@@ -45,8 +45,8 @@ class Configuration {
   selectionBoxFillColor = accentColorDimmed2;
 
   modeHoverColor = accentColor; //"purple";
-  modeSelectColor = accentColor; //"red";
-  modeEditColor = accentColor; //"orange";
+  modeHighlightColor = accentColor; //"red";
+  modeSelectColor = accentColor; //"orange";
 }
 
 const configuration = new Configuration();
