@@ -103,12 +103,12 @@ class GraphicText extends Placement {
   paperDraw(): Paper.Item {
     const item = this.createPaperItem();
 
-    item.onMouseEnter = () => {
-      this.transition("mouseEnter");
-    };
-    item.onMouseLeave = () => {
-      this.transition("mouseLeave");
-    };
+    // item.onMouseEnter = () => {
+    //   this.transition("mouseEnter");
+    // };
+    // item.onMouseLeave = () => {
+    //   this.transition("mouseLeave");
+    // };
     item.onMouseDown = () => {
       this.transition("mouseDown");
     };

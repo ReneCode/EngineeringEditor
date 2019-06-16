@@ -16,15 +16,12 @@ interface IProps {
 class IacHoverItem extends React.Component<IProps> {
   unsubscribeFn: Function[] = [];
   hoverItem: Paper.Item | null = null;
-  oldStrokeColor: string | Paper.Color | null = null;
-  oldStrokeWidth: number = 0;
-  oldFillColor: string | Paper.Color | null = null;
 
   _tempItem: Paper.Item | null = null;
 
   componentDidMount() {
     this.unsubscribeFn.push(
-      appEventDispatcher.subscribe("mouseMove", () => {}),
+      appEventDispatcher.subscribe("mouseMove", this.onMouseMove),
     );
   }
   componentWillUnmount() {
@@ -50,108 +47,60 @@ class IacHoverItem extends React.Component<IProps> {
       ]);
 
       if (hitItem) {
-        // if (
-        //   hitItem.parent &&
-        //   hitItem.parent.name === ItemName.itemGroup
-        // ) {
-        //   hitItem = hitItem.parent;
-        // }
-
+        console.log("hover:", this.hoverItem);
         if (this.hoverItem !== hitItem) {
           this.removeHover();
 
-          if (this.drawHover(hitItem)) {
-            this.hoverItem = hitItem;
-
-            return;
-          }
-
-          let newStrokeColor = configuration.itemHoverStrokeColor;
-          let newFillColor = hitItem.fillColor;
-          if (hitItem.name === ItemName.grip) {
-            newStrokeColor = configuration.gripHoverStrokeColor;
-            newFillColor = configuration.gripHoverFillColor;
-          }
-
-          this.redrawOldHoverItem();
-          this.oldFillColor = hitItem.fillColor;
-          this.oldStrokeColor = hitItem.strokeColor;
-          this.oldStrokeWidth = hitItem.strokeWidth;
-
           this.hoverItem = hitItem;
-          this.hoverItem.strokeColor = newStrokeColor;
-          if (newFillColor) {
-            this.hoverItem.fillColor = newFillColor;
-          }
-          this.hoverItem.strokeWidth = 2;
+          this.drawHover(hitItem);
         }
       }
     } else {
-      if (this.removeHover()) {
-        return;
-      }
-
-      this.redrawOldHoverItem();
+      this.removeHover();
       this.hoverItem = null;
     }
   };
 
   private removeHover() {
+    if (this.hoverItem && this.hoverItem.name === ItemName.grip) {
+      this.hoverItem.fillColor = configuration.gripFillColor;
+    }
     if (this._tempItem) {
       this._tempItem.remove();
       this._tempItem = null;
-      return true;
     }
-    return false;
   }
 
-  private drawHover(item: Paper.Item): boolean {
+  private drawHover(item: Paper.Item) {
     const id = item.data;
     if (this.props.selectedPlacementIds.includes(id)) {
-      return true;
+      return;
     }
 
     switch (item.name) {
-      case ItemName.itemSymbolRef: {
-        const paperSymbolRef = item as Paper.PlacedSymbol;
-        const bounds = paperSymbolRef.symbol.definition.bounds;
-        const rect = new Paper.Path.Rectangle(bounds);
-        rect.position = paperSymbolRef.position;
+      case ItemName.grip:
+        item.fillColor = configuration.gripHoverFillColor;
+        break;
 
+      case ItemName.itemSymbolRef:
+        {
+          const paperSymbolRef = item as Paper.PlacedSymbol;
+          const bounds = paperSymbolRef.symbol.definition.bounds;
+          const rect = new Paper.Path.Rectangle(bounds);
+          rect.position = paperSymbolRef.position;
+
+          rect.strokeColor = configuration.itemHoverStrokeColor;
+          rect.strokeWidth = configuration.hoverStrokeWidth;
+
+          this._tempItem = rect;
+        }
+        break;
+      default: {
+        const rect = new Paper.Path.Rectangle(item.bounds);
         rect.strokeColor = configuration.itemHoverStrokeColor;
         rect.strokeWidth = configuration.hoverStrokeWidth;
-
         this._tempItem = rect;
-        return true;
       }
-      case ItemName.itemText: {
-        // const rect = new Paper.Path.Rectangle(item.bounds);
-        // rect.strokeColor = configuration.itemHoverStrokeColor;
-        // rect.strokeWidth = configuration.hoverStrokeWidth;
-        // this._tempItem = rect;
-        return true;
-      }
-
-      default: {
-        return false;
-      }
-    }
-  }
-
-  redrawOldHoverItem() {
-    if (this.hoverItem) {
-      if (this.oldStrokeColor) {
-        this.hoverItem.strokeColor = this.oldStrokeColor;
-      } else {
-        delete this.hoverItem.strokeColor;
-      }
-      if (this.oldFillColor) {
-        this.hoverItem.fillColor = this.oldFillColor;
-      } else {
-        delete this.hoverItem.strokeColor;
-      }
-
-      this.hoverItem.strokeWidth = this.oldStrokeWidth;
     }
   }
 

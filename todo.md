@@ -9,6 +9,7 @@
 - (selection) States:
 
   - idle
+  - hover (boundingbox)
   - selecting (only temporary - during creating a selection-Rectangle)
   - selected (clicked or selection-rectangle is finished)
   - [text item] editing (when a selected item is clicked one more)
