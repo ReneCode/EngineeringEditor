@@ -3,12 +3,7 @@ import Paper from "paper";
 import createId from "./createId";
 import deepClone from "../common/deepClone";
 
-// export type DrawOptions = {
-//   mode?: "selected" | "temp";
-//   parent?: any;
-// };
-
-export type DrawMode = "highlight" | "edit" | null;
+export type DrawMode = "highlight" | "select" | null;
 
 class Placement {
   type: GraphicType;

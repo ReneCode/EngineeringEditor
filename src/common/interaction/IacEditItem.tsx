@@ -55,7 +55,7 @@ class IacEditItem extends React.Component<IProps> {
         this.props.selectedPlacementIds,
       );
       if (placements.length === 1) {
-        placements[0].setMode("edit");
+        placements[0].setMode("select");
       }
       if (placements.length > 1) {
         for (let placement of placements) {
@@ -95,7 +95,7 @@ class IacEditItem extends React.Component<IProps> {
     if (this.editItem) {
       switch (this.modus) {
         case "grip":
-          this.startEdit("edit");
+          this.startEdit("select");
           this.selectedPlacements[0].dragGrip(event, this.editItem);
           return "stop";
 

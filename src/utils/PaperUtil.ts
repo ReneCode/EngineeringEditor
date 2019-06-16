@@ -14,23 +14,6 @@ class PaperUtil {
     Paper.settings.handleSize = 8;
   }
 
-  // static activateLayer(name: "temp" | "default" | null): Paper.Layer {
-  //   const project = Paper.project;
-  //   const prevLayer = project.activeLayer;
-  //   switch (name) {
-  //     case null:
-  //     case "default":
-  //       project.layers[0].activate();
-  //       break;
-  //     case "temp":
-  //       project.layers[1].activate();
-  //       break;
-  //     default:
-  //       throw new Error("bad layer name:" + name);
-  //   }
-  //   return prevLayer;
-  // }
-
   static PointToJSON(pt: Paper.Point): any {
     if (!pt) {
       return { x: 0, y: 0 };
@@ -111,15 +94,7 @@ class PaperUtil {
     const radius = 6;
 
     let grip: Paper.Item;
-    // if (type === "circle") {
     grip = new Paper.Path.Circle(pt, radius);
-    // } else {
-    //   const rect = new Paper.Rectangle(
-    //     pt.subtract(radius),
-    //     pt.add(radius),
-    //   );
-    //   grip = new Paper.Path.Rectangle(rect);
-    // }
 
     grip.fillColor = configuration.gripFillColor;
     grip.strokeColor = configuration.gripStrokeColor;
@@ -151,6 +126,26 @@ class PaperUtil {
       bbox = bbox.unite(item.bounds);
     }
     return bbox;
+  }
+
+  static getRemovedStrings(before: string[], after: string[]) {
+    const removed: string[] = [];
+    for (let s of before) {
+      if (!after.includes(s)) {
+        removed.push(s);
+      }
+    }
+    return removed;
+  }
+
+  static getAddedStrings(before: string[], after: string[]) {
+    const added: string[] = [];
+    for (let s of after) {
+      if (!before.includes(s)) {
+        added.push(s);
+      }
+    }
+    return added;
   }
 }
 

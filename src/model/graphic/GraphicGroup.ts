@@ -74,7 +74,7 @@ class GraphicGroup extends Placement {
       //     }
       //     break;
       // case "select":
-      case "edit":
+      case "select":
         {
           const item = this.createOutline(ItemName.temp);
           if (item) {

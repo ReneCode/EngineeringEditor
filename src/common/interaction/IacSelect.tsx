@@ -166,8 +166,17 @@ class IacSelect extends React.Component<IProps> {
     }
 
     this.drawBoundingBox(items);
-    this.setModeToPlacements(this.selectedIds, null);
-    this.setModeToPlacements(newSelecteIds, "highlight");
+
+    const removedIds = PaperUtil.getRemovedStrings(
+      this.selectedIds,
+      newSelecteIds,
+    );
+    const addedIds = PaperUtil.getAddedStrings(
+      this.selectedIds,
+      newSelecteIds,
+    );
+    this.setModeToPlacements(removedIds, null);
+    this.setModeToPlacements(addedIds, "highlight");
     this.selectedIds = newSelecteIds;
   };
 
@@ -230,7 +239,7 @@ class IacSelect extends React.Component<IProps> {
     }
 
     this.boundingBox = new Paper.Path.Rectangle(bbox);
-    this.boundingBox.name = ItemName.resizeBox;
+    this.boundingBox.name = ItemName.temp;
     this.boundingBox.strokeColor =
       configuration.boundingBoxStrokeColor;
   }
