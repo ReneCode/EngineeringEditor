@@ -87,9 +87,9 @@ class TextEditView extends React.Component<IProps> {
       show: false,
     });
 
-    appEventDispatcher.dispatch("finishEditText", {
-      content: text,
-    });
+    // appEventDispatcher.dispatch("finishEditText", {
+    //   content: text,
+    // });
 
     const placements = PaperUtil.getPlacementsById([
       this.placementId,
@@ -97,7 +97,7 @@ class TextEditView extends React.Component<IProps> {
     if (placements.length > 0) {
       const graphicText = placements[0] as GraphicText;
       graphicText.setText(text);
-      graphicText.switchState("reset");
+      graphicText.transition("reset");
       if (text !== this.startText) {
         this.savePlacement(graphicText, text);
       }

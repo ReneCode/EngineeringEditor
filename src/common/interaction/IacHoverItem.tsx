@@ -24,7 +24,7 @@ class IacHoverItem extends React.Component<IProps> {
 
   componentDidMount() {
     this.unsubscribeFn.push(
-      appEventDispatcher.subscribe("mouseMove", this.onMouseMove),
+      appEventDispatcher.subscribe("mouseMove", () => {}),
     );
   }
   componentWillUnmount() {

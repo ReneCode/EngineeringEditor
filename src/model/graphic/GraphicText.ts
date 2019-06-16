@@ -1,7 +1,7 @@
 import Paper from "paper";
 import { Machine, StateValue } from "xstate";
 import Placement, { DrawMode } from "../Placement";
-import PaperUtil from "../../utils/PaperUtil";
+import PaperUtil, { TRANSPARENT_COLOR } from "../../utils/PaperUtil";
 import { ItemName } from "../../common/ItemMetaData";
 import configuration from "../../common/configuration";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
@@ -14,12 +14,19 @@ const textMachine = Machine({
     idle: {
       on: {
         mouseDown: "edit",
+        mouseEnter: "hover",
+      },
+    },
+    hover: {
+      on: {
+        mouseLeave: "idle",
+        mouseDown: "edit",
       },
     },
     edit: {
       on: {
         reset: "idle",
-        mouseDown: "editText",
+        mouseUp: "editText",
       },
     },
     editText: {
@@ -37,8 +44,7 @@ class GraphicText extends Placement {
   fontFamily: string = "Arial";
   fontSize: number = 48;
 
-  _boundingBox: Paper.Item | null = null;
-  _currentState: StateValue = "";
+  _currentState: StateValue = textMachine.initialState.value;
 
   constructor(text: string, pt: Paper.Point) {
     super("text");
@@ -74,12 +80,10 @@ class GraphicText extends Placement {
     this.text = text;
   }
 
-  _setMode(drawMode: DrawMode) {
-    if (drawMode === this._drawMode) {
-      return;
+  setMode(drawMode: DrawMode) {
+    if (!drawMode) {
+      this.transition("reset");
     }
-    this._drawMode = drawMode;
-    this.drawTempItems();
   }
 
   dragItem(event: Paper.MouseEvent) {
@@ -99,10 +103,18 @@ class GraphicText extends Placement {
   paperDraw(): Paper.Item {
     const item = this.createPaperItem();
 
-    console.log("paperDraw");
-    item.onMouseEnter = this.onMouseEnter.bind(this);
-    item.onMouseLeave = this.onMouseLeave.bind(this);
-    item.onMouseDown = this.onMouseDown.bind(this);
+    item.onMouseEnter = () => {
+      this.transition("mouseEnter");
+    };
+    item.onMouseLeave = () => {
+      this.transition("mouseLeave");
+    };
+    item.onMouseDown = () => {
+      this.transition("mouseDown");
+    };
+    item.onMouseUp = () => {
+      this.transition("mouseUp");
+    };
 
     if (this._item) {
       this._item.replaceWith(item);
@@ -111,42 +123,38 @@ class GraphicText extends Placement {
     return item;
   }
 
-  private onMouseEnter() {
-    this.showHoverBoundingBox();
-  }
-  private onMouseLeave() {
-    this.hideBoundingBox();
-  }
-
   private showHoverBoundingBox() {
     const item = this.createBoundingRect("");
     item.strokeColor = configuration.itemHoverStrokeColor;
     item.strokeWidth = configuration.hoverStrokeWidth;
-    if (this._boundingBox) {
-      this._boundingBox.replaceWith(item);
-    } else {
-      this._boundingBox = item;
-    }
+    this.addTempItem(item);
   }
 
   private hideBoundingBox() {
-    if (this._boundingBox) {
-      this._boundingBox.remove();
-      this._boundingBox = null;
-    }
+    this.removeTempItems();
   }
 
-  private onMouseDown(event: Paper.MouseEvent) {
-    this.switchState("mouseDown");
-  }
-
-  public switchState(newState: string) {
+  public transition(event: string) {
+    const oldState = this._currentState;
     this._currentState = textMachine.transition(
       this._currentState,
-      newState,
+      event,
     ).value;
+    console.log(
+      "transition:",
+      event,
+      oldState,
+      "=>",
+      this._currentState,
+    );
+    if (oldState === this._currentState) {
+      return;
+    }
 
     switch (this._currentState) {
+      case "hover":
+        this.showHoverBoundingBox();
+        break;
       case "edit":
         {
           this.removeTempItems();
@@ -160,28 +168,20 @@ class GraphicText extends Placement {
         {
           this.removeTempItems();
           this.startEditText();
-          this._item.remove();
+          // it has to be selectable - but not visible => transparent
+          this._item.fillColor = TRANSPARENT_COLOR;
         }
         break;
 
       case "idle":
-        {
-          this.paperDraw();
-        }
+        this.hideBoundingBox();
+        // this.paperDraw();
         break;
     }
   }
 
-  private removeTempItems() {
-    if (this._tempItems) {
-      for (let item of this._tempItems) {
-        item.remove();
-      }
-    }
-    this._tempItems = [];
-  }
-
   createPaperItem(): Paper.Item {
+    console.log("%c createPaperItem", "color: orange;");
     const item = new Paper.PointText(this.pt);
     item.name = ItemName.itemText;
     item.data = this.id;
@@ -193,37 +193,6 @@ class GraphicText extends Placement {
     item.fontFamily = this.fontFamily;
     item.leading = this.fontSize;
     return item;
-  }
-
-  private drawTempItems() {
-    // if (this._tempItems) {
-    //   for (let item of this._tempItems) {
-    //     item.remove();
-    //   }
-    // }
-    // appEventDispatcher.dispatch("showEditText", {
-    //   show: false,
-    // });
-    // this._tempItems = [];
-    // switch (this._drawMode) {
-    //   case "select":
-    //     {
-    //       const item = this.createBoundingRect(ItemName.temp);
-    //       item.strokeColor = configuration.modeSelectColor;
-    //       this._tempItems.push(item);
-    //     }
-    //     break;
-    //   case "edit":
-    //     {
-    //       const item = this.createBoundingRect(ItemName.temp);
-    //       item.strokeColor = configuration.modeSelectColor;
-    //       // item.fillColor = "#2e2e2e11";
-    //       this._tempItems.push(item);
-    //       item.onMouseDown = this.startEditText.bind(this);
-    //     }
-    //     break;
-    // }
-    // prevLayer.activate();
   }
 
   private startEditText() {

@@ -39,6 +39,7 @@ class ModalDialog extends React.Component<IProps> {
       // case "placementTools":
       //   return <PlacementToolsModal />;
       case "":
+      case null:
         return null;
       // case undefined:
       // case null:

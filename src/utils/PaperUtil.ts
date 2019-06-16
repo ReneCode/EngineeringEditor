@@ -6,6 +6,8 @@ import Placement from "../model/Placement";
 import store from "../store/index";
 import { IGlobalState } from "../store/reducers";
 
+export const TRANSPARENT_COLOR = "#00000011";
+
 class PaperUtil {
   static setup(canvas: HTMLCanvasElement) {
     Paper.setup(canvas);

@@ -6,6 +6,13 @@
 
 ## TODO
 
+- (selection) States:
+
+  - idle
+  - selecting (only temporary - during creating a selection-Rectangle)
+  - selected (clicked or selection-rectangle is finished)
+  - [text item] editing (when a selected item is clicked one more)
+
 - use draft.js for text-editing (https://draftjs.org/)
 - PaperUtil.getHitTest refactor (return all hitItemType / grip, item, temp)
 - change IacHoverItem to drawHover/removeHover (for each ItemName)

@@ -50,6 +50,22 @@ class Placement {
     return this._item;
   }
 
+  protected removeTempItems() {
+    if (this._tempItems) {
+      for (let item of this._tempItems) {
+        item.remove();
+      }
+    }
+    this._tempItems = [];
+  }
+
+  protected addTempItem(item: Paper.Item) {
+    if (!this._tempItems) {
+      this._tempItems = [];
+    }
+    this._tempItems.push(item);
+  }
+
   setMode(newMode: DrawMode) {
     // throw new Error(`overwrite setMode on object: ${this}`);
   }
