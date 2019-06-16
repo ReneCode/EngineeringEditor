@@ -94,11 +94,13 @@ class IacSelect extends React.Component<IProps> {
     this.canDrag = false;
     if (!result) {
       this.canDrag = true;
-      this.setModeToPlacements(this.selectedIds, null);
-
-      // nothing selected - remove selection
       this.selectionBox = null;
       this.firstPoint = event.point;
+
+      if (event.modifiers.shift) {
+        return;
+      }
+      // nothing selected - remove selection
       if (this.props.selectedPlacementIds.length > 0) {
         this.dispatchSetSelectedPlacementIds([]);
       }
@@ -151,7 +153,13 @@ class IacSelect extends React.Component<IProps> {
     this.modus = "boxselect";
 
     this.crateSelectionBox(event.point);
-    const items = this.collectPaperItemsInSelectionBox();
+    const allreadySelectedItems = PaperUtil.getPlacementsById(
+      this.props.selectedPlacementIds,
+    ).map(p => p.getPaperItem());
+    const items = this.collectPaperItemsInSelectionBox().concat(
+      allreadySelectedItems,
+    );
+
     const newSelecteIds = items.map(item => item.data);
     if (containsTheSame(newSelecteIds, this.selectedIds)) {
       return;
