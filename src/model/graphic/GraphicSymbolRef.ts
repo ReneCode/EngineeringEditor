@@ -93,7 +93,7 @@ class GraphicSymbolRef extends Placement {
 
     switch (drawMode) {
       case "edit":
-      case "select":
+      case "highlight":
         {
           const bounds = this._symbol.getPaperSymbol().definition
             .bounds;

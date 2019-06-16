@@ -159,7 +159,7 @@ class GraphicArc extends Placement {
     }
     this._tempItems = [];
     switch (this._drawMode) {
-      case "select":
+      case "highlight":
         {
           const item = this.createOutline(ItemName.temp);
 

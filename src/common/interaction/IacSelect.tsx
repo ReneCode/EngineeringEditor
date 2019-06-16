@@ -141,7 +141,7 @@ class IacSelect extends React.Component<IProps> {
 
   dispatchSetSelectedPlacementIds(ids: string[]) {
     this.setModeToPlacements(this.props.selectedPlacementIds, null);
-    this.setModeToPlacements(ids, "select");
+    this.setModeToPlacements(ids, "highlight");
 
     this.props.dispatch(setSelectedPlacementIds(ids));
   }
@@ -167,7 +167,7 @@ class IacSelect extends React.Component<IProps> {
 
     this.drawBoundingBox(items);
     this.setModeToPlacements(this.selectedIds, null);
-    this.setModeToPlacements(newSelecteIds, "select");
+    this.setModeToPlacements(newSelecteIds, "highlight");
     this.selectedIds = newSelecteIds;
   };
 
