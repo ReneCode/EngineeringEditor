@@ -68,7 +68,6 @@ class IacSelect extends React.Component<IProps> {
     if (!id) {
       return;
     }
-    console.log(":", this.modus);
 
     if (event.modifiers.shift) {
       if (this.addedId !== id) {

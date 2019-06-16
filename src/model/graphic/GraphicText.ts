@@ -1,42 +1,10 @@
 import Paper from "paper";
-import { Machine, StateValue } from "xstate";
 import Placement, { DrawMode } from "../Placement";
-import PaperUtil, { TRANSPARENT_COLOR } from "../../utils/PaperUtil";
+import PaperUtil from "../../utils/PaperUtil";
 import { ItemName } from "../../common/ItemMetaData";
 import configuration from "../../common/configuration";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 import deepClone from "../../common/deepClone";
-
-const textMachine = Machine({
-  id: "text",
-  initial: "idle",
-  states: {
-    idle: {
-      on: {
-        mouseDown: "edit",
-        mouseEnter: "hover",
-      },
-    },
-    hover: {
-      on: {
-        mouseLeave: "idle",
-        mouseDown: "edit",
-      },
-    },
-    edit: {
-      on: {
-        reset: "idle",
-        mouseUp: "editText",
-      },
-    },
-    editText: {
-      on: {
-        reset: "idle",
-        editTextFinished: "edit",
-      },
-    },
-  },
-});
 
 class GraphicText extends Placement {
   pt: Paper.Point;
@@ -44,7 +12,9 @@ class GraphicText extends Placement {
   fontFamily: string = "Arial";
   fontSize: number = 48;
 
-  _currentState: StateValue = textMachine.initialState.value;
+  editStartPoint: Paper.Point = new Paper.Point(0, 0);
+  editDrag: boolean = false;
+  editMouseDown: boolean = false;
 
   constructor(text: string, pt: Paper.Point) {
     super("text");
@@ -81,9 +51,9 @@ class GraphicText extends Placement {
   }
 
   setMode(drawMode: DrawMode) {
-    if (!drawMode) {
-      this.transition("reset");
-    }
+    this._drawMode = drawMode;
+
+    this.paperDraw();
   }
 
   dragItem(event: Paper.MouseEvent) {
@@ -101,87 +71,56 @@ class GraphicText extends Placement {
   }
 
   paperDraw(): Paper.Item {
-    const item = this.createPaperItem();
+    switch (this._drawMode) {
+      case null:
+      case undefined:
+        this.removeTempItems();
+        this.setPaperItem(this.createPaperItem());
+        break;
 
-    // item.onMouseEnter = () => {
-    //   this.transition("mouseEnter");
-    // };
-    // item.onMouseLeave = () => {
-    //   this.transition("mouseLeave");
-    // };
-    item.onMouseDown = () => {
-      this.transition("mouseDown");
-    };
-    item.onMouseUp = () => {
-      this.transition("mouseUp");
-    };
+      case "highlight":
+        this.removeTempItems();
+        this.addTempItem(this.createBoundingRect());
+        break;
+      case "select":
+        this.removeTempItems();
+        this.editReset();
+        this._item.onMouseDown = this.onMouseDown.bind(this);
+        this._item.onMouseDrag = this.onMouseDrag.bind(this);
+        this._item.onMouseUp = this.onMouseUp.bind(this);
+        this.addTempItem(this.createBoundingRect());
+        break;
 
-    if (this._item) {
-      this._item.replaceWith(item);
-    }
-    this._item = item;
-    return item;
-  }
-
-  private showHoverBoundingBox() {
-    const item = this.createBoundingRect("");
-    item.strokeColor = configuration.itemHoverStrokeColor;
-    item.strokeWidth = configuration.hoverStrokeWidth;
-    this.addTempItem(item);
-  }
-
-  private hideBoundingBox() {
-    this.removeTempItems();
-  }
-
-  public transition(event: string) {
-    const oldState = this._currentState;
-    this._currentState = textMachine.transition(
-      this._currentState,
-      event,
-    ).value;
-    // console.log(
-    //   "transition:",
-    //   event,
-    //   oldState,
-    //   "=>",
-    //   this._currentState,
-    // );
-    if (oldState === this._currentState) {
-      return;
+      default:
+        throw new Error("bad drawMode:" + this._drawMode);
     }
 
-    switch (this._currentState) {
-      case "hover":
-        this.showHoverBoundingBox();
-        break;
-      case "edit":
-        {
-          this.removeTempItems();
-          const item = this.createBoundingRect(ItemName.temp);
-          item.strokeColor = configuration.modeSelectColor;
-          this._tempItems.push(item);
-        }
-        break;
+    return this.getPaperItem();
+  }
 
-      case "editText":
-        {
-          this.removeTempItems();
-          this.startEditText();
-          // it has to be selectable - but not visible => transparent
-          this._item.fillColor = TRANSPARENT_COLOR;
-        }
-        break;
+  onMouseDown(event: Paper.MouseEvent) {
+    this.editMouseDown = true;
+  }
+  onMouseDrag(event: Paper.MouseEvent) {
+    this.editDrag = true;
+  }
 
-      case "idle":
-        this.hideBoundingBox();
-        // this.paperDraw();
-        break;
+  onMouseUp(event: Paper.MouseEvent) {
+    if (!this.editDrag && this.editMouseDown) {
+      console.log("startEditText");
+      this.removeTempItems();
+
+      this.startEditText();
     }
+    this.editReset();
+  }
+
+  editReset() {
+    this.editDrag = false;
+    this.editMouseDown = false;
   }
 
   createPaperItem(): Paper.Item {
-    console.log("%c createPaperItem", "color: orange;");
     const item = new Paper.PointText(this.pt);
     item.name = ItemName.itemText;
     item.data = this.id;
@@ -196,6 +135,7 @@ class GraphicText extends Placement {
   }
 
   private startEditText() {
+    this.getPaperItem().visible = false;
     const bbox = this._item.bounds;
     const bottomLeftView = Paper.view.projectToView(bbox.bottomLeft);
 
@@ -217,13 +157,14 @@ class GraphicText extends Placement {
     });
   }
 
-  createBoundingRect(name: string): Paper.Item {
+  createBoundingRect(): Paper.Item {
     if (!this._item) {
       return new Paper.Item();
     }
     const bbox = this._item.bounds;
     let item = new Paper.Path.Rectangle(bbox);
-    item.name = name;
+    item.strokeColor = configuration.modeHighlightColor;
+    item.name = ItemName.temp;
     return item;
   }
 }

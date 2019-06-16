@@ -160,14 +160,14 @@ class GraphicArc extends Placement {
         {
           const item = this.createOutline(ItemName.temp);
 
-          item.strokeColor = configuration.modeSelectColor;
+          item.strokeColor = configuration.modeHighlightColor;
           this._tempItems.push(item);
         }
         break;
       case "select":
         {
           const item = this.createOutline(ItemName.temp);
-          item.strokeColor = configuration.modeEditColor;
+          item.strokeColor = configuration.modeSelectColor;
           this._tempItems.push(item);
           const grips = this.createGrips(selectedGripId);
           for (let grip of grips) {

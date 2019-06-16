@@ -8,6 +8,7 @@ import GraphicText from "../../model/graphic/GraphicText";
 import { cudElementAction } from "../../actions/changeElementActions";
 import PaperUtil from "../../utils/PaperUtil";
 import { enableKeyboardHandlerAction } from "../../actions/projectActions";
+import { setSelectedPlacementIds } from "../../actions/graphicActions";
 
 interface IProps {
   dispatch: Function;
@@ -38,7 +39,7 @@ class TextEditView extends React.Component<IProps> {
   }
 
   onRootMouseDown = (event: React.MouseEvent) => {
-    this.endEdit();
+    this.endEdit(true);
   };
 
   onTextMouseDown = (event: React.MouseEvent) => {
@@ -49,7 +50,7 @@ class TextEditView extends React.Component<IProps> {
   onKeyDown = (type: AppEventType, event: KeyboardEvent) => {
     switch (event.key) {
       case "Escape":
-        this.endEdit();
+        this.endEdit(false);
         break;
     }
   };
@@ -77,7 +78,9 @@ class TextEditView extends React.Component<IProps> {
     }
   };
 
-  private endEdit() {
+  private endEdit(deselectText: boolean) {
+    this.props.dispatch(enableKeyboardHandlerAction(true));
+
     const node = this.divRef.current;
     let text = "";
     if (node) {
@@ -87,22 +90,23 @@ class TextEditView extends React.Component<IProps> {
       show: false,
     });
 
-    // appEventDispatcher.dispatch("finishEditText", {
-    //   content: text,
-    // });
-
     const placements = PaperUtil.getPlacementsById([
       this.placementId,
     ]);
     if (placements.length > 0) {
       const graphicText = placements[0] as GraphicText;
       graphicText.setText(text);
-      graphicText.transition("reset");
+      // graphicText.transition("reset");
       if (text !== this.startText) {
         this.savePlacement(graphicText, text);
+        if (deselectText) {
+          this.props.dispatch(setSelectedPlacementIds([]));
+        }
+      } else {
+        graphicText.setMode(null);
+        this.props.dispatch(setSelectedPlacementIds([]));
       }
     }
-    this.props.dispatch(enableKeyboardHandlerAction(true));
   }
 
   private savePlacement(graphicText: GraphicText, newText: string) {
@@ -121,7 +125,7 @@ class TextEditView extends React.Component<IProps> {
     const style: CSS.Properties = {
       ...this.state.style,
       position: "absolute",
-      border: "1px solid black",
+      border: "none",
       overflowWrap: "break-word",
       whiteSpace: "pre-wrap",
       outline: "none",

@@ -78,7 +78,7 @@ class GraphicGroup extends Placement {
         {
           const item = this.createOutline(ItemName.temp);
           if (item) {
-            item.strokeColor = configuration.modeEditColor;
+            item.strokeColor = configuration.modeSelectColor;
             this._tempItems.push(item);
           }
         }

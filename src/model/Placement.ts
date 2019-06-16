@@ -41,6 +41,12 @@ class Placement {
     return deepClone(this);
   }
 
+  setPaperItem(item: Paper.Item) {
+    if (this._item) {
+      this._item.replaceWith(item);
+    }
+    this._item = item;
+  }
   getPaperItem(): Paper.Item {
     return this._item;
   }
