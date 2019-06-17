@@ -6,10 +6,11 @@ import { IGlobalState } from "../../store/reducers";
 import SymbolList from "./SymbolList";
 import GraphicSymbol from "../../model/graphic/GraphicSymbol";
 import CanvasFullSize from "../CanvasFullSize";
+import { DispatchFunction } from "../../actions/action";
 
 interface IProps {
   show: boolean;
-  dispatch: Function;
+  dispatch: DispatchFunction;
   symbols: GraphicSymbol[];
 }
 

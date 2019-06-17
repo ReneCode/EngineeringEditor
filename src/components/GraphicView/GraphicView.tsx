@@ -11,11 +11,12 @@ import InteractionManager from "../../common/Event/InteractionManager";
 import PaperUtil from "../../utils/PaperUtil";
 import GraphicSymbol from "../../model/graphic/GraphicSymbol";
 import updateSymbolRef from "../../model/updateSymbolRef";
+import { DispatchFunction } from "../../actions/action";
 
 interface IProps {
   items: Placement[];
   symbols: GraphicSymbol[];
-  dispatch: Function;
+  dispatch: DispatchFunction;
 }
 
 interface IState {

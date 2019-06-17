@@ -1,6 +1,6 @@
 import Placement, { DrawMode } from "../Placement";
 import Paper from "paper";
-import { ItemName } from "../../common/ItemMetaData";
+import { ItemName } from "../../common/ItemName";
 import PaperUtil from "../../utils/PaperUtil";
 import configuration from "../../common/configuration";
 

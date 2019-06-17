@@ -10,6 +10,7 @@ export interface IProjectState {
   pages: Page[];
   currentModalId: ModalIdType;
   enableKeyboardHandler: boolean;
+  enablePlacementToolbar: boolean;
   pageViewports: {};
 }
 
@@ -19,6 +20,7 @@ const initialState: IProjectState = {
   pages: [],
   currentModalId: "",
   enableKeyboardHandler: true,
+  enablePlacementToolbar: true,
   pageViewports: {},
 };
 
@@ -55,12 +57,14 @@ const setViewport = (
 
 const projectReducer = (state = initialState, action: IAction) => {
   switch (action.type) {
-    case actionTypes.ENABLE_KEYBOARD_HANDLER: {
+    case actionTypes.ENABLE_KEYBOARD_HANDLER:
       return {
         ...state,
         enableKeyboardHandler: action.payload,
       };
-    }
+
+    case actionTypes.ENABLE_PLACEMENT_TOOLBAR:
+      return { ...state, enablePlacementToolbar: action.payload };
 
     case actionTypes.SHOW_MODAL: {
       return {

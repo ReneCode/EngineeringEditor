@@ -2,7 +2,7 @@ import React from "react";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 
 type ToolbarButtonName =
-  | "createConnectionPoint"
+  | "IacCreateConnectionPoint"
   | "createText"
   | "selectPlaceSymbol"
   | "stopInteraction"
@@ -18,6 +18,7 @@ class ToolbarButtonFactory {
       case "selectPlaceSymbol":
         return (
           <button
+            key={name}
             onClick={event =>
               appEventDispatcher.dispatch(
                 "showModal",
@@ -32,6 +33,7 @@ class ToolbarButtonFactory {
       case "stopInteraction":
         return (
           <button
+            key={name}
             onClick={() =>
               appEventDispatcher.dispatch("stopInteraction")
             }>
@@ -42,6 +44,7 @@ class ToolbarButtonFactory {
       case "createText":
         return (
           <button
+            key={name}
             onClick={() =>
               appEventDispatcher.dispatch(
                 "startInteraction",
@@ -55,6 +58,7 @@ class ToolbarButtonFactory {
       case "createLine":
         return (
           <button
+            key={name}
             onClick={() =>
               appEventDispatcher.dispatch(
                 "startInteraction",
@@ -68,6 +72,7 @@ class ToolbarButtonFactory {
       case "createArc":
         return (
           <button
+            key={name}
             onClick={() =>
               appEventDispatcher.dispatch(
                 "startInteraction",
@@ -78,14 +83,12 @@ class ToolbarButtonFactory {
           </button>
         );
 
-      case "createConnectionPoint":
+      case "IacCreateConnectionPoint":
         return (
           <button
+            key={name}
             onClick={() =>
-              appEventDispatcher.dispatch(
-                "startInteraction",
-                "CreateConnectionPoint",
-              )
+              appEventDispatcher.dispatch("startInteraction", name)
             }>
             cp
           </button>
@@ -94,6 +97,7 @@ class ToolbarButtonFactory {
       case "createSymbol": {
         return (
           <button
+            key={name}
             onClick={() => {
               appEventDispatcher.dispatch(
                 "createSymbolAndSymbolRef",
@@ -107,6 +111,7 @@ class ToolbarButtonFactory {
       case "ungroup": {
         return (
           <button
+            key={name}
             onClick={() =>
               appEventDispatcher.dispatch("ungroup", ...params)
             }>
@@ -118,6 +123,7 @@ class ToolbarButtonFactory {
       case "group": {
         return (
           <button
+            key={name}
             onClick={() =>
               appEventDispatcher.dispatch("group", ...params)
             }>

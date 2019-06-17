@@ -1,6 +1,6 @@
 import Paper from "paper";
 import configuration from "../configuration";
-import { ItemName } from "../ItemMetaData";
+import { ItemName } from "../ItemName";
 import correctP2WithRatio from "../../utils/correctP2WithRatio";
 
 class ResizeBox {

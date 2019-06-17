@@ -6,14 +6,15 @@ import { IGlobalState } from "../../store/reducers";
 import appEventDispatcher from "../Event/AppEventDispatcher";
 import { AppEventType } from "../Event/AppEventType";
 import PaperUtil from "../../utils/PaperUtil";
-import { ItemName } from "../ItemMetaData";
+import { ItemName } from "../ItemName";
 import { concatUnique } from "../../utils/concatUnique";
 import configuration from "../configuration";
 import containsTheSame from "../../utils/containsTheSame";
 import { DrawMode } from "../../model/Placement";
+import { DispatchFunction } from "../../actions/action";
 
 interface IProps {
-  dispatch: Function;
+  dispatch: DispatchFunction;
   selectedPlacementIds: string[];
 }
 
@@ -111,7 +112,6 @@ class IacSelect extends React.Component<IProps> {
         // do nothing
         return;
       }
-
       const id = item.data;
       if (!id) {
         throw new Error("item with no data (placment-id)");

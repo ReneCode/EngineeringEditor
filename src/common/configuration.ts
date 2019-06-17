@@ -27,6 +27,7 @@ class Configuration {
 
   handleHoverColor = "#bb22bb";
 
+  gripRadius = 12;
   gripStrokeColor = accentColor;
   gripFillColor = "#ffffff";
   gripHoverStrokeColor = accentColor;
@@ -39,7 +40,7 @@ class Configuration {
   backgroundToolbox = "#DAE3EA";
 
   boundingBoxStrokeColor = accentColorDimmed1;
-  boundingBoxHandleSize = 10;
+  boundingBoxHandleSize = 12;
 
   selectionBoxStrokeColor = accentColor;
   selectionBoxFillColor = accentColorDimmed2;
@@ -47,6 +48,12 @@ class Configuration {
   modeHoverColor = accentColor; //"purple";
   modeHighlightColor = accentColor; //"red";
   modeSelectColor = accentColor; //"orange";
+
+  connectionPointFillColor = "#42f44588";
+  connectionPointStrokeColor = "white";
+  connectionPointDirectionStrokeColor = "#18591a";
+  connectionPointRadius: number = 10;
+  connectionPointDirectionLength: number = 20;
 }
 
 const configuration = new Configuration();

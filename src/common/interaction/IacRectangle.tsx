@@ -3,9 +3,10 @@ import Paper from "paper";
 import appEventDispatcher from "../Event/AppEventDispatcher";
 import { AppEventType } from "../Event/AppEventType";
 import { connect } from "react-redux";
+import { DispatchFunction } from "../../actions/action";
 
 interface IProps {
-  dispatch: Function;
+  dispatch: DispatchFunction;
 }
 
 class IacRectangle extends React.Component<IProps> {

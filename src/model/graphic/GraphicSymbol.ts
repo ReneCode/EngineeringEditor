@@ -1,12 +1,12 @@
 import Paper from "paper";
-import { IdType, GraphicType } from "../types";
+import { IdType, PlacementType } from "../types";
 import Placement from "../Placement";
 import ObjectFactory from "../ObjectFactory";
 import PaperUtil from "../../utils/PaperUtil";
 import createId from "../createId";
 
 class GraphicSymbol {
-  type: GraphicType = "symbol";
+  type: PlacementType = "symbol";
   name: string = "";
   insertPt: Paper.Point = new Paper.Point(0, 0);
   placements: Placement[];

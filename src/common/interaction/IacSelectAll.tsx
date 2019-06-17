@@ -5,9 +5,10 @@ import { IGlobalState } from "../../store/reducers";
 import appEventDispatcher from "../Event/AppEventDispatcher";
 import Placement from "../../model/Placement";
 import { setSelectedPlacementIds } from "../../actions/graphicActions";
+import { DispatchFunction } from "../../actions/action";
 
 interface IProps {
-  dispatch: Function;
+  dispatch: DispatchFunction;
   items: Placement[];
 }
 

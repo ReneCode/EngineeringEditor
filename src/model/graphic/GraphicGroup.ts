@@ -1,6 +1,6 @@
 import Placement, { DrawMode } from "../Placement";
 import Paper from "paper";
-import { ItemName } from "../../common/ItemMetaData";
+import { ItemName } from "../../common/ItemName";
 import configuration from "../../common/configuration";
 import ObjectFactory from "../ObjectFactory";
 
@@ -102,7 +102,8 @@ class GraphicGroup extends Placement {
     group.data = this.id;
     group.name = ItemName.itemGroup;
 
-    const childItems = this.children.map(c => c.createPaperItem());
+    // const childItems = this.children.map(c => c.createPaperItem());
+    const childItems = this.children.map(c => c.paperDraw());
 
     group.addChildren(childItems);
     if (this.color) {
