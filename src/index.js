@@ -8,7 +8,6 @@ import AppFrame from "./components/AppFrame";
 import store from "./store";
 
 import "./styles.scss";
-import "./split-pane.css";
 
 function Main() {
   return (
