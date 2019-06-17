@@ -1,7 +1,7 @@
 import Paper from "paper";
 import Placement, { DrawMode } from "../Placement";
 import PaperUtil from "../../utils/PaperUtil";
-import { ItemName } from "../../common/ItemMetaData";
+import { ItemName } from "../../common/ItemName";
 import configuration from "../../common/configuration";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 import deepClone from "../../common/deepClone";

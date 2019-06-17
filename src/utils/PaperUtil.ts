@@ -1,5 +1,5 @@
 import Paper from "paper";
-import { ItemName } from "../common/ItemMetaData";
+import { ItemName } from "../common/ItemName";
 import { makeArray } from "../model/dtoUtil";
 import configuration from "../common/configuration";
 import Placement from "../model/Placement";

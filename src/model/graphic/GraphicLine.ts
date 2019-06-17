@@ -1,7 +1,7 @@
 import Placement, { DrawMode } from "../Placement";
 import Paper from "paper";
 import PaperUtil from "../../utils/PaperUtil";
-import { ItemName } from "../../common/ItemMetaData";
+import { ItemName } from "../../common/ItemName";
 import configuration from "../../common/configuration";
 
 class GraphicLine extends Placement {

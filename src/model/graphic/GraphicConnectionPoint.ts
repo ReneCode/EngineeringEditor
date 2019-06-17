@@ -2,7 +2,7 @@ import Paper from "paper";
 import Placement from "../Placement";
 import PaperUtil from "../../utils/PaperUtil";
 import configuration from "../../common/configuration";
-import { ItemName } from "../../common/ItemMetaData";
+import { ItemName } from "../../common/ItemName";
 
 // https://www.cadlinecommunity.co.uk/hc/en-us/articles/360000136085-AutoCAD-Electrical-2018-Schematic-Symbol-Wire-Connection-Attributes
 export enum ConnectionPointDirection {

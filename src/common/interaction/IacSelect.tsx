@@ -6,7 +6,7 @@ import { IGlobalState } from "../../store/reducers";
 import appEventDispatcher from "../Event/AppEventDispatcher";
 import { AppEventType } from "../Event/AppEventType";
 import PaperUtil from "../../utils/PaperUtil";
-import { ItemName } from "../ItemMetaData";
+import { ItemName } from "../ItemName";
 import { concatUnique } from "../../utils/concatUnique";
 import configuration from "../configuration";
 import containsTheSame from "../../utils/containsTheSame";

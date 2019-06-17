@@ -6,7 +6,7 @@ import Placement, { DrawMode } from "../../model/Placement";
 import { IGlobalState } from "../../store/reducers";
 import { AppEventType } from "../Event/AppEventType";
 import PaperUtil from "../../utils/PaperUtil";
-import { ItemName } from "../ItemMetaData";
+import { ItemName } from "../ItemName";
 import configuration from "../configuration";
 import { updateElementAction } from "../../actions/changeElementActions";
 import appEventDispatcher from "../Event/AppEventDispatcher";

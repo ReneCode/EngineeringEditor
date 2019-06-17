@@ -2,7 +2,7 @@ import { IdType, PlacementType, LayerType } from "./types";
 import Paper from "paper";
 import createId from "./createId";
 import deepClone from "../common/deepClone";
-import { ItemName } from "../common/ItemMetaData";
+import { ItemName } from "../common/ItemName";
 
 export type DrawMode = "highlight" | "select" | null;
 

@@ -1,7 +1,7 @@
 import React from "react";
 
 import Paper from "paper";
-import { ItemName } from "../ItemMetaData";
+import { ItemName } from "../ItemName";
 import configuration from "../configuration";
 import appEventDispatcher from "../Event/AppEventDispatcher";
 import { AppEventType } from "../Event/AppEventType";
