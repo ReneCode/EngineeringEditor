@@ -2,7 +2,7 @@ import React from "react";
 import { IGlobalState } from "../../store/reducers";
 import { connect } from "react-redux";
 
-import { ModalIdType, DispatchFunction } from "../../model/types";
+import { ModalIdType } from "../../model/types";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 import { AppEventType } from "../../common/Event/AppEventType";
 import { showModal } from "../../actions";
@@ -11,7 +11,7 @@ import SelectSymbolModal from "./SelectSymbolModal";
 
 interface IProps {
   currentModalId: ModalIdType;
-  dispatch: DispatchFunction;
+  dispatch: Function;
 }
 
 class ModalDialog extends React.Component<IProps> {

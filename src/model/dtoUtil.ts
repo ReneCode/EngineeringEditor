@@ -1,8 +1,8 @@
-import { IdType, GraphicType } from "./types";
+import { IdType, PlacementType } from "./types";
 
 export interface DtoPlacement {
   id: IdType;
-  type: GraphicType;
+  type: PlacementType;
   projectId: IdType;
   pageId: IdType;
   content: string;
@@ -10,7 +10,7 @@ export interface DtoPlacement {
 
 export interface DtoElement {
   id: IdType;
-  type: GraphicType;
+  type: PlacementType;
   projectId: IdType;
   name: string;
   content: string;

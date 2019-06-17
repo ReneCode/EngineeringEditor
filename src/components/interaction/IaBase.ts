@@ -1,7 +1,6 @@
 import { IGlobalState } from "../../store/reducers";
 import Point from "../../common/point";
 import TransformCoordinate from "../../common/transformCoordinate";
-import { DispatchFunction } from "../../model/types";
 
 export enum IaEventType {
   none = 0,
@@ -21,7 +20,7 @@ export type GetEventResult = Promise<{
 
 export interface IaContext {
   getEvent(types: IaEventType[] | IaEventType): GetEventResult;
-  dispatch: DispatchFunction;
+  dispatch: Function;
   getState: () => IGlobalState;
 }
 

@@ -1,4 +1,4 @@
-import { IdType, GraphicType, LayerType } from "./types";
+import { IdType, PlacementType, LayerType } from "./types";
 import Paper from "paper";
 import createId from "./createId";
 import deepClone from "../common/deepClone";
@@ -7,7 +7,7 @@ import { ItemName } from "../common/ItemMetaData";
 export type DrawMode = "highlight" | "select" | null;
 
 class Placement {
-  type: GraphicType;
+  type: PlacementType;
   id: IdType;
   pageId: IdType;
   projectId: IdType;
@@ -20,7 +20,7 @@ class Placement {
   protected _drawMode: DrawMode = null;
   protected _tempItems: Paper.Item[];
 
-  constructor(type: GraphicType) {
+  constructor(type: PlacementType) {
     this.type = type;
     this.id = createId("P");
     this._tempItems = [];

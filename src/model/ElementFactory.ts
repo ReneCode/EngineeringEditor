@@ -1,7 +1,7 @@
 import { decodeJson, encodeJson, DtoElement } from "./dtoUtil";
 import ObjectFactory from "./ObjectFactory";
 import GraphicSymbol from "./graphic/GraphicSymbol";
-import { GraphicType } from "./types";
+import { PlacementType } from "./types";
 
 class ElementFactory {
   static toDTO(symbol: GraphicSymbol): DtoElement {
@@ -23,7 +23,7 @@ class ElementFactory {
     */
 
     let json: {
-      type?: GraphicType;
+      type?: PlacementType;
       id?: string;
       projectId?: string;
       name?: string;

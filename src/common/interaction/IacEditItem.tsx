@@ -11,6 +11,7 @@ import configuration from "../configuration";
 import { updateElementAction } from "../../actions/changeElementActions";
 import appEventDispatcher from "../Event/AppEventDispatcher";
 import ResizeBox from "./ResizeBox";
+import { enablePlacementToolbar } from "../../actions/projectActions";
 
 interface IProps {
   dispatch: Function;
@@ -123,6 +124,7 @@ class IacEditItem extends React.Component<IProps> {
       this.editing = false;
     }
     this.modus = "";
+    this.props.dispatch(enablePlacementToolbar(true));
   };
 
   private async savePlacement() {
@@ -155,6 +157,8 @@ class IacEditItem extends React.Component<IProps> {
         }
       }
       this.selectedPlacements = newSelectedPlacements;
+
+      this.props.dispatch(enablePlacementToolbar(false));
     }
   }
 

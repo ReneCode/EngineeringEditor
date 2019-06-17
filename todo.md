@@ -8,6 +8,8 @@
 
 - connectionPoint
 - use generic placement.drawItem in Graphic...
+
+- ungroup with more than one placement
 - set Cursor to GraphicText on Edit based on the mouse-click-position
 
 * use draft.js for text-editing (https://draftjs.org/)
@@ -20,7 +22,8 @@
 * preview on selectSymbol
 * DrawToolbar - show selected Tool ( x to go in idle-mode)
 * hover item - color from/to the individual item
-* global react error catching component
+
+- typescript for actions / https://redux.js.org/recipes/usage-with-typescript
 
 * handles of the resizeBox has fixed size - independent on zoom.
 * resize without keepRatio on Rectangle

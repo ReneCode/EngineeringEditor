@@ -7,14 +7,37 @@ import PaperUtil from "../../utils/PaperUtil";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 import ToolbarButtonFactory from "../menu/ToolbarButtonFactory";
 import Toolbar from "../menu/Toolbar";
+import PlacementUtil from "../../utils/PlacementUtil";
 
 interface IProps {
   selectedPlacementIds: string[];
+  enablePlacementToolbar: boolean;
   items: Placement[];
 }
 
 class SelectedPlacementToolbar extends React.Component<IProps> {
+  getContextButtons(placements: Placement[]) {
+    const type = PlacementUtil.getUniqueType(placements);
+    const buttons: JSX.Element[] = [];
+    if (type === "group") {
+      buttons.push(
+        ToolbarButtonFactory.create("ungroup", placements),
+      );
+    }
+
+    if (placements.length > 1) {
+      buttons.push(ToolbarButtonFactory.create("group", placements));
+    }
+    buttons.push(
+      ToolbarButtonFactory.create("createSymbol", placements),
+    );
+    return buttons;
+  }
+
   render() {
+    if (!this.props.enablePlacementToolbar) {
+      return null;
+    }
     const ids = this.props.selectedPlacementIds;
     if (ids.length === 0) {
       return null;
@@ -40,23 +63,7 @@ class SelectedPlacementToolbar extends React.Component<IProps> {
       left: viewPoint.x,
     };
 
-    let groupButton = null;
-    if (placements.length > 1) {
-      groupButton = ToolbarButtonFactory.create("group", placements);
-    }
-
-    let ungroupButton = null;
-    if (placements.length === 1 && placements[0].type === "group") {
-      ungroupButton = ToolbarButtonFactory.create(
-        "ungroup",
-        placements,
-      );
-    }
-
-    const createSymbolButton = ToolbarButtonFactory.create(
-      "createSymbol",
-      placements,
-    );
+    const contextButtons = this.getContextButtons(placements);
 
     return (
       <div className="html-canvas">
@@ -79,9 +86,9 @@ class SelectedPlacementToolbar extends React.Component<IProps> {
             }>
             col
           </button>
-          {groupButton}
-          {ungroupButton}
-          {createSymbolButton}
+          {contextButtons.map(b => {
+            return b;
+          })}
         </Toolbar>
       </div>
     );
@@ -92,6 +99,7 @@ const mapStateToProps = (state: IGlobalState) => {
   return {
     selectedPlacementIds: state.graphic.selectedPlacementIds,
     items: state.graphic.items,
+    enablePlacementToolbar: state.project.enablePlacementToolbar,
   };
 };
 

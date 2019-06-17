@@ -11,9 +11,10 @@ import { concatUnique } from "../../utils/concatUnique";
 import configuration from "../configuration";
 import containsTheSame from "../../utils/containsTheSame";
 import { DrawMode } from "../../model/Placement";
+import { DispatchFunction } from "../../actions/action";
 
 interface IProps {
-  dispatch: Function;
+  dispatch: DispatchFunction;
   selectedPlacementIds: string[];
 }
 

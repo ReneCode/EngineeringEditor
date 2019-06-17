@@ -9,6 +9,7 @@ import GraphicConnectionPoint from "../../model/graphic/GraphicConnectionPoint";
 interface IProps {
   dispatch: Function;
 }
+
 class IacCreateArc extends React.Component<IProps> {
   private unsubscribeFn: Function[] = [];
   private connectionPoint: GraphicConnectionPoint | null = null;

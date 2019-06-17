@@ -3,7 +3,7 @@ import Placement from "./Placement";
 
 export type IdType = string | undefined;
 
-export type GraphicType =
+export type PlacementType =
   | ""
   | "arc"
   | "#paper"
@@ -18,8 +18,6 @@ export type GraphicType =
   | "text";
 
 export type ModalIdType = "" | "selectSymbol";
-
-export type DispatchFunction = (action: any) => any;
 
 export type LayerType = undefined | "autoconnect" | "grip";
 

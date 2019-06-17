@@ -57,7 +57,6 @@ class TextEditView extends React.Component<IProps> {
 
   private startEdit = (type: AppEventType, options: any) => {
     this.props.dispatch(enableKeyboardHandlerAction(false));
-    console.log("onShowEditText:", options);
     this.placementId = options.placementId;
     this.startText = options.text;
     this.setState({

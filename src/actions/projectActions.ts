@@ -11,6 +11,12 @@ export const enableKeyboardHandlerAction = (enable: boolean) => {
     payload: enable,
   };
 };
+export const enablePlacementToolbar = (enable: boolean) => {
+  return {
+    type: actionTypes.ENABLE_PLACEMENT_TOOLBAR,
+    payload: enable,
+  };
+};
 
 export const setProjectId = (projectId: IdType) => {
   return async (dispatch: any): Promise<any> => {
