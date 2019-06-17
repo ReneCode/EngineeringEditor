@@ -1,5 +1,6 @@
 import React from "react";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
+import IconButton from "../common/IconButton";
 
 type ToolbarButtonName =
   | "IacCreateConnectionPoint"
@@ -32,65 +33,70 @@ class ToolbarButtonFactory {
 
       case "stopInteraction":
         return (
-          <button
-            key={name}
-            onClick={() =>
-              appEventDispatcher.dispatch("stopInteraction")
-            }>
-            {"/"}
+          <button key={name}>
+            <IconButton
+              icon="pencil"
+              onClick={() =>
+                appEventDispatcher.dispatch("stopInteraction")
+              }
+            />
           </button>
         );
 
       case "createText":
         return (
-          <button
-            key={name}
-            onClick={() =>
-              appEventDispatcher.dispatch(
-                "startInteraction",
-                "CreateText",
-              )
-            }>
-            T
+          <button key={name}>
+            <IconButton
+              icon="text"
+              onClick={() =>
+                appEventDispatcher.dispatch(
+                  "startInteraction",
+                  "CreateText",
+                )
+              }
+            />
           </button>
         );
 
       case "createLine":
         return (
-          <button
-            key={name}
-            onClick={() =>
-              appEventDispatcher.dispatch(
-                "startInteraction",
-                "CreateLine",
-              )
-            }>
-            L
+          <button key={name}>
+            <IconButton
+              icon="line"
+              onClick={() =>
+                appEventDispatcher.dispatch(
+                  "startInteraction",
+                  "CreateLine",
+                )
+              }
+            />
           </button>
         );
 
       case "createArc":
         return (
-          <button
-            key={name}
-            onClick={() =>
-              appEventDispatcher.dispatch(
-                "startInteraction",
-                "CreateArc",
-              )
-            }>
-            O
+          <button key={name}>
+            <IconButton
+              icon="arc"
+              onClick={() =>
+                appEventDispatcher.dispatch(
+                  "startInteraction",
+                  "CreateArc",
+                )
+              }
+            />
           </button>
         );
 
       case "IacCreateConnectionPoint":
         return (
-          <button
-            key={name}
-            onClick={() =>
-              appEventDispatcher.dispatch("startInteraction", name)
-            }>
-            cp
+          <button key={name}>
+            <IconButton
+              icon="connectionpoint"
+              onClick={() =>
+                appEventDispatcher.dispatch("startInteraction", name)
+              }
+            />
           </button>
         );
 

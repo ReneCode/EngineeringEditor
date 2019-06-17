@@ -10,6 +10,7 @@ export class ItemName {
   static itemGroup = ".group";
   static itemSymbolRef = ".symref";
   static itemConnectionPoint = ".conPt";
+  static itemPolygon = ".polygon";
 
   static match(test: string, found: string | null) {
     if (!test) {

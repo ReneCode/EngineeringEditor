@@ -6,8 +6,7 @@
 
 ## TODO
 
-- connectionPoint
-- use generic placement.drawItem in Graphic...
+- icons / https://vectr.com/
 
 - ungroup with more than one placement
 - set Cursor to GraphicText on Edit based on the mouse-click-position
@@ -67,28 +66,21 @@ toolPan.onMouseDrag = function(event) {
 
 ## DONE
 
+- ok - connectionPoint
 - ok - GraphicText (with editing text)
-
 - ok - generic PopupMenu
 - ok - scroll the symbollist
-
 - ok - save symbol with save project
-
 - ok - create Symbol
 - ok - use Symbol
-
 - ok - group in group
-
 - ok - move group
 - ok - ungroup
 - ok - move canvas
 - ok - change color for selected Placements
 - ok - zoom into selected items (center of bounding box)
-
 - ok - selected item in shown on top - even if it is below other items
-
 - ok - multi-selection expands the resize-box
-
 - ok - do not move the resize-box
 - ok - create item in frontEnd - to not wait for backend
 - ok - redraw after store.items change
