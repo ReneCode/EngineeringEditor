@@ -11,7 +11,7 @@ const DrawToolbar = () => {
   const createLineButton = ToolbarButtonFactory.create("createLine");
   const createTextButton = ToolbarButtonFactory.create("createText");
   const createConnectionPointButton = ToolbarButtonFactory.create(
-    "createConnectionPoint",
+    "IacCreateConnectionPoint",
   );
   const placeSymbolButton = ToolbarButtonFactory.create(
     "selectPlaceSymbol",

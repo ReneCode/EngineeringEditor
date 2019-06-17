@@ -111,7 +111,6 @@ class IacSelect extends React.Component<IProps> {
         // do nothing
         return;
       }
-
       const id = item.data;
       if (!id) {
         throw new Error("item with no data (placment-id)");

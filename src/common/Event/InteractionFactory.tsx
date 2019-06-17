@@ -19,11 +19,14 @@ import IacUngroup from "../interaction/IacUngroup";
 import IacCreateSymbolAndSymbolRef from "../interaction/IacCreateSymbolAndSymbolRef";
 import IacPlaceSymbol from "../interaction/IacPlaceSymbol";
 import IacCreateText from "../interaction/IacCreateText";
+import IacCreateConnectionPoint from "../interaction/IacCreateConnectionPoint";
 
 class InteractionFactory {
   static create(name: string, iaProps: any = {}): JSX.Element {
     const props = { ...iaProps, key: name };
     switch (name) {
+      case "IacCreateConnectionPoint":
+        return <IacCreateConnectionPoint {...props} />;
       case "IacPlaceSymbol":
         return <IacPlaceSymbol {...props} />;
       case "IacCreateSymbolAndSymbolRef":

@@ -2,7 +2,7 @@ import React from "react";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 
 type ToolbarButtonName =
-  | "createConnectionPoint"
+  | "IacCreateConnectionPoint"
   | "createText"
   | "selectPlaceSymbol"
   | "stopInteraction"
@@ -78,14 +78,11 @@ class ToolbarButtonFactory {
           </button>
         );
 
-      case "createConnectionPoint":
+      case "IacCreateConnectionPoint":
         return (
           <button
             onClick={() =>
-              appEventDispatcher.dispatch(
-                "startInteraction",
-                "CreateConnectionPoint",
-              )
+              appEventDispatcher.dispatch("startInteraction", name)
             }>
             cp
           </button>

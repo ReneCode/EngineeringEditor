@@ -102,7 +102,8 @@ class GraphicGroup extends Placement {
     group.data = this.id;
     group.name = ItemName.itemGroup;
 
-    const childItems = this.children.map(c => c.createPaperItem());
+    // const childItems = this.children.map(c => c.createPaperItem());
+    const childItems = this.children.map(c => c.paperDraw());
 
     group.addChildren(childItems);
     if (this.color) {

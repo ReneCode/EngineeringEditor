@@ -64,7 +64,6 @@ class PaperUtil {
     if (result && result.item) {
       let item = result.item;
 
-      // console.log("hit:", item);
       // get the top most group
       while (item.parent && item.parent.name === ItemName.itemGroup) {
         item = item.parent;
@@ -91,10 +90,10 @@ class PaperUtil {
   }
 
   static createGrip(pt: Paper.Point, id: number): Paper.Item {
-    const radius = 6;
-
-    let grip: Paper.Item;
-    grip = new Paper.Path.Circle(pt, radius);
+    const radius = PaperUtil.lengthViewToProject(
+      configuration.gripRadius,
+    );
+    const grip = new Paper.Path.Circle(pt, radius);
 
     grip.fillColor = configuration.gripFillColor;
     grip.strokeColor = configuration.gripStrokeColor;
@@ -146,6 +145,13 @@ class PaperUtil {
       }
     }
     return added;
+  }
+
+  static lengthViewToProject(len: number) {
+    const p0 = Paper.view.viewToProject(new Paper.Point(0, 0));
+    const p1 = Paper.view.viewToProject(new Paper.Point(0, len));
+
+    return p1.subtract(p0).length;
   }
 }
 

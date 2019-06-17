@@ -6,50 +6,45 @@
 
 ## TODO
 
-- (selection) States:
+- connectionPoint
+- use generic placement.drawItem in Graphic...
+- set Cursor to GraphicText on Edit based on the mouse-click-position
 
-  - idle
-  - hover (boundingbox)
-  - selecting (only temporary - during creating a selection-Rectangle)
-  - selected (clicked or selection-rectangle is finished)
-  - [text item] editing (when a selected item is clicked one more)
+* use draft.js for text-editing (https://draftjs.org/)
+* PaperUtil.getHitTest refactor (return all hitItemType / grip, item, temp)
+* change IacHoverItem to drawHover/removeHover (for each ItemName)
+* SelectedPlacementToobar as ModalToolbar (as SelectSymbolModal)
+* statusbar as flowing debug-output
+* Logic Item (SymbolRef + Data)
+* grid / rasterize mouse position
+* preview on selectSymbol
+* DrawToolbar - show selected Tool ( x to go in idle-mode)
+* hover item - color from/to the individual item
+* global react error catching component
 
-- use draft.js for text-editing (https://draftjs.org/)
-- PaperUtil.getHitTest refactor (return all hitItemType / grip, item, temp)
-- change IacHoverItem to drawHover/removeHover (for each ItemName)
-- SelectedPlacementToobar as ModalToolbar (as SelectSymbolModal)
-- statusbar as flowing debug-output
-- Logic Item (SymbolRef + Data)
-- grid / rasterize mouse position
-- preview on selectSymbol
-- GraphicText
-- DrawToolbar - show selected Tool ( x to go in idle-mode)
-- hover item - color from/to the individual item
-- global react error catching component
+* handles of the resizeBox has fixed size - independent on zoom.
+* resize without keepRatio on Rectangle
 
-- handles of the resizeBox has fixed size - independent on zoom.
-- resize without keepRatio on Rectangle
-
-* resize of that box resizes the items inside
-* with SHIFT the with-height ratio is fixed on resizing the box
+- resize of that box resizes the items inside
+- with SHIFT the with-height ratio is fixed on resizing the box
   (- with ctrl the center of the resize-box will be fixed)
 
-* no separate interactions.
+- no separate interactions.
   handleMouse... on the component where it starts.
-* undo -> dispatch(setSelection) with last changed item
+- undo -> dispatch(setSelection) with last changed item
 
-- Undo / Redo: after Undo/Redo select the "undo-ed" items
+* Undo / Redo: after Undo/Redo select the "undo-ed" items
   remove the current selection
 
-- Undo => changes the items in the state => no more subscription on redux-store.
+* Undo => changes the items in the state => no more subscription on redux-store.
   update the view on the changed placements. (do not use redux-store)
 
-* box the pop-menu into visible area
-* cmd-C cmd-V copy paste
+- box the pop-menu into visible area
+- cmd-C cmd-V copy paste
 
-- select id after creating Line/Arc
+* select id after creating Line/Arc
 
-* panning
+- panning
 
 ```
 http://bencentra.com/code/2014/12/05/html5-canvas-touch-events.html
@@ -68,6 +63,8 @@ toolPan.onMouseDrag = function(event) {
 - disable redux-dev-tools in production / https://medium.com/@zalmoxis/using-redux-devtools-in-production-4c5b56c5600f
 
 ## DONE
+
+- ok - GraphicText (with editing text)
 
 - ok - generic PopupMenu
 - ok - scroll the symbollist

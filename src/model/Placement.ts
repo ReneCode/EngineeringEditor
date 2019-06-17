@@ -2,6 +2,7 @@ import { IdType, GraphicType, LayerType } from "./types";
 import Paper from "paper";
 import createId from "./createId";
 import deepClone from "../common/deepClone";
+import { ItemName } from "../common/ItemMetaData";
 
 export type DrawMode = "highlight" | "select" | null;
 
@@ -64,19 +65,21 @@ class Placement {
     if (!this._tempItems) {
       this._tempItems = [];
     }
+    item.name = ItemName.temp;
     this._tempItems.push(item);
   }
 
-  setMode(newMode: DrawMode) {
-    // throw new Error(`overwrite setMode on object: ${this}`);
+  setMode(drawMode: DrawMode) {
+    this._drawMode = drawMode;
+    this.paperDraw();
   }
 
-  createPaperItem(): Paper.Item {
-    return new Paper.Item();
-  }
+  // createPaperItem(): Paper.Item {
+  //   return new Paper.Item();
+  // }
 
-  paperDraw(): Paper.Item | null {
-    return null;
+  paperDraw(): Paper.Item {
+    throw new Error("paperDraw has to be overwritten by:" + this);
   }
 
   translate(event: Paper.Point) {
@@ -88,7 +91,13 @@ class Placement {
   }
 
   dragItem(event: Paper.MouseEvent) {
-    throw new Error("dragItem has to be overwritten by:" + this);
+    if (this._item) {
+      this.translate(event.delta);
+      this.paperDraw();
+      for (let item of this._tempItems) {
+        item.position = item.position.add(event.delta);
+      }
+    }
   }
 }
 

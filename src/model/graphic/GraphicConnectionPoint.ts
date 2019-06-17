@@ -1,6 +1,8 @@
 import Paper from "paper";
 import Placement from "../Placement";
 import PaperUtil from "../../utils/PaperUtil";
+import configuration from "../../common/configuration";
+import { ItemName } from "../../common/ItemMetaData";
 
 // https://www.cadlinecommunity.co.uk/hc/en-us/articles/360000136085-AutoCAD-Electrical-2018-Schematic-Symbol-Wire-Connection-Attributes
 export enum ConnectionPointDirection {
@@ -10,12 +12,11 @@ export enum ConnectionPointDirection {
   DOWN = 8,
 }
 
-// const RADIUS_CANVAS = 5;
-
 class GraphicConnectionPoint extends Placement {
-  direction: ConnectionPointDirection = ConnectionPointDirection.DOWN;
-  index: number;
-  pt: Paper.Point;
+  public direction: ConnectionPointDirection =
+    ConnectionPointDirection.DOWN;
+  public index: number;
+  public pt: Paper.Point;
 
   constructor(pt: Paper.Point) {
     super("connectionpoint");
@@ -29,37 +30,66 @@ class GraphicConnectionPoint extends Placement {
     );
     return Object.assign(connectionPoint, json, {
       pt: PaperUtil.PointFromJSON(json.pt),
+      direction: json.direction,
+      index: json.index,
     });
   }
 
-  toJSON(): any {
+  public toJSON(): any {
     return {
       ...super.toJSON(),
       pt: PaperUtil.PointToJSON(this.pt),
       direction: this.direction,
+      index: this.index,
     };
   }
 
-  /*
-  draw(
-    context: CanvasRenderingContext2D,
-    transform: TransformCoordinate,
-  ): void {
-    context.beginPath();
-    context.fillStyle = "rgba(50,100,50,0.4)";
-    const pt = transform.wcToCanvas(this.pt);
-    const r = RADIUS_CANVAS;
-    context.arc(pt.x, pt.y, r, 0, 2 * Math.PI);
-    context.fill();
-    context.stroke();
+  public paperDraw(): Paper.Item {
+    switch (this._drawMode) {
+      case null:
+      case undefined:
+        this.removeTempItems();
+        this.setPaperItem(this.createPaperItem());
+        break;
 
-    context.beginPath();
-    const oldStokeStyle = context.strokeStyle;
-    context.strokeStyle = "rgba(250,20,20,0.6)";
+      case "highlight":
+      case "select":
+        this.removeTempItems();
+        const circle = this.createCircle();
+        circle.strokeColor = configuration.modeHighlightColor;
+        this.addTempItem(circle);
+        break;
+
+      default:
+        throw new Error("bad drawMode:" + this._drawMode);
+    }
+    return this.getPaperItem();
+  }
+
+  public translate(delta: Paper.Point) {
+    this.pt = this.pt.add(delta);
+  }
+
+  private createCircle(): Paper.Item {
+    const r = PaperUtil.lengthViewToProject(
+      configuration.connectionPointRadius,
+    );
+
+    const circle = new Paper.Path.Circle(this.pt, r);
+    return circle;
+  }
+
+  private createPaperItem(): Paper.Item {
+    const circle = this.createCircle();
+    circle.fillColor = configuration.connectionPointFillColor;
+    circle.strokeColor = configuration.connectionPointStrokeColor;
+
     // direction
-    const dirLen = 15;
-    context.moveTo(pt.x, pt.y);
-    const p2 = pt;
+    const dirLen = PaperUtil.lengthViewToProject(
+      configuration.connectionPointDirectionLength,
+    );
+    const p1 = this.pt;
+    const p2 = this.pt.clone();
     switch (this.direction) {
       case ConnectionPointDirection.UP:
         p2.y -= dirLen;
@@ -74,21 +104,16 @@ class GraphicConnectionPoint extends Placement {
         p2.x -= dirLen;
         break;
     }
-    context.lineTo(p2.x, p2.y);
-    context.stroke();
-    context.strokeStyle = oldStokeStyle;
-  }
+    const line = new Paper.Path.Line(p1, p2);
+    line.strokeColor =
+      configuration.connectionPointDirectionStrokeColor;
 
-  translate(pt: Paper.Point): GraphicConnectionPoint {
-    const connectionPoint = deepClone(this);
-    connectionPoint.pt = connectionPoint.pt.add(pt);
-    return connectionPoint;
-  }
+    const group = new Paper.Group([circle, line]);
+    group.data = this.id;
+    group.name = ItemName.itemGroup;
 
-  getBoundingBox(): Box {
-    return new Box(this.pt, this.pt);
+    return group;
   }
-  */
 }
 
 export default GraphicConnectionPoint;

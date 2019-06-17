@@ -56,16 +56,6 @@ class GraphicText extends Placement {
     this.paperDraw();
   }
 
-  dragItem(event: Paper.MouseEvent) {
-    if (this._item) {
-      this.translate(event.delta);
-      this.paperDraw();
-      for (let item of this._tempItems) {
-        item.position = item.position.add(event.delta);
-      }
-    }
-  }
-
   translate(delta: Paper.Point) {
     this.pt = this.pt.add(delta);
   }

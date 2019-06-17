@@ -19,6 +19,7 @@ export class ItemName {
   static itemText = ".text";
   static itemGroup = ".group";
   static itemSymbolRef = ".symref";
+  static itemConnectionPoint = ".conPt";
 
   static match(test: string, found: string | null) {
     if (!test) {
