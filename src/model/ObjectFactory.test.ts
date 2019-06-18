@@ -18,6 +18,23 @@ describe("ObjectFactory", () => {
     expect(line2.p1).toEqual(line.p1);
   });
 
+  it("GraphicLine array toJson / fromJson", () => {
+    const l1 = new GraphicLine(new Point(1, 2), new Point(4, 5));
+    const l2 = new GraphicLine(new Point(6, 7), new Point(8, 9));
+    const json = ObjectFactory.toJSON([l1, l2]);
+    expect(json).toHaveLength(2);
+
+    const arr = ObjectFactory.fromJSON(json) as any[];
+    expect(arr).toHaveLength(2);
+
+    const l3 = arr[0];
+    const l4 = arr[1];
+    expect(l3).toBeInstanceOf(GraphicLine);
+    expect(l4).toBeInstanceOf(GraphicLine);
+    expect(l3.color).toEqual(l1.color);
+    expect(l3.p1).toEqual(l1.p1);
+  });
+
   it("GraphicArc toJson / fromJson", () => {
     const arc = new GraphicArc(new Point(1, 2), 50);
     arc.color = "red";

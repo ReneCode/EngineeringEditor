@@ -20,8 +20,8 @@ describe("GraphicSymbolRef", () => {
 
   it("clone", () => {
     const copy = symbolRef.clone();
-    expect(copy.getName()).toEqual(symbolRef.getName());
-    expect(copy.getPoint()).toEqual(symbolRef.getPoint());
+    expect(copy.name).toEqual(symbolRef.name);
+    expect(copy.pt).toEqual(symbolRef.pt);
   });
 
   it("toJSON / fromJSON", () => {
@@ -31,7 +31,7 @@ describe("GraphicSymbolRef", () => {
 
     const json = symbolRef.toJSON();
     const newSymbolRef = GraphicSymbolRef.fromJSON(json);
-    expect(newSymbolRef.getName()).toEqual(symbolRef.getName());
+    expect(newSymbolRef.name).toEqual(symbolRef.name);
     expect(newSymbolRef.id).toEqual(symbolRef.id);
     expect(newSymbolRef.getSymbol()).toBeFalsy();
   });
@@ -43,7 +43,7 @@ describe("GraphicSymbolRef", () => {
     ) as GraphicSymbolRef;
     expect(newSymbolRef).toBeTruthy();
     expect(newSymbolRef instanceof GraphicSymbolRef).toBeTruthy();
-    expect(newSymbolRef.getName()).toEqual(symbolRef.getName());
+    expect(newSymbolRef.name).toEqual(symbolRef.name);
     expect(newSymbolRef.id).toEqual(symbolRef.id);
     expect(newSymbolRef.getSymbol()).toBeFalsy();
   });

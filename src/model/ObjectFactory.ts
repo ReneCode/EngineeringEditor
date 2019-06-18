@@ -64,8 +64,8 @@ class ObjectFactory {
         if (result) {
           results.push(result);
         }
-        return results;
       }
+      return results;
     }
 
     if (obj.toJSON && typeof obj.toJSON === "function") {

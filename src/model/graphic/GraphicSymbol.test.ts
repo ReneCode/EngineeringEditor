@@ -11,16 +11,18 @@ describe("GraphicSymbol", () => {
   it.only("toJSON / fromJSON", () => {
     const line = new GraphicLine(new Point(5, 6), new Point(3, 20));
     const arc = new GraphicArc(new Point(10, 10), 40);
-
     const symbolA = new GraphicSymbol([line, arc]);
     symbolA.name = "testSymbol";
 
     expect(symbolA.placements).toHaveLength(2);
 
     const json = symbolA.toJSON();
+    console.log(json);
     expect(json.type).toEqual("symbol");
+    expect(json.placements).toHaveLength(2);
 
     const symbolB = GraphicSymbol.fromJSON(json);
+    console.log(symbolB);
     expect(symbolB).toBeInstanceOf(GraphicSymbol);
     expect(symbolB.name).toEqual(symbolA.name);
     expect(symbolB.placements).toHaveLength(2);
