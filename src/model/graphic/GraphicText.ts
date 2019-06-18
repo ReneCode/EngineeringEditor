@@ -50,20 +50,13 @@ class GraphicText extends Placement {
     this.text = text;
   }
 
-  setMode(drawMode: DrawMode) {
-    this._drawMode = drawMode;
-
-    this.paperDraw();
-  }
-
   translate(delta: Paper.Point) {
     this.pt = this.pt.add(delta);
   }
 
-  paperDraw(): Paper.Item {
-    switch (this._drawMode) {
+  paperDraw(drawMode: DrawMode = null): Paper.Item {
+    switch (drawMode) {
       case null:
-      case undefined:
         this.removeTempItems();
         this.setPaperItem(this.createPaperItem());
         break;
@@ -87,9 +80,6 @@ class GraphicText extends Placement {
           this.addTempItem(item);
         }
         break;
-
-      default:
-        throw new Error("bad drawMode:" + this._drawMode);
     }
 
     return this.getPaperItem();

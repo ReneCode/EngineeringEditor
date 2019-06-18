@@ -56,11 +56,11 @@ class IacEditItem extends React.Component<IProps> {
         this.props.selectedPlacementIds,
       );
       if (placements.length === 1) {
-        placements[0].setMode("select");
+        placements[0].paperDraw("select");
       }
       if (placements.length > 1) {
         for (let placement of placements) {
-          placement.setMode("highlight");
+          placement.paperDraw("highlight");
         }
         const items = placements.map(p => p.getPaperItem());
         this.resizeBox.create(items);
@@ -145,14 +145,14 @@ class IacEditItem extends React.Component<IProps> {
       let newSelectedPlacements = [];
       this.selectedPlacements = [];
       for (let placement of placements) {
-        placement.setMode(null);
+        placement.paperDraw(null);
         const newPlacement: Placement = placement.clone();
         const oldItem = placement.getPaperItem();
         const copyItem = newPlacement.paperDraw();
         if (oldItem && copyItem) {
           oldItem.replaceWith(copyItem);
           newSelectedPlacements.push(newPlacement);
-          newPlacement.setMode(drawMode);
+          newPlacement.paperDraw(drawMode);
         }
       }
       this.selectedPlacements = newSelectedPlacements;

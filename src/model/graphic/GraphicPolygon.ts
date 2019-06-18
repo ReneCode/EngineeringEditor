@@ -1,5 +1,5 @@
 import Paper from "paper";
-import Placement from "../Placement";
+import Placement, { DrawMode } from "../Placement";
 import PaperUtil from "../../utils/PaperUtil";
 import { ItemName } from "../../common/ItemName";
 
@@ -26,8 +26,8 @@ class GraphicPolygon extends Placement {
     };
   }
 
-  public paperDraw(): Paper.Item {
-    switch (this._drawMode) {
+  public paperDraw(drawMode: DrawMode = null): Paper.Item {
+    switch (drawMode) {
       case null:
       case undefined:
         this.removeTempItems();
@@ -79,15 +79,6 @@ class GraphicPolygon extends Placement {
     return polygon;
   }
 
-
-  paperDraw(): Paper.Item {
-    const segments = this.points.map(p => {
-      return new Paper.Point(p.x, p.y);
-    });
-    const path = new Paper.Path(segments);
-    // this.paperSetStyle(path);
-    return path;
-  }
   */
 }
 

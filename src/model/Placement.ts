@@ -17,7 +17,7 @@ class Placement {
 
   protected _grips: Paper.Item[] = [];
   protected _item: Paper.Item = new Paper.Item();
-  protected _drawMode: DrawMode = null;
+  // protected _drawMode: DrawMode = null;
   protected _tempItems: Paper.Item[];
 
   constructor(type: PlacementType) {
@@ -70,15 +70,6 @@ class Placement {
     }
     this._tempItems.push(item);
   }
-
-  setMode(drawMode: DrawMode) {
-    this._drawMode = drawMode;
-    this.paperDraw(drawMode);
-  }
-
-  // createPaperItem(): Paper.Item {
-  //   return new Paper.Item();
-  // }
 
   paperDraw(drawMode: DrawMode = null): Paper.Item {
     throw new Error("paperDraw has to be overwritten by:" + this);

@@ -102,7 +102,7 @@ class TextEditView extends React.Component<IProps> {
           this.props.dispatch(setSelectedPlacementIds([]));
         }
       } else {
-        graphicText.setMode(null);
+        graphicText.paperDraw();
         this.props.dispatch(setSelectedPlacementIds([]));
       }
     }

@@ -139,8 +139,8 @@ class IacSelect extends React.Component<IProps> {
   };
 
   dispatchSetSelectedPlacementIds(ids: string[]) {
-    this.setModeToPlacements(this.props.selectedPlacementIds, null);
-    this.setModeToPlacements(ids, "highlight");
+    this.drawPlacements(this.props.selectedPlacementIds, null);
+    this.drawPlacements(ids, "highlight");
 
     this.props.dispatch(setSelectedPlacementIds(ids));
   }
@@ -174,15 +174,15 @@ class IacSelect extends React.Component<IProps> {
       this.selectedIds,
       newSelecteIds,
     );
-    this.setModeToPlacements(removedIds, null);
-    this.setModeToPlacements(addedIds, "highlight");
+    this.drawPlacements(removedIds, null);
+    this.drawPlacements(addedIds, "highlight");
     this.selectedIds = newSelecteIds;
   };
 
-  private setModeToPlacements(ids: string[], drawMode: DrawMode) {
+  private drawPlacements(ids: string[], drawMode: DrawMode) {
     const placements = PaperUtil.getPlacementsById(ids);
     for (let placement of placements) {
-      placement.setMode(drawMode);
+      placement.paperDraw(drawMode);
     }
   }
 
