@@ -12,17 +12,28 @@ import PlacementUtil from "../../utils/PlacementUtil";
 interface IProps {
   selectedPlacementIds: string[];
   enablePlacementToolbar: boolean;
-  items: Placement[];
 }
 
 class SelectedPlacementToolbar extends React.Component<IProps> {
   getContextButtons(placements: Placement[]) {
+    // individual toolbar-button for each placement-type
     const type = PlacementUtil.getUniqueType(placements);
     const buttons: JSX.Element[] = [];
-    if (type === "group") {
-      buttons.push(
-        ToolbarButtonFactory.create("ungroup", placements),
-      );
+    switch (type) {
+      case "group":
+        buttons.push(
+          ToolbarButtonFactory.create("ungroup", placements),
+        );
+        break;
+
+      case "connectionpoint":
+        buttons.push(
+          ToolbarButtonFactory.create(
+            "rotate",
+            placements.map(p => p.id),
+          ),
+        );
+        break;
     }
 
     if (placements.length > 1) {
@@ -98,7 +109,6 @@ class SelectedPlacementToolbar extends React.Component<IProps> {
 const mapStateToProps = (state: IGlobalState) => {
   return {
     selectedPlacementIds: state.graphic.selectedPlacementIds,
-    items: state.graphic.items,
     enablePlacementToolbar: state.project.enablePlacementToolbar,
   };
 };

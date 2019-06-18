@@ -5,6 +5,8 @@ import { AppEventType } from "./AppEventType";
 import InteractionFactory from "./InteractionFactory";
 import { any } from "prop-types";
 
+import initHandlers from "../eventHandlers/initHandlers";
+
 interface IProps {}
 
 class InteractionManager extends Component<IProps> {
@@ -49,6 +51,8 @@ class InteractionManager extends Component<IProps> {
         this.startInteraction,
       ),
     );
+
+    initHandlers();
 
     appEventDispatcher.dispatch("stopInteraction");
   }

@@ -3,6 +3,7 @@ import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 import IconButton from "../common/IconButton";
 
 type ToolbarButtonName =
+  | "rotate"
   | "IacCreateConnectionPoint"
   | "createText"
   | "selectPlaceSymbol"
@@ -126,7 +127,7 @@ class ToolbarButtonFactory {
         );
       }
 
-      case "group": {
+      case "group":
         return (
           <button
             key={name}
@@ -136,7 +137,18 @@ class ToolbarButtonFactory {
             grp
           </button>
         );
-      }
+
+      case "rotate":
+        return (
+          <button key={name}>
+            <IconButton
+              icon="rotateleft"
+              onClick={() =>
+                appEventDispatcher.dispatch(name, ...params)
+              }
+            />
+          </button>
+        );
 
       default:
         throw new Error("bad button-name:" + name);

@@ -4,7 +4,6 @@ import { makeArray } from "../model/dtoUtil";
 import configuration from "../common/configuration";
 import Placement from "../model/Placement";
 import store from "../store/index";
-import { IGlobalState } from "../store/reducers";
 
 export const TRANSPARENT_COLOR = "#00000000";
 
@@ -104,7 +103,7 @@ class PaperUtil {
 
   static getPlacementsById(ids: string[]): Placement[] {
     let placements: Placement[] = [];
-    const state: IGlobalState = store.getState();
+    const state = store.getState();
     for (let id of ids) {
       const placement = state.graphic.items.find(
         placement => placement.id === id,

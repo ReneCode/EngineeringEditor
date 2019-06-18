@@ -4,11 +4,11 @@ import project, { IProjectState } from "./projectReducer";
 import graphic, { IGraphicState } from "./graphicReducer";
 import undoredo, { IUndoRedoState } from "./undoRedoReducer";
 
-export interface IGlobalState {
+export type IGlobalState = {
   project: IProjectState;
   graphic: IGraphicState;
   undoredo: IUndoRedoState;
-}
+};
 
 const reducers = combineReducers({
   project,

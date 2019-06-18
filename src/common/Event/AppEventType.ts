@@ -1,4 +1,5 @@
 export type AppEventType =
+  | "rotate"
   | "startEditText"
   | "finishEditText"
   | "showModal"
