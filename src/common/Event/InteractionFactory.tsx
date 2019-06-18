@@ -4,7 +4,6 @@ import IacSnapGrid from "../interaction/IacSnapGrid";
 import IacRectangle from "../interaction/IacRectangle";
 import IacDelete from "../interaction/IacDelete";
 import IacZoomInOut from "../interaction/IacZoomInOut";
-import IacIdle from "../interaction/IacIdle";
 import IacSelectAll from "../interaction/IacSelectAll";
 import IacCreateArc from "../interaction/IacCreateArc";
 import IacHoverItem from "../interaction/IacHoverItem";
@@ -43,8 +42,6 @@ class InteractionFactory {
         return <IacPreviousNextPage {...props} />;
       case "HoverItem":
         return <IacHoverItem {...props} />;
-      case "Idle":
-        return <IacIdle {...props} />;
       case "IacSelectAll":
         return <IacSelectAll {...props} />;
       case "IacEditItem":
