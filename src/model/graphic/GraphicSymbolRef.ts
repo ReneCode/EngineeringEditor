@@ -7,8 +7,8 @@ import configuration from "../../common/configuration";
 import deepClone from "../../common/deepClone";
 
 class GraphicSymbolRef extends Placement {
-  private name: string = "";
-  private pt: Paper.Point = new Paper.Point(0, 0);
+  public name: string = "";
+  public pt: Paper.Point = new Paper.Point(0, 0);
   private _symbol: GraphicSymbol | undefined = undefined;
 
   constructor(name: string, pt: Paper.Point) {
@@ -41,6 +41,7 @@ class GraphicSymbolRef extends Placement {
     return copy;
   }
 
+  /*
   setName(name: string) {
     this.name = name;
   }
@@ -56,6 +57,7 @@ class GraphicSymbolRef extends Placement {
   getPoint(): Paper.Point {
     return this.pt;
   }
+  */
 
   setSymbol(symbol: GraphicSymbol) {
     this._symbol = symbol;
@@ -65,72 +67,46 @@ class GraphicSymbolRef extends Placement {
     return this._symbol;
   }
 
-  paperDraw(): Paper.Item {
-    const item = this.createPaperItem();
-    if (this._item) {
-      this._item.replaceWith(item);
-    }
-    this._item = item;
-    return item;
-  }
-
-  setMode(drawMode: DrawMode) {
-    this._drawMode = drawMode;
-    if (this._tempItems) {
-      for (let item of this._tempItems) {
-        item.remove();
-      }
-    }
-    this._tempItems = [];
-
-    if (!this._symbol) {
-      throw new Error("symbol missing");
-    }
-
+  paperDraw(drawMode: DrawMode = null): Paper.Item {
     switch (drawMode) {
+      case null:
+        this.removeTempItems();
+        this.setPaperItem(this.createPaperItem());
+        break;
+
       case "select":
       case "highlight":
-        {
+        if (this._symbol) {
+          this.removeTempItems();
           const bounds = this._symbol.getPaperSymbol().definition
             .bounds;
           const rect = new Paper.Path.Rectangle(bounds);
           rect.strokeColor = configuration.itemHoverStrokeColor;
           rect.position = this.pt;
-          this._tempItems.push(rect);
+          this.addTempItem(rect);
         }
         break;
     }
+    return this.getPaperItem();
   }
 
-  dragItem(event: Paper.MouseEvent) {
-    if (this._item) {
-      // translate
-      this.pt = this.pt.add(event.delta);
-      this.paperDraw();
-      for (let item of this._tempItems) {
-        item.position = item.position.add(event.delta);
-      }
-    }
+  translate(delta: Paper.Point) {
+    this.pt = this.pt.add(delta);
   }
 
   createPaperItem() {
-    const item = this.createOutline(ItemName.itemSymbolRef);
-    item.data = this.id;
-    if (this.color) {
-      item.strokeColor = this.color;
-    }
-    return item;
-  }
-
-  private createOutline(name: string) {
     if (!this._symbol) {
       throw new Error("symbol missing");
     }
 
     const symbolItem = this._symbol.getPaperSymbol();
     const item: Paper.PlacedSymbol = symbolItem.place(this.pt);
-    item.name = name;
+    item.name = ItemName.itemSymbolRef;
     item.fillColor = "green";
+    item.data = this.id;
+    if (this.color) {
+      item.strokeColor = this.color;
+    }
     return item;
   }
 }

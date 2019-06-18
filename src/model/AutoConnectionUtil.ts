@@ -84,9 +84,7 @@ class AutoConnectionUtil {
     if (symbolRef) {
       const symbol = symbolRef.getSymbol();
       if (symbol) {
-        const symbolPt = symbolRef
-          .getPoint()
-          .subtract(symbol.insertPt);
+        const symbolPt = symbolRef.pt.subtract(symbol.insertPt);
         const cpsWithSymbolRef = symbol.placements
           .filter(g => g.type === "connectionpoint")
           .map(g => g as GraphicConnectionPoint)

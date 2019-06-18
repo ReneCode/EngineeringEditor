@@ -73,7 +73,6 @@ class GraphicText extends Placement {
           this.removeTempItems();
 
           const item = this.createBoundingRect();
-          item.name = ItemName.temp;
           this.addTempItem(item);
         }
         break;
@@ -85,7 +84,6 @@ class GraphicText extends Placement {
           this._item.onMouseDrag = this.onMouseDrag.bind(this);
           this._item.onMouseUp = this.onMouseUp.bind(this);
           const item = this.createBoundingRect();
-          item.name = ItemName.temp;
           this.addTempItem(item);
         }
         break;

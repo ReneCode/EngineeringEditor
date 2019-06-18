@@ -57,7 +57,6 @@ class GraphicConnectionPoint extends Placement {
         this.removeTempItems();
         const circle = this.createCircle();
         circle.strokeColor = configuration.modeHighlightColor;
-        circle.name = ItemName.temp;
         this.addTempItem(circle);
         break;
 

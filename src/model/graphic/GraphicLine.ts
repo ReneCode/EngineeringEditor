@@ -26,25 +26,29 @@ class GraphicLine extends Placement {
     };
   }
 
-  setMode(drawMode: DrawMode) {
-    this._drawMode = drawMode;
-    this.drawTempItems();
-  }
+  paperDraw(drawMode: DrawMode = null): Paper.Item {
+    switch (drawMode) {
+      case null:
+        this.removeTempItems();
+        this.setPaperItem(this.createPaperItem());
+        break;
+      case "highlight":
+        {
+          this.removeTempItems();
+          const item = this.createOutline(ItemName.temp);
+          item.strokeColor = configuration.modeHighlightColor;
+          this.addTempItem(item);
+        }
+        break;
 
-  paperDraw(): Paper.Item {
-    const item = this.createPaperItem();
-
-    if (this._item) {
-      this._item.replaceWith(item);
+      case "select":
+        this.drawGrips();
+        break;
     }
-    this._item = item;
-    return item;
+    return this.getPaperItem();
   }
 
   dragGrip(event: Paper.MouseEvent, gripItem: Paper.Item) {
-    if (this._drawMode !== "select") {
-      throw new Error("dragGrip only in edit mode");
-    }
     gripItem.position = event.point;
     if (this._item) {
       switch (gripItem.data) {
@@ -58,17 +62,7 @@ class GraphicLine extends Placement {
           throw new Error(`bad index: ${gripItem.data}`);
       }
       this.paperDraw();
-      this.drawTempItems(gripItem.data);
-    }
-  }
-
-  dragItem(event: Paper.MouseEvent) {
-    if (this._item) {
-      this.translate(event.delta);
-      this.paperDraw();
-      for (let item of this._tempItems) {
-        item.position = item.position.add(event.delta);
-      }
+      this.drawGrips(gripItem.data);
     }
   }
 
@@ -77,32 +71,14 @@ class GraphicLine extends Placement {
     this.p2 = this.p2.add(delta);
   }
 
-  private drawTempItems(selectedGripId: number = 0) {
-    if (this._tempItems) {
-      for (let item of this._tempItems) {
-        item.remove();
-      }
-    }
-    this._tempItems = [];
-    switch (this._drawMode) {
-      case "highlight":
-        {
-          const item = this.createOutline(ItemName.temp);
-          item.strokeColor = configuration.modeHighlightColor;
-          this._tempItems.push(item);
-        }
-        break;
-      case "select":
-        {
-          const item = this.createOutline(ItemName.temp);
-          item.strokeColor = configuration.modeSelectColor;
-          this._tempItems.push(item);
-          const grips = this.createGrips(selectedGripId);
-          for (let grip of grips) {
-            this._tempItems.push(grip);
-          }
-        }
-        break;
+  private drawGrips(selectedGripId: number = 0) {
+    this.removeTempItems();
+    const item = this.createOutline(ItemName.temp);
+    item.strokeColor = configuration.modeSelectColor;
+    this.addTempItem(item);
+    const grips = this.createGrips(selectedGripId);
+    for (let grip of grips) {
+      this.addTempItem(grip);
     }
   }
 
@@ -136,12 +112,6 @@ class GraphicLine extends Placement {
     } else {
       item.strokeColor = "grey";
     }
-
-    // item.dashArray = [4, 6];
-    // item.strokeWidth = 3;
-    // item.onFrame = () => {
-    //   item.dashOffset = (item.dashOffset + 0.1) % 10;
-    // };
     return item;
   }
 }

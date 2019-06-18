@@ -79,7 +79,7 @@ class IacPlaceSymbol extends React.Component<IProps> {
       this.symbolRef.setSymbol(symbol);
       this.item = this.symbolRef.paperDraw();
     } else {
-      this.symbolRef.setPoint(pt);
+      this.symbolRef.pt = pt;
       this.item.remove();
       this.item = this.symbolRef.paperDraw();
     }

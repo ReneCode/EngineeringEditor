@@ -19,8 +19,7 @@ const updateSymbolRef = (
 
   for (let placement of items) {
     if (placement instanceof GraphicSymbolRef) {
-      const symbolName = placement.getName();
-      let symbol = getSymbol(symbolName);
+      let symbol = getSymbol(placement.name);
       placement.setSymbol(symbol);
     } else if (placement instanceof GraphicGroup) {
       const childItems = placement.children;
