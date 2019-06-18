@@ -22,8 +22,6 @@ class GraphicArc extends Placement {
     return Object.assign(arc, json, {
       center: PaperUtil.PointFromJSON(json.center),
       _item: undefined,
-      _tempItems: undefined,
-      _grips: undefined,
     });
   }
 
@@ -38,30 +36,34 @@ class GraphicArc extends Placement {
     };
   }
 
-  setMode(drawMode: DrawMode) {
-    this._drawMode = drawMode;
-    this.drawTempItems();
-  }
+  paperDraw(drawMode: DrawMode = null): Paper.Item {
+    switch (drawMode) {
+      case null:
+      case undefined:
+        this.removeTempItems();
+        this.setPaperItem(this.createPaperItem());
+        break;
 
-  paperDraw(): Paper.Item {
-    let item: Paper.Item = this.createPaperItem();
+      case "highlight":
+        {
+          this.removeTempItems();
+          const item = this.createOutline(ItemName.temp);
+          item.strokeColor = configuration.modeHighlightColor;
+          this.addTempItem(item);
+        }
+        break;
 
-    if (this._item) {
-      this._item.replaceWith(item);
+      case "select":
+        this.drawGrips();
+        break;
+
+      default:
+        throw new Error("bad drawMode:" + drawMode);
     }
-    this._item = item;
-
-    return item;
+    return this.getPaperItem();
   }
 
   dragGrip(event: Paper.MouseEvent, gripItem: Paper.Item) {
-    if (this._drawMode !== "select") {
-      throw new Error("dragGrip only in edit mode");
-    }
-    if (!this._item) {
-      return;
-    }
-
     let angle = event.point.subtract(this.center).angle;
     switch (gripItem.data) {
       case 1:
@@ -106,26 +108,7 @@ class GraphicArc extends Placement {
     }
 
     this.paperDraw();
-    this.drawTempItems(gripItem.data);
-
-    if (gripItem.data === 3) {
-      const editGripItem = this._grips.find(
-        g => g.data === gripItem.data,
-      );
-      if (editGripItem) {
-        editGripItem.position = event.point;
-      }
-    }
-  }
-
-  dragItem(event: Paper.MouseEvent) {
-    if (this._item) {
-      this.translate(event.delta);
-      this.paperDraw();
-      for (let item of this._tempItems) {
-        item.position = item.position.add(event.delta);
-      }
-    }
+    this.drawGrips(gripItem.data);
   }
 
   translate(delta: Paper.Point) {
@@ -147,36 +130,15 @@ class GraphicArc extends Placement {
     return item;
   }
 
-  private drawTempItems(selectedGripId: number = 0) {
-    // const prevLayer = PaperUtil.activateLayer("temp");
-    if (this._tempItems) {
-      for (let item of this._tempItems) {
-        item.remove();
-      }
+  private drawGrips(selectedGripId: number = 0) {
+    this.removeTempItems();
+    const item = this.createOutline(ItemName.temp);
+    item.strokeColor = configuration.modeSelectColor;
+    this.addTempItem(item);
+    const grips = this.createGrips(selectedGripId);
+    for (let grip of grips) {
+      this.addTempItem(grip);
     }
-    this._tempItems = [];
-    switch (this._drawMode) {
-      case "highlight":
-        {
-          const item = this.createOutline(ItemName.temp);
-
-          item.strokeColor = configuration.modeHighlightColor;
-          this._tempItems.push(item);
-        }
-        break;
-      case "select":
-        {
-          const item = this.createOutline(ItemName.temp);
-          item.strokeColor = configuration.modeSelectColor;
-          this._tempItems.push(item);
-          const grips = this.createGrips(selectedGripId);
-          for (let grip of grips) {
-            this._tempItems.push(grip);
-          }
-        }
-        break;
-    }
-    // prevLayer.activate();
   }
 
   private createOutline(name: string | undefined): Paper.Item {

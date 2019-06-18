@@ -16,8 +16,6 @@ import {
 import { makeArray } from "../model/dtoUtil";
 import containsWithSameId from "../utils/containsWithSameId";
 import { IGlobalState } from "../store/reducers";
-import { ThunkAction } from "redux-thunk";
-import { AnyAction } from "redux";
 
 export const cudElementAction = (
   ref: RefType,

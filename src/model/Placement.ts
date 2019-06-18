@@ -65,7 +65,9 @@ class Placement {
     if (!this._tempItems) {
       this._tempItems = [];
     }
-    item.name = ItemName.temp;
+    // if (!item.name) {
+    //   item.name = ItemName.temp;
+    // }
     this._tempItems.push(item);
   }
 

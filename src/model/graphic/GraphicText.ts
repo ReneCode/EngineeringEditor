@@ -1,4 +1,4 @@
-import Paper from "paper";
+import Paper, { Item } from "paper";
 import Placement, { DrawMode } from "../Placement";
 import PaperUtil from "../../utils/PaperUtil";
 import { ItemName } from "../../common/ItemName";
@@ -69,16 +69,25 @@ class GraphicText extends Placement {
         break;
 
       case "highlight":
-        this.removeTempItems();
-        this.addTempItem(this.createBoundingRect());
+        {
+          this.removeTempItems();
+
+          const item = this.createBoundingRect();
+          item.name = ItemName.temp;
+          this.addTempItem(item);
+        }
         break;
       case "select":
-        this.removeTempItems();
-        this.editReset();
-        this._item.onMouseDown = this.onMouseDown.bind(this);
-        this._item.onMouseDrag = this.onMouseDrag.bind(this);
-        this._item.onMouseUp = this.onMouseUp.bind(this);
-        this.addTempItem(this.createBoundingRect());
+        {
+          this.removeTempItems();
+          this.editReset();
+          this._item.onMouseDown = this.onMouseDown.bind(this);
+          this._item.onMouseDrag = this.onMouseDrag.bind(this);
+          this._item.onMouseUp = this.onMouseUp.bind(this);
+          const item = this.createBoundingRect();
+          item.name = ItemName.temp;
+          this.addTempItem(item);
+        }
         break;
 
       default:

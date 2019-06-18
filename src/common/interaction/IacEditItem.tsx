@@ -147,7 +147,6 @@ class IacEditItem extends React.Component<IProps> {
       for (let placement of placements) {
         placement.setMode(null);
         const newPlacement: Placement = placement.clone();
-        // debugger;
         const oldItem = placement.getPaperItem();
         const copyItem = newPlacement.paperDraw();
         if (oldItem && copyItem) {

@@ -45,9 +45,6 @@ class GraphicConnectionPoint extends Placement {
   }
 
   public paperDraw(drawMode: DrawMode = null): Paper.Item {
-    console.log(":", drawMode, this.id);
-
-    if (drawMode === "select") debugger;
     switch (drawMode) {
       case null:
       case undefined:
@@ -60,6 +57,7 @@ class GraphicConnectionPoint extends Placement {
         this.removeTempItems();
         const circle = this.createCircle();
         circle.strokeColor = configuration.modeHighlightColor;
+        circle.name = ItemName.temp;
         this.addTempItem(circle);
         break;
 

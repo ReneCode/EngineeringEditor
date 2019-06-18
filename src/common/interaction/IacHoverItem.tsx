@@ -46,6 +46,7 @@ class IacHoverItem extends React.Component<IProps> {
         ItemName.grip,
       ]);
 
+      console.log(":/", hitItem);
       if (hitItem) {
         if (this.hoverItem !== hitItem) {
           this.removeHover();

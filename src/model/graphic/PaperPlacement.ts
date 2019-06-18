@@ -5,7 +5,6 @@ import deepClone from "../../common/deepClone";
 class PaperPlacement extends Placement {
   constructor(private _paperItem: Paper.Item) {
     super("#paper");
-    debugger;
   }
 
   // toJsonContent(): string {
