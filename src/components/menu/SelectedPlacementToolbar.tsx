@@ -37,7 +37,12 @@ class SelectedPlacementToolbar extends React.Component<IProps> {
     }
 
     if (placements.length > 1) {
-      buttons.push(ToolbarButtonFactory.create("group", placements));
+      buttons.push(
+        ToolbarButtonFactory.create(
+          "group",
+          placements.map(p => p.id),
+        ),
+      );
     }
     buttons.push(
       ToolbarButtonFactory.create("createSymbol", placements),

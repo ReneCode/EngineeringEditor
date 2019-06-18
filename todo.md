@@ -1,5 +1,8 @@
 # ISSUES
 
+- group / undo: items no more seen
+- group / ungroup: items no more seen
+
 - group > group > colored placement. on hover colored placement not not correct redrawn after hover leave
 
   use ghooks / pre-commit => npm run test / https://www.npmjs.com/package/ghooks

@@ -5,8 +5,6 @@ import { cudElementAction } from "../../actions/changeElementActions";
 import PaperUtil from "../../utils/PaperUtil";
 
 const rotatePlacements = (placementIds: string[]) => {
-  console.log("rotate:", placementIds);
-
   if (!placementIds || placementIds.length === 0) {
     return;
   }
