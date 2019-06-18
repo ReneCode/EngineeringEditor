@@ -5,11 +5,6 @@ import store from "../../store/index";
 import { cudElementAction } from "../../actions/changeElementActions";
 import PaperUtil from "../../utils/PaperUtil";
 
-const register = () => {
-  appEventDispatcher.subscribe("rotate", rotatePlacements);
-};
-register();
-
 const rotatePlacements = (
   type: AppEventType,
   placementIds: string[],
@@ -30,3 +25,9 @@ const rotatePlacements = (
     cudElementAction("placement", undefined, connectionPoints),
   );
 };
+
+// self register
+const register = () => {
+  appEventDispatcher.subscribe("rotate", rotatePlacements);
+};
+register();

@@ -1,5 +1,5 @@
 import Paper from "paper";
-import Placement from "../Placement";
+import Placement, { DrawMode } from "../Placement";
 import PaperUtil from "../../utils/PaperUtil";
 import configuration from "../../common/configuration";
 import { ItemName } from "../../common/ItemName";
@@ -44,8 +44,11 @@ class GraphicConnectionPoint extends Placement {
     };
   }
 
-  public paperDraw(): Paper.Item {
-    switch (this._drawMode) {
+  public paperDraw(drawMode: DrawMode = null): Paper.Item {
+    console.log(":", drawMode, this.id);
+
+    if (drawMode === "select") debugger;
+    switch (drawMode) {
       case null:
       case undefined:
         this.removeTempItems();
@@ -61,7 +64,7 @@ class GraphicConnectionPoint extends Placement {
         break;
 
       default:
-        throw new Error("bad drawMode:" + this._drawMode);
+        throw new Error("bad drawMode:" + drawMode);
     }
     return this.getPaperItem();
   }

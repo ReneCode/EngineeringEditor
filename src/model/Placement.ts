@@ -71,14 +71,14 @@ class Placement {
 
   setMode(drawMode: DrawMode) {
     this._drawMode = drawMode;
-    this.paperDraw();
+    this.paperDraw(drawMode);
   }
 
   // createPaperItem(): Paper.Item {
   //   return new Paper.Item();
   // }
 
-  paperDraw(): Paper.Item {
+  paperDraw(drawMode: DrawMode = null): Paper.Item {
     throw new Error("paperDraw has to be overwritten by:" + this);
   }
 
