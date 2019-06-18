@@ -70,6 +70,27 @@ class GraphicConnectionPoint extends Placement {
     this.pt = this.pt.add(delta);
   }
 
+  public rotate() {
+    let newDirection: ConnectionPointDirection;
+    switch (this.direction) {
+      case ConnectionPointDirection.UP:
+        newDirection = ConnectionPointDirection.LEFT;
+        break;
+      case ConnectionPointDirection.LEFT:
+        newDirection = ConnectionPointDirection.DOWN;
+        break;
+      case ConnectionPointDirection.DOWN:
+        newDirection = ConnectionPointDirection.RIGHT;
+        break;
+      case ConnectionPointDirection.RIGHT:
+        newDirection = ConnectionPointDirection.UP;
+        break;
+      default:
+        newDirection = this.direction;
+    }
+    this.direction = newDirection;
+  }
+
   private createCircle(): Paper.Item {
     const r = PaperUtil.lengthViewToProject(
       configuration.connectionPointRadius,

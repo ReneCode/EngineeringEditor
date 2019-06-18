@@ -1,7 +1,9 @@
 import React from "react";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
+import IconButton from "../common/IconButton";
 
 type ToolbarButtonName =
+  | "rotate"
   | "IacCreateConnectionPoint"
   | "createText"
   | "selectPlaceSymbol"
@@ -32,65 +34,70 @@ class ToolbarButtonFactory {
 
       case "stopInteraction":
         return (
-          <button
-            key={name}
-            onClick={() =>
-              appEventDispatcher.dispatch("stopInteraction")
-            }>
-            {"/"}
+          <button key={name}>
+            <IconButton
+              icon="pencil"
+              onClick={() =>
+                appEventDispatcher.dispatch("stopInteraction")
+              }
+            />
           </button>
         );
 
       case "createText":
         return (
-          <button
-            key={name}
-            onClick={() =>
-              appEventDispatcher.dispatch(
-                "startInteraction",
-                "CreateText",
-              )
-            }>
-            T
+          <button key={name}>
+            <IconButton
+              icon="text"
+              onClick={() =>
+                appEventDispatcher.dispatch(
+                  "startInteraction",
+                  "CreateText",
+                )
+              }
+            />
           </button>
         );
 
       case "createLine":
         return (
-          <button
-            key={name}
-            onClick={() =>
-              appEventDispatcher.dispatch(
-                "startInteraction",
-                "CreateLine",
-              )
-            }>
-            L
+          <button key={name}>
+            <IconButton
+              icon="line"
+              onClick={() =>
+                appEventDispatcher.dispatch(
+                  "startInteraction",
+                  "CreateLine",
+                )
+              }
+            />
           </button>
         );
 
       case "createArc":
         return (
-          <button
-            key={name}
-            onClick={() =>
-              appEventDispatcher.dispatch(
-                "startInteraction",
-                "CreateArc",
-              )
-            }>
-            O
+          <button key={name}>
+            <IconButton
+              icon="arc"
+              onClick={() =>
+                appEventDispatcher.dispatch(
+                  "startInteraction",
+                  "CreateArc",
+                )
+              }
+            />
           </button>
         );
 
       case "IacCreateConnectionPoint":
         return (
-          <button
-            key={name}
-            onClick={() =>
-              appEventDispatcher.dispatch("startInteraction", name)
-            }>
-            cp
+          <button key={name}>
+            <IconButton
+              icon="connectionpoint"
+              onClick={() =>
+                appEventDispatcher.dispatch("startInteraction", name)
+              }
+            />
           </button>
         );
 
@@ -120,7 +127,7 @@ class ToolbarButtonFactory {
         );
       }
 
-      case "group": {
+      case "group":
         return (
           <button
             key={name}
@@ -130,7 +137,18 @@ class ToolbarButtonFactory {
             grp
           </button>
         );
-      }
+
+      case "rotate":
+        return (
+          <button key={name}>
+            <IconButton
+              icon="rotateleft"
+              onClick={() =>
+                appEventDispatcher.dispatch(name, ...params)
+              }
+            />
+          </button>
+        );
 
       default:
         throw new Error("bad button-name:" + name);

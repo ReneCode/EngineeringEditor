@@ -16,6 +16,8 @@ import {
 import { makeArray } from "../model/dtoUtil";
 import containsWithSameId from "../utils/containsWithSameId";
 import { IGlobalState } from "../store/reducers";
+import { ThunkAction } from "redux-thunk";
+import { AnyAction } from "redux";
 
 export const cudElementAction = (
   ref: RefType,
@@ -23,14 +25,11 @@ export const cudElementAction = (
   updateElement?: Placement | Placement[],
   deleteElement?: Placement | Placement[],
 ) => {
-  if (!createElement && !deleteElement && !updateElement) {
-    return Promise.resolve();
-  }
+  return async (dispatch: any, getState: GetGlobalStateFunction) => {
+    if (!createElement && !deleteElement && !updateElement) {
+      return;
+    }
 
-  return async (
-    dispatch: any,
-    getState: GetGlobalStateFunction,
-  ): Promise<any> => {
     try {
       await dispatch(undoRedoAddStartMarkerCommit());
 

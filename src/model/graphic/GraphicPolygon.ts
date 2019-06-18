@@ -1,6 +1,7 @@
 import Paper from "paper";
 import Placement from "../Placement";
 import PaperUtil from "../../utils/PaperUtil";
+import { ItemName } from "../../common/ItemName";
 
 class GraphicPolygon extends Placement {
   points: Paper.Point[] = [];
@@ -10,14 +11,11 @@ class GraphicPolygon extends Placement {
 
   static fromJSON(json: any): GraphicPolygon {
     const polygon = Object.create(GraphicPolygon.prototype);
-    let points = [];
-    if (json.points) {
-      points = json.points.map((p: any) =>
-        PaperUtil.PointFromJSON(p),
-      );
+    if (!json.points) {
+      json.points = [];
     }
     return Object.assign(polygon, json, {
-      points: points,
+      points: json.points.map((j: any) => PaperUtil.PointFromJSON(j)),
     });
   }
 
@@ -26,6 +24,33 @@ class GraphicPolygon extends Placement {
       ...super.toJSON(),
       points: this.points.map(p => PaperUtil.PointToJSON(p)),
     };
+  }
+
+  public paperDraw(): Paper.Item {
+    switch (this._drawMode) {
+      case null:
+      case undefined:
+        this.removeTempItems();
+        this.setPaperItem(this.createPaperItem());
+        break;
+    }
+    return this.getPaperItem();
+  }
+
+  translate(delta: Paper.Point) {
+    this.points = this.points.map(p => p.add(delta));
+  }
+
+  private createPaperItem(): Paper.Item {
+    const item = new Paper.Path();
+    item.addSegments(this.points);
+    item.data = this.id;
+    item.name = ItemName.itemPolygon;
+
+    if (this.color) {
+      item.strokeColor = this.color;
+    }
+    return item;
   }
 
   /*
