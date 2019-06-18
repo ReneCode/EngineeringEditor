@@ -2,7 +2,6 @@ import React from "react";
 
 import Paper from "paper";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
-import { AppEventType } from "../../common/Event/AppEventType";
 import { IGlobalState } from "../../store/reducers";
 import { connect } from "react-redux";
 
@@ -36,10 +35,7 @@ class Statusbar extends React.Component<IProps> {
     this.unsubscribeFn.forEach(fn => fn());
   }
 
-  mouseEventHandler = (
-    type: AppEventType,
-    event: Paper.MouseEvent,
-  ) => {
+  mouseEventHandler = (event: Paper.MouseEvent) => {
     const pt = new Paper.Point(
       Math.floor(event.point.x),
       Math.floor(event.point.y),

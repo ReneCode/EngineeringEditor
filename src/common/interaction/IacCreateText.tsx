@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 import Paper from "paper";
 import appEventDispatcher from "../Event/AppEventDispatcher";
-import { AppEventType } from "../Event/AppEventType";
 import { cudElementAction } from "../../actions/changeElementActions";
 import GraphicText from "../../model/graphic/GraphicText";
 
@@ -23,8 +22,8 @@ class IacCreateText extends React.Component<IProps> {
     this.unsubscribeFn.forEach(fn => fn());
   }
 
-  onMouseDown = (type: AppEventType, event: Paper.MouseEvent) => {
-    const text = new GraphicText("Hi ecad.fun gjyH", event.point);
+  onMouseDown = (event: Paper.MouseEvent) => {
+    const text = new GraphicText("Text", event.point);
     this.props.dispatch(cudElementAction("placement", text));
   };
 

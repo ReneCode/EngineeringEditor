@@ -1,7 +1,6 @@
 import React from "react";
 import appEventDispatcher from "./AppEventDispatcher";
 import { Component } from "react";
-import { AppEventType } from "./AppEventType";
 import InteractionFactory from "./InteractionFactory";
 import { any } from "prop-types";
 
@@ -61,11 +60,7 @@ class InteractionManager extends Component<IProps> {
     this.unsubscribeFn.forEach(fn => fn());
   }
 
-  startInteraction = (
-    type: AppEventType,
-    name: string,
-    props: any,
-  ) => {
+  startInteraction = (name: string, props: any) => {
     this.setState({
       interactionName: name,
       props: props,
@@ -73,9 +68,9 @@ class InteractionManager extends Component<IProps> {
     });
   };
 
-  stopInteraction = (type: AppEventType, payload: any) => {
+  stopInteraction = () => {
     this.setState({
-      interactionName: "Idle",
+      interactionName: null,
       idle: true,
     });
   };

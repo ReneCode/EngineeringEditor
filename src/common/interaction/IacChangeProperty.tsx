@@ -1,7 +1,6 @@
 import React from "react";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 import Placement from "../../model/Placement";
-import { AppEventType } from "../Event/AppEventType";
 import deepClone from "../deepClone";
 import { connect } from "react-redux";
 import { updateElementAction } from "../../actions/changeElementActions";
@@ -29,7 +28,7 @@ class IacChangeProperty extends React.Component<IProps> {
     this.unsubscribeFn();
   }
 
-  onChangeProperty = (type: AppEventType, payload: IPayload) => {
+  onChangeProperty = (payload: IPayload) => {
     if (!payload || !payload.placements || !payload.changes) {
       throw new Error("payload missing");
     }

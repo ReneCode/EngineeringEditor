@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 
 import { ModalIdType } from "../../model/types";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
-import { AppEventType } from "../../common/Event/AppEventType";
 import { showModal } from "../../actions";
 import SelectSymbolModal from "./SelectSymbolModal";
 // import KeyboardHandler from "./KeyboardHandler";
@@ -28,7 +27,7 @@ class ModalDialog extends React.Component<IProps> {
     this.unsubscribeFn();
   }
 
-  onShowModal = (type: AppEventType, modalId: ModalIdType) => {
+  onShowModal = (modalId: ModalIdType) => {
     this.props.dispatch(showModal(modalId));
   };
 

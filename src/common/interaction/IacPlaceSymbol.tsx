@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 import Paper from "paper";
 import appEventDispatcher from "../Event/AppEventDispatcher";
-import { AppEventType } from "../Event/AppEventType";
 import { cudElementAction } from "../../actions/changeElementActions";
 import GraphicSymbolRef from "../../model/graphic/GraphicSymbolRef";
 import { IGlobalState } from "../../store/reducers";
@@ -41,11 +40,11 @@ class IacPlaceSymbol extends React.Component<IProps> {
     }
   }
 
-  onMouseDown = (type: AppEventType, event: Paper.MouseEvent) => {
+  onMouseDown = (event: Paper.MouseEvent) => {
     this.createSymbolRef(event.point);
   };
 
-  onMouseUp = (type: AppEventType, event: Paper.MouseEvent) => {
+  onMouseUp = (event: Paper.MouseEvent) => {
     if (!this.symbolRef) {
       throw new Error("symboRef missing");
     }
@@ -57,11 +56,11 @@ class IacPlaceSymbol extends React.Component<IProps> {
     this.symbolRef = null;
   };
 
-  onMouseMove = (type: AppEventType, event: Paper.MouseEvent) => {
+  onMouseMove = (event: Paper.MouseEvent) => {
     this.createSymbolRef(event.point);
   };
 
-  onMouseDrag = (type: AppEventType, event: Paper.MouseEvent) => {
+  onMouseDrag = (event: Paper.MouseEvent) => {
     this.createSymbolRef(event.point);
   };
 

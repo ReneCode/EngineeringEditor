@@ -51,12 +51,6 @@ class InteractionFactory {
         return <IacEditItem {...props} />;
       case "IacSelect":
         return <IacSelect {...props} />;
-      // case "Zoom":
-      //   interaction = new InteractionZoom(context);
-      //   break;
-      // case "Line":
-      //   interaction = new InteractionLine(context);
-      //   break;
       case "CreateText":
         return <IacCreateText {...props} />;
       case "CreateArc":

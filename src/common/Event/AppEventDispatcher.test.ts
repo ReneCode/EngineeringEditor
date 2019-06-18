@@ -1,11 +1,10 @@
 import appEventDispatcher from "./AppEventDispatcher";
-import { AppEventType } from "./AppEventType";
 
 describe("appEventDispatcher", () => {
   it("send & receive event", () => {
     let called = 0;
     let calledPayload: any;
-    const fn = (type: AppEventType, payload: any) => {
+    const fn = (payload: any) => {
       called++;
       calledPayload = payload;
     };
@@ -34,7 +33,7 @@ describe("appEventDispatcher", () => {
   it("send with more parameters", () => {
     let calledParameters;
 
-    const fn = (type: AppEventType, p1: any, p2: any, p3: any) => {
+    const fn = (p1: any, p2: any, p3: any) => {
       calledParameters = [p1, p2, p3];
     };
     const unsubscribeFn = appEventDispatcher.subscribe("undo", fn);
@@ -47,11 +46,11 @@ describe("appEventDispatcher", () => {
     let calledA = 0;
     let calledB = 0;
 
-    const fA = (type: AppEventType) => {
+    const fA = () => {
       calledA++;
       unsubscribeFn.push(appEventDispatcher.subscribe("undo", fB));
     };
-    const fB = (type: AppEventType) => {
+    const fB = () => {
       calledB++;
     };
     const unsubscribeFn = [];

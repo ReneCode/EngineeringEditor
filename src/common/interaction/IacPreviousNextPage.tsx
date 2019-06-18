@@ -3,7 +3,6 @@ import { withRouter } from "react-router-dom";
 
 import Page from "../../model/Page";
 import appEventDispatcher from "../Event/AppEventDispatcher";
-import { AppEventType } from "../Event/AppEventType";
 import { connect } from "react-redux";
 import { IGlobalState } from "../../store/reducers";
 import { RouteComponentProps } from "react-router";
@@ -38,7 +37,7 @@ class IacPreviousNextPage extends React.Component<IProps> {
     this.unsubscribeFn.forEach(fn => fn());
   }
 
-  previousPage = (type: AppEventType) => {
+  previousPage = () => {
     const currentIndex = this.props.pages.findIndex(
       page => page.id === this.props.pageId,
     );
@@ -47,7 +46,7 @@ class IacPreviousNextPage extends React.Component<IProps> {
     }
   };
 
-  nextPage = (type: AppEventType) => {
+  nextPage = () => {
     const currentIndex = this.props.pages.findIndex(
       page => page.id === this.props.pageId,
     );

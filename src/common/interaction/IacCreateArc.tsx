@@ -1,7 +1,6 @@
 import React from "react";
 import Paper from "paper";
 import appEventDispatcher from "../Event/AppEventDispatcher";
-import { AppEventType } from "../Event/AppEventType";
 import { connect } from "react-redux";
 import configuration from "../configuration";
 import { createElementAction } from "../../actions/changeElementActions";
@@ -32,11 +31,11 @@ class IacCreateArc extends React.Component<IProps> {
     this.unsubscribeFn.forEach(fn => fn());
   }
 
-  onMouseDown = (type: AppEventType, event: Paper.MouseEvent) => {
+  onMouseDown = (event: Paper.MouseEvent) => {
     this.firstPoint = event.point;
     this.createArc(this.firstPoint);
   };
-  onMouseUp = (type: AppEventType, event: Paper.MouseEvent) => {
+  onMouseUp = (event: Paper.MouseEvent) => {
     if (!this.arc) {
       throw new Error("arc missing");
     }
@@ -51,7 +50,7 @@ class IacCreateArc extends React.Component<IProps> {
     this.arc = null;
   };
 
-  onMouseDrag = (type: AppEventType, event: Paper.MouseEvent) => {
+  onMouseDrag = (event: Paper.MouseEvent) => {
     if (!this.arc) {
       throw new Error("arc missing");
     }

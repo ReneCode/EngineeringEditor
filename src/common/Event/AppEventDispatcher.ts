@@ -1,16 +1,7 @@
 import { AppEventType } from "./AppEventType";
 import createId from "../../model/createId";
-// import { IAppEventHandler } from "./IAppEventHandler";
 
-// export interface AppEvent {
-//   type: AppEventType;
-//   payload?: any;
-// }
-
-type AppEventHandler = (
-  type: AppEventType,
-  ...params: any
-) => void | string;
+type AppEventHandler = (...params: any) => void | string;
 
 class AppEventDispatcher {
   private eventHandlers: {
@@ -37,7 +28,7 @@ class AppEventDispatcher {
     for (let eh of eventHandlers) {
       try {
         if (eh.type === type) {
-          const result = eh.handler(type, ...params);
+          const result = eh.handler(...params);
           handled = true;
           if (result === "stop") {
             break;

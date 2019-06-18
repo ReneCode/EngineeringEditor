@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 import Paper from "paper";
 import appEventDispatcher from "../Event/AppEventDispatcher";
-import { AppEventType } from "../Event/AppEventType";
 import configuration from "../configuration";
 import GraphicLine from "../../model/graphic/GraphicLine";
 import { cudElementAction } from "../../actions/changeElementActions";
@@ -33,12 +32,12 @@ class IacCreateLine extends React.Component<IProps> {
     this.unsubscribeFn.forEach(fn => fn());
   }
 
-  onMouseDown = (type: AppEventType, event: Paper.MouseEvent) => {
+  onMouseDown = (event: Paper.MouseEvent) => {
     this.firstPoint = event.point;
     this.createLine(this.firstPoint);
   };
 
-  onMouseUp = (type: AppEventType, event: Paper.MouseEvent) => {
+  onMouseUp = (event: Paper.MouseEvent) => {
     if (!this.line) {
       throw new Error("line missing");
     }
@@ -53,7 +52,7 @@ class IacCreateLine extends React.Component<IProps> {
     this.line = null;
   };
 
-  onMouseDrag = (type: AppEventType, event: Paper.MouseEvent) => {
+  onMouseDrag = (event: Paper.MouseEvent) => {
     if (!this.line) {
       throw new Error("line missing");
     }

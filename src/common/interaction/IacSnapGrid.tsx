@@ -2,7 +2,6 @@ import React from "react";
 
 import Paper from "paper";
 import appEventDispatcher from "../Event/AppEventDispatcher";
-import { AppEventType } from "../Event/AppEventType";
 import { snap } from "../snap";
 
 class IacSnapGrid extends React.Component {
@@ -26,19 +25,19 @@ class IacSnapGrid extends React.Component {
     this.unsubscribeFn.forEach(fn => fn());
   }
 
-  onMouseDown = (type: AppEventType, event: Paper.MouseEvent) => {
+  onMouseDown = (event: Paper.MouseEvent) => {
     event.point = this.snap(event);
   };
 
-  onMouseMove = (type: AppEventType, event: Paper.MouseEvent) => {
+  onMouseMove = (event: Paper.MouseEvent) => {
     event.point = this.snap(event);
   };
 
-  onMouseDrag = (type: AppEventType, event: Paper.MouseEvent) => {
+  onMouseDrag = (event: Paper.MouseEvent) => {
     event.point = this.snap(event);
   };
 
-  onMouseUp = (type: AppEventType, event: Paper.MouseEvent) => {
+  onMouseUp = (event: Paper.MouseEvent) => {
     event.point = this.snap(event);
   };
 

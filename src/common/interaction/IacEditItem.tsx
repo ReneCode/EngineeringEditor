@@ -4,7 +4,6 @@ import Paper from "paper";
 
 import Placement, { DrawMode } from "../../model/Placement";
 import { IGlobalState } from "../../store/reducers";
-import { AppEventType } from "../Event/AppEventType";
 import PaperUtil from "../../utils/PaperUtil";
 import { ItemName } from "../ItemName";
 import configuration from "../configuration";
@@ -68,7 +67,7 @@ class IacEditItem extends React.Component<IProps> {
     }
   }
 
-  onMouseDown = (type: AppEventType, event: Paper.MouseEvent) => {
+  onMouseDown = (event: Paper.MouseEvent) => {
     const result = PaperUtil.hitTest(event.point);
     if (!result) {
       return;
@@ -92,7 +91,7 @@ class IacEditItem extends React.Component<IProps> {
     }
   };
 
-  onMouseDrag = (type: AppEventType, event: Paper.MouseEvent) => {
+  onMouseDrag = (event: Paper.MouseEvent) => {
     if (this.editItem) {
       switch (this.modus) {
         case "grip":

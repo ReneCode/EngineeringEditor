@@ -1,7 +1,6 @@
 import React from "react";
 import Paper from "paper";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
-import { AppEventType } from "../../common/Event/AppEventType";
 import { IGlobalState } from "../../store/reducers";
 import { connect } from "react-redux";
 
@@ -37,7 +36,7 @@ class KeyboardHandler extends React.Component<IProps> {
     this.unsubscribeFn.forEach(fn => fn());
   }
 
-  onKeyDown = (type: AppEventType, event: KeyboardEvent) => {
+  onKeyDown = (event: KeyboardEvent) => {
     if (!this.props.enableKeyboardHandler) {
       return;
     }
@@ -121,10 +120,7 @@ class KeyboardHandler extends React.Component<IProps> {
     event.preventDefault();
   };
 
-  mouseEventHandler = (
-    type: AppEventType,
-    event: Paper.MouseEvent,
-  ) => {
+  mouseEventHandler = (event: Paper.MouseEvent) => {
     this.setState({
       cursor: event.point,
     });

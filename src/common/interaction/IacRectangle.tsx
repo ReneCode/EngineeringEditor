@@ -1,7 +1,6 @@
 import React from "react";
 import Paper from "paper";
 import appEventDispatcher from "../Event/AppEventDispatcher";
-import { AppEventType } from "../Event/AppEventType";
 import { connect } from "react-redux";
 import { DispatchFunction } from "../../actions/action";
 
@@ -29,11 +28,11 @@ class IacRectangle extends React.Component<IProps> {
     this.unsubscribeFn.forEach(fn => fn());
   }
 
-  onMouseDown = (type: AppEventType, event: Paper.MouseEvent) => {
+  onMouseDown = (event: Paper.MouseEvent) => {
     this.createRectangle();
   };
 
-  onMouseUp = (type: AppEventType, event: Paper.MouseEvent) => {
+  onMouseUp = (event: Paper.MouseEvent) => {
     if (!this.rectangle) {
       throw new Error("rectangle missing");
     }
@@ -43,7 +42,7 @@ class IacRectangle extends React.Component<IProps> {
     this.rectangle = null;
   };
 
-  onMouseDrag = (type: AppEventType, event: Paper.MouseEvent) => {
+  onMouseDrag = (event: Paper.MouseEvent) => {
     if (!this.rectangle) {
       throw new Error("rectangle missing");
     }

@@ -4,7 +4,6 @@ import { setSelectedPlacementIds } from "../../actions/graphicActions";
 import { connect } from "react-redux";
 import { IGlobalState } from "../../store/reducers";
 import appEventDispatcher from "../Event/AppEventDispatcher";
-import { AppEventType } from "../Event/AppEventType";
 import PaperUtil from "../../utils/PaperUtil";
 import { ItemName } from "../ItemName";
 import { concatUnique } from "../../utils/concatUnique";
@@ -51,7 +50,7 @@ class IacSelect extends React.Component<IProps> {
     mouseUp => remove from selection (if it was already selected on mouseDown)
                 do not remove, when dragEvent was before mouseUp
   */
-  onMouseUp = (type: AppEventType, event: Paper.MouseEvent) => {
+  onMouseUp = (event: Paper.MouseEvent) => {
     if (this.modus === "boxselect") {
       this.modus = "";
       this.removeSelectionBox();
@@ -86,7 +85,7 @@ class IacSelect extends React.Component<IProps> {
     }
   };
 
-  onMouseDown = (type: AppEventType, event: Paper.MouseEvent) => {
+  onMouseDown = (event: Paper.MouseEvent) => {
     this.addedId = "";
 
     this.modus = "";
@@ -145,7 +144,7 @@ class IacSelect extends React.Component<IProps> {
     this.props.dispatch(setSelectedPlacementIds(ids));
   }
 
-  onMouseDrag = (type: AppEventType, event: Paper.MouseEvent) => {
+  onMouseDrag = (event: Paper.MouseEvent) => {
     if (!this.canDrag) {
       return;
     }

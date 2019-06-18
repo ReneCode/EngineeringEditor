@@ -2,7 +2,6 @@ import React from "react";
 // https://github.com/frenic/csstype
 import * as CSS from "csstype";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
-import { AppEventType } from "../../common/Event/AppEventType";
 import { connect } from "react-redux";
 import GraphicText from "../../model/graphic/GraphicText";
 import { cudElementAction } from "../../actions/changeElementActions";
@@ -47,7 +46,7 @@ class TextEditView extends React.Component<IProps> {
     event.stopPropagation();
   };
 
-  onKeyDown = (type: AppEventType, event: KeyboardEvent) => {
+  onKeyDown = (event: KeyboardEvent) => {
     switch (event.key) {
       case "Escape":
         this.endEdit(false);
@@ -55,7 +54,7 @@ class TextEditView extends React.Component<IProps> {
     }
   };
 
-  private startEdit = (type: AppEventType, options: any) => {
+  private startEdit = (options: any) => {
     this.props.dispatch(enableKeyboardHandlerAction(false));
     this.placementId = options.placementId;
     this.startText = options.text;

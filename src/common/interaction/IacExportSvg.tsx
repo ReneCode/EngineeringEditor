@@ -1,7 +1,6 @@
 import React from "react";
 import Paper from "paper";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
-import { AppEventType } from "../Event/AppEventType";
 
 interface IProps {}
 
@@ -19,7 +18,7 @@ class IacExportSvg extends React.Component<IProps> {
     this.unsubscribeFn();
   }
 
-  onExportSvg = (type: AppEventType, items: Paper.Item[]) => {
+  onExportSvg = (items: Paper.Item[]) => {
     if (items.length === 0) {
       return;
     }

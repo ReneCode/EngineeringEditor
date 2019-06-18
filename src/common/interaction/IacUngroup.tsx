@@ -1,7 +1,6 @@
 import React from "react";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 import Placement from "../../model/Placement";
-import { AppEventType } from "../Event/AppEventType";
 import { connect } from "react-redux";
 import { cudElementAction } from "../../actions/changeElementActions";
 import GraphicGroup from "../../model/graphic/GraphicGroup";
@@ -24,7 +23,7 @@ class IacUngroup extends React.Component<IProps> {
     this.unsubscribeFn();
   }
 
-  onUngroup = (type: AppEventType, placements: Placement[]) => {
+  onUngroup = (placements: Placement[]) => {
     if (
       !placements ||
       placements.length !== 1 ||

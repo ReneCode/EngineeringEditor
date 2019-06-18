@@ -6,7 +6,6 @@ import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 import { cudElementAction } from "../../actions/changeElementActions";
 import Placement from "../../model/Placement";
 import { IGlobalState } from "../../store/reducers";
-import { AppEventType } from "../Event/AppEventType";
 import GraphicSymbol from "../../model/graphic/GraphicSymbol";
 import { createSymbolAction } from "../../actions/createSymbol";
 import GraphicSymbolRef from "../../model/graphic/GraphicSymbolRef";
@@ -31,10 +30,7 @@ class IacCreateSymbolAndSymbolRef extends React.Component<IProps> {
     this.unsubscribeFn();
   }
 
-  onCreateSymbolAndSymbolRef = (
-    type: AppEventType,
-    placements: Placement[],
-  ) => {
+  onCreateSymbolAndSymbolRef = (placements: Placement[]) => {
     if (!placements || placements.length === 0) {
       return;
     }

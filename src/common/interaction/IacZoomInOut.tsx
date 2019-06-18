@@ -2,7 +2,6 @@ import React from "react";
 import Paper from "paper";
 
 import appEventDispatcher from "../Event/AppEventDispatcher";
-import { AppEventType } from "../Event/AppEventType";
 import { connect } from "react-redux";
 import { IGlobalState } from "../../store/reducers";
 
@@ -26,11 +25,11 @@ class IacZoomInOut extends React.Component<IProps> {
     this.unsubscribeFn.forEach(fn => fn());
   }
 
-  zoomInHandler = (type: AppEventType, center: Paper.Point) => {
+  zoomInHandler = (center: Paper.Point) => {
     Paper.view.scale(1.2, this.getCenter(center));
   };
 
-  zoomOutHandler = (type: AppEventType, center: Paper.Point) => {
+  zoomOutHandler = (center: Paper.Point) => {
     if (!center) {
       center = Paper.view.center;
     }

@@ -4,7 +4,6 @@ import Paper from "paper";
 import { ItemName } from "../ItemName";
 import configuration from "../configuration";
 import appEventDispatcher from "../Event/AppEventDispatcher";
-import { AppEventType } from "../Event/AppEventType";
 import PaperUtil from "../../utils/PaperUtil";
 import { connect } from "react-redux";
 import { IGlobalState } from "../../store/reducers";
@@ -37,7 +36,7 @@ class IacHoverItem extends React.Component<IProps> {
     }
   }
 
-  onMouseMove = (type: AppEventType, event: Paper.MouseEvent) => {
+  onMouseMove = (event: Paper.MouseEvent) => {
     const result = PaperUtil.hitTest(event.point);
 
     if (result) {

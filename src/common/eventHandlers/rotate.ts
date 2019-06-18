@@ -1,14 +1,10 @@
 import appEventDispatcher from "../Event/AppEventDispatcher";
-import { AppEventType } from "../Event/AppEventType";
 import GraphicConnectionPoint from "../../model/graphic/GraphicConnectionPoint";
 import store from "../../store/index";
 import { cudElementAction } from "../../actions/changeElementActions";
 import PaperUtil from "../../utils/PaperUtil";
 
-const rotatePlacements = (
-  type: AppEventType,
-  placementIds: string[],
-) => {
+const rotatePlacements = (placementIds: string[]) => {
   console.log("rotate:", placementIds);
 
   if (!placementIds || placementIds.length === 0) {
