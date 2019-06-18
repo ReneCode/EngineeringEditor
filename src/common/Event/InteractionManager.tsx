@@ -24,7 +24,6 @@ class InteractionManager extends Component<IProps> {
     "IacPreviousNextPage",
     "IacExportSvg",
     "IacChangeProperty",
-    "IacUngroup",
     "IacCreateSymbolAndSymbolRef",
   ];
 

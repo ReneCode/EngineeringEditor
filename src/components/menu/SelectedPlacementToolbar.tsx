@@ -22,7 +22,10 @@ class SelectedPlacementToolbar extends React.Component<IProps> {
     switch (type) {
       case "group":
         buttons.push(
-          ToolbarButtonFactory.create("ungroup", placements),
+          ToolbarButtonFactory.create(
+            "ungroup",
+            placements.map(p => p.id),
+          ),
         );
         break;
 

@@ -13,7 +13,6 @@ import IacSelect from "../interaction/IacSelect";
 import IacPreviousNextPage from "../interaction/IacPreviousNextPage";
 import IacExportSvg from "../interaction/IacExportSvg";
 import IacChangeProperty from "../interaction/IacChangeProperty";
-import IacUngroup from "../interaction/IacUngroup";
 import IacCreateSymbolAndSymbolRef from "../interaction/IacCreateSymbolAndSymbolRef";
 import IacPlaceSymbol from "../interaction/IacPlaceSymbol";
 import IacCreateText from "../interaction/IacCreateText";
@@ -29,8 +28,6 @@ class InteractionFactory {
         return <IacPlaceSymbol {...props} />;
       case "IacCreateSymbolAndSymbolRef":
         return <IacCreateSymbolAndSymbolRef {...props} />;
-      case "IacUngroup":
-        return <IacUngroup {...props} />;
       case "IacChangeProperty":
         return <IacChangeProperty {...props} />;
       case "IacExportSvg":
