@@ -23,33 +23,31 @@ class GraphicGroup extends Placement {
     };
   }
 
-  setMode(drawMode: DrawMode) {
-    if (drawMode === this._drawMode) {
-      return;
+  paperDraw(drawMode: DrawMode = null): Paper.Item {
+    switch (drawMode) {
+      case null:
+        this.removeTempItems();
+        this.setPaperItem(this.createPaperItem());
+        break;
+      case "highlight":
+        {
+          const item = this.createOutline(ItemName.temp);
+          item.strokeColor = configuration.modeHighlightColor;
+          this.addTempItem(item);
+        }
+        break;
+      case "select":
+        {
+          const item = this.createOutline(ItemName.temp);
+          item.strokeColor = configuration.modeSelectColor;
+          this.addTempItem(item);
+        }
+        break;
     }
-    this._drawMode = drawMode;
-
-    this.drawTempItems();
-  }
-
-  paperDraw(): Paper.Item {
-    const item = this.createPaperItem();
-
-    if (this._item) {
-      this._item.replaceWith(item);
-    }
-    this._item = item;
-    return item;
+    return this.getPaperItem();
   }
 
   dragGrip(event: Paper.MouseEvent, gripItem: Paper.Item) {}
-
-  dragItem(event: Paper.MouseEvent) {
-    if (this._item) {
-      this.translate(event.delta);
-      this.paperDraw();
-    }
-  }
 
   translate(delta: Paper.Point) {
     for (let child of this.children) {
@@ -57,44 +55,12 @@ class GraphicGroup extends Placement {
     }
   }
 
-  private drawTempItems(selectedGripId: number = 0) {
-    if (this._tempItems) {
-      for (let item of this._tempItems) {
-        item.remove();
-      }
+  private createOutline(name: string | undefined): Paper.Item {
+    const outline = new Paper.Path.Rectangle(this._item.bounds);
+    if (name) {
+      outline.name = name;
     }
-    this._tempItems = [];
-    switch (this._drawMode) {
-      //   case "hover":
-      //     {
-      //       const item = this.createPaperItem(ItemName.temp);
-      //       item.strokeColor = configuration.selectionColor;
-      //       item.strokeWidth = 2;
-      //       this._tempItems.push(item);
-      //     }
-      //     break;
-      // case "select":
-      case "select":
-        {
-          const item = this.createOutline(ItemName.temp);
-          if (item) {
-            item.strokeColor = configuration.modeSelectColor;
-            this._tempItems.push(item);
-          }
-        }
-        break;
-    }
-  }
-
-  private createOutline(name: string | undefined): Paper.Item | null {
-    if (this._item) {
-      const outline = new Paper.Path.Rectangle(this._item.bounds);
-      if (name) {
-        outline.name = name;
-      }
-      return outline;
-    }
-    return null;
+    return outline;
   }
 
   createPaperItem(): Paper.Group {
@@ -102,7 +68,6 @@ class GraphicGroup extends Placement {
     group.data = this.id;
     group.name = ItemName.itemGroup;
 
-    // const childItems = this.children.map(c => c.createPaperItem());
     const childItems = this.children.map(c => c.paperDraw());
 
     group.addChildren(childItems);
