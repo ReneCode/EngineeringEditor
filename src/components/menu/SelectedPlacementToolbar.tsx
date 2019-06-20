@@ -18,38 +18,31 @@ class SelectedPlacementToolbar extends React.Component<IProps> {
   getContextButtons(placements: Placement[]) {
     // individual toolbar-button for each placement-type
     const type = PlacementUtil.getUniqueType(placements);
+    const placementIds = placements.map(p => p.id);
     const buttons: JSX.Element[] = [];
     switch (type) {
       case "group":
         buttons.push(
-          ToolbarButtonFactory.create(
-            "ungroup",
-            placements.map(p => p.id),
-          ),
+          ToolbarButtonFactory.create("ungroup", placementIds),
         );
         break;
 
       case "connectionpoint":
         buttons.push(
-          ToolbarButtonFactory.create(
-            "rotate",
-            placements.map(p => p.id),
-          ),
+          ToolbarButtonFactory.create("rotate", placementIds),
         );
         break;
     }
 
     if (placements.length > 1) {
       buttons.push(
-        ToolbarButtonFactory.create(
-          "group",
-          placements.map(p => p.id),
-        ),
+        ToolbarButtonFactory.create("group", placementIds),
       );
     }
     buttons.push(
       ToolbarButtonFactory.create("createSymbol", placements),
     );
+    buttons.push(ToolbarButtonFactory.create("delete", placementIds));
     return buttons;
   }
 

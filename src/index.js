@@ -17,6 +17,11 @@ function Main() {
   );
 }
 
+// https://www.cypress.io/blog/2018/11/14/testing-redux-store/
+if (window.Cypress) {
+  window.store = store;
+}
+
 const rootElement = document.getElementById("root");
 
 // https://github.com/reactjs/react-modal/issues/576

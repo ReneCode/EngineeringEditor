@@ -19,7 +19,6 @@ class InteractionManager extends Component<IProps> {
   fixInteractionNames = [
     "UndoRedo",
     "SnapGrid",
-    "Delete",
     "ZoomInOut",
     "IacPreviousNextPage",
     "IacExportSvg",
@@ -27,12 +26,7 @@ class InteractionManager extends Component<IProps> {
     "IacCreateSymbolAndSymbolRef",
   ];
 
-  idleInteractionNames = [
-    "IacEditItem",
-    "IacSelectAll",
-    "IacSelect",
-    "HoverItem",
-  ];
+  idleInteractionNames = ["IacEditItem", "IacSelect", "HoverItem"];
 
   componentWillMount() {
     this.unsubscribeFn.push(

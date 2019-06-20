@@ -140,6 +140,7 @@ class TextEditView extends React.Component<IProps> {
     return (
       <div style={rootStyle} onMouseDown={this.onRootMouseDown}>
         <div
+          className="edit-text"
           ref={this.divRef}
           contentEditable
           style={style}

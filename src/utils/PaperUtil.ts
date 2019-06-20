@@ -102,6 +102,9 @@ class PaperUtil {
   }
 
   static getPlacementsById(ids: string[]): Placement[] {
+    if (!ids) {
+      throw new Error("ids not set");
+    }
     let placements: Placement[] = [];
     const state = store.getState();
     for (let id of ids) {

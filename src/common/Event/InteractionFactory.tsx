@@ -2,9 +2,7 @@ import React from "react";
 import IacUndoRedo from "../interaction/IacUndoRedo";
 import IacSnapGrid from "../interaction/IacSnapGrid";
 import IacRectangle from "../interaction/IacRectangle";
-import IacDelete from "../interaction/IacDelete";
 import IacZoomInOut from "../interaction/IacZoomInOut";
-import IacSelectAll from "../interaction/IacSelectAll";
 import IacCreateArc from "../interaction/IacCreateArc";
 import IacHoverItem from "../interaction/IacHoverItem";
 import IacCreateLine from "../interaction/IacCreateLine";
@@ -36,8 +34,6 @@ class InteractionFactory {
         return <IacPreviousNextPage {...props} />;
       case "HoverItem":
         return <IacHoverItem {...props} />;
-      case "IacSelectAll":
-        return <IacSelectAll {...props} />;
       case "IacEditItem":
         return <IacEditItem {...props} />;
       case "IacSelect":
@@ -52,8 +48,6 @@ class InteractionFactory {
         return <IacRectangle {...props} />;
       case "UndoRedo":
         return <IacUndoRedo {...props} />;
-      case "Delete":
-        return <IacDelete {...props} />;
       case "SnapGrid":
         return <IacSnapGrid {...props} />;
       case "ZoomInOut":

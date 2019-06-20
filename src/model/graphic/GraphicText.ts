@@ -94,7 +94,6 @@ class GraphicText extends Placement {
 
   onMouseUp(event: Paper.MouseEvent) {
     if (!this.editDrag && this.editMouseDown) {
-      console.log("startEditText");
       this.removeTempItems();
 
       this.startEditText();

@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 
 interface IProps {
   enableKeyboardHandler: boolean;
+  selectedPlacementIds: string[];
 }
 
 class KeyboardHandler extends React.Component<IProps> {
@@ -79,7 +80,10 @@ class KeyboardHandler extends React.Component<IProps> {
         break;
       case "Delete":
       case "Backspace":
-        appEventDispatcher.dispatch("delete");
+        appEventDispatcher.dispatch(
+          "delete",
+          this.props.selectedPlacementIds,
+        );
         event.preventDefault();
         break;
 
@@ -136,6 +140,7 @@ class KeyboardHandler extends React.Component<IProps> {
 const mapStateToProps = (state: IGlobalState) => {
   return {
     enableKeyboardHandler: state.project.enableKeyboardHandler,
+    selectedPlacementIds: state.graphic.selectedPlacementIds,
   };
 };
 

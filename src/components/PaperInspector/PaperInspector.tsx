@@ -53,7 +53,6 @@ class PaperInspector extends React.Component<IProps> {
     if (!placement) {
       return "-no-placement-";
     }
-    let result: any[] = [`${placement.type}`];
     switch (placement.type) {
       case "line": {
         const line = placement as GraphicLine;

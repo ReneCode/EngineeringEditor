@@ -1,4 +1,3 @@
-import Paper from "paper";
 /*
 
 for picking use:

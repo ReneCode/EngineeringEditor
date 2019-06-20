@@ -17,7 +17,7 @@ const IconButton = (props: IProps) => {
   }
   return (
     <div
-      className="icon-btn"
+      className={`icon-btn icon-${props.icon}`}
       onClick={() => props.onClick()}
       title={props.title || props.icon}>
       <svg

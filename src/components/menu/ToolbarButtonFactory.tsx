@@ -3,6 +3,7 @@ import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 import IconButton from "../common/IconButton";
 
 type ToolbarButtonName =
+  | "delete"
   | "rotate"
   | "IacCreateConnectionPoint"
   | "createText"
@@ -135,6 +136,18 @@ class ToolbarButtonFactory {
               appEventDispatcher.dispatch("group", ...params)
             }>
             grp
+          </button>
+        );
+
+      case "delete":
+        return (
+          <button key={name}>
+            <IconButton
+              icon="delete"
+              onClick={() =>
+                appEventDispatcher.dispatch(name, ...params)
+              }
+            />
           </button>
         );
 

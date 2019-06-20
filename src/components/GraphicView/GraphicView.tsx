@@ -171,9 +171,11 @@ class GraphicView extends Component<IProps> {
 
   render() {
     return (
-      <div ref={div => (this.frame = div)} className="GraphicView">
+      <div
+        ref={div => (this.frame = div)}
+        tabIndex={0}
+        className="graphic-view">
         <canvas
-          tabIndex={0}
           className="canvas"
           ref={canvas => (this.canvas = canvas)}
           width={this.state.width}
