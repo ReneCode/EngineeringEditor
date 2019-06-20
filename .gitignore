@@ -1,6 +1,7 @@
 
 # Created by https://www.gitignore.io/api/node
 
+/cypress/
 /temp/
 .cypress
 db.json

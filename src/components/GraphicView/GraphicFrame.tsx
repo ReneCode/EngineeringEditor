@@ -8,6 +8,7 @@ import SelectedPlacementToolbar from "../menu/SelectedPlacementToolbar";
 import ModalDialog from "../ModalDialog/ModalDialog";
 import TextEditView from "./TextEditView";
 import KeyboardHandler from "../ModalDialog/KeyboardHandler";
+import PaperInspector from "../PaperInspector/PaperInspector";
 
 const GraphicFrame = () => {
   return (
@@ -20,6 +21,7 @@ const GraphicFrame = () => {
       <Statusbar />
       <KeyboardHandler />
       <ModalDialog />
+      <PaperInspector />
     </div>
   );
 };

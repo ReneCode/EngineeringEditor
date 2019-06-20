@@ -37,6 +37,8 @@ class KeyboardHandler extends React.Component<IProps> {
   }
 
   onKeyDown = (event: KeyboardEvent) => {
+    // console.log("key:", event.key);
+
     if (!this.props.enableKeyboardHandler) {
       return;
     }

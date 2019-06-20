@@ -26,6 +26,7 @@ class IacDelete extends React.Component<IProps> {
   }
 
   onDelete = () => {
+    // console.log("DELETE");
     const placements = this.props.items.filter(placement => {
       const id = placement.id;
       if (id) {
@@ -35,6 +36,7 @@ class IacDelete extends React.Component<IProps> {
       }
     });
 
+    console.log("del:", this.props.selectedPlacementIds);
     this.props.dispatch(deleteElementAction("placement", placements));
   };
 

@@ -128,6 +128,23 @@ nav.menu .text {
   background-color: #eee;
 }
 
+.paper-inspector {
+  padding: 2px;
+  border: 1px solid gray;
+  position: fixed;
+  bottom: 50px;
+  color: gray;
+  left: 15px;
+  button {
+    border-radius: 0px;
+  }
+  .paper-inspector--list {
+    div {
+      font-size: 0.8rem;
+    }
+  }
+}
+
 .status-bar {
   position: fixed;
   bottom: 15px;
