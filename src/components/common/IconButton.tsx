@@ -25,7 +25,13 @@ const IconButton = (props: IProps) => {
         viewBox={data.viewBox || "0 0 40 40"}>
         {data.path.map((p: string, idx: number) => {
           return (
-            <path key={idx} d={p} stroke="#eee" strokeWidth="2" />
+            <path
+              key={idx}
+              d={p}
+              stroke={data.stroke || "#eee"}
+              fill={data.fill || "#444"}
+              strokeWidth={data.strokeWidth || "2"}
+            />
           );
         })}
       </svg>

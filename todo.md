@@ -9,6 +9,7 @@
 
 ## TODO
 
+- icons for project-overview
 - icons / https://vectr.com/
 
 - ungroup with more than one placement
