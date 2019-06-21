@@ -4,6 +4,8 @@ import "./group";
 import "./ungroup";
 import "./delete";
 import "./selectAll";
+import "./undoRedo";
+import "./zoomInOut";
 
 const initHandlers = () => {};
 

@@ -106,16 +106,21 @@ class PaperInspector extends React.Component<IProps> {
   }
 
   render() {
+    let items: Paper.Item[] = [];
+    if (
+      this.state.project &&
+      this.state.project.activeLayer &&
+      this.state.project.activeLayer.children
+    ) {
+      items = this.state.project.activeLayer.children;
+    }
     return (
       <div className="paper-inspector">
         <div className="paper-inspector--list">
-          {this.state.project &&
-            this.state.project.activeLayer.children.map(
-              (item, index) => {
-                const data = this.getItemData(item);
-                return <div key={index}>{data}</div>;
-              },
-            )}
+          {items.map((item, index) => {
+            const data = this.getItemData(item);
+            return <div key={index}>{data}</div>;
+          })}
         </div>
         <input
           className="paper-inspector--autoupdate"

@@ -1,8 +1,6 @@
 import React from "react";
-import IacUndoRedo from "../interaction/IacUndoRedo";
 import IacSnapGrid from "../interaction/IacSnapGrid";
 import IacRectangle from "../interaction/IacRectangle";
-import IacZoomInOut from "../interaction/IacZoomInOut";
 import IacCreateArc from "../interaction/IacCreateArc";
 import IacHoverItem from "../interaction/IacHoverItem";
 import IacCreateLine from "../interaction/IacCreateLine";
@@ -46,12 +44,8 @@ class InteractionFactory {
         return <IacCreateLine {...props} />;
       case "Rectangle":
         return <IacRectangle {...props} />;
-      case "UndoRedo":
-        return <IacUndoRedo {...props} />;
       case "SnapGrid":
         return <IacSnapGrid {...props} />;
-      case "ZoomInOut":
-        return <IacZoomInOut {...props} />;
       default:
         throw new Error(`InteractionName not registered: ${name}`);
     }

@@ -1,9 +1,9 @@
 import Paper from "paper";
-import Placement from "./Placement";
+import Placement from "../Placement";
 import GraphicConnectionPoint, {
   ConnectionPointDirection,
-} from "./graphic/GraphicConnectionPoint";
-import GraphicSymbolRef from "./graphic/GraphicSymbolRef";
+} from "../graphic/GraphicConnectionPoint";
+import GraphicSymbolRef from "../graphic/GraphicSymbolRef";
 
 interface IPlacementAndConnectionPoint {
   placement: Placement;
@@ -26,7 +26,6 @@ class AutoConnectionUtil {
 
   public getConnectionPairs(): IPlacementAndConnectionPointPair[] {
     const connectionPoints = this.getSortedConnectionPoints();
-    console.log(":", connectionPoints);
     const pairs = [];
     const len = connectionPoints.length;
     let i = 0;

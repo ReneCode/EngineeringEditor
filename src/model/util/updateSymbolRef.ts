@@ -1,8 +1,8 @@
 import Paper from "paper";
-import GraphicSymbol from "./graphic/GraphicSymbol";
-import Placement from "./Placement";
-import GraphicSymbolRef from "./graphic/GraphicSymbolRef";
-import GraphicGroup from "./graphic/GraphicGroup";
+import GraphicSymbol from "../graphic/GraphicSymbol";
+import Placement from "../Placement";
+import GraphicSymbolRef from "../graphic/GraphicSymbolRef";
+import GraphicGroup from "../graphic/GraphicGroup";
 
 const updateSymbolRef = (
   items: Placement[],

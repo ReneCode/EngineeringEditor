@@ -17,9 +17,7 @@ class InteractionManager extends Component<IProps> {
   };
 
   fixInteractionNames = [
-    "UndoRedo",
     "SnapGrid",
-    "ZoomInOut",
     "IacPreviousNextPage",
     "IacExportSvg",
     "IacChangeProperty",

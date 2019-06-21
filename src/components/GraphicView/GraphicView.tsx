@@ -10,10 +10,9 @@ import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 import InteractionManager from "../../common/Event/InteractionManager";
 import PaperUtil from "../../utils/PaperUtil";
 import GraphicSymbol from "../../model/graphic/GraphicSymbol";
-import updateSymbolRef from "../../model/updateSymbolRef";
 import { DispatchFunction } from "../../actions/action";
-import AutoConnectionUtil from "../../model/AutoConnectionUtil";
-import GraphicLine from "../../model/graphic/GraphicLine";
+import updateSymbolRef from "../../model/util/updateSymbolRef";
+import updateAutoConnection from "../../model/util/updateAutoConnection";
 
 interface IProps {
   items: Placement[];
@@ -50,21 +49,12 @@ class GraphicView extends Component<IProps> {
       project.activeLayer.removeChildren();
 
       updateSymbolRef(this.props.items, this.props.symbols);
+
       for (let placement of this.props.items) {
         placement.paperDraw();
       }
 
-      const ac = new AutoConnectionUtil(this.props.items);
-      const pairs = ac.getConnectionPairs();
-
-      const autoconnectionLines: Placement[] = pairs.map(p => {
-        console.log(p.source.pt, p.dest.pt);
-        const line = new GraphicLine(p.source.pt, p.dest.pt);
-        line.color = "red";
-        line.layer = "autoconnect";
-        line.paperDraw();
-        return line;
-      });
+      updateAutoConnection(this.props.items);
 
       // now the other components can work with the drawn Paper items
       this.props.dispatch({ type: actionTypes.REDRAWN });

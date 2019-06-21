@@ -14,7 +14,6 @@
 - ungroup with more than one placement
 - set Cursor to GraphicText on Edit based on the mouse-click-position
 
-* use draft.js for text-editing (https://draftjs.org/)
 * PaperUtil.getHitTest refactor (return all hitItemType / grip, item, temp)
 * change IacHoverItem to drawHover/removeHover (for each ItemName)
 * SelectedPlacementToobar as ModalToolbar (as SelectSymbolModal)
@@ -48,6 +47,7 @@
 - cmd-C cmd-V copy paste
 
 * select id after creating Line/Arc
+* use draft.js for text-editing (https://draftjs.org/)
 
 - panning
 
