@@ -82,7 +82,6 @@ class AutoConnectionUtil {
   ): IPlacementAndConnectionPoint[] => {
     if (symbolRef) {
       const symbol = symbolRef.getSymbol();
-      console.log(":", symbol);
       if (symbol) {
         const symbolPt = symbolRef.pt.subtract(symbol.insertPt);
         const cpsWithSymbolRef = symbol.placements

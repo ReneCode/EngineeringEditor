@@ -11,10 +11,17 @@ interface IProps {
 
 class IacCreateText extends React.Component<IProps> {
   private unsubscribeFn: Function[] = [];
+  text: GraphicText | null = null;
 
   componentDidMount() {
     this.unsubscribeFn.push(
       appEventDispatcher.subscribe("mouseDown", this.onMouseDown),
+    );
+    this.unsubscribeFn.push(
+      appEventDispatcher.subscribe("mouseUp", this.onMouseUp),
+    );
+    this.unsubscribeFn.push(
+      appEventDispatcher.subscribe("mouseDrag", this.onMouseDrag),
     );
   }
 
@@ -23,9 +30,29 @@ class IacCreateText extends React.Component<IProps> {
   }
 
   onMouseDown = (event: Paper.MouseEvent) => {
-    const text = new GraphicText("Text", event.point);
-    this.props.dispatch(cudElementAction("placement", text));
+    this.createText(event.point);
   };
+
+  onMouseUp = (event: Paper.MouseEvent) => {
+    this.createText(event.point);
+    if (this.text) {
+      this.props.dispatch(cudElementAction("placement", this.text));
+    }
+    this.text = null;
+  };
+
+  onMouseDrag = (event: Paper.MouseEvent) => {
+    this.createText(event.point);
+  };
+
+  createText(pt: Paper.Point) {
+    if (!this.text) {
+      this.text = new GraphicText("Text", pt);
+    } else {
+      this.text.pt = pt;
+    }
+    this.text.paperDraw();
+  }
 
   render() {
     return null;

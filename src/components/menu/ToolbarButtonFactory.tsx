@@ -5,7 +5,7 @@ import IconButton from "../common/IconButton";
 type ToolbarButtonName =
   | "delete"
   | "rotate"
-  | "IacCreateConnectionPoint"
+  | "createConnectionPoint"
   | "createText"
   | "selectPlaceSymbol"
   | "stopInteraction"
@@ -90,13 +90,16 @@ class ToolbarButtonFactory {
           </button>
         );
 
-      case "IacCreateConnectionPoint":
+      case "createConnectionPoint":
         return (
           <button key={name}>
             <IconButton
               icon="connectionpoint"
               onClick={() =>
-                appEventDispatcher.dispatch("startInteraction", name)
+                appEventDispatcher.dispatch(
+                  "startInteraction",
+                  "IacCreateConnectionPoint",
+                )
               }
             />
           </button>
