@@ -1,12 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import PageNavigation from "./PageNavigation/PageNavigation";
+import switchFullscreen from "../utils/switchFullscreen";
 
 const Topbar = (props: any) => {
   const userName = "Ann Smith";
 
   return (
-    <nav className="menu border-bottom">
+    <nav
+      className="menu border-bottom"
+      onClick={() => {
+        switchFullscreen(true);
+      }}>
       <ul className="menu-left">
         <li className="text">
           <Link to="/" className="link">
