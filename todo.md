@@ -9,7 +9,6 @@
 
 ## TODO
 
-- icons for project-overview
 - icons / https://vectr.com/
 
 - ungroup with more than one placement
@@ -70,6 +69,7 @@ toolPan.onMouseDrag = function(event) {
 
 ## DONE
 
+- ok - icons for project-overview
 - ok - connectionPoint
 - ok - GraphicText (with editing text)
 - ok - generic PopupMenu

@@ -26,7 +26,7 @@ class GraphicSymbolRef extends Placement {
     });
   }
 
-  toJSON(): any {
+  public toJSON(): any {
     return {
       ...super.toJSON(),
       pt: PaperUtil.PointToJSON(this.pt),
@@ -35,29 +35,11 @@ class GraphicSymbolRef extends Placement {
     };
   }
 
-  clone(): GraphicSymbolRef {
+  public clone(): GraphicSymbolRef {
     const copy = deepClone(this);
     copy._symbol = this._symbol;
     return copy;
   }
-
-  /*
-  setName(name: string) {
-    this.name = name;
-  }
-
-  getName(): string {
-    return this.name;
-  }
-
-  setPoint(pt: Paper.Point) {
-    this.pt = pt;
-  }
-
-  getPoint(): Paper.Point {
-    return this.pt;
-  }
-  */
 
   setSymbol(symbol: GraphicSymbol) {
     this._symbol = symbol;
@@ -100,7 +82,9 @@ class GraphicSymbolRef extends Placement {
     }
 
     const symbolItem = this._symbol.getPaperSymbol();
-    const item: Paper.PlacedSymbol = symbolItem.place(this.pt);
+    const item: Paper.PlacedSymbol = symbolItem.place(
+      this.pt.subtract(this._symbol.insertPt),
+    );
     item.name = ItemName.itemSymbolRef;
     item.fillColor = "green";
     item.data = this.id;

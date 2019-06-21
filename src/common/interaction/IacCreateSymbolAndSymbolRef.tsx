@@ -38,7 +38,7 @@ class IacCreateSymbolAndSymbolRef extends React.Component<IProps> {
     const point = this.getInsertPoint(placements);
     const symbolName = `Symbol-${this.props.symbols.length + 1}`;
     const projectId = placements[0].projectId;
-    const symbol = new GraphicSymbol(placements);
+    const symbol = new GraphicSymbol(placements, point);
     symbol.name = symbolName;
     symbol.projectId = projectId;
 

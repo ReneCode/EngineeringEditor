@@ -26,7 +26,7 @@ class AutoConnectionUtil {
 
   public getConnectionPairs(): IPlacementAndConnectionPointPair[] {
     const connectionPoints = this.getSortedConnectionPoints();
-
+    console.log(":", connectionPoints);
     const pairs = [];
     const len = connectionPoints.length;
     let i = 0;
@@ -83,6 +83,7 @@ class AutoConnectionUtil {
   ): IPlacementAndConnectionPoint[] => {
     if (symbolRef) {
       const symbol = symbolRef.getSymbol();
+      console.log(":", symbol);
       if (symbol) {
         const symbolPt = symbolRef.pt.subtract(symbol.insertPt);
         const cpsWithSymbolRef = symbol.placements
@@ -130,10 +131,10 @@ class AutoConnectionUtil {
 
       // 1. order by y-coordinate
       if (a.pt.y < b.pt.y) {
-        return -1;
+        return 1;
       }
       if (a.pt.y > b.pt.y) {
-        return 1;
+        return -1;
       }
       // 1.order by x-coordinate
       if (a.pt.x < b.pt.x) {
@@ -153,9 +154,9 @@ class AutoConnectionUtil {
       }
       // 1.order by y-coordinate
       if (a.pt.y < b.pt.y) {
-        return -1;
-      } else {
         return 1;
+      } else {
+        return -1;
       }
     }
     return 1;

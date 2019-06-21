@@ -1,3 +1,4 @@
+import Paper from "paper";
 import GraphicSymbol from "./graphic/GraphicSymbol";
 import Placement from "./Placement";
 import GraphicSymbolRef from "./graphic/GraphicSymbolRef";
@@ -12,7 +13,7 @@ const updateSymbolRef = (
 
     if (!symbol) {
       console.warn(`Symbol: ${name} not found`);
-      return new GraphicSymbol([]);
+      return new GraphicSymbol([], new Paper.Point(0, 0));
     }
     return symbol;
   };

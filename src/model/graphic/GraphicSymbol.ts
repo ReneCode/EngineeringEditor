@@ -15,9 +15,10 @@ class GraphicSymbol {
   id: IdType;
   projectId: IdType;
 
-  constructor(placements: Placement[]) {
+  constructor(placements: Placement[], insertPt: Paper.Point) {
     this.id = createId("S");
     this.placements = placements;
+    this.insertPt = insertPt;
   }
 
   static fromJSON(json: any): GraphicSymbol {
@@ -35,7 +36,7 @@ class GraphicSymbol {
     });
   }
 
-  toJSON(): any {
+  public toJSON(): any {
     return {
       type: this.type,
       projectId: this.projectId,
@@ -46,14 +47,15 @@ class GraphicSymbol {
     };
   }
 
-  getPaperSymbol(): Paper.Symbol {
+  public getPaperSymbol(): Paper.Symbol {
     if (this._item) {
       return this._item;
     }
 
     const items = this.placements.map(p => p.paperDraw());
     const group = new Paper.Group(items);
-    const item = new Paper.Symbol(group);
+    // true = dont center the symbol
+    const item = new Paper.Symbol(group, true);
     this._item = item;
 
     return item;
