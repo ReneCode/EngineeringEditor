@@ -157,7 +157,6 @@ class AutoConnectionUtil {
         return -1;
       }
     }
-    return 1;
   };
 }
 

@@ -6,7 +6,7 @@ const updateAutoConnection = (items: Placement[]) => {
   const ac = new AutoConnectionUtil(items);
   const pairs = ac.getConnectionPairs();
 
-  const autoconnectionLines: Placement[] = pairs.map(p => {
+  pairs.map(p => {
     const line = new GraphicLine(p.source.pt, p.dest.pt);
     line.color = "red";
     line.layer = "autoconnect";
