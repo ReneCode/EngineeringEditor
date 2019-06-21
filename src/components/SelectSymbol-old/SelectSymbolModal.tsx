@@ -28,13 +28,13 @@ class SelectSymbolModal extends Component<IProps> {
   }
 
   onClose = () => {
-    this.props.dispatch(actions.showModal(""));
+    this.props.dispatch(actions.showModalAction(""));
   };
 
   onClickSymbol = (symbol: GraphicSymbol) => {
     // const name = symbol.name;
     if (symbol && symbol === this.state.activeSymbol) {
-      this.props.dispatch(actions.showModal(""));
+      this.props.dispatch(actions.showModalAction(""));
       // this.props.dispatch(
       // actions.startInteraction(IA_CREATE_SYMBOLREF, name),
       // );

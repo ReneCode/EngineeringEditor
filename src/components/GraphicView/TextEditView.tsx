@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import GraphicText from "../../model/graphic/GraphicText";
 import { cudElementAction } from "../../actions/changeElementActions";
 import PaperUtil from "../../utils/PaperUtil";
-import { enableKeyboardHandlerAction } from "../../actions/projectActions";
+import { enableShortcutHandlerAction } from "../../actions/projectActions";
 import { setSelectedPlacementIds } from "../../actions/graphicActions";
 
 interface IProps {
@@ -42,11 +42,17 @@ class TextEditView extends React.Component<IProps> {
   };
 
   onTextMouseDown = (event: React.MouseEvent) => {
+    if (!this.state.show) {
+      return;
+    }
     // to not send event to the root (my parent div)
     event.stopPropagation();
   };
 
   onKeyDown = (event: KeyboardEvent) => {
+    if (!this.state.show) {
+      return;
+    }
     switch (event.key) {
       case "Escape":
         this.endEdit(false);
@@ -55,7 +61,7 @@ class TextEditView extends React.Component<IProps> {
   };
 
   private startEdit = (options: any) => {
-    this.props.dispatch(enableKeyboardHandlerAction(false));
+    this.props.dispatch(enableShortcutHandlerAction(false));
     this.placementId = options.placementId;
     this.startText = options.text;
     this.setState({
@@ -77,7 +83,7 @@ class TextEditView extends React.Component<IProps> {
   };
 
   private endEdit(deselectText: boolean) {
-    this.props.dispatch(enableKeyboardHandlerAction(true));
+    this.props.dispatch(enableShortcutHandlerAction(true));
 
     const node = this.divRef.current;
     let text = "";

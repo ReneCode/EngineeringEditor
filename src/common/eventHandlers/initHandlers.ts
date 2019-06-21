@@ -6,6 +6,7 @@ import "./delete";
 import "./selectAll";
 import "./undoRedo";
 import "./zoomInOut";
+import "./showModal";
 
 const initHandlers = () => {};
 

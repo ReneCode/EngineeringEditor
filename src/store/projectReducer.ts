@@ -9,7 +9,7 @@ export interface IProjectState {
   pageId: string;
   pages: Page[];
   currentModalId: ModalIdType;
-  enableKeyboardHandler: boolean;
+  enableShortcutHandler: boolean;
   enablePlacementToolbar: boolean;
   pageViewports: {};
 }
@@ -19,7 +19,7 @@ const initialState: IProjectState = {
   pageId: "",
   pages: [],
   currentModalId: "",
-  enableKeyboardHandler: true,
+  enableShortcutHandler: true,
   enablePlacementToolbar: true,
   pageViewports: {},
 };
@@ -57,10 +57,10 @@ const setViewport = (
 
 const projectReducer = (state = initialState, action: IAction) => {
   switch (action.type) {
-    case actionTypes.ENABLE_KEYBOARD_HANDLER:
+    case actionTypes.ENABLE_SHORTCUT_HANDLER:
       return {
         ...state,
-        enableKeyboardHandler: action.payload,
+        enableShortcutHandler: action.payload,
       };
 
     case actionTypes.ENABLE_PLACEMENT_TOOLBAR:

@@ -1,8 +1,12 @@
 import React from "react";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 import SymbolList from "./SymbolList";
+import { enableShortcutHandlerAction } from "../../actions/projectActions";
+import { connect } from "react-redux";
 
-interface IProps {}
+interface IProps {
+  dispatch: Function;
+}
 
 class SelectSymbolModal extends React.Component<IProps> {
   private unsubscribeFn: Function[] = [];
@@ -15,13 +19,15 @@ class SelectSymbolModal extends React.Component<IProps> {
     this.unsubscribeFn.push(
       appEventDispatcher.subscribe("keyDown", this.onKeyDown),
     );
+    this.props.dispatch(enableShortcutHandlerAction(false));
   }
 
   componentWillUnmount() {
     this.unsubscribeFn.forEach(fn => fn());
+    this.props.dispatch(enableShortcutHandlerAction(true));
   }
 
-  onKeyDown = (type: string, event: KeyboardEvent) => {
+  onKeyDown = (event: KeyboardEvent) => {
     if (event && event.key === "Escape") {
       appEventDispatcher.dispatch("showModal", "");
     }
@@ -81,4 +87,4 @@ class SelectSymbolModal extends React.Component<IProps> {
   }
 }
 
-export default SelectSymbolModal;
+export default connect()(SelectSymbolModal);

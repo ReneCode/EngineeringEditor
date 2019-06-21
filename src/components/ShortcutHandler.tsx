@@ -1,15 +1,15 @@
 import React from "react";
 import Paper from "paper";
-import appEventDispatcher from "../../common/Event/AppEventDispatcher";
-import { IGlobalState } from "../../store/reducers";
 import { connect } from "react-redux";
+import appEventDispatcher from "../common/Event/AppEventDispatcher";
+import { IGlobalState } from "../store/reducers";
 
 interface IProps {
-  enableKeyboardHandler: boolean;
+  enableShortcutHandler: boolean;
   selectedPlacementIds: string[];
 }
 
-class KeyboardHandler extends React.Component<IProps> {
+class ShortcutHandler extends React.Component<IProps> {
   unsubscribeFn: Function[] = [];
   state = {
     cursor: new Paper.Point(0, 0),
@@ -40,7 +40,7 @@ class KeyboardHandler extends React.Component<IProps> {
   onKeyDown = (event: KeyboardEvent) => {
     // console.log("key:", event.key);
 
-    if (!this.props.enableKeyboardHandler) {
+    if (!this.props.enableShortcutHandler) {
       return;
     }
 
@@ -139,9 +139,9 @@ class KeyboardHandler extends React.Component<IProps> {
 
 const mapStateToProps = (state: IGlobalState) => {
   return {
-    enableKeyboardHandler: state.project.enableKeyboardHandler,
+    enableShortcutHandler: state.project.enableShortcutHandler,
     selectedPlacementIds: state.graphic.selectedPlacementIds,
   };
 };
 
-export default connect(mapStateToProps)(KeyboardHandler);
+export default connect(mapStateToProps)(ShortcutHandler);

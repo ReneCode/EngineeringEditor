@@ -5,9 +5,9 @@ import apiCreatePage from "../common/api/apiCreatePage";
 import Page from "../model/Page";
 import apiLoadSymbols from "../common/api/apiLoadSymbol";
 
-export const enableKeyboardHandlerAction = (enable: boolean) => {
+export const enableShortcutHandlerAction = (enable: boolean) => {
   return {
-    type: actionTypes.ENABLE_KEYBOARD_HANDLER,
+    type: actionTypes.ENABLE_SHORTCUT_HANDLER,
     payload: enable,
   };
 };

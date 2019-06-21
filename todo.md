@@ -9,20 +9,15 @@
 
 ## TODO
 
-- icons / https://vectr.com/
-
 - ungroup with more than one placement
 - set Cursor to GraphicText on Edit based on the mouse-click-position
 
 * PaperUtil.getHitTest refactor (return all hitItemType / grip, item, temp)
-* change IacHoverItem to drawHover/removeHover (for each ItemName)
 * SelectedPlacementToobar as ModalToolbar (as SelectSymbolModal)
-* statusbar as flowing debug-output
 * Logic Item (SymbolRef + Data)
 * grid / rasterize mouse position
 * preview on selectSymbol
 * DrawToolbar - show selected Tool ( x to go in idle-mode)
-* hover item - color from/to the individual item
 
 - typescript for actions / https://redux.js.org/recipes/usage-with-typescript
 
@@ -69,6 +64,11 @@ toolPan.onMouseDrag = function(event) {
 
 ## DONE
 
+- ok - hover item - color from/to the individual item
+
+- ok - statusbar as flowing debug-output
+
+- ok - icons / https://vectr.com/
 - ok - icons for project-overview
 - ok - connectionPoint
 - ok - GraphicText (with editing text)
