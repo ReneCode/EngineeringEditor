@@ -1,5 +1,4 @@
 import Paper from "paper";
-import Point from "../../common/point";
 import jsdom from "jsdom";
 
 const { JSDOM } = jsdom;
@@ -49,7 +48,7 @@ describe("paper", () => {
     i1.data = { nr: 42, str: "hello" };
     const i2 = i1.clone();
     expect(i2.data).toBeFalsy();
-    expect(t2.data.nr).toEqual(42);
-    expect(t2.data.str).toEqual("hello");
+    expect(i2.data.nr).toEqual(42);
+    expect(i2.data.str).toEqual("hello");
   });
 });

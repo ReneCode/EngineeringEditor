@@ -1,9 +1,7 @@
 import Page from "../model/Page";
 import deepClone from "./deepClone";
-import Placement from "../model/Placement";
 import GraphicLine from "../model/graphic/GraphicLine";
 import Paper from "paper";
-import Point from "./point";
 
 describe("deepClone", () => {
   it("clone page", () => {

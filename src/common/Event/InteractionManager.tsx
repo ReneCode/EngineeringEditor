@@ -16,7 +16,7 @@ class InteractionManager extends Component<IProps> {
     idle: true,
   };
 
-  fixInteractionNames = ["SnapGrid", "IacPreviousNextPage"];
+  fixInteractionNames = ["IacPreviousNextPage"];
 
   idleInteractionNames = ["IacEditItem", "IacSelect", "HoverItem"];
 

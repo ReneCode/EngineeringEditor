@@ -1,5 +1,4 @@
 import React from "react";
-import IacSnapGrid from "../interaction/IacSnapGrid";
 import IacRectangle from "../interaction/IacRectangle";
 import IacCreateArc from "../interaction/IacCreateArc";
 import IacHoverItem from "../interaction/IacHoverItem";
@@ -35,8 +34,6 @@ class InteractionFactory {
         return <IacCreateLine {...props} />;
       case "Rectangle":
         return <IacRectangle {...props} />;
-      case "SnapGrid":
-        return <IacSnapGrid {...props} />;
       default:
         throw new Error(`InteractionName not registered: ${name}`);
     }

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Point from "../common/point";
 
 const paper = require("paper");
 
@@ -30,7 +29,10 @@ class Test extends Component {
       path.moveTo(p1);
       path.lineTo(p2);
       path.selected = true;
-      const circle = new paper.Path.Circle(new Point(50, 250), 44);
+      const circle = new paper.Path.Circle(
+        new paper.Point(50, 250),
+        44,
+      );
       circle.selected = true;
 
       console.log(path);

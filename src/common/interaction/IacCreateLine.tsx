@@ -5,6 +5,7 @@ import appEventDispatcher from "../Event/AppEventDispatcher";
 import configuration from "../configuration";
 import GraphicLine from "../../model/graphic/GraphicLine";
 import { cudElementAction } from "../../actions/changeElementActions";
+import SnapToGrid from "../SnapToGrid";
 
 interface IProps {
   dispatch: Function;
@@ -15,6 +16,7 @@ class IacCreateLine extends React.Component<IProps> {
   private firstPoint: Paper.Point = new Paper.Point(0, 0);
   private line: GraphicLine | null = null;
   private item: Paper.Item = new Paper.Item();
+  private snapToGrid = new SnapToGrid();
 
   componentDidMount() {
     this.unsubscribeFn.push(
@@ -33,8 +35,10 @@ class IacCreateLine extends React.Component<IProps> {
   }
 
   onMouseDown = (event: Paper.MouseEvent) => {
-    this.firstPoint = event.point;
-    this.createLine(this.firstPoint);
+    const pt = this.snapToGrid.snap(event.point);
+
+    this.firstPoint = pt;
+    this.createLine(pt);
   };
 
   onMouseUp = (event: Paper.MouseEvent) => {
@@ -42,21 +46,24 @@ class IacCreateLine extends React.Component<IProps> {
       throw new Error("line missing");
     }
 
-    if (this.firstPoint.equals(event.point)) {
+    const pt = this.snapToGrid.snap(event.point);
+    if (this.firstPoint.equals(pt)) {
       appEventDispatcher.dispatch("stopInteraction");
       return;
     }
 
-    this.createLine(event.point);
+    this.createLine(pt);
     this.saveLine();
     this.line = null;
   };
 
   onMouseDrag = (event: Paper.MouseEvent) => {
+    const pt = this.snapToGrid.snap(event.point);
+
     if (!this.line) {
       throw new Error("line missing");
     }
-    this.createLine(event.point);
+    this.createLine(pt);
   };
 
   private createLine(p2: Paper.Point) {
