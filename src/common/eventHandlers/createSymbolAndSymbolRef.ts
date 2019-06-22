@@ -7,11 +7,18 @@ import { createSymbolAction } from "../../actions/createSymbol";
 import GraphicSymbolRef from "../../model/graphic/GraphicSymbolRef";
 import PaperUtil from "../../utils/PaperUtil";
 import store from "../../store/index";
+import GraphicConnectionPoint from "../../model/graphic/GraphicConnectionPoint";
 
 const getInsertPoint = (placements: Placement[]): Paper.Point => {
+  const connectionPoint = placements.find(
+    p => p.type === "connectionpoint",
+  );
+  if (connectionPoint) {
+    return (connectionPoint as GraphicConnectionPoint).pt;
+  }
   const items = placements.map(p => p.getPaperItem());
   const bbox = PaperUtil.createBoundingBox(items);
-  return bbox.center.clone();
+  return bbox.center;
 };
 
 const onCreateSymbolAndSymbolRef = (placementIds: string[]) => {

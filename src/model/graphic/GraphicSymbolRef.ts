@@ -1,4 +1,4 @@
-import Paper from "paper";
+import Paper, { Point } from "paper";
 import GraphicSymbol from "./GraphicSymbol";
 import Placement, { DrawMode } from "../Placement";
 import PaperUtil from "../../utils/PaperUtil";
@@ -11,10 +11,10 @@ class GraphicSymbolRef extends Placement {
   public pt: Paper.Point = new Paper.Point(0, 0);
   private _symbol: GraphicSymbol | undefined = undefined;
 
-  constructor(name: string, pt: Paper.Point) {
+  constructor(name: string, pt: Paper.Point = new Paper.Point(0, 0)) {
     super("symbolref");
     this.name = name;
-    this.pt = pt;
+    this.pt = pt.clone();
   }
 
   static fromJSON(json: any): GraphicSymbolRef {
@@ -64,7 +64,7 @@ class GraphicSymbolRef extends Placement {
             .bounds;
           const rect = new Paper.Path.Rectangle(bounds);
           rect.strokeColor = configuration.itemHoverStrokeColor;
-          rect.position = this.pt;
+          rect.position = this.pt; // .subtract(this._symbol.insertPt);
           this.addTempItem(rect);
         }
         break;

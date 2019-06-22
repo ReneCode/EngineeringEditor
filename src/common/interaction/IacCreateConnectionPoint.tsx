@@ -14,6 +14,7 @@ class IacCreateArc extends React.Component<IProps> {
   private unsubscribeFn: Function[] = [];
   private connectionPoint: GraphicConnectionPoint | null = null;
   private snapToGrid = new SnapToGrid();
+  item: Paper.Item = new Paper.Item();
 
   componentDidMount() {
     this.unsubscribeFn.push(
@@ -25,15 +26,20 @@ class IacCreateArc extends React.Component<IProps> {
     this.unsubscribeFn.push(
       appEventDispatcher.subscribe("mouseDown", this.onMouseDown),
     );
+    this.unsubscribeFn.push(
+      appEventDispatcher.subscribe("mouseMove", this.onMouseMove),
+    );
   }
 
   componentWillUnmount() {
     this.unsubscribeFn.forEach(fn => fn());
+    if (this.item) {
+      this.item.remove();
+    }
   }
 
   onMouseDown = (event: Paper.MouseEvent) => {
     const pt = this.snapToGrid.snap(event.point);
-
     this.createConnectionPoint(pt);
   };
 
@@ -48,6 +54,11 @@ class IacCreateArc extends React.Component<IProps> {
     this.connectionPoint = null;
   };
 
+  onMouseMove = (event: Paper.MouseEvent) => {
+    const pt = this.snapToGrid.snap(event.point);
+    this.createConnectionPoint(pt);
+  };
+
   onMouseDrag = (event: Paper.MouseEvent) => {
     if (!this.connectionPoint) {
       throw new Error("connectionPoint missing");
@@ -60,10 +71,10 @@ class IacCreateArc extends React.Component<IProps> {
   private createConnectionPoint(pt: Paper.Point) {
     if (!this.connectionPoint) {
       this.connectionPoint = new GraphicConnectionPoint(pt);
-      this.connectionPoint.paperDraw();
+      this.item = this.connectionPoint.paperDraw();
     } else {
       this.connectionPoint.pt = pt;
-      this.connectionPoint.paperDraw();
+      this.item = this.connectionPoint.paperDraw();
     }
   }
 

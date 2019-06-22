@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import Paper, { Point } from "paper";
+import Paper from "paper";
 
 import Placement, { DrawMode } from "../../model/Placement";
 import { IGlobalState } from "../../store/reducers";
