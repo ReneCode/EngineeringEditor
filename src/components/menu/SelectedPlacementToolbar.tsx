@@ -40,7 +40,10 @@ class SelectedPlacementToolbar extends React.Component<IProps> {
       );
     }
     buttons.push(
-      ToolbarButtonFactory.create("createSymbol", placements),
+      ToolbarButtonFactory.create(
+        "createSymbolAndSymbolRef",
+        placementIds,
+      ),
     );
     buttons.push(ToolbarButtonFactory.create("delete", placementIds));
     return buttons;

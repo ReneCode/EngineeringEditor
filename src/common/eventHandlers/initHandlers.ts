@@ -9,6 +9,7 @@ import "./zoomInOut";
 import "./showModal";
 import "./changeProperty";
 import "./exportSvg";
+import "./createSymbolAndSymbolRef";
 
 const initHandlers = () => {};
 

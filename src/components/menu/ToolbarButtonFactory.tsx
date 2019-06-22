@@ -13,7 +13,7 @@ type ToolbarButtonName =
   | "createLine"
   | "group"
   | "ungroup"
-  | "createSymbol";
+  | "createSymbolAndSymbolRef";
 
 class ToolbarButtonFactory {
   static create(name: ToolbarButtonName, ...params: any) {
@@ -105,7 +105,7 @@ class ToolbarButtonFactory {
           </button>
         );
 
-      case "createSymbol": {
+      case "createSymbolAndSymbolRef": {
         return (
           <button
             key={name}

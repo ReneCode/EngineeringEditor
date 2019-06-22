@@ -7,7 +7,6 @@ import IacCreateLine from "../interaction/IacCreateLine";
 import IacEditItem from "../interaction/IacEditItem";
 import IacSelect from "../interaction/IacSelect";
 import IacPreviousNextPage from "../interaction/IacPreviousNextPage";
-import IacCreateSymbolAndSymbolRef from "../interaction/IacCreateSymbolAndSymbolRef";
 import IacPlaceSymbol from "../interaction/IacPlaceSymbol";
 import IacCreateText from "../interaction/IacCreateText";
 import IacCreateConnectionPoint from "../interaction/IacCreateConnectionPoint";
@@ -20,8 +19,6 @@ class InteractionFactory {
         return <IacCreateConnectionPoint {...props} />;
       case "IacPlaceSymbol":
         return <IacPlaceSymbol {...props} />;
-      case "IacCreateSymbolAndSymbolRef":
-        return <IacCreateSymbolAndSymbolRef {...props} />;
       case "IacPreviousNextPage":
         return <IacPreviousNextPage {...props} />;
       case "HoverItem":
