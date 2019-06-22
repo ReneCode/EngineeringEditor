@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import Paper from "paper";
+import Paper, { Point } from "paper";
 
 import Placement, { DrawMode } from "../../model/Placement";
 import { IGlobalState } from "../../store/reducers";
@@ -11,6 +11,7 @@ import { updateElementAction } from "../../actions/changeElementActions";
 import appEventDispatcher from "../Event/AppEventDispatcher";
 import ResizeBox from "./ResizeBox";
 import { enablePlacementToolbar } from "../../actions/projectActions";
+import SnapToGrid from "../SnapToGrid";
 
 interface IProps {
   dispatch: Function;
@@ -27,6 +28,7 @@ class IacEditItem extends React.Component<IProps> {
   editing: boolean = false;
   resizeBox: ResizeBox = new ResizeBox();
   modus: "grip" | "item" | "" = "";
+  snapToGrid = new SnapToGrid();
 
   componentDidMount() {
     this.unsubscribeFn.push(
@@ -68,6 +70,8 @@ class IacEditItem extends React.Component<IProps> {
   }
 
   onMouseDown = (event: Paper.MouseEvent) => {
+    this.snapToGrid.startDelta(event.point);
+
     const result = PaperUtil.hitTest(event.point);
     if (!result) {
       return;
@@ -93,6 +97,11 @@ class IacEditItem extends React.Component<IProps> {
 
   onMouseDrag = (event: Paper.MouseEvent) => {
     if (this.editItem) {
+      const delta = this.snapToGrid.snapDelta(event.point);
+      const point = this.snapToGrid.snap(event.point);
+      event.delta = delta;
+      event.point = point;
+
       switch (this.modus) {
         case "grip":
           this.startEdit("select");
@@ -102,7 +111,7 @@ class IacEditItem extends React.Component<IProps> {
         case "item":
           this.startEdit(null);
           for (let placement of this.selectedPlacements) {
-            placement.dragItem(event);
+            placement.dragItem(delta);
           }
           return "stop";
       }

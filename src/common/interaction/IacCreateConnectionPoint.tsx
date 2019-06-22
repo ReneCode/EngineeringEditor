@@ -4,6 +4,7 @@ import appEventDispatcher from "../Event/AppEventDispatcher";
 import { connect } from "react-redux";
 import { createElementAction } from "../../actions/changeElementActions";
 import GraphicConnectionPoint from "../../model/graphic/GraphicConnectionPoint";
+import SnapToGrid from "../SnapToGrid";
 
 interface IProps {
   dispatch: Function;
@@ -12,6 +13,7 @@ interface IProps {
 class IacCreateArc extends React.Component<IProps> {
   private unsubscribeFn: Function[] = [];
   private connectionPoint: GraphicConnectionPoint | null = null;
+  private snapToGrid = new SnapToGrid();
 
   componentDidMount() {
     this.unsubscribeFn.push(
@@ -30,7 +32,9 @@ class IacCreateArc extends React.Component<IProps> {
   }
 
   onMouseDown = (event: Paper.MouseEvent) => {
-    this.createConnectionPoint(event.point);
+    const pt = this.snapToGrid.snap(event.point);
+
+    this.createConnectionPoint(pt);
   };
 
   onMouseUp = (event: Paper.MouseEvent) => {
@@ -38,7 +42,8 @@ class IacCreateArc extends React.Component<IProps> {
       throw new Error("connectionPoint missing");
     }
 
-    this.createConnectionPoint(event.point);
+    const pt = this.snapToGrid.snap(event.point);
+    this.createConnectionPoint(pt);
     this.saveConnectionPoint();
     this.connectionPoint = null;
   };
@@ -48,7 +53,8 @@ class IacCreateArc extends React.Component<IProps> {
       throw new Error("connectionPoint missing");
     }
 
-    this.createConnectionPoint(event.point);
+    const pt = this.snapToGrid.snap(event.point);
+    this.createConnectionPoint(pt);
   };
 
   private createConnectionPoint(pt: Paper.Point) {

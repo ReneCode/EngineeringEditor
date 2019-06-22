@@ -28,10 +28,10 @@ class Configuration {
 
   gripRadius = 12;
   gripStrokeColor = accentColor;
-  gripFillColor = "#ffffff";
+  gripFillColor = "#ffffffaa";
   gripHoverStrokeColor = accentColor;
-  gripHoverFillColor = accentColor;
-  gripDragFillColor = accentColor;
+  gripHoverFillColor = accentColorDimmed1;
+  gripDragFillColor = accentColorDimmed1;
 
   defaultFillColor = "#847d84e9";
   defaultStrokeColor = "#442244";

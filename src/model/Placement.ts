@@ -82,12 +82,12 @@ class Placement {
     throw new Error("dragGrip has to be overwritten by:" + this);
   }
 
-  dragItem(event: Paper.MouseEvent) {
+  dragItem(delta: Paper.Point) {
     if (this._item) {
-      this.translate(event.delta);
+      this.translate(delta);
       this.paperDraw();
       for (let item of this._tempItems) {
-        item.position = item.position.add(event.delta);
+        item.position = item.position.add(delta);
       }
     }
   }

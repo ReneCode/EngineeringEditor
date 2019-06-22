@@ -6,6 +6,7 @@ import { cudElementAction } from "../../actions/changeElementActions";
 import GraphicSymbolRef from "../../model/graphic/GraphicSymbolRef";
 import { IGlobalState } from "../../store/reducers";
 import GraphicSymbol from "../../model/graphic/GraphicSymbol";
+import SnapToGrid from "../SnapToGrid";
 
 interface IProps {
   symbols: GraphicSymbol[];
@@ -17,6 +18,7 @@ class IacPlaceSymbol extends React.Component<IProps> {
   private unsubscribeFn: Function[] = [];
   private item: Paper.Item = new Paper.Item();
   private symbolRef: GraphicSymbolRef | null = null;
+  private snapToGrid = new SnapToGrid();
 
   componentDidMount() {
     this.unsubscribeFn.push(
@@ -41,15 +43,17 @@ class IacPlaceSymbol extends React.Component<IProps> {
   }
 
   onMouseDown = (event: Paper.MouseEvent) => {
-    this.createSymbolRef(event.point);
+    const pt = this.snapToGrid.snap(event.point);
+    this.createSymbolRef(pt);
   };
 
   onMouseUp = (event: Paper.MouseEvent) => {
     if (!this.symbolRef) {
       throw new Error("symboRef missing");
     }
+    const pt = this.snapToGrid.snap(event.point);
 
-    this.createSymbolRef(event.point);
+    this.createSymbolRef(pt);
     this.props.dispatch(
       cudElementAction("placement", this.symbolRef),
     );
@@ -57,11 +61,13 @@ class IacPlaceSymbol extends React.Component<IProps> {
   };
 
   onMouseMove = (event: Paper.MouseEvent) => {
-    this.createSymbolRef(event.point);
+    const pt = this.snapToGrid.snap(event.point);
+    this.createSymbolRef(pt);
   };
 
   onMouseDrag = (event: Paper.MouseEvent) => {
-    this.createSymbolRef(event.point);
+    const pt = this.snapToGrid.snap(event.point);
+    this.createSymbolRef(pt);
   };
 
   private createSymbolRef(pt: Paper.Point) {

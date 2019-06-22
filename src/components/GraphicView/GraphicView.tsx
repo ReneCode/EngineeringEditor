@@ -13,6 +13,7 @@ import GraphicSymbol from "../../model/graphic/GraphicSymbol";
 import { DispatchFunction } from "../../actions/action";
 import updateSymbolRef from "../../model/util/updateSymbolRef";
 import updateAutoConnection from "../../model/util/updateAutoConnection";
+import SnapToGrid from "../../common/SnapToGrid";
 
 interface IProps {
   items: Placement[];
@@ -29,6 +30,8 @@ class GraphicView extends Component<IProps> {
   frame: any;
   canvas: HTMLCanvasElement | null = null;
   state: IState;
+  snapToGrid = new SnapToGrid();
+  firstPoint: Paper.Point | null = null;
 
   constructor(props: IProps) {
     super(props);
@@ -92,6 +95,8 @@ class GraphicView extends Component<IProps> {
   }
 
   private onMouseDown = (event: Paper.MouseEvent) => {
+    this.firstPoint = this.snapToGrid.snap(event.point);
+
     appEventDispatcher.dispatch("mouseDown", event);
   };
 
@@ -100,6 +105,15 @@ class GraphicView extends Component<IProps> {
   };
 
   onMouseDrag = (event: Paper.MouseEvent) => {
+    // const pt = this.snapToGrid.snap(event.point);
+    // if (this.firstPoint) {
+    //   const delta = pt.subtract(this.firstPoint);
+    //   event.delta = delta;
+    // }
+
+    // event.delta = this.snapToGrid.snap(event.delta);
+    // event.lastPoint = this.snapToGrid.snap(event.lastPoint);
+    // event.point = this.snapToGrid.snap(event.point);
     appEventDispatcher.dispatch("mouseDrag", event);
   };
 
