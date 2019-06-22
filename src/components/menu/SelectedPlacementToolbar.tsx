@@ -50,12 +50,12 @@ class SelectedPlacementToolbar extends React.Component<IProps> {
     if (!this.props.enablePlacementToolbar) {
       return null;
     }
-    const ids = this.props.selectedPlacementIds;
-    if (ids.length === 0) {
+    const placementIds = this.props.selectedPlacementIds;
+    if (placementIds.length === 0) {
       return null;
     }
 
-    const placements = PaperUtil.getPlacementsById(ids);
+    const placements = PaperUtil.getPlacementsById(placementIds);
     const items: Paper.Item[] = placements.map(p => p.getPaperItem());
 
     if (items.length === 0) {
@@ -82,19 +82,20 @@ class SelectedPlacementToolbar extends React.Component<IProps> {
         <Toolbar className="" style={style}>
           <button
             onClick={() =>
-              appEventDispatcher.dispatch("exportSvg", items)
+              appEventDispatcher.dispatch("exportSvg", placementIds)
             }>
             exp
           </button>
           <button
             onClick={() =>
-              appEventDispatcher.dispatch("changeProperty", {
-                placements,
-                changes: [
+              appEventDispatcher.dispatch(
+                "changeProperty",
+                placementIds,
+                [
                   { property: "fill", value: "orange" },
                   { property: "color", value: "red" },
                 ],
-              })
+              )
             }>
             col
           </button>

@@ -10,7 +10,7 @@ import Test from "./Test";
 const Routing = () => {
   return (
     <div
-      className="Routing"
+      className="routing"
       onContextMenu={ev => {
         ev.stopPropagation();
         ev.preventDefault();

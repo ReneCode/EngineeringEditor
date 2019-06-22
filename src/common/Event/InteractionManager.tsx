@@ -19,8 +19,6 @@ class InteractionManager extends Component<IProps> {
   fixInteractionNames = [
     "SnapGrid",
     "IacPreviousNextPage",
-    "IacExportSvg",
-    "IacChangeProperty",
     "IacCreateSymbolAndSymbolRef",
   ];
 

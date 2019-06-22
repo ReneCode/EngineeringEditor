@@ -9,6 +9,7 @@
 
 ## TODO
 
+- remove symbol
 - ungroup with more than one placement
 - set Cursor to GraphicText on Edit based on the mouse-click-position
 
@@ -28,8 +29,6 @@
 - with SHIFT the with-height ratio is fixed on resizing the box
   (- with ctrl the center of the resize-box will be fixed)
 
-- no separate interactions.
-  handleMouse... on the component where it starts.
 - undo -> dispatch(setSelection) with last changed item
 
 * Undo / Redo: after Undo/Redo select the "undo-ed" items

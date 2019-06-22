@@ -7,6 +7,8 @@ import "./selectAll";
 import "./undoRedo";
 import "./zoomInOut";
 import "./showModal";
+import "./changeProperty";
+import "./exportSvg";
 
 const initHandlers = () => {};
 

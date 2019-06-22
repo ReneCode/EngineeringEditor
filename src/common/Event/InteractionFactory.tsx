@@ -7,8 +7,6 @@ import IacCreateLine from "../interaction/IacCreateLine";
 import IacEditItem from "../interaction/IacEditItem";
 import IacSelect from "../interaction/IacSelect";
 import IacPreviousNextPage from "../interaction/IacPreviousNextPage";
-import IacExportSvg from "../interaction/IacExportSvg";
-import IacChangeProperty from "../interaction/IacChangeProperty";
 import IacCreateSymbolAndSymbolRef from "../interaction/IacCreateSymbolAndSymbolRef";
 import IacPlaceSymbol from "../interaction/IacPlaceSymbol";
 import IacCreateText from "../interaction/IacCreateText";
@@ -24,10 +22,6 @@ class InteractionFactory {
         return <IacPlaceSymbol {...props} />;
       case "IacCreateSymbolAndSymbolRef":
         return <IacCreateSymbolAndSymbolRef {...props} />;
-      case "IacChangeProperty":
-        return <IacChangeProperty {...props} />;
-      case "IacExportSvg":
-        return <IacExportSvg {...props} />;
       case "IacPreviousNextPage":
         return <IacPreviousNextPage {...props} />;
       case "HoverItem":

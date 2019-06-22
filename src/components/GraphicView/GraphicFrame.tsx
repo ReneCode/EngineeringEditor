@@ -12,7 +12,7 @@ import ShortcutHandler from "../ShortcutHandler";
 
 const GraphicFrame = () => {
   return (
-    <div className="middle-content">
+    <div className="graphic-frame">
       <GraphicView />
       <TextEditView />
       <DrawToolbar />

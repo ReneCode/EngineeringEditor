@@ -6,6 +6,7 @@ import { RouteComponentProps } from "react-router";
 import { IGlobalState } from "../../store/reducers";
 import Page from "../../model/Page";
 import { loadPagesAction } from "../../actions/projectActions";
+import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 
 interface IProps extends RouteComponentProps {
   dispatch: Function;
@@ -35,9 +36,17 @@ class PageNavigation extends React.Component<IProps> {
     }
     return (
       <div className="page-navigation">
-        <div className="button">prev</div>
+        <div
+          className="button"
+          onClick={() => appEventDispatcher.dispatch("previousPage")}>
+          prev
+        </div>
         <div className="page-navigation__name">{pageName}</div>
-        <div className="button">next</div>
+        <div
+          className="button"
+          onClick={() => appEventDispatcher.dispatch("nextPage")}>
+          next
+        </div>
       </div>
     );
   }
