@@ -7,8 +7,15 @@
 
   use ghooks / pre-commit => npm run test / https://www.npmjs.com/package/ghooks
 
+## ideas
+
+contextual toolbars:
+
+https://whimsical.com/product/introducing-whimsical-mind-maps/
+
 ## TODO
 
+- switch off grid, if cmd/ctrl is pressed
 - remove symbol
 - ungroup with more than one placement
 - set Cursor to GraphicText on Edit based on the mouse-click-position

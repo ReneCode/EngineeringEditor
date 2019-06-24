@@ -6,12 +6,13 @@ import Placement from "../../model/Placement";
 import PaperUtil from "../../utils/PaperUtil";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 import ToolbarButtonFactory from "../menu/ToolbarButtonFactory";
-import Toolbar from "../menu/Toolbar";
 import PlacementUtil from "../../utils/PlacementUtil";
+import FloatingToolbar from "./FloatingToolbar";
 
 interface IProps {
   selectedPlacementIds: string[];
   enablePlacementToolbar: boolean;
+  canvasSize: Paper.Size;
 }
 
 class SelectedPlacementToolbar extends React.Component<IProps> {
@@ -65,24 +66,14 @@ class SelectedPlacementToolbar extends React.Component<IProps> {
       return null;
     }
 
-    let bbox = PaperUtil.createBoundingBox(items);
-    const pt = bbox.topLeft;
-    const viewPoint = Paper.view.projectToView(pt);
-
-    const gap = 10;
-
-    const style = {
-      position: "fixed",
-
-      top: viewPoint.y - gap,
-      left: viewPoint.x,
-    };
-
     const contextButtons = this.getContextButtons(placements);
 
     return (
-      <div className="html-canvas">
-        <Toolbar className="" style={style}>
+      <div className="html--canvas">
+        {/* <Toolbar className="" style={style}> */}
+        <FloatingToolbar
+          items={items}
+          canvasSize={this.props.canvasSize}>
           <button
             onClick={() =>
               appEventDispatcher.dispatch("exportSvg", placementIds)
@@ -105,7 +96,8 @@ class SelectedPlacementToolbar extends React.Component<IProps> {
           {contextButtons.map(b => {
             return b;
           })}
-        </Toolbar>
+          {/* </Toolbar> */}
+        </FloatingToolbar>
       </div>
     );
   }

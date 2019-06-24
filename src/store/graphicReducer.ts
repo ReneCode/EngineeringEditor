@@ -10,6 +10,7 @@ export interface IGraphicState {
   redrawn: number;
   items: Placement[];
   selectedPlacementIds: string[];
+  viewChanged: number;
   viewport: {
     x: number;
     y: number;
@@ -30,6 +31,7 @@ const initialState: IGraphicState = {
   symbols: [],
   items: [],
   selectedPlacementIds: [],
+  viewChanged: 0,
   viewport: {
     x: -500,
     y: 200,
@@ -117,12 +119,18 @@ function addPlacement(state: IGraphicState, action: IAction) {
 
 const graphicReducer = (state = initialState, action: IAction) => {
   switch (action.type) {
-    case actionTypes.REDRAWN: {
+    case actionTypes.VIEW_CHANGED:
+      return {
+        ...state,
+        viewChanged: state.viewChanged + 1,
+      };
+
+    case actionTypes.REDRAWN:
       return {
         ...state,
         redrawn: state.redrawn + 1,
       };
-    }
+
     case actionTypes.SET_SELECTED_PLACEMENT_IDS:
       return {
         ...state,

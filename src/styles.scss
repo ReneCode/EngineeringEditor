@@ -321,11 +321,13 @@ nav.menu .text {
 .prop-value:read-only {
 }
 
+/*
 .html-canvas {
   position: absolute;
   left: 81px;
   top: 45px;
 }
+*/
 
 .toolbar {
   display: flex;
@@ -361,8 +363,8 @@ nav.menu .text {
 
 .zoom-toolbar {
   position: fixed;
-  bottom: 40px;
-  right: 20px;
+  bottom: 10px;
+  right: 10px;
 }
 
 .draw-toolbar {

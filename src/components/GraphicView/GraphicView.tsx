@@ -14,6 +14,7 @@ import { DispatchFunction } from "../../actions/action";
 import updateSymbolRef from "../../model/util/updateSymbolRef";
 import updateAutoConnection from "../../model/util/updateAutoConnection";
 import SnapToGrid from "../../common/SnapToGrid";
+import { viewChangedAction } from "../../actions/graphicActions";
 
 interface IProps {
   items: Placement[];
@@ -154,6 +155,8 @@ class GraphicView extends Component<IProps> {
     Paper.view.center = Paper.view.center.add(
       new Point(event.deltaX, event.deltaY),
     );
+
+    this.props.dispatch(viewChangedAction());
     // }
 
     event.preventDefault();

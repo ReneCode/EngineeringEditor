@@ -1,6 +1,12 @@
 import * as actionTypes from "./actionTypes";
 import GraphicSymbol from "../model/graphic/GraphicSymbol";
 
+export const viewChangedAction = () => {
+  return {
+    type: actionTypes.VIEW_CHANGED,
+  };
+};
+
 export const setSelectedPlacementIds = (ids: string[]) => {
   return {
     type: actionTypes.SET_SELECTED_PLACEMENT_IDS,
