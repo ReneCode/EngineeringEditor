@@ -15,6 +15,8 @@ https://whimsical.com/product/introducing-whimsical-mind-maps/
 
 ## TODO
 
+- add tslint / https://gist.github.com/rimatla/a5a2c5dcf831c5744a656cfe81fadf52
+
 - switch off grid, if cmd/ctrl is pressed
 - remove symbol
 - ungroup with more than one placement

@@ -1,4 +1,7 @@
+import Paper from "paper";
 import { Point } from "paper";
+
+let GRID_RASTER = 10;
 
 class SnapToGrid {
   private startPoint: Point | null = null;
@@ -30,4 +33,17 @@ class SnapToGrid {
     return snapDelta;
   }
 }
+
+const snapEvent = (event: Paper.MouseEvent): Paper.Point => {
+  if (event.modifiers.command) {
+    return event.point;
+  } else {
+    return new Point(
+      Math.round(event.point.x / GRID_RASTER) * GRID_RASTER,
+      Math.round(event.point.y / GRID_RASTER) * GRID_RASTER,
+    );
+  }
+};
+
+export { snapEvent };
 export default SnapToGrid;

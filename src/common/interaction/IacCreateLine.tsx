@@ -1,11 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
-import Paper from "paper";
+import Paper, { Point } from "paper";
 import appEventDispatcher from "../Event/AppEventDispatcher";
 import configuration from "../configuration";
 import GraphicLine from "../../model/graphic/GraphicLine";
 import { cudElementAction } from "../../actions/changeElementActions";
-import SnapToGrid from "../SnapToGrid";
+import { snapEvent } from "../SnapToGrid";
 
 interface IProps {
   dispatch: Function;
@@ -16,9 +16,11 @@ class IacCreateLine extends React.Component<IProps> {
   private firstPoint: Paper.Point = new Paper.Point(0, 0);
   private line: GraphicLine | null = null;
   private item: Paper.Item = new Paper.Item();
-  private snapToGrid = new SnapToGrid();
 
   componentDidMount() {
+    this.unsubscribeFn.push(
+      appEventDispatcher.subscribe("mouseMove", this.onMouseMove),
+    );
     this.unsubscribeFn.push(
       appEventDispatcher.subscribe("mouseUp", this.onMouseUp),
     );
@@ -34,11 +36,18 @@ class IacCreateLine extends React.Component<IProps> {
     this.unsubscribeFn.forEach(fn => fn());
   }
 
-  onMouseDown = (event: Paper.MouseEvent) => {
-    const pt = this.snapToGrid.snap(event.point);
+  onMouseMove = (event: Paper.MouseEvent) => {
+    console.log("mouseMove");
+    const pt = snapEvent(event);
+    this.createLine(pt, pt.add(new Point(50, -50)));
+  };
 
+  onMouseDown = (event: Paper.MouseEvent) => {
+    console.log("mouseDown");
+
+    const pt = snapEvent(event);
     this.firstPoint = pt;
-    this.createLine(pt);
+    this.createLine(this.firstPoint, pt);
   };
 
   onMouseUp = (event: Paper.MouseEvent) => {
@@ -46,32 +55,33 @@ class IacCreateLine extends React.Component<IProps> {
       throw new Error("line missing");
     }
 
-    const pt = this.snapToGrid.snap(event.point);
+    const pt = snapEvent(event);
     if (this.firstPoint.equals(pt)) {
       appEventDispatcher.dispatch("stopInteraction");
       return;
     }
 
-    this.createLine(pt);
+    this.createLine(this.firstPoint, pt);
     this.saveLine();
     this.line = null;
   };
 
   onMouseDrag = (event: Paper.MouseEvent) => {
-    const pt = this.snapToGrid.snap(event.point);
+    const pt = snapEvent(event);
 
     if (!this.line) {
       throw new Error("line missing");
     }
-    this.createLine(pt);
+    this.createLine(this.firstPoint, pt);
   };
 
-  private createLine(p2: Paper.Point) {
+  private createLine(p1: Paper.Point, p2: Paper.Point) {
     if (!this.line) {
-      this.line = new GraphicLine(this.firstPoint, p2);
+      this.line = new GraphicLine(p1, p2);
       this.line.color = configuration.defaultStrokeColor;
       this.item = this.line.paperDraw();
     } else {
+      this.line.p1 = p1;
       this.line.p2 = p2;
       this.item.remove();
       this.item = this.line.paperDraw();
