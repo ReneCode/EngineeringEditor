@@ -6,7 +6,6 @@ import configuration from "../configuration";
 import { createElementAction } from "../../actions/changeElementActions";
 import GraphicArc from "../../model/graphic/GraphicArc";
 import { snapEvent } from "../SnapToGrid";
-import { debug } from "util";
 
 interface IProps {
   dispatch: Function;
