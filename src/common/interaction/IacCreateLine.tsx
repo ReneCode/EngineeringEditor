@@ -34,6 +34,9 @@ class IacCreateLine extends React.Component<IProps> {
 
   componentWillUnmount() {
     this.unsubscribeFn.forEach(fn => fn());
+    if (this.item) {
+      this.item.remove();
+    }
   }
 
   onMouseMove = (event: Paper.MouseEvent) => {

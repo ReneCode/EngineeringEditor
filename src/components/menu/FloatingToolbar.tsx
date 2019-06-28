@@ -32,7 +32,7 @@ class FloatingToolbar extends React.Component<IProps> {
     let bbox = PaperUtil.createBoundingBox(this.props.items);
     const viewPoint = Paper.view.projectToView(bbox.topLeft);
 
-    console.log(":", Paper.view.bounds);
+    // console.log(":", Paper.view.bounds);
     const NAV_HEIGHT = 40;
     const TOOLBAR_HEIGHT = 44;
     const gapToItem = 20;
