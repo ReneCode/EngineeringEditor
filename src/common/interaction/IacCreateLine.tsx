@@ -40,24 +40,17 @@ class IacCreateLine extends React.Component<IProps> {
   }
 
   onMouseMove = (event: Paper.MouseEvent) => {
-    console.log("mouseMove");
     const pt = snapEvent(event);
     this.createLine(pt, pt.add(new Point(50, -50)));
   };
 
   onMouseDown = (event: Paper.MouseEvent) => {
-    console.log("mouseDown");
-
     const pt = snapEvent(event);
     this.firstPoint = pt;
-    this.createLine(this.firstPoint, pt);
+    this.createLine(pt, pt.add(new Point(50, -50)));
   };
 
   onMouseUp = (event: Paper.MouseEvent) => {
-    if (!this.line) {
-      throw new Error("line missing");
-    }
-
     const pt = snapEvent(event);
     if (this.firstPoint.equals(pt)) {
       appEventDispatcher.dispatch("stopInteraction");
@@ -71,10 +64,6 @@ class IacCreateLine extends React.Component<IProps> {
 
   onMouseDrag = (event: Paper.MouseEvent) => {
     const pt = snapEvent(event);
-
-    if (!this.line) {
-      throw new Error("line missing");
-    }
     this.createLine(this.firstPoint, pt);
   };
 

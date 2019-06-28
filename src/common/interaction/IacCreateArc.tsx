@@ -1,10 +1,12 @@
 import React from "react";
-import Paper from "paper";
+import Paper, { Point } from "paper";
 import appEventDispatcher from "../Event/AppEventDispatcher";
 import { connect } from "react-redux";
 import configuration from "../configuration";
 import { createElementAction } from "../../actions/changeElementActions";
 import GraphicArc from "../../model/graphic/GraphicArc";
+import { snapEvent } from "../SnapToGrid";
+import { debug } from "util";
 
 interface IProps {
   dispatch: Function;
@@ -16,6 +18,9 @@ class IacCreateArc extends React.Component<IProps> {
   private item: Paper.Item = new Paper.Item();
 
   componentDidMount() {
+    this.unsubscribeFn.push(
+      appEventDispatcher.subscribe("mouseMove", this.onMouseMove),
+    );
     this.unsubscribeFn.push(
       appEventDispatcher.subscribe("mouseUp", this.onMouseUp),
     );
@@ -29,44 +34,51 @@ class IacCreateArc extends React.Component<IProps> {
 
   componentWillUnmount() {
     this.unsubscribeFn.forEach(fn => fn());
+    if (this.item) {
+      this.item.remove();
+    }
   }
 
-  onMouseDown = (event: Paper.MouseEvent) => {
-    this.firstPoint = event.point;
-    this.createArc(this.firstPoint);
+  onMouseMove = (event: Paper.MouseEvent) => {
+    const pt = snapEvent(event);
+    console.log("mm:", pt);
+    this.createArc(pt, 50);
   };
-  onMouseUp = (event: Paper.MouseEvent) => {
-    if (!this.arc) {
-      throw new Error("arc missing");
-    }
 
-    if (this.firstPoint.equals(event.point)) {
+  onMouseDown = (event: Paper.MouseEvent) => {
+    const pt = snapEvent(event);
+    this.firstPoint = pt;
+    this.createArc(pt, 50);
+  };
+
+  onMouseUp = (event: Paper.MouseEvent) => {
+    const pt = snapEvent(event);
+    if (this.firstPoint.equals(pt)) {
       appEventDispatcher.dispatch("stopInteraction");
       return;
     }
 
-    this.createArc(event.point);
+    const radius = pt.subtract(this.firstPoint).length;
+    this.createArc(this.firstPoint, radius);
     this.saveArc();
     this.arc = null;
   };
 
   onMouseDrag = (event: Paper.MouseEvent) => {
-    if (!this.arc) {
-      throw new Error("arc missing");
-    }
+    const pt = snapEvent(event);
+    const radius = pt.subtract(this.firstPoint).length;
 
-    this.createArc(event.point);
+    this.createArc(this.firstPoint, radius);
   };
 
-  private createArc(p2: Paper.Point) {
-    const radius = p2.subtract(this.firstPoint).length;
+  private createArc(p1: Point, radius: number) {
     if (!this.arc) {
-      this.arc = new GraphicArc(this.firstPoint, radius);
+      this.arc = new GraphicArc(p1, radius);
       this.arc.color = configuration.defaultStrokeColor;
       this.arc.fill = configuration.defaultFillColor;
-
       this.item = this.arc.paperDraw();
     } else {
+      this.arc.center = p1;
       this.arc.radius = radius;
 
       this.item.remove();
