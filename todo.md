@@ -17,7 +17,6 @@ https://whimsical.com/product/introducing-whimsical-mind-maps/
 
 - add tslint / https://gist.github.com/rimatla/a5a2c5dcf831c5744a656cfe81fadf52
 
-- switch off grid, if cmd/ctrl is pressed
 - remove symbol
 - ungroup with more than one placement
 - set Cursor to GraphicText on Edit based on the mouse-click-position
@@ -71,6 +70,8 @@ toolPan.onMouseDrag = function(event) {
 - disable redux-dev-tools in production / https://medium.com/@zalmoxis/using-redux-devtools-in-production-4c5b56c5600f
 
 ## DONE
+
+- ok - switch off grid, if cmd/ctrl is pressed
 
 - ok - hover item - color from/to the individual item
 

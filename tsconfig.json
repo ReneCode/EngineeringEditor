@@ -15,8 +15,7 @@
     "noEmit": true,
     "jsx": "preserve",
     "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "types": ["cypress"]
+    "noUnusedParameters": false
   },
   "include": ["src"]
 }
