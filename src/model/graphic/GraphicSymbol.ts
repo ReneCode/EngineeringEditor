@@ -4,6 +4,7 @@ import Placement from "../Placement";
 import ObjectFactory from "../ObjectFactory";
 import PaperUtil from "../../utils/PaperUtil";
 import createId from "../createId";
+import GraphicText from "./GraphicText";
 
 class GraphicSymbol {
   type: PlacementType = "symbol";
@@ -52,13 +53,47 @@ class GraphicSymbol {
       return this._item;
     }
 
-    const items = this.placements.map(p => p.paperDraw());
+    const items: Paper.Item[] = [];
+    for (let placement of this.placements) {
+      let draw = true;
+      if (placement instanceof GraphicText) {
+        const propText = placement.getPropText();
+        if (propText) {
+          draw = false;
+        }
+      }
+      if (draw) {
+        items.push(placement.paperDraw());
+      }
+    }
     const group = new Paper.Group(items);
     // true = dont center the symbol
     const item = new Paper.Symbol(group, true);
     this._item = item;
 
     return item;
+  }
+
+  // create text-item, but take the text out of props
+  public drawPropText(pt: Paper.Point, props: any): Paper.Item[] {
+    const items: Paper.Item[] = [];
+    for (let placement of this.placements) {
+      if (placement instanceof GraphicText) {
+        const propText = placement.getPropText();
+        if (propText) {
+          const text = props[propText];
+          // do not use .paperDraw, because it removes the
+          // prev-drawn item when
+          const item = placement.createPaperItem();
+          item.content = text;
+          item.position = item.position
+            .subtract(this.insertPt)
+            .add(pt);
+          items.push(item);
+        }
+      }
+    }
+    return items;
   }
 
   /*

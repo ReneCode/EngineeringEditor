@@ -63,6 +63,14 @@ class PaperUtil {
     if (result && result.item) {
       let item = result.item;
 
+      // symbolRef with PropText
+      // => the top-element is a group (parent of the placedSymbol)
+      if (item instanceof Paper.PlacedSymbol) {
+        if (!(item.parent instanceof Paper.Layer)) {
+          item = item.parent;
+        }
+      }
+
       // get the top most group
       while (item.parent && item.parent.name === ItemName.itemGroup) {
         item = item.parent;

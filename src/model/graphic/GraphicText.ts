@@ -50,11 +50,18 @@ class GraphicText extends Placement {
     this.text = text;
   }
 
-  translate(delta: Paper.Point) {
+  public getPropText(): string | null {
+    if (this.text && this.text[0] === "#") {
+      return this.text.substr(1);
+    }
+    return null;
+  }
+
+  public translate(delta: Paper.Point) {
     this.pt = this.pt.add(delta);
   }
 
-  paperDraw(drawMode: DrawMode = null): Paper.Item {
+  public paperDraw(drawMode: DrawMode = null): Paper.Item {
     switch (drawMode) {
       case null:
         this.removeTempItems();
@@ -106,7 +113,7 @@ class GraphicText extends Placement {
     this.editMouseDown = false;
   }
 
-  createPaperItem(): Paper.Item {
+  public createPaperItem(): Paper.PointText {
     const item = new Paper.PointText(this.pt);
     item.name = ItemName.itemText;
     item.data = this.id;

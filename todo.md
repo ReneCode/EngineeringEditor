@@ -15,8 +15,9 @@ https://whimsical.com/product/introducing-whimsical-mind-maps/
 
 ## TODO
 
-- add tslint / https://gist.github.com/rimatla/a5a2c5dcf831c5744a656cfe81fadf52
-
+- symbolRef with data
+- escape removes the selection
+- select after creation
 - remove symbol
 - ungroup with more than one placement
 - set Cursor to GraphicText on Edit based on the mouse-click-position
@@ -29,6 +30,7 @@ https://whimsical.com/product/introducing-whimsical-mind-maps/
 * DrawToolbar - show selected Tool ( x to go in idle-mode)
 
 - typescript for actions / https://redux.js.org/recipes/usage-with-typescript
+- add tslint / https://gist.github.com/rimatla/a5a2c5dcf831c5744a656cfe81fadf52
 
 * handles of the resizeBox has fixed size - independent on zoom.
 * resize without keepRatio on Rectangle
@@ -71,12 +73,10 @@ toolPan.onMouseDrag = function(event) {
 
 ## DONE
 
+- ok - cmd-C cmd-V copy paste
 - ok - switch off grid, if cmd/ctrl is pressed
-
 - ok - hover item - color from/to the individual item
-
 - ok - statusbar as flowing debug-output
-
 - ok - icons / https://vectr.com/
 - ok - icons for project-overview
 - ok - connectionPoint

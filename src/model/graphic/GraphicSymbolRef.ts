@@ -10,6 +10,10 @@ class GraphicSymbolRef extends Placement {
   public name: string = "";
   public pt: Paper.Point = new Paper.Point(0, 0);
   private _symbol: GraphicSymbol | undefined = undefined;
+  private props: any = {
+    color: "color of symbolRef",
+    name: "hello",
+  };
 
   constructor(name: string, pt: Paper.Point = new Paper.Point(0, 0)) {
     super("symbolref");
@@ -23,6 +27,7 @@ class GraphicSymbolRef extends Placement {
       pt: PaperUtil.PointFromJSON(json.pt),
       name: json.name,
       symbol: undefined,
+      props: json.props,
     });
   }
 
@@ -32,6 +37,7 @@ class GraphicSymbolRef extends Placement {
       pt: PaperUtil.PointToJSON(this.pt),
       name: this.name,
       symbol: undefined,
+      props: this.props,
     };
   }
 
@@ -56,15 +62,25 @@ class GraphicSymbolRef extends Placement {
         this.setPaperItem(this.createPaperItem());
         break;
 
-      case "select":
       case "highlight":
-        if (this._symbol) {
+        {
           this.removeTempItems();
-          const bounds = this._symbol.getPaperSymbol().definition
-            .bounds;
+          const bounds = this.getPaperItem().bounds;
           const rect = new Paper.Path.Rectangle(bounds);
           rect.strokeColor = configuration.itemHoverStrokeColor;
           rect.position = this._item.position;
+          this.addTempItem(rect);
+        }
+        break;
+
+      case "select":
+        {
+          this.removeTempItems();
+          const bounds = this.getPaperItem().bounds;
+          const rect = new Paper.Path.Rectangle(bounds);
+          rect.strokeColor = configuration.itemHoverStrokeColor;
+          rect.position = this._item.position;
+
           this.addTempItem(rect);
         }
         break;
@@ -76,17 +92,26 @@ class GraphicSymbolRef extends Placement {
     this.pt = this.pt.add(delta);
   }
 
-  createPaperItem() {
+  private createPaperItem() {
     if (!this._symbol) {
       throw new Error("symbol missing");
     }
-
     const symbolItem = this._symbol.getPaperSymbol();
-    const item: Paper.PlacedSymbol = symbolItem.place(
+    let item: Paper.Item = symbolItem.place(
       this.pt.subtract(this._symbol.insertPt),
     );
     item.name = ItemName.itemSymbolRef;
-    item.fillColor = "green";
+    if (this.props) {
+      const propTextItems = this._symbol.drawPropText(
+        this.pt,
+        this.props,
+      );
+      if (propTextItems.length > 0) {
+        item = new Paper.Group([item, ...propTextItems]);
+        item.name = ItemName.itemGroup;
+      }
+    }
+
     item.data = this.id;
     if (this.color) {
       item.strokeColor = this.color;
