@@ -56,6 +56,9 @@ class PlacementFactory {
       return placements;
     }
 
+    if (!dto) {
+      debugger;
+    }
     const json = decodeJson(dto.content);
     json.type = dto.type;
     const placement = ObjectFactory.fromJSON(json) as Placement;

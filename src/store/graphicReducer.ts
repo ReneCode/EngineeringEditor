@@ -11,6 +11,7 @@ export interface IGraphicState {
   items: Placement[];
   selectedPlacementIds: string[];
   viewChanged: number;
+  copyData: any[];
   viewport: {
     x: number;
     y: number;
@@ -32,6 +33,7 @@ const initialState: IGraphicState = {
   items: [],
   selectedPlacementIds: [],
   viewChanged: 0,
+  copyData: [],
   viewport: {
     x: -500,
     y: 200,
@@ -119,6 +121,12 @@ function addPlacement(state: IGraphicState, action: IAction) {
 
 const graphicReducer = (state = initialState, action: IAction) => {
   switch (action.type) {
+    case actionTypes.SET_COPY_DATA:
+      return {
+        ...state,
+        copyData: action.payload,
+      };
+
     case actionTypes.VIEW_CHANGED:
       return {
         ...state,

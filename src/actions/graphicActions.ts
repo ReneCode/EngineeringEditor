@@ -1,6 +1,13 @@
 import * as actionTypes from "./actionTypes";
 import GraphicSymbol from "../model/graphic/GraphicSymbol";
 
+export const setCopyData = (copyData: any[]) => {
+  return {
+    type: actionTypes.SET_COPY_DATA,
+    payload: copyData,
+  };
+};
+
 export const viewChangedAction = () => {
   return {
     type: actionTypes.VIEW_CHANGED,

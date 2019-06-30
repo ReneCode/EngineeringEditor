@@ -10,6 +10,8 @@ import "./showModal";
 import "./changeProperty";
 import "./exportSvg";
 import "./createSymbolAndSymbolRef";
+import "./copy";
+import "./paste";
 
 const initHandlers = () => {};
 

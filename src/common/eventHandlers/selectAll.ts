@@ -4,6 +4,7 @@ import { setSelectedPlacementIds } from "../../actions/graphicActions";
 import store from "../../store";
 
 const selectAllPlacements = () => {
+  console.log("select all");
   const paperItems = Paper.project.activeLayer.children;
   const ids = paperItems
     .map(item => {

@@ -51,7 +51,7 @@ class Statusbar extends React.Component<IProps> {
     for (let id of this.props.selectedPlacementIds) {
       if (typeof id === "string") {
         selIds = `${selIds} ${id.substr(0, 8)}`;
-        if (selIds.length > 100) {
+        if (selIds.length > 80) {
           break;
         }
       }
@@ -61,7 +61,7 @@ class Statusbar extends React.Component<IProps> {
         <div>
           x:{this.state.cursor.x} y:{this.state.cursor.y}
         </div>
-        <div>Ids:</div>
+        <div>{this.props.selectedPlacementIds.length} Ids:</div>
         <div>{selIds}</div>
       </div>
     );

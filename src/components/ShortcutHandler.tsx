@@ -61,13 +61,13 @@ class ShortcutHandler extends React.Component<IProps> {
       event.preventDefault();
     }
 
-    switch (event.key) {
-      case "PageUp":
+    switch (event.key.toLowerCase()) {
+      case "pageup":
         appEventDispatcher.dispatch("previousPage");
         event.preventDefault();
 
         break;
-      case "PageDown":
+      case "pagedown":
         appEventDispatcher.dispatch("nextPage");
         event.preventDefault();
         break;
@@ -78,8 +78,8 @@ class ShortcutHandler extends React.Component<IProps> {
       case "-":
         appEventDispatcher.dispatch("zoomOut", this.state.cursor);
         break;
-      case "Delete":
-      case "Backspace":
+      case "delete":
+      case "backspace":
         appEventDispatcher.dispatch(
           "delete",
           this.props.selectedPlacementIds,
@@ -88,34 +88,40 @@ class ShortcutHandler extends React.Component<IProps> {
         break;
 
       case "a":
-      case "A":
         if (event.metaKey || event.ctrlKey) {
           appEventDispatcher.dispatch("selectAll");
-          event.preventDefault();
         }
         break;
 
-      case "Escape":
+      case "c":
+        if (event.metaKey || event.ctrlKey) {
+          appEventDispatcher.dispatch("copy");
+        }
+        break;
+
+      case "v":
+        if (event.metaKey || event.ctrlKey) {
+          appEventDispatcher.dispatch("paste");
+        }
+        break;
+
+      case "escape":
         appEventDispatcher.dispatch("stopInteraction");
         break;
 
       case "l":
-      case "L":
         appEventDispatcher.dispatch("startInteraction", "CreateLine");
         break;
 
       case "o":
-      case "O":
         appEventDispatcher.dispatch("startInteraction", "CreateArc");
         break;
 
       case "s":
-      case "S":
         appEventDispatcher.dispatch("showModal", "selectSymbol");
         break;
 
       case "t":
-      case "T":
         appEventDispatcher.dispatch("startInteraction", "CreateText");
         break;
 

@@ -8,7 +8,7 @@ export type DrawMode = "highlight" | "select" | null;
 
 class Placement {
   type: PlacementType;
-  id: IdType;
+  id: string = "";
   pageId: IdType;
   projectId: IdType;
   color: string | undefined;
@@ -21,8 +21,12 @@ class Placement {
 
   constructor(type: PlacementType) {
     this.type = type;
-    this.id = createId("P");
+    this.createNewId();
     this._tempItems = [];
+  }
+
+  createNewId() {
+    this.id = createId("P");
   }
 
   toJSON(): any {

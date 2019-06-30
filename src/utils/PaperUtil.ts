@@ -118,6 +118,11 @@ class PaperUtil {
     return placements;
   }
 
+  static getSelectedPlacementIds() {
+    const state = store.getState();
+    return state.graphic.selectedPlacementIds;
+  }
+
   static createBoundingBox(items: Paper.Item[]): Paper.Rectangle {
     if (items.length === 0) {
       throw new Error("can't create bounding box of nothing");

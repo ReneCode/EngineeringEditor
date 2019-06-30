@@ -1,7 +1,7 @@
 import { IdType, PlacementType } from "./types";
 
 export interface DtoPlacement {
-  id: IdType;
+  id: string;
   type: PlacementType;
   projectId: IdType;
   pageId: IdType;
