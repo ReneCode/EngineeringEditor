@@ -7,7 +7,6 @@ import Placement from "../../model/Placement";
 import { Point } from "paper";
 
 const onPaste = () => {
-  console.log("paste");
   const copyData = ObjectFactory.fromJSON(
     store.getState().graphic.copyData,
   );

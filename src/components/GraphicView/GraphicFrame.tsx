@@ -23,7 +23,7 @@ class GraphicFrame extends React.Component {
       this.setState({
         canvasSize: new Paper.Size(width, height),
       });
-      console.log(width, height);
+      // console.log(width, height);
     }
   }
 

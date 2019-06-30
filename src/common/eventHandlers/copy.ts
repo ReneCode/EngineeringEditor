@@ -4,7 +4,6 @@ import PaperUtil from "../../utils/PaperUtil";
 import { setCopyData } from "../../actions/graphicActions";
 
 const onCopy = () => {
-  console.log("copy");
   const placementIds = PaperUtil.getSelectedPlacementIds();
   const placements = PaperUtil.getPlacementsById(placementIds);
 

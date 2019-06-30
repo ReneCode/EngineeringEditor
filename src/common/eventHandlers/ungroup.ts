@@ -13,7 +13,6 @@ const ungroupPlacements = (placementIds: string[]) => {
   for (let group of placements) {
     if (group instanceof GraphicGroup) {
       createPlacements = createPlacements.concat(group.children);
-      console.log(":", createPlacements);
       deletePlacements.push(group);
     }
   }

@@ -57,7 +57,7 @@ class PlacementFactory {
     }
 
     if (!dto) {
-      debugger;
+      throw new Error("dto is null");
     }
     const json = decodeJson(dto.content);
     json.type = dto.type;
