@@ -11,7 +11,10 @@ describe("GraphicSymbol", () => {
   it.only("toJSON / fromJSON", () => {
     const line = new GraphicLine(new Point(5, 6), new Point(3, 20));
     const arc = new GraphicArc(new Point(10, 10), 40);
-    const symbolA = new GraphicSymbol([line, arc]);
+    const symbolA = new GraphicSymbol(
+      [line, arc],
+      new Point(100, 100),
+    );
     symbolA.name = "testSymbol";
 
     expect(symbolA.placements).toHaveLength(2);

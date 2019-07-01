@@ -3,6 +3,7 @@ import Paper from "paper";
 import { ItemName } from "../../common/ItemName";
 import configuration from "../../common/configuration";
 import ObjectFactory from "../ObjectFactory";
+import { copyOwnProperties } from "../../common/deepClone";
 
 class GraphicGroup extends Placement {
   constructor(public children: Placement[]) {
@@ -23,7 +24,14 @@ class GraphicGroup extends Placement {
     };
   }
 
-  paperDraw(drawMode: DrawMode = null): Paper.Item {
+  public clone(): GraphicGroup {
+    const clone = new GraphicGroup([]);
+    copyOwnProperties(clone, this);
+    clone.children = this.children.map(p => p.clone());
+    return clone;
+  }
+
+  public paperDraw(drawMode: DrawMode = null): Paper.Item {
     switch (drawMode) {
       case null:
         this.removeTempItems();
@@ -41,6 +49,8 @@ class GraphicGroup extends Placement {
           const item = this.createOutline(ItemName.temp);
           item.strokeColor = configuration.modeSelectColor;
           this.addTempItem(item);
+
+          // this.children.forEach(p => p.paperDraw("select"));
         }
         break;
     }

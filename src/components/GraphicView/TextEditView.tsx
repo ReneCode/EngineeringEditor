@@ -8,6 +8,7 @@ import { cudElementAction } from "../../actions/changeElementActions";
 import PaperUtil from "../../utils/PaperUtil";
 import { enableShortcutHandlerAction } from "../../actions/projectActions";
 import { setSelectedPlacementIds } from "../../actions/graphicActions";
+import Placement from "../../model/Placement";
 
 interface IProps {
   dispatch: Function;
@@ -17,6 +18,7 @@ class TextEditView extends React.Component<IProps> {
   private unsubscribeFn: any[] = [];
   private divRef = React.createRef<HTMLDivElement>();
   private placementId: string = "";
+  private placement: Placement | null = null;
   private startText = "";
   public state = {
     show: false,
@@ -63,6 +65,7 @@ class TextEditView extends React.Component<IProps> {
   private startEdit = (options: any) => {
     this.props.dispatch(enableShortcutHandlerAction(false));
     this.placementId = options.placementId;
+    this.placement = options.placement;
     this.startText = options.text;
     this.setState({
       show: options.show,
@@ -94,9 +97,11 @@ class TextEditView extends React.Component<IProps> {
       show: false,
     });
 
-    const placements = PaperUtil.getPlacementsById([
-      this.placementId,
-    ]);
+    let placements = PaperUtil.getPlacementsById([this.placementId]);
+    if (this.placement && placements.length === 0) {
+      placements = [this.placement];
+      this.placement = null;
+    }
     if (placements.length > 0) {
       const graphicText = placements[0] as GraphicText;
       graphicText.setText(text);

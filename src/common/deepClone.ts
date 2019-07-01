@@ -1,3 +1,5 @@
+import { object } from "prop-types";
+
 /**
  * @summary creates a deep copy of 'obj'.
  * Does not copy the attributes, that names starts with "_" e.g. _internalProp
@@ -36,6 +38,13 @@ const deepClone = (obj: any): any => {
   }
 
   throw new Error("Unable to copy obj! Its type isn't supported.");
+};
+
+export const copyOwnProperties = (dest: any, src: any) => {
+  for (var attr in src) {
+    if (attr[0] !== "_" && src.hasOwnProperty(attr))
+      dest[attr] = deepClone(src[attr]);
+  }
 };
 
 export default deepClone;
