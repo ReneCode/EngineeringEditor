@@ -1,5 +1,3 @@
-import { object } from "prop-types";
-
 /**
  * @summary creates a deep copy of 'obj'.
  * Does not copy the attributes, that names starts with "_" e.g. _internalProp

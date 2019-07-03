@@ -5,6 +5,7 @@ import { ItemName } from "../../common/ItemName";
 import configuration from "../../common/configuration";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 import deepClone from "../../common/deepClone";
+import PlacementUtil from "../../utils/PlacementUtil";
 
 class GraphicText extends Placement {
   pt: Paper.Point;
@@ -46,8 +47,20 @@ class GraphicText extends Placement {
     };
   }
 
-  public setText(text: string) {
-    this.text = text;
+  public endEditText(newText: string, deselectText: boolean) {
+    if (newText !== this.text) {
+      this.text = newText;
+      this.paperDraw();
+
+      const newGraphicText = this.clone();
+      PlacementUtil.updateGraphicText(newGraphicText);
+      if (deselectText) {
+        PaperUtil.setSelectedPlacementIds([]);
+      }
+    } else {
+      this.paperDraw();
+      PaperUtil.setSelectedPlacementIds([]);
+    }
   }
 
   public getPropText(): string | null {

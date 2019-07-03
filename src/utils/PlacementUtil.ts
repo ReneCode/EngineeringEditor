@@ -1,5 +1,8 @@
 import Placement from "../model/Placement";
 import { PlacementType } from "../model/types";
+import GraphicText from "../model/graphic/GraphicText";
+import store from "../store";
+import { cudElementAction } from "../actions/changeElementActions";
 
 class PlacementUtil {
   static getUniqueType(placements: Placement[]): PlacementType {
@@ -14,6 +17,10 @@ class PlacementUtil {
       }
     }
     return type;
+  }
+
+  static updateGraphicText(text: GraphicText) {
+    store.dispatch(cudElementAction("placement", undefined, text));
   }
 }
 

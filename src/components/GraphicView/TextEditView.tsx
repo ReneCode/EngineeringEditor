@@ -4,10 +4,8 @@ import * as CSS from "csstype";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
 import { connect } from "react-redux";
 import GraphicText from "../../model/graphic/GraphicText";
-import { cudElementAction } from "../../actions/changeElementActions";
 import PaperUtil from "../../utils/PaperUtil";
 import { enableShortcutHandlerAction } from "../../actions/projectActions";
-import { setSelectedPlacementIds } from "../../actions/graphicActions";
 import Placement from "../../model/Placement";
 
 interface IProps {
@@ -104,26 +102,8 @@ class TextEditView extends React.Component<IProps> {
     }
     if (placements.length > 0) {
       const graphicText = placements[0] as GraphicText;
-      graphicText.setText(text);
-      // graphicText.transition("reset");
-      if (text !== this.startText) {
-        this.savePlacement(graphicText, text);
-        if (deselectText) {
-          this.props.dispatch(setSelectedPlacementIds([]));
-        }
-      } else {
-        graphicText.paperDraw();
-        this.props.dispatch(setSelectedPlacementIds([]));
-      }
+      graphicText.endEditText(text, deselectText);
     }
-  }
-
-  private savePlacement(graphicText: GraphicText, newText: string) {
-    const newGraphicText = graphicText.clone();
-    newGraphicText.setText(newText);
-    this.props.dispatch(
-      cudElementAction("placement", undefined, newGraphicText),
-    );
   }
 
   render() {

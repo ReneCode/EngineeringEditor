@@ -4,6 +4,7 @@ import { makeArray } from "../model/dtoUtil";
 import configuration from "../common/configuration";
 import Placement from "../model/Placement";
 import store from "../store/index";
+import { setSelectedPlacementIds } from "../actions/graphicActions";
 
 export const TRANSPARENT_COLOR = "#00000000";
 
@@ -124,6 +125,10 @@ class PaperUtil {
       }
     }
     return placements;
+  }
+
+  static setSelectedPlacementIds(ids: string[]) {
+    store.dispatch(setSelectedPlacementIds([]));
   }
 
   static getSelectedPlacementIds() {
