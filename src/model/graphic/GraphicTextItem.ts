@@ -1,11 +1,5 @@
-import Paper, { Item } from "paper";
-import Placement, { DrawMode } from "../Placement";
-import PaperUtil from "../../utils/PaperUtil";
-import { ItemName } from "../../common/ItemName";
-import configuration from "../../common/configuration";
+import Paper from "paper";
 import appEventDispatcher from "../../common/Event/AppEventDispatcher";
-import deepClone from "../../common/deepClone";
-import PlacementUtil from "../../utils/PlacementUtil";
 
 type GetTextFn = (propId: string) => string;
 type SetTextFn = (propId: string, text: string) => void;
@@ -40,7 +34,7 @@ class GraphicTextItem {
     }
   }
 
-  public endEditText(newText: string, deselectText: boolean) {
+  public endEditText(newText: string) {
     if (this.setTextFn) {
       this.setTextFn(this.propId, newText);
     }
@@ -48,14 +42,14 @@ class GraphicTextItem {
     this.draw();
   }
 
-  onMouseDown(event: Paper.MouseEvent) {
+  onMouseDown() {
     this.editMouseDown = true;
   }
-  onMouseDrag(event: Paper.MouseEvent) {
+  onMouseDrag() {
     this.editDrag = true;
   }
 
-  onMouseUp(event: Paper.MouseEvent) {
+  onMouseUp() {
     if (!this.editDrag && this.editMouseDown) {
       this.startEditText();
     }
