@@ -53,7 +53,7 @@ class GraphicText extends Placement {
       this.paperDraw();
 
       const newGraphicText = this.clone();
-      PlacementUtil.updateGraphicText(newGraphicText);
+      PlacementUtil.updatePlacement(newGraphicText);
       if (deselectText) {
         PaperUtil.setSelectedPlacementIds([]);
       }
@@ -63,7 +63,7 @@ class GraphicText extends Placement {
     }
   }
 
-  public getPropText(): string | null {
+  public getPropId(): string | null {
     if (this.text && this.text[0] === "#") {
       return this.text.substr(1);
     }

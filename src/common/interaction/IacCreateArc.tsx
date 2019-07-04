@@ -40,7 +40,6 @@ class IacCreateArc extends React.Component<IProps> {
 
   onMouseMove = (event: Paper.MouseEvent) => {
     const pt = snapEvent(event);
-    console.log("mm:", pt);
     this.createArc(pt, 50);
   };
 

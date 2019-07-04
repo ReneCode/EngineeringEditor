@@ -40,17 +40,18 @@ class IacHoverItem extends React.Component<IProps> {
     const result = PaperUtil.hitTest(event.point);
 
     if (result) {
-      let hitItem = PaperUtil.getHitTestItem(result, [
+      const hitTestResult = PaperUtil.getHitTestItem(result, [
         ItemName.itemAny,
         ItemName.grip,
       ]);
 
-      if (hitItem) {
-        if (this.hoverItem !== hitItem) {
+      if (hitTestResult) {
+        const { itemResult } = hitTestResult;
+        if (this.hoverItem !== itemResult) {
           this.removeHover();
 
-          this.hoverItem = hitItem;
-          this.drawHover(hitItem);
+          this.hoverItem = itemResult;
+          this.drawHover(itemResult);
         }
       }
     } else {

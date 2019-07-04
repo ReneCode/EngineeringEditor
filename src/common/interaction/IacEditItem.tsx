@@ -77,19 +77,24 @@ class IacEditItem extends React.Component<IProps> {
       return;
     }
 
-    this.editItem = PaperUtil.getHitTestItem(result, ItemName.grip);
-    if (this.editItem) {
+    let hitTestResult = PaperUtil.getHitTestItem(
+      result,
+      ItemName.grip,
+    );
+    if (hitTestResult) {
+      this.editItem = hitTestResult.itemResult;
       this.modus = "grip";
       this.oldFillColor = this.editItem.fillColor;
       this.editItem.fillColor = configuration.gripDragFillColor;
       return;
     }
 
-    this.editItem = PaperUtil.getHitTestItem(
+    hitTestResult = PaperUtil.getHitTestItem(
       result,
       ItemName.itemAny,
     );
-    if (this.editItem) {
+    if (hitTestResult) {
+      this.editItem = hitTestResult.itemResult;
       this.modus = "item";
       return;
     }

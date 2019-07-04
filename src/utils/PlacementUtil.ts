@@ -19,8 +19,10 @@ class PlacementUtil {
     return type;
   }
 
-  static updateGraphicText(text: GraphicText) {
-    store.dispatch(cudElementAction("placement", undefined, text));
+  static updatePlacement(placement: Placement) {
+    store.dispatch(
+      cudElementAction("placement", undefined, placement),
+    );
   }
 }
 

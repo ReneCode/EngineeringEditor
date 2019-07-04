@@ -8,6 +8,11 @@ import { setSelectedPlacementIds } from "../actions/graphicActions";
 
 export const TRANSPARENT_COLOR = "#00000000";
 
+export type HitTestResult = {
+  itemHit: Paper.Item;
+  itemResult: Paper.Item;
+};
+
 class PaperUtil {
   static setup(canvas: HTMLCanvasElement) {
     Paper.setup(canvas);
@@ -55,14 +60,21 @@ class PaperUtil {
     const project = Paper.project;
     const result = project.hitTest(point, hitTestOptions);
     return result;
+    // const results = project.hitTestAll(point, hitTestOptions);
+    // console.log(":", results);
+    // if (results) {
+    //   return results[0];
+    // }
+    // return null;
   }
 
   static getHitTestItem(
     result: Paper.HitResult,
     itemName: string | string[],
-  ): Paper.Item | null {
+  ): HitTestResult | null {
     if (result && result.item) {
       let item = result.item;
+      const itemHit = item;
 
       // symbolRef with PropText
       // => the top-element is a group (parent of the placedSymbol)
@@ -79,7 +91,10 @@ class PaperUtil {
       const itemNames = makeArray(itemName);
       for (let name of itemNames) {
         if (ItemName.match(name, item.name)) {
-          return item;
+          return {
+            itemHit,
+            itemResult: item,
+          };
         }
       }
     }

@@ -105,13 +105,16 @@ class IacSelect extends React.Component<IProps> {
       }
       return;
     } else {
-      const item = PaperUtil.getHitTestItem(result, ItemName.itemAny);
-      if (!item) {
+      const hitResult = PaperUtil.getHitTestItem(
+        result,
+        ItemName.itemAny,
+      );
+      if (!hitResult) {
         // other item-type selected
         // do nothing
         return;
       }
-      const id = item.data;
+      const id = hitResult.itemResult.data;
       if (!id) {
         throw new Error("item with no data (placment-id)");
       }
@@ -247,12 +250,15 @@ class IacSelect extends React.Component<IProps> {
     if (!result) {
       return null;
     }
-    let item = PaperUtil.getHitTestItem(result, ItemName.itemAny);
-    if (!item) {
+    let hitResult = PaperUtil.getHitTestItem(
+      result,
+      ItemName.itemAny,
+    );
+    if (!hitResult) {
       return null;
     }
 
-    const id = item.data;
+    const id = hitResult.itemResult.data;
     if (!id) {
       throw new Error("item with no data (placment-id)");
     }

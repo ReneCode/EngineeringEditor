@@ -5,6 +5,8 @@ import PaperUtil from "../../utils/PaperUtil";
 import { ItemName } from "../../common/ItemName";
 import configuration from "../../common/configuration";
 import deepClone from "../../common/deepClone";
+import GraphicTextItem from "./GraphicTextItem";
+import PlacementUtil from "../../utils/PlacementUtil";
 
 class GraphicSymbolRef extends Placement {
   public name: string = "";
@@ -14,6 +16,7 @@ class GraphicSymbolRef extends Placement {
     color: "color of symbolRef",
     name: "hello",
   };
+  private graphicTextItems: GraphicTextItem[] = [];
 
   constructor(name: string, pt: Paper.Point = new Paper.Point(0, 0)) {
     super("symbolref");
@@ -80,8 +83,8 @@ class GraphicSymbolRef extends Placement {
           const rect = new Paper.Path.Rectangle(bounds);
           rect.strokeColor = configuration.itemHoverStrokeColor;
           rect.position = this._item.position;
-
           this.addTempItem(rect);
+          this.graphicTextItems.forEach(gti => gti.makeEditable());
         }
         break;
     }
@@ -90,6 +93,23 @@ class GraphicSymbolRef extends Placement {
 
   translate(delta: Paper.Point) {
     this.pt = this.pt.add(delta);
+  }
+
+  getPropText(propId: string): string {
+    if (this.props) {
+      return this.props[propId];
+    } else {
+      return "";
+    }
+  }
+
+  setPropText(propId: string, text: string) {
+    if (this.props) {
+      if (this.props[propId] !== text) {
+        this.props[propId] = text;
+        PlacementUtil.updatePlacement(this);
+      }
+    }
   }
 
   private createPaperItem() {
@@ -102,12 +122,26 @@ class GraphicSymbolRef extends Placement {
     );
     item.name = ItemName.itemSymbolRef;
     if (this.props) {
-      const propTextItems = this._symbol.drawPropText(
+      const items: Paper.Item[] = [];
+      const propTextItemAndPropId = this._symbol.getPropTextItemAndPropId(
         this.pt,
-        this.props,
       );
-      if (propTextItems.length > 0) {
-        item = new Paper.Group([item, ...propTextItems]);
+      this.graphicTextItems = [];
+      propTextItemAndPropId.forEach(tp => {
+        const gti = new GraphicTextItem(tp.item, tp.propId);
+        gti.setGetTextFn(this.getPropText.bind(this));
+        gti.setSetTextFn(this.setPropText.bind(this));
+        gti.draw();
+
+        this.graphicTextItems.push(gti);
+        items.push(tp.item);
+      });
+      // const propTextItems = this._symbol.drawPropText(
+      //   this.pt,
+      //   this.props,
+      // );
+      if (propTextItemAndPropId.length > 0) {
+        item = new Paper.Group([item, ...items]);
         item.name = ItemName.itemGroup;
       }
     }

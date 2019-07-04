@@ -23,6 +23,7 @@ class TextEditView extends React.Component<IProps> {
     text: "",
     style: {},
   };
+  callback: any = null;
 
   componentDidMount() {
     this.unsubscribeFn.push(
@@ -63,7 +64,7 @@ class TextEditView extends React.Component<IProps> {
   private startEdit = (options: any) => {
     this.props.dispatch(enableShortcutHandlerAction(false));
     this.placementId = options.placementId;
-    this.placement = options.placement;
+    this.callback = options.callback;
     this.startText = options.text;
     this.setState({
       show: options.show,
@@ -95,14 +96,20 @@ class TextEditView extends React.Component<IProps> {
       show: false,
     });
 
-    let placements = PaperUtil.getPlacementsById([this.placementId]);
-    if (this.placement && placements.length === 0) {
-      placements = [this.placement];
-      this.placement = null;
-    }
-    if (placements.length > 0) {
-      const graphicText = placements[0] as GraphicText;
-      graphicText.endEditText(text, deselectText);
+    if (this.callback) {
+      this.callback(text, deselectText);
+    } else {
+      let placements = PaperUtil.getPlacementsById([
+        this.placementId,
+      ]);
+      // if (this.placement && placements.length === 0) {
+      //   placements = [this.placement];
+      //   this.placement = null;
+      // }
+      if (placements.length > 0) {
+        const graphicText = placements[0] as GraphicText;
+        graphicText.endEditText(text, deselectText);
+      }
     }
   }
 

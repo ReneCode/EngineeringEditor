@@ -57,7 +57,7 @@ class GraphicSymbol {
     for (let placement of this.placements) {
       let draw = true;
       if (placement instanceof GraphicText) {
-        const propText = placement.getPropText();
+        const propText = placement.getPropId();
         if (propText) {
           draw = false;
         }
@@ -75,21 +75,21 @@ class GraphicSymbol {
   }
 
   // create text-item, but take the text out of props
-  public drawPropText(pt: Paper.Point, props: any): Paper.Item[] {
-    const items: Paper.Item[] = [];
+  public getPropTextItemAndPropId(pt: Paper.Point) {
+    const items: { item: Paper.PointText; propId: string }[] = [];
     for (let placement of this.placements) {
       if (placement instanceof GraphicText) {
-        const propText = placement.getPropText();
-        if (propText) {
-          const text = props[propText];
+        const propId = placement.getPropId();
+        if (propId) {
           // do not use .paperDraw, because it removes the
           // prev-drawn item when
           const item = placement.createPaperItem();
-          item.content = text;
+          // const text = props[propText];
+          // item.content = text;
           item.position = item.position
             .subtract(this.insertPt)
             .add(pt);
-          items.push(item);
+          items.push({ item, propId });
         }
       }
     }
